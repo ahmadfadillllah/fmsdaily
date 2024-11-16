@@ -3,11 +3,11 @@
 @include('layout.header')
 <style>
     .center-checkbox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
 </style>
 
 <div class="pc-container">
@@ -52,7 +52,8 @@
                                 <li class="nav-item" data-target-form="#alatSupportForm"><a href="#alatSupport"
                                         data-bs-toggle="tab" data-toggle="tab" class="nav-link icon-btn"><img
                                             class="pc-icon"
-                                            src="{{ asset('dashboard/assets') }}/images/widget/bulldozer.png" alt="EX">
+                                            src="{{ asset('dashboard/assets') }}/images/widget/bulldozer.png"
+                                            alt="EX">
                                         <span class="d-none d-sm-inline">Alat Support</span></a></li>
                                 <!-- end nav item -->
                                 <li class="nav-item" data-target-form="#catatanPengawasForm"><a href="#catatanPengawas"
@@ -64,7 +65,8 @@
                                 <!-- end nav item -->
                                 <li class="nav-item"><a href="#finish" data-bs-toggle="tab" data-toggle="tab"
                                         class="nav-link icon-btn"><img class="pc-icon"
-                                            src="{{ asset('dashboard/assets') }}/images/widget/stamp.png" alt="EX">
+                                            src="{{ asset('dashboard/assets') }}/images/widget/stamp.png"
+                                            alt="EX">
                                         <span class="d-none d-sm-inline">Finish</span></a></li>
                                 <!-- end nav item -->
                             </ul>
@@ -90,8 +92,8 @@
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="mb-3"><label class="form-label">Tanggal</label>
-                                                            <input type="text" class="form-control" id="pc-datepicker-1"
-                                                                name="tanggal" required>
+                                                            <input type="text" class="form-control"
+                                                                id="pc-datepicker-1" name="tanggal" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -148,7 +150,8 @@
                                                                 <div class="col-sm-6">
                                                                     <div class="mb-3">
                                                                         <label class="form-label"
-                                                                            for="additionalForm">Nama Supervisor</label>
+                                                                            for="additionalForm">Nama
+                                                                            Supervisor</label>
                                                                         <input type="text" class="form-control"
                                                                             id="additionalForm" name="additionalForm"
                                                                             disabled>
@@ -201,9 +204,11 @@
                                         <h3 class="mb-2">Front Loading</h3>
                                     </div>
                                     <div class="row mt-4">
-                                        <div class="container mt-5">
-                                            <button id="addColumnBtn" class="btn btn-primary mb-3">Tambah Kolom</button>
-                                            <button id="removeColumnBtn" class="btn btn-danger mb-3">Hapus Kolom</button>
+                                        <div class="container mt-2">
+                                            <button id="addColumnBtn" class="btn btn-primary mb-3">Tambah
+                                                Kolom</button>
+                                            <button id="removeColumnBtn" class="btn btn-danger mb-3">Hapus
+                                                Kolom</button>
                                             <table id="dynamicTable" class="table table-bordered">
                                                 <thead style="text-align: center; vertical-align: middle;">
                                                     <tr id="headerRow1">
@@ -218,72 +223,110 @@
                                                                 required>
                                                                 <option></option>
                                                                 @foreach ($data['exa'] as $exa)
-                                                                <option value="{{ $exa->VHC_ID }}">{{ $exa->VHC_ID }}
-                                                                </option>
+                                                                    <option value="{{ $exa->VHC_ID }}">
+                                                                        {{ $exa->VHC_ID }}
+                                                                    </option>
                                                                 @endforeach
-                                                            </select></th>
+                                                            </select>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tableBody">
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="07.00 - 08.00">07.00 - 08.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="19.00 - 20.00">19.00 - 20.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="07.00 - 08.00">07.00 - 08.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="19.00 - 20.00">19.00 - 20.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="08.00 - 09.00">08.00 - 09.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="20.00 - 21.00">20.00 - 21.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="08.00 - 09.00">08.00 - 09.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="20.00 - 21.00">20.00 - 21.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="09.00 - 10.00">09.00 - 10.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="21.00 - 22.00">21.00 - 22.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="09.00 - 10.00">09.00 - 10.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="21.00 - 22.00">21.00 - 22.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="10.00 - 11.00">10.00 - 11.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="22.00 - 23.00">22.00 - 23.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="10.00 - 11.00">10.00 - 11.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="22.00 - 23.00">22.00 - 23.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="11.00 - 12.00">11.00 - 12.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="23.00 - 24.00">23.00 - 24.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="11.00 - 12.00">11.00 - 12.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="23.00 - 24.00">23.00 - 24.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="12.00 - 13.00">12.00 - 13.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="24.00 - 01.00">24.00 - 01.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="12.00 - 13.00">12.00 - 13.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="24.00 - 01.00">24.00 - 01.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="13.00 - 14.00">13.00 - 14.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="01.00 - 02.00">01.00 - 02.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="13.00 - 14.00">13.00 - 14.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="01.00 - 02.00">01.00 - 02.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="14.00 - 15.00">14.00 - 15.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="02.00 - 03.00">02.00 - 03.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="14.00 - 15.00">14.00 - 15.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="02.00 - 03.00">02.00 - 03.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="15.00 - 16.00">15.00 - 16.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="03.00 - 04.00">03.00 - 04.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="15.00 - 16.00">15.00 - 16.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="03.00 - 04.00">03.00 - 04.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="16.00 - 17.00">16.00 - 17.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="04.00 - 05.00">04.00 - 05.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="16.00 - 17.00">16.00 - 17.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="04.00 - 05.00">04.00 - 05.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="17.00 - 18.00">17.00 - 18.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="05.00 - 06.00">05.00 - 06.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="17.00 - 18.00">17.00 - 18.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="05.00 - 06.00">05.00 - 06.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="hidden" name="front_time_siang[]" value="18.00 - 19.00">18.00 - 19.00</td>
-                                                        <td><input type="hidden" name="front_time_malam[]" value="06.00 - 07.00">06.00 - 07.00</td>
-                                                        <td><input type="checkbox" name="front_checkbox_1[]" class="form-check-input" required></td>
+                                                        <td><input type="hidden" name="front_time_siang[]"
+                                                                value="18.00 - 19.00">18.00 - 19.00</td>
+                                                        <td><input type="hidden" name="front_time_malam[]"
+                                                                value="06.00 - 07.00">06.00 - 07.00</td>
+                                                        <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                class="form-check-input" required></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -293,9 +336,7 @@
                                 <div class="tab-pane" id="alatSupport">
                                     <form id="educationForm" method="post" action="#">
                                         <div class="text-center">
-                                            <h3 class="mb-2">Tell us about your education</h3><small
-                                                class="text-muted">Let us know your name and email address. Use
-                                                an address you don't mind other users contacting you at</small>
+                                            <h3 class="mb-2">Alat Support</h3>
                                         </div>
                                         <div class="row mt-4">
                                             <div class="col-md-12">
@@ -304,7 +345,8 @@
                                                         id="schoolName" placeholder="enter your school name"></div>
                                             </div>
                                             <div class="col-md-12">
-                                                <div class="mb-3"><label class="form-label" for="schoolLocation">School
+                                                <div class="mb-3"><label class="form-label"
+                                                        for="schoolLocation">School
                                                         Location</label> <input type="text" class="form-control"
                                                         id="schoolLocation" placeholder="enter your school location">
                                                 </div>
@@ -313,31 +355,46 @@
                                     </form>
                                 </div>
                                 <div class="tab-pane" id="catatanPengawas">
-                                    <form id="educationnForm" method="post" action="#">
                                         <div class="text-center">
-                                            <h3 class="mb-2">Tell us about your education</h3><small
-                                                class="text-muted">Let us know your name and email address. Use
-                                                an address you don't mind other users contacting you at</small>
+                                            <h3 class="mb-2">Catatan Pengawas</h3>
                                         </div>
-                                        <div class="row mt-4">
-                                            <div class="col-md-12">
-                                                <div class="mb-3"><label class="form-label" for="schoolName">School
-                                                        Name</label> <input type="text" class="form-control"
-                                                        id="schoolName" placeholder="enter your school name"></div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="mb-3"><label class="form-label" for="schoolLocation">School
-                                                        Location</label> <input type="text" class="form-control"
-                                                        id="schoolLocation" placeholder="enter your school location">
-                                                </div>
+                                        <div class="row mt-2">
+                                            <div class="container mt-2">
+                                                <table id="dynamicTable" class="table table-bordered">
+                                                    <thead style="text-align: center; vertical-align: middle;">
+                                                        <tr id="headerRow1">
+                                                            <th colspan="2">Jam</th>
+                                                            <th rowspan="2" scope="col">Keterangan</th>
+                                                            <th rowspan="2" scope="col">Aksi</th>
+                                                        </tr>
+                                                        <tr id="headerRow2">
+                                                            <th>Start</th>
+                                                            <th>Stop</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tableBody">
+                                                        <tr>
+                                                            <td><input class="form-control"  id="pc-timepicker-1" name="catatan_start_1[]" type="text" placeholder="Pilih waktu"></td>
+                                                            <td><input class="form-control"  id="pc-timepicker-2" name="catatan_end_1[]" type="text" placeholder="Pilih waktu"></td>
+                                                            <td><input type="text" name="catatan_pengawas_1[]"
+                                                                class="form-control" required></td>
+                                                            <td>
+                                                                <button id="addColumnBtn" class="btn btn-primary mb-3">Tambah
+                                                                    Kolom</button>
+                                                                <button id="removeColumnBtn" class="btn btn-danger mb-3">Hapus
+                                                                    Kolom</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    </form>
                                 </div><!-- end education detail tab pane -->
                                 <div class="tab-pane" id="finish">
                                     <div class="row d-flex justify-content-center">
                                         <div class="col-lg-6">
-                                            <div class="text-center"><i class="ph-duotone ph-note f-50 text-danger"></i>
+                                            <div class="text-center"><i
+                                                    class="ph-duotone ph-note f-50 text-danger"></i>
                                                 <h3 class="mt-4 mb-3">Terimakasih!</h3>
                                                 <p>Pastikan semua data pada form telah diisi dengan benar sebelum
                                                     melanjutkan ke tahap akhir.</p>
@@ -360,9 +417,11 @@
                                         <div class="next"><a href="javascript:void(0);"
                                                 class="btn btn-primary">Lanjut</a></div>
                                     </div>
-                                    <div class="first"><a href="javascript:void(0);" class="btn btn-secondary">Lembar
+                                    <div class="first"><a href="javascript:void(0);"
+                                            class="btn btn-secondary">Lembar
                                             Pertama</a></div>
-                                    <div class="last"><a href="javascript:void(0);" class="btn btn-success">Finish</a>
+                                    <div class="last"><a href="javascript:void(0);"
+                                            class="btn btn-success">Finish</a>
                                     </div>
                                 </div>
                             </div>
@@ -421,7 +480,8 @@
 
         for (const row of tableBody.rows) {
             const newCell = document.createElement('td');
-            newCell.innerHTML = `<input type="checkbox" name="front_checkbox_${unitCount}[]" class="form-check-input" required>`;
+            newCell.innerHTML =
+                `<input type="checkbox" name="front_checkbox_${unitCount}[]" class="form-check-input" required>`;
             row.appendChild(newCell);
         }
     });
@@ -468,5 +528,4 @@
 
         return isChecked;
     }
-
 </script>

@@ -10,16 +10,19 @@
                     <div class="col-md-12">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Laporan Harian Pengawas (Alat Support)</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">Laporan Harian Pengawas (Alat
+                                    Support)</a></li>
                         </ul>
                     </div>
                     <div class="col-12">
                         <div class="mb-3 row d-flex align-items-center">
                             <div class="col-sm-12 col-md-10 mb-2">
                                 <div class="input-group" id="pc-datepicker-5">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Start date" name="range-start" style="max-width: 200px;" id="range-start">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Start date"
+                                        name="range-start" style="max-width: 200px;" id="range-start">
                                     <span class="input-group-text">s/d</span>
-                                    <input type="text" class="form-control form-control-sm" placeholder="End date" name="range-end" style="max-width: 200px;" id="range-end">
+                                    <input type="text" class="form-control form-control-sm" placeholder="End date"
+                                        name="range-end" style="max-width: 200px;" id="range-end">
                                     <button type="button" class="btn btn-primary btn-sm">View Report</button>
                                 </div>
                             </div>
@@ -38,8 +41,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
-                            <table id="table-style-hover"
-                                class="table table-striped table-hover table-bordered nowrap">
+                            <table id="table-style-hover" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
                                         <th rowspan="2">Tanggal Pelaporan</th>

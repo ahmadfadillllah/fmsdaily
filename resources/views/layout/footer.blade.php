@@ -193,6 +193,20 @@
 <script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.bootstrap5.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/datepicker-full.min.js"></script>
+<script src="{{ asset('dashboard/assets') }}/js/plugins/flatpickr.min.js"></script>
+<script>
+    document.querySelector('#pc-timepicker-1').flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true
+    });
+    document.querySelector('#pc-timepicker-2').flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true
+    });
+
+</script>
 <script>
     // [ base style ]
     $('#base-style').DataTable();
@@ -231,6 +245,7 @@
     main_layout_change('vertical');
 
 </script>
+
 <script>
     // minimum setup
     (function () {
