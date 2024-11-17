@@ -20,6 +20,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     //Form Pengawas
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
+    Route::post('/form-pengawas/post', [FormPengawasController::class, 'post'])->name('form-pengawas.post');
 
     //dashboard
     Route::get('/dashboards/index', [DashboardController::class, 'index'])->name('dashboard.index');

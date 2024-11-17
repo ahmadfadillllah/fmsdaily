@@ -89,4 +89,9 @@ class FormPengawasController extends Controller
 
         return view('form-pengawas.index', compact('data'));
     }
+
+    public function post(Request $request)
+    {
+        dd($request->all());
+    }
 }
