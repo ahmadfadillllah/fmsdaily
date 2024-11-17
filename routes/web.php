@@ -18,6 +18,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route::group(['middleware' => ['auth']], function(){
 
+    Route::get('/form-pengawas/search-users', [FormPengawasController::class, 'users'])->name('cariUsers');
+
     //Form Pengawas
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
     Route::post('/form-pengawas/post', [FormPengawasController::class, 'post'])->name('form-pengawas.post');
