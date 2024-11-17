@@ -97,10 +97,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <div class="mb-3"> <label class="form-label"
-                                                                for="exampleFormControlSelect1">Shift</label>
-                                                            <select class="form-select" id="exampleFormControlSelect1"
-                                                                name="shift" required>
+                                                        <div class="mb-3"> <label class="form-label" for="exampleFormControlSelect1">Shift</label>
+                                                            <select class="form-select" id="exampleFormControlSelect1" name="shift_dasar" required>
                                                                 <option selected disabled></option>
                                                                 <option value="Siang">Siang</option>
                                                                 <option value="Malam">Malam</option>
@@ -222,7 +220,7 @@
                                                             <select name="front_unit_number_1" class="form-control"
                                                                 required>
                                                                 <option></option>
-                                                                @foreach ($data['exa'] as $exa)
+                                                                @foreach ($data['EX'] as $exa)
                                                                     <option value="{{ $exa->VHC_ID }}">
                                                                         {{ $exa->VHC_ID }}
                                                                     </option>
@@ -334,25 +332,81 @@
                                     </div>
                                 </div><!-- end job detail tab pane -->
                                 <div class="tab-pane" id="alatSupport">
-                                    <form id="educationForm" method="post" action="#">
                                         <div class="text-center">
                                             <h3 class="mb-2">Alat Support</h3>
                                         </div>
-                                        <div class="row mt-4">
-                                            <div class="col-md-12">
-                                                <div class="mb-3"><label class="form-label" for="schoolName">School
-                                                        Name</label> <input type="text" class="form-control"
-                                                        id="schoolName" placeholder="enter your school name"></div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="mb-3"><label class="form-label"
-                                                        for="schoolLocation">School
-                                                        Location</label> <input type="text" class="form-control"
-                                                        id="schoolLocation" placeholder="enter your school location">
-                                                </div>
+                                        <div class="row mt-2">
+                                            <div class="container mt-2">
+                                                <button class="btn btn-primary mb-3" type="button" id="addRowButton">Tambah Baris</button>
+                                                <table id="dynamicTableSupport" class="table table-bordered">
+                                                    <thead style="text-align: center; vertical-align: middle;">
+                                                        <tr id="headerRowSupport1">
+                                                            <th rowspan="2" scope="col">Jenis</th>
+                                                            <th rowspan="2" scope="col">Nomor Unit</th>
+                                                            <th colspan="4" scope="col">Operator</th>
+                                                            <th colspan="4" scope="col">HM</th>
+                                                            <th rowspan="2" scope="col">Material</th>
+                                                            <th rowspan="2" scope="col">Aksi</th>
+                                                        </tr>
+                                                        <tr id="headerRowSupport2">
+                                                            <th>NIK</th>
+                                                            <th>Nama</th>
+                                                            <th>Tanggal</th>
+                                                            <th>Shift</th>
+                                                            <th>Awal</th>
+                                                            <th>Akhir</th>
+                                                            <th>Total</th>
+                                                            <th>Cash</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="newTableBodySupport">
+                                                        <tr>
+                                                            <td>
+                                                                <select class="form-select" name="jenis_support_1[]" required>
+                                                                    <option selected disabled></option>
+                                                                    <option value="BD">BD</option>
+                                                                    <option value="MG">MG</option>
+                                                                    <option value="EX">EX</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="form-select" name="unit_support_1[]" required>
+                                                                    <option selected disabled></option>
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" name="Support_1[]" class="form-control" required></td>
+                                                            <td><input type="text" name="Support_1[]" class="form-control" disabled required></td>
+                                                            <td><input type="text" class="form-control" id="pc-datepicker-2" name="tanggal" required></td>
+                                                            <td>
+                                                                <select class="form-select" name="shift_support_1[]" required>
+                                                                    <option selected disabled></option>
+                                                                    <option value="Siang">Siang</option>
+                                                                    <option value="Malam">Malam</option>
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" name="hm_awal_support_1[]" class="form-control" oninput="calculateTotalHM(this)" required></td>
+                                                            <td><input type="text" name="hm_akhir_support_1[]" class="form-control" oninput="calculateTotalHM(this)" required></td>
+                                                            <td><input type="text" name="hm_total_support_1[]" class="form-control" disabled required></td>
+                                                            <td><input type="text" name="hm_cash_support_1[]" class="form-control" required></td>
+                                                            <td>
+                                                                <select name="material_support_1" class="form-control"
+                                                                required>
+                                                                <option></option>
+                                                                @foreach ($data['material'] as $mat)
+                                                                    <option value="{{ $mat->MAT_ID }}"> {{ $mat->MAT_DESC }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-danger mb-3 btnRemoveSupport" type="button" onclick="removeRowSupport(this)">Hapus Baris</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    </form>
+
                                 </div>
                                 <div class="tab-pane" id="catatanPengawas">
                                         <div class="text-center">
@@ -360,29 +414,26 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="container mt-2">
-                                                <table id="dynamicTable" class="table table-bordered">
+                                                <button id="btnAddRowNote" class="btn btn-primary mb-3">Tambah Baris</button>
+                                                <table id="dynamicTableNote" class="table table-bordered">
                                                     <thead style="text-align: center; vertical-align: middle;">
-                                                        <tr id="headerRow1">
+                                                        <tr id="headerRowNote1">
                                                             <th colspan="2">Jam</th>
                                                             <th rowspan="2" scope="col">Keterangan</th>
                                                             <th rowspan="2" scope="col">Aksi</th>
                                                         </tr>
-                                                        <tr id="headerRow2">
+                                                        <tr id="headerRowNote2">
                                                             <th>Start</th>
                                                             <th>Stop</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="tableBody">
+                                                    <tbody id="newTableBodyNote">
                                                         <tr>
-                                                            <td><input class="form-control"  id="pc-timepicker-1" name="catatan_start_1[]" type="text" placeholder="Pilih waktu"></td>
-                                                            <td><input class="form-control"  id="pc-timepicker-2" name="catatan_end_1[]" type="text" placeholder="Pilih waktu"></td>
-                                                            <td><input type="text" name="catatan_pengawas_1[]"
-                                                                class="form-control" required></td>
+                                                            <td><input class="form-control start_time_input" name="start_time_note_1[]" type="text" placeholder="Pilih waktu"></td>
+                                                            <td><input class="form-control end_time_input" name="end_time_note_1[]" type="text" placeholder="Pilih waktu"></td>
+                                                            <td><input type="text" name="note_1[]" class="form-control" required></td>
                                                             <td>
-                                                                <button id="addColumnBtn" class="btn btn-primary mb-3">Tambah
-                                                                    Kolom</button>
-                                                                <button id="removeColumnBtn" class="btn btn-danger mb-3">Hapus
-                                                                    Kolom</button>
+                                                                <button class="btn btn-danger mb-3 btnRemoveNote" type="button">Hapus Baris</button>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -409,21 +460,35 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex wizard justify-content-between flex-wrap gap-2 mt-3">
+                                <div class="d-flex wizard justify-content-between flex-wrap gap-2 mt-5">
+
 
                                     <div class="d-flex">
-                                        <div class="previous me-2"><a href="javascript:void(0);"
-                                                class="btn btn-primary">Kembali</a></div>
-                                        <div class="next"><a href="javascript:void(0);"
-                                                class="btn btn-primary">Lanjut</a></div>
+
+
+                                        <div class="previous me-2">
+                                            <a href="javascript:void(0);" class="btn btn-primary btn-sm">Kembali</a>
+                                        </div>
+                                        <div class="next me-3">
+                                            <a href="javascript:void(0);" class="btn btn-primary btn-sm">Lanjut</a>
+                                        </div>
                                     </div>
-                                    <div class="first"><a href="javascript:void(0);"
-                                            class="btn btn-secondary">Lembar
-                                            Pertama</a></div>
-                                    <div class="last"><a href="javascript:void(0);"
-                                            class="btn btn-success">Finish</a>
+                                    <div class="d-flex">
+                                        <div class="first me-3">
+                                            <a href="javascript:void(0);" class="btn btn-secondary btn-sm">Lembar Pertama</a>
+                                        </div>
+                                        <div class="last">
+                                            <a href="javascript:void(0);" class="btn btn-success btn-sm">Finish</a>
+                                        </div>
                                     </div>
+
                                 </div>
+                                <div class="d-flex wizard justify-content-between flex-wrap gap-2 mt-3">
+
+
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -435,6 +500,8 @@
 </div>
 
 @include('layout.footer')
+
+{{-- Script Form Front Loading --}}
 <script>
     const addColumnBtn = document.getElementById('addColumnBtn');
     const removeColumnBtn = document.getElementById('removeColumnBtn');
@@ -444,8 +511,7 @@
 
     let unitCount = 1;
 
-    const data = @json($data['exa']);
-    console.log(data);
+    const exa = @json($data['EX']);
 
     addColumnBtn.addEventListener('click', () => {
         unitCount++;
@@ -466,7 +532,7 @@
         emptyOption.textContent = '';
         selectElement.appendChild(emptyOption);
 
-        data.forEach(option => {
+        exa.forEach(option => {
             if (option.VHC_ID) {
                 const optionElement = document.createElement('option');
                 optionElement.value = option.VHC_ID;
@@ -528,4 +594,183 @@
 
         return isChecked;
     }
+</script>
+
+{{-- Script Form Catatan Pengawas --}}
+<script>
+    const addRowButtonNew = document.getElementById('btnAddRowNote');
+    const tableBodyNew = document.getElementById('newTableBodyNote');
+
+    let rowCount = 1;
+
+    function initializeFlatpickr() {
+        document.querySelectorAll('.start_time_input').forEach((element) => {
+            if (!element._flatpickr) {
+                flatpickr(element, {
+                    enableTime: true,
+                    noCalendar: true,
+                    time_24hr: true
+                });
+            }
+        });
+
+        document.querySelectorAll('.end_time_input').forEach((element) => {
+            if (!element._flatpickr) {
+                flatpickr(element, {
+                    enableTime: true,
+                    noCalendar: true,
+                    time_24hr: true
+                });
+            }
+        });
+    }
+    addRowButtonNew.addEventListener('click', (e) => {
+        e.preventDefault();
+        rowCount++;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><input class="form-control start_time_input" name="start_time_note_${rowCount}[]" type="text" placeholder="Pilih waktu"></td>
+            <td><input class="form-control end_time_input" name="end_time_note_${rowCount}[]" type="text" placeholder="Pilih waktu"></td>
+            <td><input type="text" name="note_${rowCount}[]" class="form-control" required></td>
+            <td>
+                <button class="btn btn-danger mb-3 btnRemoveNote" type="button">Hapus Baris</button>
+            </td>
+        `;
+
+        tableBodyNew.appendChild(newRow);
+        activateRemoveButtons();
+        initializeFlatpickr();
+    });
+
+    function activateRemoveButtons() {
+        const removeRowButtons = document.querySelectorAll('.btnRemoveNote');
+
+        removeRowButtons.forEach((button, index) => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                if (index === 0) {
+                    Swal.fire('Tidak Bisa Dihapus', 'Baris pertama tidak boleh dihapus.', 'error');
+                    return;
+                }
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Baris ini akan dihapus.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const row = button.closest('tr');
+                        row.remove();
+                        Swal.fire('Dihapus!', 'Baris telah dihapus.', 'success');
+                    }
+                });
+            });
+        });
+    }
+    activateRemoveButtons();
+    initializeFlatpickr();
+</script>
+
+{{-- Script Form Alat Support --}}
+<script>
+    const data = @json($data);
+
+    function calculateTotalHM(element) {
+        const row = element.closest('tr');
+        const hmAwal = row.querySelector('[name^="hm_awal_support_1"]').value.replace(',', '.');
+        const hmAkhir = row.querySelector('[name^="hm_akhir_support_1"]').value.replace(',', '.');
+
+        if (hmAwal && hmAkhir) {
+            const total = parseFloat(hmAkhir) - parseFloat(hmAwal);
+            row.querySelector('[name^="hm_total_support_1"]').value = total.toFixed(1);
+        } else {
+            row.querySelector('[name^="hm_total_support_1"]').value = '';
+        }
+    }
+
+    function updateUnitOptions(selectedType, unitSelect) {
+        unitSelect.innerHTML = '<option selected disabled>Pilih unit</option>';
+        if (data[selectedType]) {
+            data[selectedType].forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.VHC_ID;
+                option.textContent = item.VHC_ID;
+                unitSelect.appendChild(option);
+            });
+        }
+    }
+
+    document.getElementById('addRowButton').addEventListener('click', function() {
+        const tableBody = document.getElementById('newTableBodySupport');
+        const newRow = tableBody.querySelector('tr').cloneNode(true);
+        newRow.querySelectorAll('input, select').forEach(input => {
+            input.value = '';
+        });
+
+        newRow.querySelectorAll('[name^="jenis_support_1[]"]').forEach((input, index) => {
+            input.setAttribute('name', 'jenis_support_' + (tableBody.children.length + 1));
+        });
+        newRow.querySelectorAll('[name^="unit_support_1[]"]').forEach((input, index) => {
+            input.setAttribute('name', 'unit_support_' + (tableBody.children.length + 1));
+        });
+
+        // Add the cloned row to the table
+        tableBody.appendChild(newRow);
+
+        // Update event listener for unit selection in new row
+        const newJenisSupport = newRow.querySelector('[name^="jenis_support_1[]"]');
+        const newUnitSupport = newRow.querySelector('[name^="unit_support_1[]"]');
+        newJenisSupport.addEventListener('change', function() {
+            updateUnitOptions(this.value, newUnitSupport);
+        });
+    });
+
+    function removeRowSupport(button) {
+        const row = button.closest('tr');
+
+        const rowIndex = Array.from(row.parentNode.children).indexOf(row);
+
+        // Jika baris pertama, tidak mengizinkan penghapusan
+        if (rowIndex === 0) {
+            Swal.fire(
+                'Tidak Bisa Dihapus!',
+                'Baris pertama tidak bisa dihapus.',
+                'error'
+            );
+            return;
+        }
+
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Baris ini akan dihapus!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                row.remove();
+                Swal.fire(
+                    'Dihapus!',
+                    'Baris telah dihapus.',
+                    'success'
+                );
+            } else {
+                Swal.fire(
+                    'Dibatalkan',
+                    'Baris tidak jadi dihapus.',
+                    'info'
+                );
+            }
+        });
+    }
+
+
 </script>

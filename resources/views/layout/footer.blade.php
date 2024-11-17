@@ -254,6 +254,12 @@
         });
     })();
 
+    (function () {
+        const d_week = new Datepicker(document.querySelector('#pc-datepicker-2'), {
+            buttonClass: 'btn'
+        });
+    })();
+
 </script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/wizard.min.js"></script>
     <script>
