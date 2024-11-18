@@ -24947,7 +24947,7 @@ pre[class*=language-] {
 .pc-container .pc-content {
     padding-left: 40px;
     padding-right: 40px;
-    padding-top: 20px
+    /* padding-top: 20px */
 }
 
 @media (max-width:1199.98px) {
@@ -25169,7 +25169,9 @@ pre[class*=language-] {
     }
 
     .pc-container .pc-content {
-        padding: 15px
+        padding-top: 2px;
+        padding-left: 15px;
+        padding-right: 15px
     }
 
     .pc-container .container,

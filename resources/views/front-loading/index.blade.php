@@ -46,13 +46,15 @@
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Area</th>
                                         <th rowspan="2">Lokasi</th>
-                                        <th rowspan="2">Jam</th>
+                                        <th colspan="2">Jam</th>
                                         <th rowspan="2">Nomor Unit</th>
                                         <th colspan="2">Foreman</th>
                                         <th colspan="2">Supervisor</th>
                                         <th colspan="2">Superintendent</th>
                                     </tr>
                                     <tr>
+                                        <th>Siang</th>
+                                        <th>Malam</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
                                         <th>NIK</th>
@@ -67,7 +69,8 @@
                                         <td>Malam</td>
                                         <td>SM-B1</td>
                                         <td>Loading Point</td>
-                                        <td>08:00</td>
+                                        <td>08.00 - 09.00</td>
+                                        <td>20.00 - 21.00</td>
                                         <td>EX267</td>
                                         <td>0555S</td>
                                         <td>Abdul Wahab</td>
@@ -81,7 +84,8 @@
                                         <td>Malam</td>
                                         <td>SM-B2</td>
                                         <td>Loading Point</td>
-                                        <td>08:00</td>
+                                        <td>08.00 - 09.00</td>
+                                        <td>20.00 - 21.00</td>
                                         <td>EX268</td>
                                         <td>0555S</td>
                                         <td>Abdul Wahab</td>

@@ -278,17 +278,31 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        var startDate = new Date(); // Tanggal sekarang
-        var endDate = new Date(); // Tanggal sekarang
+        var startDate = new Date();
+        var endDate = new Date();
         var tanggal = new Date();
-        endDate.setDate(startDate.getDate() + 0); // Setel tanggal range-nya
+        endDate.setDate(startDate.getDate() + 0);
 
-        // Mengisi input dengan tanggal format MM/DD/YYYY
         document.getElementById('pc-datepicker-1').value = formatDate(tanggal);
         document.getElementById('range-start').value = formatDate(startDate);
         document.getElementById('range-end').value = formatDate(endDate);
     });
 </script>
+{{-- <script>
+    window.addEventListener('beforeunload', () => {
+      const overlay = document.getElementById('loading-overlay');
+      overlay.style.visibility = 'visible';
+      overlay.style.opacity = '1';
+    });
+
+    window.addEventListener('load', () => {
+      const overlay = document.getElementById('loading-overlay');
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        overlay.style.visibility = 'hidden';
+      }, 1000);
+    });
+  </script> --}}
 </body>
 
 </html>

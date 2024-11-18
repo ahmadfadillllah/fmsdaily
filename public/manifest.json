@@ -1,0 +1,22 @@
+{
+"name": "Daily",
+"short_name": "Daily",
+"description": "Digitalisasi laporan foreman untuk efisiensi alur proses dan peningkatan akurasi data",
+"start_url": "/",
+"display": "fullscreen",
+"background_color": "#001831",
+"theme_color": "#001831",
+"orientation": "portrait",
+"icons": [
+  {
+    "src": "/icons/icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  },
+  {
+    "src": "/icons/icon-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }
+]
+}

@@ -8,27 +8,8 @@
         align-items: center;
         height: 100%;
     }
+
     @media (min-width: 769px) {
-
-        .tab-pane .form-control,
-        .tab-pane .form-select {
-            font-size: 9pt;
-            padding: 6px;
-        }
-
-        .tab-pane button {
-            font-size: 9pt;
-            padding: 6px;
-        }
-
-        .table tbody td,
-        .table thead th {
-            font-size: 9pt;
-            padding: 6px;
-        }
-        }
-
-        @media (max-width: 768px) {
 
         .tab-pane .form-control,
         .tab-pane .form-select {
@@ -48,25 +29,35 @@
         }
     }
 
+    @media (max-width: 768px) {
+
+        .tab-pane .form-control,
+        .tab-pane .form-select {
+            font-size: 9pt;
+            padding: 6px;
+        }
+
+        .tab-pane button {
+            font-size: 9pt;
+            padding: 6px;
+        }
+
+        .table tbody td,
+        .table thead th {
+            font-size: 9pt;
+            padding: 6px;
+        }
+        .description-text {
+            word-wrap: break-word; white-space: normal; max-width: 100%; overflow-wrap: break-word;
+        }
+
+    }
+
 </style>
 
 
 <div class="pc-container">
     <div class="pc-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Forms</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Laporan Harian</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div>
             <div id="basicwizard" class="form-wizard row justify-content-center">
                 <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
@@ -113,7 +104,8 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('form-pengawas.post') }}" method="post" onsubmit="return validateForm()">
+                            <form action="{{ route('form-pengawas.post') }}" method="post"
+                                onsubmit="return validateForm()">
                                 @csrf
                                 <div class="tab-content">
                                     <!-- START: Define your progress bar here -->
@@ -384,97 +376,11 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="mt-2">
-                                                <button class="btn btn-primary mb-3" type="button"
-                                                    id="addRowButton">Tambah Baris</button>
-                                                <div class="table-responsive">
-                                                    <table id="dynamicTableSupport" class="table table-bordered">
-                                                        <thead style="text-align: center; vertical-align: middle;">
-                                                            <tr id="headerRowSupport1">
-                                                                <th rowspan="2" scope="col">Jenis</th>
-                                                                <th rowspan="2" scope="col">Nomor Unit</th>
-                                                                <th colspan="4" scope="col">Operator</th>
-                                                                <th colspan="4" scope="col">HM</th>
-                                                                <th rowspan="2" scope="col">Material</th>
-                                                                <th rowspan="2" scope="col">Aksi</th>
-                                                            </tr>
-                                                            <tr id="headerRowSupport2">
-                                                                <th>NIK</th>
-                                                                <th>Nama</th>
-                                                                <th>Tanggal</th>
-                                                                <th>Shift</th>
-                                                                <th>Awal</th>
-                                                                <th>Akhir</th>
-                                                                <th>Total</th>
-                                                                <th>Cash</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="newTableBodySupport">
-                                                            <tr>
-                                                                <td>
-                                                                    <select class="form-select jenis-support"
-                                                                        name="jenis_support_1[]" style="width: 150px;">
-                                                                        <option selected disabled>Pilih jenis support
-                                                                        </option>
-                                                                        <option value="BD">BD</option>
-                                                                        <option value="MG">MG</option>
-                                                                        <option value="EX">EX</option>
-                                                                        <option value="HD">HD</option>
-                                                                        <option value="WT">WT</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <select class="form-select unit-support"
-                                                                        name="unit_support_1[]" style="width: 150px;">
-                                                                        <option selected disabled>Pilih unit</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td><input type="text" name="nik_support_1[]"
-                                                                        class="form-control" style="width: 150px;"></td>
-                                                                <td><input type="text" name="nama_support_1[]"
-                                                                        class="form-control" style="width: 150px;"
-                                                                        readonly></td>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="pc-datepicker-2" name="tanggal"
-                                                                        style="width: 150px;"></td>
-                                                                <td>
-                                                                    <select class="form-select" name="shift_support_1[]"
-                                                                        style="width: 150px;">
-                                                                        <option selected disabled></option>
-                                                                        <option value="Siang">Siang</option>
-                                                                        <option value="Malam">Malam</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td><input type="text" name="hm_awal_support_1[]"
-                                                                        class="form-control" style="width: 150px;"
-                                                                        oninput="calculateTotalHM(this)"></td>
-                                                                <td><input type="text" name="hm_akhir_support_1[]"
-                                                                        class="form-control" style="width: 150px;"
-                                                                        oninput="calculateTotalHM(this)"></td>
-                                                                <td><input type="text" name="hm_total_support_1[]"
-                                                                        class="form-control" style="width: 150px;"
-                                                                        disabled></td>
-                                                                <td><input type="text" name="hm_cash_support_1[]"
-                                                                        class="form-control" style="width: 150px;"></td>
-                                                                <td>
-                                                                    <select name="material_support_1"
-                                                                        class="form-control" style="width: 150px;">
-                                                                        <option></option>
-                                                                        @foreach ($data['material'] as $mat)
-                                                                        <option value="{{ $mat->MAT_ID }}">
-                                                                            {{ $mat->MAT_DESC }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <button class="btn btn-danger mb-3 btnRemoveSupport"
-                                                                        type="button"
-                                                                        onclick="removeRowSupport(this)">Hapus</button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-
-                                                    </table>
-                                                </div>
+                                                <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahSupportModal">
+                                                    <i class="fa-solid fa-add"></i> Tambah Alat Support
+                                                </button>
+                                                @include('form-pengawas.modal.alat-support')
+                                                <div class="accordion" id="accordionSupport"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -484,43 +390,16 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="mt-2">
-                                                <button id="btnAddRowNote" class="btn btn-primary mb-3">Tambah
-                                                    Baris</button>
-                                                <div class="table-responsive"
-                                                    style="max-height: 400px; overflow-y: auto;">
-                                                    <table id="dynamicTableNote" class="table table-bordered">
-                                                        <thead style="text-align: center; vertical-align: middle;">
-                                                            <tr id="headerRowNote1">
-                                                                <th colspan="2">Jam</th>
-                                                                <th rowspan="2" scope="col">Keterangan</th>
-                                                                <th rowspan="2" scope="col">Aksi</th>
-                                                            </tr>
-                                                            <tr id="headerRowNote2">
-                                                                <th>Start</th>
-                                                                <th>Stop</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="newTableBodyNote">
-                                                            <tr>
-                                                                <td><input class="form-control start_time_input"
-                                                                        name="start_time_note_1[]" type="text"
-                                                                        placeholder="Pilih waktu"></td>
-                                                                <td><input class="form-control end_time_input"
-                                                                        name="end_time_note_1[]" type="text"
-                                                                        placeholder="Pilih waktu"></td>
-                                                                <td><input type="text" name="note_1[]"
-                                                                        class="form-control"></td>
-                                                                <td>
-                                                                    <button class="btn btn-danger mb-3 btnRemoveNote"
-                                                                        type="button">Hapus</button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahCatatan">
+                                                    <i class="fa-solid fa-add"></i> Tambah Catatan
+                                                </button>
+                                                @include('form-pengawas.modal.catatan-pengawas')
+                                                <div class="accordion" id="accordionCatatan"></div>
+
                                             </div>
                                         </div>
-                                    </div><!-- end education detail tab pane -->
+                                    </div>
+                                    <!-- end education detail tab pane -->
                                     <div class="tab-pane" id="finish">
                                         <div class="row d-flex justify-content-center">
                                             <div class="col-lg-6">
@@ -722,188 +601,251 @@
 
 {{-- Script Form Alat Support --}}
 <script>
-    const data = @json($data);
+    let supportCount = 0;
 
-    function calculateTotalHM(element) {
-        const row = element.closest('tr');
-        const hmAwal = row.querySelector('[name^="hm_awal_support_1"]').value.replace(',', '.');
-        const hmAkhir = row.querySelector('[name^="hm_akhir_support_1"]').value.replace(',', '.');
+    // Menghitung Total otomatis berdasarkan HM Akhir - HM Awal
+    document.getElementById('hmAwalSupport').addEventListener('input', calculateTotal);
+    document.getElementById('hmAkhirSupport').addEventListener('input', calculateTotal);
 
-        if (hmAwal && hmAkhir) {
-            const total = parseFloat(hmAkhir) - parseFloat(hmAwal);
-            row.querySelector('[name^="hm_total_support_1"]').value = total.toFixed(1);
-        } else {
-            row.querySelector('[name^="hm_total_support_1"]').value = '';
-        }
+    function calculateTotal() {
+        const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
+        const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
+        const total = hmAkhir - hmAwal;
+        document.getElementById('totalSupport').value = total >= 0 ? total : 0;
     }
 
-    function updateUnitOptions(selectedType, unitSelect) {
-        unitSelect.innerHTML = '<option selected disabled>Pilih unit</option>';
-        if (data[selectedType]) {
-            data[selectedType].forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.VHC_ID;
-                option.textContent = item.VHC_ID;
-                unitSelect.appendChild(option);
+    document.getElementById('saveSupport').addEventListener('click', () => {
+        const jenis = document.getElementById('jenisSupport').value;
+        const unit = document.getElementById('unitSupport').value;
+        const nik = document.getElementById('nikSupport').value;
+        const nama = document.getElementById('namaSupport').value;
+        const tanggal = document.getElementById('tanggalSupport').value;
+        const shift = document.getElementById('shiftSupport').value;
+        const hmAwal = document.getElementById('hmAwalSupport').value;
+        const hmAkhir = document.getElementById('hmAkhirSupport').value;
+        const hmCash = document.getElementById('hmCashSupport').value;
+        const total = document.getElementById('totalSupport').value;
+        const material = document.getElementById('materialSupport').value;
+
+        if ( !nik || !tanggal || !shift || !hmAwal || !hmAkhir) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: 'Semua field wajib diisi!'
             });
-        }
-    }
-
-    document.getElementById('addRowButton').addEventListener('click', function () {
-        const tableBody = document.getElementById('newTableBodySupport');
-        const newRow = tableBody.querySelector('tr').cloneNode(true);
-
-
-        newRow.querySelectorAll('input, select').forEach(input => {
-            input.value = '';
-        });
-
-
-        newRow.querySelectorAll('[name^="jenis_support_1[]"]').forEach((input, index) => {
-            input.setAttribute('name', 'jenis_support_' + (tableBody.children.length + 1));
-        });
-        newRow.querySelectorAll('[name^="unit_support_1[]"]').forEach((input, index) => {
-            input.setAttribute('name', 'unit_support_' + (tableBody.children.length + 1));
-        });
-
-
-        tableBody.appendChild(newRow);
-
-        const newJenisSupport = newRow.querySelector('[name^="jenis_support_1[]"]');
-        const newUnitSupport = newRow.querySelector('[name^="unit_support_1[]"]');
-
-
-        newJenisSupport.addEventListener('change', function () {
-            updateUnitOptions(this.value, newUnitSupport);
-        });
-
-        if (newJenisSupport.value) {
-            updateUnitOptions(newJenisSupport.value, newUnitSupport);
-        }
-    });
-
-    function removeRowSupport(button) {
-        const row = button.closest('tr');
-        const rowIndex = Array.from(row.parentNode.children).indexOf(row);
-
-        if (rowIndex === 0) {
-            Swal.fire(
-                'Tidak Bisa Dihapus!',
-                'Baris pertama tidak bisa dihapus.',
-                'error'
-            );
             return;
         }
 
+        supportCount++;
+
+        const accordionId = `support${supportCount}`;
+        const collapseId = `collapseSupport${supportCount}`;
+
+        const newAccordionItem = `
+    <div class="accordion-item" id="${accordionId}">
+        <h2 class="accordion-header" id="heading${accordionId}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                Support #${supportCount}
+            </button>
+        </h2>
+        <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionSupport">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Jenis</th>
+                                <td>${jenis}</td>
+                            </tr>
+                            <tr>
+                                <th>Unit</th>
+                                <td>${unit}</td>
+                            </tr>
+                            <tr>
+                                <th>NIK</th>
+                                <td>${nik}</td>
+                            </tr>
+                            <tr>
+                                <th>Nama</th>
+                                <td>${nama}</td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal</th>
+                                <td>${tanggal}</td>
+                            </tr>
+                            <tr>
+                                <th>Shift</th>
+                                <td>${shift}</td>
+                            </tr>
+                            <tr>
+                                <th>HM Awal</th>
+                                <td>${hmAwal}</td>
+                            </tr>
+                            <tr>
+                                <th>HM Akhir</th>
+                                <td>${hmAkhir}</td>
+                            </tr>
+                            <tr>
+                                <th>HM Cash</th>
+                                <td>${hmCash}</td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td>${total}</td>
+                            </tr>
+                            <tr>
+                                <th>Material</th>
+                                <td>${material}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeSupport('${accordionId}')">Hapus</button>
+            </div>
+        </div>
+    </div>
+`;
+
+        document.getElementById('accordionSupport').insertAdjacentHTML('beforeend', newAccordionItem);
+
         Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Baris ini akan dihapus!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                row.remove();
-                Swal.fire(
-                    'Dihapus!',
-                    'Baris telah dihapus.',
-                    'success'
-                );
-            } else {
-                Swal.fire(
-                    'Dibatalkan',
-                    'Baris tidak jadi dihapus.',
-                    'info'
-                );
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'Data support berhasil ditambahkan!',
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            const modalElement = document.getElementById('tambahSupportModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
             }
         });
-    }
 
+        // Reset form setelah data ditambahkan
+        document.getElementById('formSupport').reset();
+    });
+
+    // Fungsi untuk menghapus item support
+    function removeSupport(accordionId) {
+        const item = document.getElementById(accordionId);
+        if (item) {
+            item.remove();
+            Swal.fire({
+                icon: 'info',
+                title: 'Baris Dihapus',
+                text: 'Baris berhasil dihapus!',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+    }
 </script>
 
 {{-- Script Form Catatan Pengawas --}}
 <script>
-    const addRowButtonNew = document.getElementById('btnAddRowNote');
-    const tableBodyNew = document.getElementById('newTableBodyNote');
+    let catatanCount = 0;
 
-    let rowCount = 1;
+    // Event saat tombol "Tambah" di klik
+    document.getElementById('saveCatatan').addEventListener('click', () => {
+        const start = document.getElementById('start_catatan').value;
+        const end = document.getElementById('end_catatan').value;
+        const description = document.getElementById('description_catatan').value;
 
-    function initializeFlatpickr() {
-        document.querySelectorAll('.start_time_input').forEach((element) => {
-            if (!element._flatpickr) {
-                flatpickr(element, {
-                    enableTime: true,
-                    noCalendar: true,
-                    time_24hr: true
-                });
-            }
-        });
+        // Validasi input
+        if (!start || !end || !description) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: 'Semua field harus diisi!'
+            });
+            return;
+        }
 
-        document.querySelectorAll('.end_time_input').forEach((element) => {
-            if (!element._flatpickr) {
-                flatpickr(element, {
-                    enableTime: true,
-                    noCalendar: true,
-                    time_24hr: true
-                });
-            }
-        });
-    }
-    addRowButtonNew.addEventListener('click', (e) => {
-        e.preventDefault();
-        rowCount++;
+        catatanCount++;
 
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td><input class="form-control start_time_input" name="start_time_note_${rowCount}[]" type="text" placeholder="Pilih waktu"></td>
-            <td><input class="form-control end_time_input" name="end_time_note_${rowCount}[]" type="text" placeholder="Pilih waktu"></td>
-            <td><input type="text" name="note_${rowCount}[]" class="form-control" ></td>
-            <td>
-                <button class="btn btn-danger mb-3 btnRemoveNote" type="button">Hapus</button>
-            </td>
+        const accordionId = `catatan${catatanCount}`;
+        const collapseId = `collapse${catatanCount}`;
+
+        // Template item accordion baru dengan tombol "Hapus"
+        const newAccordionItem = `
+            <div class="accordion-item" id="${accordionId}">
+                <h2 class="accordion-header" id="heading${accordionId}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                        Catatan #${catatanCount}
+                    </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionCatatan">
+                    <div class="accordion-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>Start</th>
+                                    <td><input type="hidden" name="start_catatan[]" value="${start}">${start}</td>
+                                </tr>
+                                <tr>
+                                    <th>End</th>
+                                    <td><input type="hidden" name="end_catatan[]" value="${end}">${end}</td>
+                                </tr>
+                                <tr>
+                                    <th>Deskripsi</th>
+                                    <td style="word-wrap: break-word; white-space: normal; max-width: 100%; overflow-wrap: break-word;">
+                                        <input type="hidden" name="description_catatan[]" value="${description}">${description}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="hapusCatatan('${accordionId}')">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         `;
 
-        tableBodyNew.appendChild(newRow);
-        activateRemoveButtons();
-        initializeFlatpickr();
+        // Tambahkan item baru ke accordion
+        document.getElementById('accordionCatatan').insertAdjacentHTML('beforeend', newAccordionItem);
+
+        // Tampilkan notifikasi sukses menggunakan SweetAlert
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'Catatan berhasil ditambahkan!',
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            // Tutup modal setelah SweetAlert ditutup
+            const modalElement = document.getElementById('tambahCatatan');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        });
     });
 
-    function activateRemoveButtons() {
-        const removeRowButtons = document.querySelectorAll('.btnRemoveNote');
+    // Event listener untuk reset form setelah modal ditutup
+    document.getElementById('tambahCatatan').addEventListener('hidden.bs.modal', () => {
+        document.getElementById('formCatatan').reset();
+    });
 
-        removeRowButtons.forEach((button, index) => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                if (index === 0) {
-                    Swal.fire('Tidak Bisa Dihapus', 'Baris pertama tidak boleh dihapus.', 'error');
-                    return;
-                }
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Baris ini akan dihapus.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const row = button.closest('tr');
-                        row.remove();
-                        Swal.fire('Dihapus!', 'Baris telah dihapus.', 'success');
-                    }
-                });
+    // Fungsi untuk menghapus item accordion
+    function hapusCatatan(accordionId) {
+        const item = document.getElementById(accordionId);
+        if (item) {
+            item.remove();
+            Swal.fire({
+                icon: 'info',
+                title: 'Catatan Dihapus',
+                text: 'Catatan berhasil dihapus!',
+                timer: 2000,
+                showConfirmButton: false
             });
-        });
+        }
     }
-    activateRemoveButtons();
-    initializeFlatpickr();
-
 </script>
+
 
 {{-- Script Finishing --}}
 <script>
@@ -921,4 +863,12 @@
         return true;
     }
 
+</script>
+
+<script>
+    (function () {
+            const d_week = new Datepicker(document.querySelector('#tanggalSupport'), {
+                buttonClass: 'btn'
+            });
+        })();
 </script>
