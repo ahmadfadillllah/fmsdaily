@@ -11,7 +11,8 @@
     <meta name="theme-color" content="#001831">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Digitalisasi laporan foreman untuk efisiensi alur proses dan peningkatan akurasi data">
+    <meta name="description"
+        content="Digitalisasi laporan foreman untuk efisiensi alur proses dan peningkatan akurasi data">
     <meta name="keywords" content="Laporan Harian Pengawas">
     <meta name="author" content="FMS - PT. SIMS JAYA KALTIM">
     <link rel="icon" href="{{ asset('dashboard/assets') }}/images/icon.png" type="image/x-icon">
@@ -47,13 +48,16 @@
             <div class="loader-fill"></div>
         </div>
     </div>
+    @include('layout.alert')
     <style>
         hr {
-    border: none;               /* Menghapus border default */
-    height: 2px;                /* Menentukan ketebalan garis */
-    background-color: #011b32;  /* Menambahkan warna latar belakang */
-    margin: 20px 0;             /* Menambahkan jarak vertikal di atas dan bawah garis */
-}
-
+            border: none;
+            /* Menghapus border default */
+            height: 2px;
+            /* Menentukan ketebalan garis */
+            background-color: #011b32;
+            /* Menambahkan warna latar belakang */
+            margin: 20px 0;
+            /* Menambahkan jarak vertikal di atas dan bawah garis */
+        }
     </style>
-

@@ -21,7 +21,7 @@
                         <div class="pt-3">
                             <a href="#!" data-bs-toggle="modal" data-bs-target="#changePassword"><svg class="pc-icon text-muted me-2"> <use xlink:href="#custom-share-bold"></use> </svg> <span>Ganti Password</span></a>
                             <a href="#!"><i class="ti ti-settings"></i><span>Settings</span></a>
-                            <a href="#!"><i class="ti ti-power"></i><span>Logout</span></a>
+                            <a href="{{ route('logout') }}"><i class="ti ti-power"></i><span>Logout</span></a>
                         </div>
 
                     </div>
@@ -31,8 +31,12 @@
 
             <ul class="pc-navbar">
                 <li class="pc-item pc-caption"><label>Navigation</label></li>
-                <li class="pc-item pc-hasmenu"><a href="#!" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/dashboard.png" alt="DS"> </span><span class="pc-mtext">Dashboard</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">3</span></a>
+                <li class="pc-item"><a href="{{ route('dashboard.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Home</span></a></li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon">
+                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/dashboard.png" alt="DS"> </span><span class="pc-mtext">Dashboard</span> <span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
+                    </a>
                     <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ route('front-loading.index') }}">Front Loading</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('alat-support.index') }}">Alat Support</a></li>

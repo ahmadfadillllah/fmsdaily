@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');
+    Route::get('/front-loading/download', [FrontLoadingController::class, 'download'])->name('front-loading.download');
+
 
     //Alat Support
     Route::get('/alat-support/index', [AlatSupportController::class, 'index'])->name('alat-support.index');

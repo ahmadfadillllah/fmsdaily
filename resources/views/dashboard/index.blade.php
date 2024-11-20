@@ -16,7 +16,7 @@
                     </div> --}}
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h2 class="mb-0">Sample Page</h2>
+                            <h5 class="mb-0">Selamat datang, {{ Auth::user()->name }}!</h5>
                         </div>
                     </div>
                 </div>

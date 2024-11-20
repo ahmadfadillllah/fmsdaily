@@ -24,9 +24,9 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-2 mb-2 text-md-end text-center">
-                                <button type="button" class="btn btn-success w-100 w-md-auto">
+                                <a href="{{ route('front-loading.download') }}" class="btn btn-success w-100 w-md-auto">
                                     <i class="fas fa-download"></i> Download
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

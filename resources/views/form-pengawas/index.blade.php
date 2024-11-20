@@ -722,8 +722,8 @@
             }
         });
 
-        // Reset form setelah data ditambahkan
-        document.getElementById('formSupport').reset();
+        // // Reset form setelah data ditambahkan
+        // document.getElementById('formSupport').reset();
     });
 
     // Fungsi untuk menghapus item support

@@ -9,16 +9,12 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label" for="exampleInputPassword1">Password Lama</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" name="password_lama" placeholder="Masukkan password lama" required>
+                        <label class="form-label" for="passwordLama">Password Lama</label>
+                        <input type="password" class="form-control" id="passwordLama" name="password_lama" placeholder="Masukkan password lama" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="exampleInputPassword1">Password Baru</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" name="password_baru" placeholder="Masukkan password baru" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="exampleInputPassword1">Konfirmasi Password Baru</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" name="password_confirmation" placeholder="Konfirmasi password baru" required>
+                        <label class="form-label" for="passwordBaru">Password Baru</label>
+                        <input type="password" class="form-control" id="passwordBaru" name="password_baru" placeholder="Masukkan password baru" required>
                     </div>
                 </div>
                 <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
