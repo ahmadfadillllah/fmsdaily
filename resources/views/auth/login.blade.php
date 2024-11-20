@@ -14,6 +14,7 @@
     <meta name="description" content="Digitalisasi laporan foreman untuk efisiensi alur proses dan peningkatan akurasi data">
     <meta name="keywords" content="Laporan Harian Pengawas">
     <meta name="author" content="IT-FMS | PT. SIMS JAYA KALTIM">
+    <link rel="icon" href="{{ asset('dashboard/assets') }}/images/icon.png" type="image/x-icon">
     <!-- [Font] Family -->
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/inter/inter.css" id="main-font-link">
     <!-- [phosphor Icons] https://phosphoricons.com/ -->
