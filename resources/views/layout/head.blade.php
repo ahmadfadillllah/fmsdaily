@@ -47,4 +47,13 @@
             <div class="loader-fill"></div>
         </div>
     </div>
+    <style>
+        hr {
+    border: none;               /* Menghapus border default */
+    height: 2px;                /* Menentukan ketebalan garis */
+    background-color: #011b32;  /* Menambahkan warna latar belakang */
+    margin: 20px 0;             /* Menambahkan jarak vertikal di atas dan bawah garis */
+}
+
+    </style>
 

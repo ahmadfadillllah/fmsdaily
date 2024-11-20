@@ -6,6 +6,9 @@ use App\Http\Controllers\CatatanPengawasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormPengawasController;
 use App\Http\Controllers\FrontLoadingController;
+use App\Http\Controllers\KLKHDisposalController;
+use App\Http\Controllers\KLKHHaulRoadController;
+use App\Http\Controllers\KLKHLoadingPointController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,4 +38,16 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     //Catatan Pengawas
     Route::get('/catatan-pengawas/index', [CatatanPengawasController::class, 'index'])->name('catatan-pengawas.index');
+
+    //KLKH Loading Point
+    Route::get('/klkh/loading-point', [KLKHLoadingPointController::class, 'index'])->name('klkh.loading-point');
+    Route::post('/klkh/loading-point/insert', [KLKHLoadingPointController::class, 'insert'])->name('klkh.loading-point.insert');
+
+    //KLKH Haul Road
+    Route::get('/klkh/haul-road', [KLKHHaulRoadController::class, 'index'])->name('klkh.haul-road');
+    Route::post('/klkh/haul-road/insert', [KLKHHaulRoadController::class, 'insert'])->name('klkh.haul-road.insert');
+
+    //KLKH Disposal
+    Route::get('/klkh/disposal', [KLKHDisposalController::class, 'index'])->name('klkh.disposal');
+    Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert');
 // });
