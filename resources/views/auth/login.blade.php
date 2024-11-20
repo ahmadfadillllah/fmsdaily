@@ -2,16 +2,18 @@
 <html lang="en">
 
 <head>
-    <title>Login | Authentication</title>
+    <title>Laporan Harian Foreman</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#001831">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description"
-        content="Able Pro is trending dashboard template made using Bootstrap 5 design framework. Able Pro is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies.">
-    <meta name="keywords"
-        content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard">
-    <meta name="author" content="Phoenixcoded"><!-- [Favicon] icon -->
-    <link rel="icon" href="{{ asset('dashboard/assets') }}/images/icon.png" type="image/x-icon">
+    <meta name="description" content="Digitalisasi laporan foreman untuk efisiensi alur proses dan peningkatan akurasi data">
+    <meta name="keywords" content="Laporan Harian Pengawas">
+    <meta name="author" content="IT-FMS | PT. SIMS JAYA KALTIM">
     <!-- [Font] Family -->
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/inter/inter.css" id="main-font-link">
     <!-- [phosphor Icons] https://phosphoricons.com/ -->
