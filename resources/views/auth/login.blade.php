@@ -45,7 +45,7 @@
                         <div class="text-center"><a href="javascript:void(0);"><img
                                     src="{{ asset('dashboard/assets') }}/images/logo-full.png" alt="img" width="300px"></a></div>
                         <div class="saprator my-3"><span></span></div>
-                        <h4 class="text-center f-w-500 mb-3">Login - Laporan Harian Pengawas!</h4>
+                        <h4 class="text-center f-w-500 mb-3">Login - Laporan Harian Pengawas</h4>
                         <form action="{{ route('login.post') }}" method="post">
                             @csrf
                             <div class="mb-3"><input type="text" class="form-control" id="floatingInput" placeholder="NIK" name="nik"></div>
@@ -55,7 +55,7 @@
                                     id="customCheckc1" checked=""> <label class="form-check-label text-muted"
                                     for="customCheckc1">Ingat Saya!</label></div>
                         </div>
-                        <div class="d-grid mt-4"><a href="{{ route('dashboard.index') }}" type="submit" class="btn btn-primary">Masuk</a></div>
+                        <div class="d-grid mt-4"><button type="submit" class="btn btn-primary">Masuk</button></div>
                         </form>
                     </div>
                 </div>

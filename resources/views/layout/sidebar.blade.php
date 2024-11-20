@@ -10,19 +10,25 @@
                         <div class="flex-shrink-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.jpg"
                                 alt="user-image" class="user-avtar wid-45 rounded-circle"></div>
                         <div class="flex-grow-1 ms-3 me-2">
-                            <h6 class="mb-0">Lorem Ipsum</h6><small>Administrator</small>
+                            <h6 class="mb-0" style="font-size: 12px">{{ Auth::user()->name }}</h6><small>{{ Auth::user()->role }}</small>
                         </div><a class="btn btn-icon btn-link-secondary avtar" data-bs-toggle="collapse"
                             href="#pc_sidebar_userlink"><svg class="pc-icon">
                                 <use xlink:href="#custom-sort-outline"></use>
                             </svg></a>
                     </div>
+
                     <div class="collapse pc-user-links" id="pc_sidebar_userlink">
-                        <div class="pt-3"><a href="#!"><i class="ti ti-user"></i> <span>My Account</span> </a><a
-                                href="#!"><i class="ti ti-settings"></i> <span>Settings</span> </a><a href="#!"><i
-                                    class="ti ti-power"></i> <span>Logout</span></a></div>
+                        <div class="pt-3">
+                            <a href="#!" data-bs-toggle="modal" data-bs-target="#changePassword"><svg class="pc-icon text-muted me-2"> <use xlink:href="#custom-share-bold"></use> </svg> <span>Ganti Password</span></a>
+                            <a href="#!"><i class="ti ti-settings"></i><span>Settings</span></a>
+                            <a href="#!"><i class="ti ti-power"></i><span>Logout</span></a>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
+
             <ul class="pc-navbar">
                 <li class="pc-item pc-caption"><label>Navigation</label></li>
                 <li class="pc-item pc-hasmenu"><a href="#!" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/dashboard.png" alt="DS"> </span><span class="pc-mtext">Dashboard</span> <span class="pc-arrow"><i
@@ -51,3 +57,4 @@
         </div>
     </div>
 </nav>
+@include('layout.modal.change-password')

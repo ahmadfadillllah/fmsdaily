@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontLoadingController;
 use App\Http\Controllers\KLKHDisposalController;
 use App\Http\Controllers\KLKHHaulRoadController;
 use App\Http\Controllers\KLKHLoadingPointController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,7 +20,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login/post', [AuthController::class, 'login_post'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/form-pengawas/search-users', [FormPengawasController::class, 'users'])->name('cariUsers');
 
@@ -50,4 +51,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     //KLKH Disposal
     Route::get('/klkh/disposal', [KLKHDisposalController::class, 'index'])->name('klkh.disposal');
     Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert');
-// });
+
+    // Profile
+    Route::post('/profile.change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+});

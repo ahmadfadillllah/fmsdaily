@@ -18,11 +18,22 @@ class AuthController extends Controller
         $credentials = $request->only('nik', 'password');
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            return redirect()->intended('dashboard.index');
+            return redirect()->route('dashboard.index');
         }
 
         return back()->withErrors([
             'nik' => 'NIK atau password salah.',
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Anda telah berhasil keluar');
     }
 }
