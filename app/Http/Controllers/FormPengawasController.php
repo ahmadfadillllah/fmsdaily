@@ -18,6 +18,14 @@ class FormPengawasController extends Controller
     //
     public function index()
     {
+
+        $daily = DailyReport::where('foreman_id', Auth::user()->id)
+        ->whereDate('created_at', now())
+        ->get();
+
+        // if(empty($daily)){
+        //     return view('form-pengawas.empty');
+        // }
         $ex = Unit::select([
             'VHC_ID',
             'VHC_TYPEID',
@@ -189,7 +197,7 @@ class FormPengawasController extends Controller
                 return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
             });
         } catch (\Throwable $th) {
-            return redirect()->route('form-pengawas.index')->with('success', 'Laporan gagal dibuat');
+            return redirect()->route('form-pengawas.index')->with('info', 'Laporan gagal dibuat.. \n'. $th->getMessage());
         }
     }
 }
