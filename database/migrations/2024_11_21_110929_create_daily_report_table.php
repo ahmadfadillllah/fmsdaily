@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('tanggal_dasar')->nullable();
             $table->string('shift_dasar')->nullable();
             $table->string('area')->nullable();
+            $table->string('lokasi')->nullable();
             $table->string('nik_supervisor')->nullable();
             $table->string('nama_supervisor')->nullable();
             $table->string('nik_superintendent')->nullable();

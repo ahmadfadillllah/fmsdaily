@@ -130,6 +130,7 @@ class FormPengawasController extends Controller
                 'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
                 'shift_dasar' => $request->shift_dasar,
                 'area' => $request->area,
+                'lokasi' => $request->lokasi,
                 'nik_supervisor' => $request->nik_supervisor,
                 'nama_supervisor' => $request->nama_supervisor,
                 'nik_superintendent' => $request->nik_superintendent,
