@@ -658,47 +658,48 @@
                         <tbody>
                             <tr>
                                 <th>Jenis</th>
-                                <td>${jenis}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][jenisSupport]" value="${jenis}" />${jenis}</td>
                             </tr>
                             <tr>
                                 <th>Unit</th>
                                 <td>${unit}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][unitSupport]" value="${unit}" />${unit}</td>
                             </tr>
                             <tr>
                                 <th>NIK</th>
-                                <td>${nik}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][nikSupport]" value="${nik}" />${nik}</td>
                             </tr>
                             <tr>
                                 <th>Nama</th>
-                                <td>${nama}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][namaSupport]" value="${nama}" />${nama}</td>
                             </tr>
                             <tr>
                                 <th>Tanggal</th>
-                                <td>${tanggal}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][tanggalSupport]" value="${tanggal}" />${tanggal}</td>
                             </tr>
                             <tr>
                                 <th>Shift</th>
-                                <td>${shift}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][shiftSupport]" value="${shift}" />${shift}</td>
                             </tr>
                             <tr>
                                 <th>HM Awal</th>
-                                <td>${hmAwal}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][hmAwalSupport]" value="${hmAwal}" />${hmAwal}</td>
                             </tr>
                             <tr>
                                 <th>HM Akhir</th>
-                                <td>${hmAkhir}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][hmAkhirSupport]" value="${hmAkhir}" />${hmAkhir}</td>
                             </tr>
                             <tr>
                                 <th>HM Cash</th>
-                                <td>${hmCash}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][hmCashSupport]" value="${hmCash}" />${hmCash}</td>
                             </tr>
                             <tr>
                                 <th>Total</th>
-                                <td>${total}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][totalSupport]" value="${total}" />${total}</td>
                             </tr>
                             <tr>
                                 <th>Material</th>
-                                <td>${material}</td>
+                                <td><input type="hidden" name="supports[${supportCount}][materialSupport]" value="${material}" />${material}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -784,16 +785,16 @@
                             <tbody>
                                 <tr>
                                     <th>Start</th>
-                                    <td><input type="hidden" name="start_catatan[]" value="${start}">${start}</td>
+                                    <td><input type="hidden" name="notes[${catatanCount}][start_catatan]" value="${start}">${start}</td>
                                 </tr>
                                 <tr>
                                     <th>End</th>
-                                    <td><input type="hidden" name="end_catatan[]" value="${end}">${end}</td>
+                                    <td><input type="hidden" name="notes[${catatanCount}][end_catatan]" value="${end}">${end}</td>
                                 </tr>
                                 <tr>
                                     <th>Deskripsi</th>
                                     <td style="word-wrap: break-word; white-space: normal; max-width: 100%; overflow-wrap: break-word;">
-                                        <input type="hidden" name="description_catatan[]" value="${description}">${description}
+                                        <input type="hidden" name="notes[${catatanCount}][description_catatan]" value="${description}">${description}
                                     </td>
                                 </tr>
                                 <tr>

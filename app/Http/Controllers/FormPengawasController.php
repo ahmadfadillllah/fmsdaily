@@ -24,9 +24,9 @@ class FormPengawasController extends Controller
             'VHC_GROUPID',
             'VHC_ACTIVE',
         ])
-        ->where('VHC_ID', 'like', 'EX%')
-        ->where('VHC_ACTIVE', true)
-        ->get();
+            ->where('VHC_ID', 'like', 'EX%')
+            ->where('VHC_ACTIVE', true)
+            ->get();
 
         $hd = Unit::select([
             'VHC_ID',
@@ -34,9 +34,9 @@ class FormPengawasController extends Controller
             'VHC_GROUPID',
             'VHC_ACTIVE',
         ])
-        ->where('VHC_ID', 'like', 'HD%')
-        ->where('VHC_ACTIVE', true)
-        ->get();
+            ->where('VHC_ID', 'like', 'HD%')
+            ->where('VHC_ACTIVE', true)
+            ->get();
 
         $mg = Unit::select([
             'VHC_ID',
@@ -44,9 +44,9 @@ class FormPengawasController extends Controller
             'VHC_GROUPID',
             'VHC_ACTIVE',
         ])
-        ->where('VHC_ID', 'like', 'MG%')
-        ->where('VHC_ACTIVE', true)
-        ->get();
+            ->where('VHC_ID', 'like', 'MG%')
+            ->where('VHC_ACTIVE', true)
+            ->get();
 
         $bd = Unit::select([
             'VHC_ID',
@@ -54,9 +54,9 @@ class FormPengawasController extends Controller
             'VHC_GROUPID',
             'VHC_ACTIVE',
         ])
-        ->where('VHC_ID', 'like', 'BD%')
-        ->where('VHC_ACTIVE', true)
-        ->get();
+            ->where('VHC_ID', 'like', 'BD%')
+            ->where('VHC_ACTIVE', true)
+            ->get();
 
         $wt = Unit::select([
             'VHC_ID',
@@ -64,9 +64,9 @@ class FormPengawasController extends Controller
             'VHC_GROUPID',
             'VHC_ACTIVE',
         ])
-        ->where('VHC_ID', 'like', 'WT%')
-        ->where('VHC_ACTIVE', true)
-        ->get();
+            ->where('VHC_ID', 'like', 'WT%')
+            ->where('VHC_ACTIVE', true)
+            ->get();
 
         // $material = DB::connection('sqlsrv')
         // ->table('PRD_MATERIAL')
@@ -125,63 +125,69 @@ class FormPengawasController extends Controller
     public function post(Request $request)
     {
         try {
-            $dailyReport = DailyReport::create([
-                'foreman_id' => Auth::user()->id,
-                'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
-                'shift_dasar' => $request->shift_dasar,
-                'area' => $request->area,
-                'lokasi' => $request->lokasi,
-                'nik_supervisor' => $request->nik_supervisor,
-                'nama_supervisor' => $request->nama_supervisor,
-                'nik_superintendent' => $request->nik_superintendent,
-                'nama_superintendent' => $request->nama_superintendent
-            ]);
-
-            foreach ($request->jenisSupport as $key => $value) {
-                AlatSupport::create([
-                    'daily_report_id' => $dailyReport->id,
-                    'jenis_unit' => $request->jenisSupport[$key],
-                    'alat_unit' => $request->nomorUnitSupport[$key],
-                    'nik_operator' => $request->nikOperatorSupport[$key],
-                    'nama_operator' => $request->namaOperatorSupport[$key],
-                    'tanggal_operator' => now()->parse($request->tanggalSupport[$key])->format('Y-m-d'),
-                    'shift_operator' => $request->shiftSupport[$key],
-                    'hm_awal' => $request->hmAwalSupport[$key],
-                    'hm_akhir' => $request->hmAkhirSupport[$key],
-                    'hm_total' => $request->totalSupport[$key],
-                    'hm_cash' => $request->hmCashSupport[$key],
-                    'material' => $request->materialSupport[$key],
+            return DB::transaction(function () use ($request) {
+                // insert daily report
+                $dailyReport = DailyReport::create([
+                    'foreman_id' => Auth::user()->id,
+                    'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
+                    'shift_dasar' => $request->shift_dasar,
+                    'area' => $request->area,
+                    'lokasi' => $request->lokasi,
+                    'nik_supervisor' => $request->nik_supervisor,
+                    'nama_supervisor' => $request->nama_supervisor,
+                    'nik_superintendent' => $request->nik_superintendent,
+                    'nama_superintendent' => $request->nama_superintendent
                 ]);
-            }
 
-            foreach ($request->start_catatan as $key => $value) {
-                CatatanPengawas::create([
-                    'daily_report_id' => $dailyReport->id,
-                    'jam_start' => $request->start_catatan[$key],
-                    'jam_stop' => $request->end_catatan[$key],
-                    'keterangan' => $request->description_catatan[$key]
-                ]);
-            }
+                // insert alat support
+                foreach ($request->supports as $value) {
+                    AlatSupport::create([
+                        'daily_report_id' => $dailyReport->id,
+                        'jenis_unit' => $value['jenisSupport'],
+                        'alat_unit' => $value['unitSupport'],
+                        'nik_operator' => $value['nikSupport'],
+                        'nama_operator' => $value['namaSupport'],
+                        'tanggal_operator' => now()->parse($value['tanggalSupport'])->format('Y-m-d'),
+                        'shift_operator' => $value['shiftSupport'],
+                        'hm_awal' => $value['hmAwalSupport'],
+                        'hm_akhir' => $value['hmAkhirSupport'],
+                        'hm_total' => $value['totalSupport'],
+                        'hm_cash' => $value['hmCashSupport'],
+                        'material' => $value['materialSupport'],
+                    ]);
+                }
 
-            foreach ($request->front_unit_number as $front_unit) {
-                $timeIndexes = array_keys($front_unit["times"]);
+                // insert notes
+                foreach ($request->notes as $value) {
+                    CatatanPengawas::create([
+                        'daily_report_id' => $dailyReport->id,
+                        'jam_start' => $value['start_catatan'],
+                        'jam_stop' => $value['end_catatan'],
+                        'keterangan' => $value['description_catatan'],
+                    ]);
+                }
 
-                $morning = array_filter($request->front_time_siang, function ($key) use ($timeIndexes) {
-                    return in_array($key, $timeIndexes);
-                }, ARRAY_FILTER_USE_KEY);
-                $night = array_filter($request->front_time_malam, function ($key) use ($timeIndexes) {
-                    return in_array($key, $timeIndexes);
-                }, ARRAY_FILTER_USE_KEY);
+                // insert front loading
+                foreach ($request->front_unit_number as $front_unit) {
+                    $timeIndexes = array_keys($front_unit["times"] ?? []);
 
-                FrontLoading::create([
-                    'daily_report_id' => $dailyReport->id,
-                    'nomor_unit' => $front_unit["name"],
-                    'siang' => json_encode(array_values($morning)),
-                    'malam' => json_encode(array_values($night)),
-                ]);
-            }
+                    $morning = array_filter($request->front_time_siang, function ($key) use ($timeIndexes) {
+                        return in_array($key, $timeIndexes);
+                    }, ARRAY_FILTER_USE_KEY);
+                    $night = array_filter($request->front_time_malam, function ($key) use ($timeIndexes) {
+                        return in_array($key, $timeIndexes);
+                    }, ARRAY_FILTER_USE_KEY);
 
-            return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
+                    FrontLoading::create([
+                        'daily_report_id' => $dailyReport->id,
+                        'nomor_unit' => $front_unit["name"],
+                        'siang' => json_encode(array_values($morning)),
+                        'malam' => json_encode(array_values($night)),
+                    ]);
+                }
+
+                return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
+            });
         } catch (\Throwable $th) {
             return redirect()->route('form-pengawas.index')->with('success', 'Laporan gagal dibuat');
         }
