@@ -256,7 +256,7 @@
                                                                 <th>Siang</th>
                                                                 <th>Malam</th>
                                                                 <th>
-                                                                    <select name="front_unit_number_1"
+                                                                    <select name="front_unit_number[][name]"
                                                                         class="form-control">
                                                                         <option></option>
                                                                         @foreach ($data['EX'] as $exa)
@@ -273,7 +273,7 @@
                                                                         value="07.00 - 08.00">07.00 - 08.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="19.00 - 20.00">19.00 - 20.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][0]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -281,7 +281,7 @@
                                                                         value="08.00 - 09.00">08.00 - 09.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="20.00 - 21.00">20.00 - 21.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][1]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -289,7 +289,7 @@
                                                                         value="09.00 - 10.00">09.00 - 10.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="21.00 - 22.00">21.00 - 22.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][2]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -297,7 +297,7 @@
                                                                         value="10.00 - 11.00">10.00 - 11.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="22.00 - 23.00">22.00 - 23.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][3]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -305,7 +305,7 @@
                                                                         value="11.00 - 12.00">11.00 - 12.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="23.00 - 24.00">23.00 - 24.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][4]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -313,7 +313,7 @@
                                                                         value="12.00 - 13.00">12.00 - 13.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="24.00 - 01.00">24.00 - 01.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][5]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -321,7 +321,7 @@
                                                                         value="13.00 - 14.00">13.00 - 14.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="01.00 - 02.00">01.00 - 02.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][6]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -329,7 +329,7 @@
                                                                         value="14.00 - 15.00">14.00 - 15.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="02.00 - 03.00">02.00 - 03.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][7]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -337,7 +337,7 @@
                                                                         value="15.00 - 16.00">15.00 - 16.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="03.00 - 04.00">03.00 - 04.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][8]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -345,7 +345,7 @@
                                                                         value="16.00 - 17.00">16.00 - 17.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="04.00 - 05.00">04.00 - 05.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][9]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -353,7 +353,7 @@
                                                                         value="17.00 - 18.00">17.00 - 18.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="05.00 - 06.00">05.00 - 06.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][10]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
@@ -361,7 +361,7 @@
                                                                         value="18.00 - 19.00">18.00 - 19.00</td>
                                                                 <td><input type="hidden" name="front_time_malam[]"
                                                                         value="06.00 - 07.00">06.00 - 07.00</td>
-                                                                <td><input type="checkbox" name="front_checkbox_1[]"
+                                                                <td><input type="checkbox" name="front_unit_number[0][times][11]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                         </tbody>
@@ -393,7 +393,6 @@
                                                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahCatatan">
                                                     <i class="fa-solid fa-add"></i> Tambah Catatan
                                                 </button>
-                                                @include('form-pengawas.modal.catatan-pengawas')
                                                 <div class="accordion" id="accordionCatatan"></div>
 
                                             </div>
@@ -452,6 +451,8 @@
 
                                 </div>
                             </form>
+
+                            @include('form-pengawas.modal.catatan-pengawas')
                         </div>
                     </div>
                 </div>
@@ -526,7 +527,7 @@
 
         const newHeader2 = document.createElement('th');
         const selectElement = document.createElement('select');
-        selectElement.name = `front_unit_number_${unitCount}`;
+        selectElement.name = `front_unit_number[][name]`;
         selectElement.classList.add('form-control');
 
         const emptyOption = document.createElement('option');
@@ -546,11 +547,13 @@
         newHeader2.appendChild(selectElement);
         headerRow2.appendChild(newHeader2);
 
+        var index = 0;
         for (const row of tableBody.rows) {
             const newCell = document.createElement('td');
             newCell.innerHTML =
-                `<input type="checkbox" name="front_checkbox_${unitCount}[]" class="form-check-input">`;
+                `<input type="checkbox" name="front_unit_number[${unitCount-1}][times][${index}]" class="form-check-input">`;
             row.appendChild(newCell);
+            index++;
         }
     });
 

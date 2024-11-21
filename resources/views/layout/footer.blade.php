@@ -283,10 +283,19 @@
         var tanggal = new Date();
         endDate.setDate(startDate.getDate() + 0);
 
-        document.getElementById('pc-datepicker-1').value = formatDate(tanggal);
-        document.getElementById('range-start').value = formatDate(startDate);
-        document.getElementById('range-end').value = formatDate(endDate);
+        setDateValue('pc-datepicker-1', tanggal);
+        setDateValue('range-start', startDate);
+        setDateValue('range-end', endDate);
     });
+
+    function setDateValue(elementId, date) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.value = formatDate(date);
+        }
+    }
+
+// Set values if the elements exist
 </script>
 {{-- <script>
     window.addEventListener('beforeunload', () => {

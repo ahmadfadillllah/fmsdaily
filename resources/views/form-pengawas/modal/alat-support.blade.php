@@ -22,6 +22,7 @@
                         <label>Nomor Unit</label>
                         <select class="form-select" id="unitSupport" name="nomorUnitSupport[]" required>
                             <option selected disabled>Pilih unit</option>
+                            <option value="Dummy Unit">Dummy Unit</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -30,7 +31,7 @@
                     </div>
                     <div class="mb-3">
                         <label>Nama Operator</label>
-                        <input type="text" id="namaSupport" class="form-control" name="namaOperatorSupport[]" readonly>
+                        <input type="text" id="namaSupport" class="form-control" name="namaOperatorSupport[]">
                     </div>
                     <div class="mb-3">
                         <label>Tanggal</label>

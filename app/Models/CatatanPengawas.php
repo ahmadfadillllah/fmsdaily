@@ -9,5 +9,12 @@ class CatatanPengawas extends Model
     //
     protected $table = 'catatan_pengawas';
 
+    protected $fillable = [
+        'daily_report_id',
+        'jam_start',
+        'jam_stop',
+        'keterangan',
+    ];
+
     protected $guarded = [];
 }

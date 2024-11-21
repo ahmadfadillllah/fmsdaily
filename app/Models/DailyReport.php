@@ -9,5 +9,16 @@ class DailyReport extends Model
     //
     protected $table = 'daily_report';
 
+    protected $fillable = [
+        'foreman_id',
+        'tanggal_dasar',
+        'shift_dasar',
+        'area',
+        'nik_supervisor',
+        'nama_supervisor',
+        'nik_superintendent',
+        'nama_superintendent',
+    ];
+
     protected $guarded = [];
 }
