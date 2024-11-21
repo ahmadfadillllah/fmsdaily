@@ -379,7 +379,6 @@
                                                 <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahSupportModal">
                                                     <i class="fa-solid fa-add"></i> Tambah Alat Support
                                                 </button>
-                                                @include('form-pengawas.modal.alat-support')
                                                 <div class="accordion" id="accordionSupport"></div>
                                             </div>
                                         </div>
@@ -453,6 +452,7 @@
                             </form>
 
                             @include('form-pengawas.modal.catatan-pengawas')
+                            @include('form-pengawas.modal.alat-support')
                         </div>
                     </div>
                 </div>
@@ -725,8 +725,8 @@
             }
         });
 
-        // // Reset form setelah data ditambahkan
-        // document.getElementById('formSupport').reset();
+        // Reset form setelah data ditambahkan
+        document.getElementById('formSupport').reset();
     });
 
     // Fungsi untuk menghapus item support
