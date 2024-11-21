@@ -6,6 +6,7 @@ use App\Models\AlatSupport;
 use App\Models\CatatanPengawas;
 use App\Models\DailyReport;
 use App\Models\FrontLoading;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,65 +18,55 @@ class FormPengawasController extends Controller
     //
     public function index()
     {
-        // $ex = DB::connection('sqlsrv')
-        // ->table('FLT_VEHICLE')
-        // ->select([
-        //     'VHC_ID',
-        //     'VHC_TYPEID',
-        //     'VHC_GROUPID',
-        //     'VHC_ACTIVE',
-        // ])
-        // ->where('VHC_ID', 'like', 'EX%')
-        // ->where('VHC_ACTIVE', true)
-        // ->get();
+        $ex = Unit::select([
+            'VHC_ID',
+            'VHC_TYPEID',
+            'VHC_GROUPID',
+            'VHC_ACTIVE',
+        ])
+        ->where('VHC_ID', 'like', 'EX%')
+        ->where('VHC_ACTIVE', true)
+        ->get();
 
-        // $hd = DB::connection('sqlsrv')
-        // ->table('FLT_VEHICLE')
-        // ->select([
-        //     'VHC_ID',
-        //     'VHC_TYPEID',
-        //     'VHC_GROUPID',
-        //     'VHC_ACTIVE',
-        // ])
-        // ->where('VHC_ID', 'like', 'HD%')
-        // ->where('VHC_ACTIVE', true)
-        // ->get();
+        $hd = Unit::select([
+            'VHC_ID',
+            'VHC_TYPEID',
+            'VHC_GROUPID',
+            'VHC_ACTIVE',
+        ])
+        ->where('VHC_ID', 'like', 'HD%')
+        ->where('VHC_ACTIVE', true)
+        ->get();
 
-        // $mg = DB::connection('sqlsrv')
-        // ->table('FLT_VEHICLE')
-        // ->select([
-        //     'VHC_ID',
-        //     'VHC_TYPEID',
-        //     'VHC_GROUPID',
-        //     'VHC_ACTIVE',
-        // ])
-        // ->where('VHC_ID', 'like', 'MG%')
-        // ->where('VHC_ACTIVE', true)
-        // ->get();
+        $mg = Unit::select([
+            'VHC_ID',
+            'VHC_TYPEID',
+            'VHC_GROUPID',
+            'VHC_ACTIVE',
+        ])
+        ->where('VHC_ID', 'like', 'MG%')
+        ->where('VHC_ACTIVE', true)
+        ->get();
 
-        // $bd = DB::connection('sqlsrv')
-        // ->table('FLT_VEHICLE')
-        // ->select([
-        //     'VHC_ID',
-        //     'VHC_TYPEID',
-        //     'VHC_GROUPID',
-        //     'VHC_ACTIVE',
-        // ])
-        // ->where('VHC_ID', 'like', 'BD%')
-        // ->where('VHC_ACTIVE', true)
-        // ->get();
+        $bd = Unit::select([
+            'VHC_ID',
+            'VHC_TYPEID',
+            'VHC_GROUPID',
+            'VHC_ACTIVE',
+        ])
+        ->where('VHC_ID', 'like', 'BD%')
+        ->where('VHC_ACTIVE', true)
+        ->get();
 
-        // $wt = DB::connection('sqlsrv')
-        // ->table('FLT_VEHICLE')
-        // ->select([
-        //     'VHC_ID',
-        //     'VHC_TYPEID',
-        //     'VHC_GROUPID',
-        //     'VHC_ACTIVE',
-        // ])
-        // ->where('VHC_ID', 'like', 'WT%')
-        // ->where('VHC_ACTIVE', true)
-        // ->get();
+        $wt = Unit::select([
+            'VHC_ID',
+            'VHC_TYPEID',
+            'VHC_GROUPID',
+            'VHC_ACTIVE',
+        ])
+        ->where('VHC_ID', 'like', 'WT%')
+        ->where('VHC_ACTIVE', true)
+        ->get();
 
         // $material = DB::connection('sqlsrv')
         // ->table('PRD_MATERIAL')
@@ -84,71 +75,6 @@ class FormPengawasController extends Controller
         //     'MAT_DESC',
         //     'MAT_DENSITY',
         // ])->get();
-
-        $ex = collect([
-            (object) ['VHC_ID' => 'EX001', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX002', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX003', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX004', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX005', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX006', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX007', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX008', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX009', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'EX010', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-        ]);
-
-        $hd = collect([
-            (object) ['VHC_ID' => 'HD001', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD002', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD003', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD004', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD005', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD006', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD007', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD008', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD009', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'HD010', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-        ]);
-
-        $mg = collect([
-            (object) ['VHC_ID' => 'MG001', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG002', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG003', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG004', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG005', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG006', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG007', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG008', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG009', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'MG010', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-        ]);
-
-        $bd = collect([
-            (object) ['VHC_ID' => 'BD001', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD002', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD003', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD004', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD005', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD006', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD007', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD008', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD009', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'BD010', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-        ]);
-
-        $wt = collect([
-            (object) ['VHC_ID' => 'WT001', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT002', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT003', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT004', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT005', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT006', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT007', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT008', 'VHC_TYPEID' => 2, 'VHC_GROUPID' => 2, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT009', 'VHC_TYPEID' => 3, 'VHC_GROUPID' => 3, 'VHC_ACTIVE' => true],
-            (object) ['VHC_ID' => 'WT010', 'VHC_TYPEID' => 1, 'VHC_GROUPID' => 1, 'VHC_ACTIVE' => true],
-        ]);
 
         $material = collect([
             (object) ['MAT_ID' => 'M001', 'MAT_DESC' => 'Material 1', 'MAT_DENSITY' => 2.3],
