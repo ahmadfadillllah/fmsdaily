@@ -6,7 +6,9 @@ use App\Models\AlatSupport;
 use App\Models\CatatanPengawas;
 use App\Models\DailyReport;
 use App\Models\FrontLoading;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
@@ -176,29 +178,7 @@ class FormPengawasController extends Controller
     {
         $nik = $request->query('nik');
 
-        // Data dummy di $data['users']
-        $data['users'] = collect([
-            (object) ['nik' => '0123S1', 'name' => 'Andi'],
-            (object) ['nik' => '0123S2', 'name' => 'Budi'],
-            (object) ['nik' => '0123S3', 'name' => 'Citra'],
-            (object) ['nik' => '0123S4', 'name' => 'Dewi'],
-            (object) ['nik' => '0123S5', 'name' => 'Eko'],
-            (object) ['nik' => '0123S6', 'name' => 'Fajar'],
-            (object) ['nik' => '0123S7', 'name' => 'Gita'],
-            (object) ['nik' => '0123S8', 'name' => 'Hendra'],
-            (object) ['nik' => '0123S9', 'name' => 'Indah'],
-            (object) ['nik' => '0123S10', 'name' => 'Joko'],
-            (object) ['nik' => '0123S11', 'name' => 'Kiki'],
-            (object) ['nik' => '0123S12', 'name' => 'Lina'],
-            (object) ['nik' => '0123S13', 'name' => 'Mira'],
-            (object) ['nik' => '0123S14', 'name' => 'Nina'],
-            (object) ['nik' => '0123S15', 'name' => 'Oki'],
-            (object) ['nik' => '0123S16', 'name' => 'Putra'],
-            (object) ['nik' => '0123S17', 'name' => 'Qori'],
-            (object) ['nik' => '0123S18', 'name' => 'Rina'],
-            (object) ['nik' => '0123S19', 'name' => 'Sari'],
-            (object) ['nik' => '0123S20', 'name' => 'Tono'],
-        ]);
+        $data['users'] = User::where('role', '!=', 'Admin')->get();
 
         // Mencari user berdasarkan NIK
         $user = $data['users']->firstWhere('nik', $nik);
@@ -219,7 +199,7 @@ class FormPengawasController extends Controller
     public function post(Request $request)
     {
         $dailyReport = DailyReport::create([
-            'foreman_id' => auth()->user()->id,
+            'foreman_id' => Auth::user()->id,
             'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
             'shift_dasar' => $request->shift_dasar,
             'area' => $request->area,
