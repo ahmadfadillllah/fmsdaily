@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
+class Personal extends Model
 {
     //
     protected $connection = 'focus';
-    protected $table = 'FLT_VEHICLE';
+    protected $table = 'PRS_PERSONAL';
 
     protected $guarded = [];
 }

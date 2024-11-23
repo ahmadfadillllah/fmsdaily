@@ -112,6 +112,29 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'daily' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', '10.10.3.73'),
+            'port'     => env('DB_PORT', '1433'),
+            'database' => 'DAILY',
+            'username' => env('DB_USERNAME', 'focus'),
+            'password' => env('DB_PASSWORD', 'sims12345A'),
+            'charset'  => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'   => '',
+        ],
+        'focus' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', '10.10.3.73'),
+            'port'     => env('DB_PORT', '1433'),
+            'database' => 'FOCUS',
+            'username' => env('DB_USERNAME', 'focus'),
+            'password' => env('DB_PASSWORD', 'sims12345A'),
+            'charset'  => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'   => '',
+        ],
+
     ],
 
     /*

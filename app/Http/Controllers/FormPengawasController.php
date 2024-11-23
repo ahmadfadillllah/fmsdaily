@@ -6,6 +6,8 @@ use App\Models\AlatSupport;
 use App\Models\CatatanPengawas;
 use App\Models\DailyReport;
 use App\Models\FrontLoading;
+use App\Models\Material;
+use App\Models\Personal;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -76,26 +78,11 @@ class FormPengawasController extends Controller
             ->where('VHC_ACTIVE', true)
             ->get();
 
-        $material = DB::connection('sqlsrv')
-        ->table('PRD_MATERIAL')
-        ->select([
+        $material = Material::select([
             'MAT_ID',
             'MAT_DESC',
             'MAT_DENSITY',
         ])->get();
-
-        $material = collect([
-            (object) ['MAT_ID' => 'M001', 'MAT_DESC' => 'Material 1', 'MAT_DENSITY' => 2.3],
-            (object) ['MAT_ID' => 'M002', 'MAT_DESC' => 'Material 2', 'MAT_DENSITY' => 1.7],
-            (object) ['MAT_ID' => 'M003', 'MAT_DESC' => 'Material 3', 'MAT_DENSITY' => 3.1],
-            (object) ['MAT_ID' => 'M004', 'MAT_DESC' => 'Material 4', 'MAT_DENSITY' => 2.6],
-            (object) ['MAT_ID' => 'M005', 'MAT_DESC' => 'Material 5', 'MAT_DENSITY' => 1.9],
-            (object) ['MAT_ID' => 'M006', 'MAT_DESC' => 'Material 6', 'MAT_DENSITY' => 2.2],
-            (object) ['MAT_ID' => 'M007', 'MAT_DESC' => 'Material 7', 'MAT_DENSITY' => 3.3],
-            (object) ['MAT_ID' => 'M008', 'MAT_DESC' => 'Material 8', 'MAT_DENSITY' => 2.8],
-            (object) ['MAT_ID' => 'M009', 'MAT_DESC' => 'Material 9', 'MAT_DENSITY' => 2.5],
-            (object) ['MAT_ID' => 'M010', 'MAT_DESC' => 'Material 10', 'MAT_DENSITY' => 1.8],
-        ]);
 
         $data = [
             'HD' => $hd,
@@ -112,15 +99,15 @@ class FormPengawasController extends Controller
     {
         $nik = $request->query('nik');
 
-        $data['users'] = User::where('role', '!=', 'Admin')->get();
+        $data['users'] = Personal::where('ROLETYPE', 2)->get();
 
         // Mencari user berdasarkan NIK
-        $user = $data['users']->firstWhere('nik', $nik);
+        $user = $data['users']->firstWhere('NRP', $nik);
 
         if ($user) {
             return Response::json([
                 'success' => true,
-                'name' => $user->name,
+                'name' => $user->PERSONALNAME,
             ]);
         } else {
             return Response::json([
