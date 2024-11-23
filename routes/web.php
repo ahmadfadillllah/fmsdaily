@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontLoadingController;
 use App\Http\Controllers\KLKHDisposalController;
 use App\Http\Controllers\KLKHHaulRoadController;
 use App\Http\Controllers\KLKHLoadingPointController;
+use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/form-pengawas/search-users', [FormPengawasController::class, 'users'])->name('cariUsers');
+
+    Route::get('/production/index', [ProductionController::class, 'index'])->name('production.index');
 
     //Form Pengawas
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');

@@ -76,13 +76,13 @@ class FormPengawasController extends Controller
             ->where('VHC_ACTIVE', true)
             ->get();
 
-        // $material = DB::connection('sqlsrv')
-        // ->table('PRD_MATERIAL')
-        // ->select([
-        //     'MAT_ID',
-        //     'MAT_DESC',
-        //     'MAT_DENSITY',
-        // ])->get();
+        $material = DB::connection('sqlsrv')
+        ->table('PRD_MATERIAL')
+        ->select([
+            'MAT_ID',
+            'MAT_DESC',
+            'MAT_DENSITY',
+        ])->get();
 
         $material = collect([
             (object) ['MAT_ID' => 'M001', 'MAT_DESC' => 'Material 1', 'MAT_DENSITY' => 2.3],
@@ -147,51 +147,56 @@ class FormPengawasController extends Controller
                     'nama_superintendent' => $request->nama_superintendent
                 ]);
 
-                // insert alat support
-                foreach ($request->supports as $value) {
-                    AlatSupport::create([
-                        'daily_report_id' => $dailyReport->id,
-                        'jenis_unit' => $value['jenisSupport'],
-                        'alat_unit' => $value['unitSupport'],
-                        'nik_operator' => $value['nikSupport'],
-                        'nama_operator' => $value['namaSupport'],
-                        'tanggal_operator' => now()->parse($value['tanggalSupport'])->format('Y-m-d'),
-                        'shift_operator' => $value['shiftSupport'],
-                        'hm_awal' => $value['hmAwalSupport'],
-                        'hm_akhir' => $value['hmAkhirSupport'],
-                        'hm_total' => $value['totalSupport'],
-                        'hm_cash' => $value['hmCashSupport'],
-                        'material' => $value['materialSupport'],
-                    ]);
-                }
-
-                // insert notes
-                foreach ($request->notes as $value) {
-                    CatatanPengawas::create([
-                        'daily_report_id' => $dailyReport->id,
-                        'jam_start' => $value['start_catatan'],
-                        'jam_stop' => $value['end_catatan'],
-                        'keterangan' => $value['description_catatan'],
-                    ]);
-                }
-
                 // insert front loading
-                foreach ($request->front_unit_number as $front_unit) {
-                    $timeIndexes = array_keys($front_unit["times"] ?? []);
+                if (!empty($request->front_unit_number)) {
+                    foreach ($request->front_unit_number as $front_unit) {
+                        $timeIndexes = array_keys($front_unit["times"] ?? []);
 
-                    $morning = array_filter($request->front_time_siang, function ($key) use ($timeIndexes) {
-                        return in_array($key, $timeIndexes);
-                    }, ARRAY_FILTER_USE_KEY);
-                    $night = array_filter($request->front_time_malam, function ($key) use ($timeIndexes) {
-                        return in_array($key, $timeIndexes);
-                    }, ARRAY_FILTER_USE_KEY);
+                        $morning = array_filter($request->front_time_siang, function ($key) use ($timeIndexes) {
+                            return in_array($key, $timeIndexes);
+                        }, ARRAY_FILTER_USE_KEY);
+                        $night = array_filter($request->front_time_malam, function ($key) use ($timeIndexes) {
+                            return in_array($key, $timeIndexes);
+                        }, ARRAY_FILTER_USE_KEY);
 
-                    FrontLoading::create([
-                        'daily_report_id' => $dailyReport->id,
-                        'nomor_unit' => $front_unit["name"],
-                        'siang' => json_encode(array_values($morning)),
-                        'malam' => json_encode(array_values($night)),
-                    ]);
+                        FrontLoading::create([
+                            'daily_report_id' => $dailyReport->id,
+                            'nomor_unit' => $front_unit["name"],
+                            'siang' => json_encode(array_values($morning)),
+                            'malam' => json_encode(array_values($night)),
+                        ]);
+                    }
+                }
+
+                // insert alat support
+                if (!empty($request->supports)) {
+                    foreach ($request->supports as $value) {
+                        AlatSupport::create([
+                            'daily_report_id' => $dailyReport->id,
+                            'jenis_unit' => $value['jenisSupport'],
+                            'alat_unit' => $value['unitSupport'],
+                            'nik_operator' => $value['nikSupport'],
+                            'nama_operator' => $value['namaSupport'],
+                            'tanggal_operator' => now()->parse($value['tanggalSupport'])->format('Y-m-d'),
+                            'shift_operator' => $value['shiftSupport'],
+                            'hm_awal' => $value['hmAwalSupport'],
+                            'hm_akhir' => $value['hmAkhirSupport'],
+                            'hm_total' => $value['totalSupport'],
+                            'hm_cash' => $value['hmCashSupport'],
+                            'material' => $value['materialSupport'],
+                        ]);
+                    }
+                }
+
+                if (!empty($request->notes)) {
+                    foreach ($request->notes as $value) {
+                        CatatanPengawas::create([
+                            'daily_report_id' => $dailyReport->id,
+                            'jam_start' => $value['start_catatan'],
+                            'jam_stop' => $value['end_catatan'],
+                            'keterangan' => $value['description_catatan'],
+                        ]);
+                    }
                 }
 
                 return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
