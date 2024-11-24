@@ -4,7 +4,12 @@
 
 <div class="pc-container">
     <div class="pc-content">
+
         <div class="row">
+            <div id="notifier" class="notifier-container">
+                <span id="notification-message"></span>
+
+            </div>
             <!-- [ sample-page ] start -->
             <div class="col-lg-12 col-xxl-12">
                 <div class="card">

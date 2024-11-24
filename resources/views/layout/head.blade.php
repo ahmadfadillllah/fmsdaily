@@ -17,7 +17,7 @@
     <meta name="author" content="FMS - PT. SIMS JAYA KALTIM">
     <link rel="icon" href="{{ asset('dashboard/assets') }}/images/icon.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/inter/inter.css" id="main-font-link">
+    <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/inter/inter.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/phosphor/duotone/style.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/tabler-icons.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/feather.css">
@@ -27,9 +27,11 @@
     <script src="{{ asset('dashboard/assets') }}/js/tech-stack.js"></script>
     <script src="{{ asset('dashboard/assets') }}/js/hak-akses.js"></script>
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/style-preset.css">
+    {{-- <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/uikit.css"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/style-spinner.css"> --}}
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/plugins/datepicker-bs5.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/plugins/flatpickr.min.css">
+    <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/plugins/notifier.css">
     {{-- SweetAlert --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -59,5 +61,40 @@
             /* Menambahkan warna latar belakang */
             margin: 20px 0;
             /* Menambahkan jarak vertikal di atas dan bawah garis */
+        }
+    </style>
+    <style>
+        .notifier-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background-color: #001831;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease-in-out;
+            max-width: 90%;
+        }
+
+        .notifier-container.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .notifier-container.hide {
+            opacity: 0;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .notifier-container {
+                top: 10px;
+                right: 10px;
+                font-size: 14px;
+                padding: 10px;
+            }
         }
     </style>
