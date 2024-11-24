@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('daily_report', function (Blueprint $table) {
+        Schema::create('daily_report_t', function (Blueprint $table) {
             $table->id();
-            $table->integer('foreman_id');
+            $table->foreignId('foreman_id')->constrained('users');
+            $table->boolean('statusenabled');
             $table->date('tanggal_dasar')->nullable();
             $table->string('shift_dasar')->nullable();
             $table->string('area')->nullable();
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('daily_report');
+        Schema::dropIfExists('daily_report_t');
     }
 };

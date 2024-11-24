@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DailyReport extends Model
 {
     //
-    protected $table = 'daily_report';
+    protected $table = 'daily_report_t';
 
     protected $fillable = [
         'foreman_id',

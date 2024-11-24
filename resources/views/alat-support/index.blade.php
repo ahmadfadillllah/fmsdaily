@@ -17,14 +17,14 @@
                     <div class="col-12">
                         <div class="mb-3 row d-flex align-items-center">
                             <div class="col-sm-12 col-md-10 mb-2">
-                                <div class="input-group" id="pc-datepicker-5">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Start date"
-                                        name="range-start" style="max-width: 200px;" id="range-start">
-                                    <span class="input-group-text">s/d</span>
-                                    <input type="text" class="form-control form-control-sm" placeholder="End date"
-                                        name="range-end" style="max-width: 200px;" id="range-end">
-                                    <button type="button" class="btn btn-primary btn-sm">View Report</button>
-                                </div>
+                                <form action="" method="get">
+                                    <div class="input-group" id="pc-datepicker-6">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
+                                        <span class="input-group-text">s/d</span>
+                                        <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
+                                        <button type="submit" class="btn btn-primary btn-sm">View Report</button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="col-sm-12 col-md-2 mb-2 text-md-end text-center">
                                 <button type="button" class="btn btn-success w-100 w-md-auto">
@@ -74,39 +74,33 @@
                                         <th>Cash</th>
                                     </tr>
                                 </thead>
-                                {{-- <tbody>
-                                    <tr>
-                                        <td>17-11-2024</td>
-                                        <td>Malam</td>
-                                        <td>SM-B1</td>
-                                        <td>Loading Point</td>
-                                        <td>0555S</td>
-                                        <td>Abdul Wahab</td>
-                                        <td>0175S</td>
-                                        <td>Agustinus</td>
-                                        <td>0112S</td>
-                                        <td>Suroso</td>
-                                        <td>08:00</td>
-                                        <td>08:25</td>
-                                        <td>Road maintenance setelah hujan</td>
-                                    </tr>
-                                    <tr>
-                                        <td>17-11-2024</td>
-                                        <td>Malam</td>
-                                        <td>SM-B2</td>
-                                        <td>Loading Point</td>
-                                        <td>0555S</td>
-                                        <td>Abdul Wahab</td>
-                                        <td>0175S</td>
-                                        <td>Agustinus</td>
-                                        <td>0112S</td>
-                                        <td>Suroso</td>
-                                        <td>08:00</td>
-                                        <td>08:25</td>
-                                        <td>Road maintenance setelah hujan</td>
-                                    </tr>
-
-                                </tbody> --}}
+                                <tbody>
+                                    @foreach ($support as $item)
+                                        <tr>
+                                            <td>{{ $item['tanggal_pelaporan'] }}</td>
+                                            <td>{{ $item['shift'] }}</td>
+                                            <td>{{ $item['area'] }}</td>
+                                            <td>{{ $item['lokasi'] }}</td>
+                                            <td>{{ $item['jenis_unit'] }}</td>
+                                            <td>{{ $item['nomor_unit'] }}</td>
+                                            <td>{{ $item['nik_operator'] }}</td>
+                                            <td>{{ $item['nama_operator'] }}</td>
+                                            <td>{{ $item['tanggal_operator'] }}</td>
+                                            <td>{{ $item['shift_operator'] }}</td>
+                                            <td>{{ $item['nik_foreman'] }}</td>
+                                            <td>{{ $item['nama_foreman'] }}</td>
+                                            <td>{{ $item['nik_supervisor'] }}</td>
+                                            <td>{{ $item['nama_supervisor'] }}</td>
+                                            <td>{{ $item['nik_superintendent'] }}</td>
+                                            <td>{{ $item['nama_superintendent'] }}</td>
+                                            <td>{{ $item['hm_awal'] }}</td>
+                                            <td>{{ $item['hm_akhir'] }}</td>
+                                            <td>{{ $item['hm_akhir'] - $item['hm_awal'] }}</td>
+                                            <td>{{ $item['hm_cash'] }}</td>
+                                            <td>{{ $item['material'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -117,3 +111,12 @@
 </section>
 
 @include('layout.footer')
+<script>
+    // range picker
+    (function () {
+        const datepicker_range = new DateRangePicker(document.querySelector('#pc-datepicker-6'), {
+            buttonClass: 'btn'
+        });
+    })();
+
+</script>

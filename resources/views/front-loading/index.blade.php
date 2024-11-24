@@ -16,15 +16,17 @@
                     <div class="col-12">
                         <div class="mb-3 row d-flex align-items-center">
                             <div class="col-sm-12 col-md-10 mb-2">
-                                <div class="input-group" id="pc-datepicker-5">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Start date" name="range-start" style="max-width: 200px;" id="range-start">
-                                    <span class="input-group-text">s/d</span>
-                                    <input type="text" class="form-control form-control-sm" placeholder="End date" name="range-end" style="max-width: 200px;" id="range-end">
-                                    <button type="button" class="btn btn-primary btn-sm">View Report</button>
-                                </div>
+                                <form action="" method="get">
+                                    <div class="input-group" id="pc-datepicker-5">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
+                                        <span class="input-group-text">s/d</span>
+                                        <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
+                                        <button type="submit" class="btn btn-primary btn-sm">View Report</button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="col-sm-12 col-md-2 mb-2 text-md-end text-center">
-                                <a href="{{ route('front-loading.download') }}" class="btn btn-success w-100 w-md-auto">
+                                <a href="#" class="btn btn-success w-100 w-md-auto">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </div>
@@ -46,15 +48,14 @@
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Area</th>
                                         <th rowspan="2">Lokasi</th>
-                                        <th colspan="2">Jam</th>
+                                        <th rowspan="2">Waktu</th>
+                                        <th rowspan="2">Jam</th>
                                         <th rowspan="2">Nomor Unit</th>
                                         <th colspan="2">Foreman</th>
                                         <th colspan="2">Supervisor</th>
                                         <th colspan="2">Superintendent</th>
                                     </tr>
                                     <tr>
-                                        <th>Siang</th>
-                                        <th>Malam</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
                                         <th>NIK</th>
@@ -64,36 +65,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>17-11-2024</td>
-                                        <td>Malam</td>
-                                        <td>SM-B1</td>
-                                        <td>Loading Point</td>
-                                        <td>08.00 - 09.00</td>
-                                        <td>20.00 - 21.00</td>
-                                        <td>EX267</td>
-                                        <td>0555S</td>
-                                        <td>Abdul Wahab</td>
-                                        <td>0175S</td>
-                                        <td>Agustinus</td>
-                                        <td>0112S</td>
-                                        <td>Suroso</td>
-                                    </tr>
-                                    <tr>
-                                        <td>17-11-2024</td>
-                                        <td>Malam</td>
-                                        <td>SM-B2</td>
-                                        <td>Loading Point</td>
-                                        <td>08.00 - 09.00</td>
-                                        <td>20.00 - 21.00</td>
-                                        <td>EX268</td>
-                                        <td>0555S</td>
-                                        <td>Abdul Wahab</td>
-                                        <td>0175S</td>
-                                        <td>Agustinus</td>
-                                        <td>0112S</td>
-                                        <td>Suroso</td>
-                                    </tr>
+                                    @foreach ($front as $item)
+                                        <tr>
+                                            <td>{{ $item['tanggal_pelaporan'] }}</td>
+                                            <td>{{ $item['shift'] }}</td>
+                                            <td>{{ $item['area'] }}</td>
+                                            <td>{{ $item['lokasi'] }}</td>
+                                            <td>{{ $item['shift_dasar'] }}</td>
+                                            <td>{{ $item['jam'] }}</td>
+                                            <td>{{ $item['nomor_unit'] }}</td>
+                                            <td>{{ $item['nik_foreman'] }}</td>
+                                            <td>{{ $item['nama_foreman'] }}</td>
+                                            <td>{{ $item['nik_supervisor'] }}</td>
+                                            <td>{{ $item['nama_supervisor'] }}</td>
+                                            <td>{{ $item['nik_superintendent'] }}</td>
+                                            <td>{{ $item['nama_superintendent'] }}</td>
+                                        </tr>
+                                    @endforeach
 
                                 </tbody>
                             </table>

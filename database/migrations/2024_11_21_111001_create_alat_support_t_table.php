@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alat_support', function (Blueprint $table) {
+        Schema::create('alat_support_t', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_report_id');
+            $table->foreignId('daily_report_id')->constrained('daily_report_t');
+            $table->boolean('statusenabled');
             $table->string('jenis_unit')->nullable();
             $table->string('alat_unit')->nullable();
             $table->string('nik_operator')->nullable();
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alat_support');
+        Schema::dropIfExists('alat_support_t');
     }
 };

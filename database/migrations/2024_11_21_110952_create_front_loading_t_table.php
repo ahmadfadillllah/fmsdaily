@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('front_loading', function (Blueprint $table) {
+        Schema::create('front_loading_t', function (Blueprint $table) {
             $table->id();
-            $table->integer('daily_report_id');
+            $table->foreignId('daily_report_id')->constrained('daily_report_t');
+            $table->boolean('statusenabled');
             $table->string('nomor_unit')->nullable();
             $table->string('siang')->nullable();
             $table->string('malam')->nullable();
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('front_loading');
+        Schema::dropIfExists('front_loading_t');
     }
 };

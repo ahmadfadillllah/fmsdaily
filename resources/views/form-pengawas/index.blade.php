@@ -658,47 +658,47 @@
                         <tbody>
                             <tr>
                                 <th>Jenis</th>
-                                <td>${jenis}</td>
+                                <td <input type="hidden" name="jenisSupport[]" value="${jenis}">${jenis}</td>
                             </tr>
                             <tr>
                                 <th>Unit</th>
-                                <td>${unit}</td>
+                                <td <input type="hidden" name="nomorUnitSupport[]" value="${unit}">${unit}</td>
                             </tr>
                             <tr>
                                 <th>NIK</th>
-                                <td>${nik}</td>
+                                <td <input type="hidden" name="nikOperatorSupport[]" value="${nik}">${nik}</td>
                             </tr>
                             <tr>
                                 <th>Nama</th>
-                                <td>${nama}</td>
+                                <td <input type="hidden" name="namaOperatorSupport[]" value="${nama}">${nama}</td>
                             </tr>
                             <tr>
                                 <th>Tanggal</th>
-                                <td>${tanggal}</td>
+                                <td <input type="hidden" name="tanggalSupport[]" value="${tanggal}">${tanggal}</td>
                             </tr>
                             <tr>
                                 <th>Shift</th>
-                                <td>${shift}</td>
+                                <td <input type="hidden" name="shiftSupport[]" value="${shift}">${shift}</td>
                             </tr>
                             <tr>
                                 <th>HM Awal</th>
-                                <td>${hmAwal}</td>
+                                <td <input type="hidden" name="hmAwalSupport[]" value="${hmAwal}">${hmAwal}</td>
                             </tr>
                             <tr>
                                 <th>HM Akhir</th>
-                                <td>${hmAkhir}</td>
+                                <td <input type="hidden" name="hmAkhirSupport[]" value="${hmAkhir}">${hmAkhir}</td>
                             </tr>
                             <tr>
                                 <th>HM Cash</th>
-                                <td>${hmCash}</td>
+                                <td <input type="hidden" name="hmCashSupport[]" value="${hmCash}">${hmCash}</td>
                             </tr>
                             <tr>
                                 <th>Total</th>
-                                <td>${total}</td>
+                                <td <input type="hidden" name="totalSupport[]" value="${total}">${total}</td>
                             </tr>
                             <tr>
                                 <th>Material</th>
-                                <td>${material}</td>
+                                <td <input type="hidden" name="materialSupport[]" value="${material}">${material}</td>
                             </tr>
                         </tbody>
                     </table>

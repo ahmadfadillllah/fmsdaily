@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function (Blueprint $table) {
+        Schema::create('catatan_pengawas_t', function (Blueprint $table) {
             $table->id();
-            $table->string('vhc_id');
-            $table->integer('vhc_typeid');
-            $table->integer('vhc_groupid');
-            $table->string('equ_groupid');
-            $table->string('equ_typeid');
-            $table->boolean('vhc_active');
+            $table->foreignId('daily_report_id')->constrained('daily_report_t');
+            $table->boolean('statusenabled');
+            $table->time('jam_start')->nullable();
+            $table->time('jam_stop')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit');
+        Schema::dropIfExists('catatan_pengawas_t');
     }
 };

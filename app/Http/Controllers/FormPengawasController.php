@@ -108,17 +108,21 @@ class FormPengawasController extends Controller
             return Response::json([
                 'success' => true,
                 'name' => $user->PERSONALNAME,
+                'by' => 'ahmadfadillah'
             ]);
         } else {
             return Response::json([
                 'success' => false,
                 'message' => 'User tidak ditemukan',
+                'by' => 'ahmadfadillah'
             ]);
         }
     }
 
     public function post(Request $request)
     {
+
+        // dd($request->all());
         try {
             return DB::transaction(function () use ($request) {
                 // insert daily report
@@ -148,6 +152,7 @@ class FormPengawasController extends Controller
 
                         FrontLoading::create([
                             'daily_report_id' => $dailyReport->id,
+                            'statusenabled'=> true,
                             'nomor_unit' => $front_unit["name"],
                             'siang' => json_encode(array_values($morning)),
                             'malam' => json_encode(array_values($night)),
@@ -156,10 +161,11 @@ class FormPengawasController extends Controller
                 }
 
                 // insert alat support
-                if (!empty($request->supports)) {
+                // if (!empty($request->supports)) {
                     foreach ($request->supports as $value) {
                         AlatSupport::create([
                             'daily_report_id' => $dailyReport->id,
+                            'statusenabled'=> true,
                             'jenis_unit' => $value['jenisSupport'],
                             'alat_unit' => $value['unitSupport'],
                             'nik_operator' => $value['nikSupport'],
@@ -173,15 +179,18 @@ class FormPengawasController extends Controller
                             'material' => $value['materialSupport'],
                         ]);
                     }
-                }
+                // }
 
-                if (!empty($request->notes)) {
-                    foreach ($request->notes as $value) {
+                if (!empty($request->start_catatan) && !empty($request->end_catatan)) {
+                    foreach ($request->start_catatan as $index => $start) {
+                        $end = $request->end_catatan[$index];
+                        $description = $request->description_catatan[$index];
+
                         CatatanPengawas::create([
                             'daily_report_id' => $dailyReport->id,
-                            'jam_start' => $value['start_catatan'],
-                            'jam_stop' => $value['end_catatan'],
-                            'keterangan' => $value['description_catatan'],
+                            'jam_start' => $start,
+                            'jam_stop' => $end,
+                            'keterangan' => $description,
                         ]);
                     }
                 }

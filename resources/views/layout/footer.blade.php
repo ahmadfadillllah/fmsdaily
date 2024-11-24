@@ -272,33 +272,28 @@
 
     </script>
 <script>
-    function formatDate(date) {
-        let day = ("0" + date.getDate()).slice(-2);
-        let month = ("0" + (date.getMonth() + 1)).slice(-2);
-        let year = date.getFullYear();
-        return month + "/" + day + "/" + year;
+    function getQueryParam(name, defaultValue) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name) || defaultValue;
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        var startDate = new Date();
-        var endDate = new Date();
-        var tanggal = new Date();
-        endDate.setDate(startDate.getDate() + 0);
-
-        setDateValue('pc-datepicker-1', tanggal);
-        setDateValue('range-start', startDate);
-        setDateValue('range-end', endDate);
-    });
-
-    function setDateValue(elementId, date) {
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.value = formatDate(date);
-        }
+    function formatDateToMMDDYYYY(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${month}/${day}/${year}`;
     }
 
-// Set values if the elements exist
+    const currentDate = new Date();
+    const today = formatDateToMMDDYYYY(currentDate);
+
+    const startDate = getQueryParam('rangeStart', today);
+    const endDate = getQueryParam('rangeEnd', today);
+
+    document.getElementById('range-start').value = startDate;
+    document.getElementById('range-end').value = endDate;
 </script>
+
 {{-- <script>
     window.addEventListener('beforeunload', () => {
       const overlay = document.getElementById('loading-overlay');

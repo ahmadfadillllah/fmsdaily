@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CatatanPengawas extends Model
 {
     //
-    protected $table = 'catatan_pengawas';
+    protected $table = 'catatan_pengawas_t';
 
     protected $fillable = [
         'daily_report_id',

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FrontLoading extends Model
 {
     //
-    protected $table = 'front_loading';
+    protected $table = 'front_loading_t';
 
     protected $fillable = [
         'daily_report_id',

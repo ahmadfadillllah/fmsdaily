@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AlatSupport extends Model
 {
     //
-    protected $table = 'alat_support';
+    protected $table = 'alat_support_t';
 
     protected $fillable = [
         'daily_report_id',
