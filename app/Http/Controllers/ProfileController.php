@@ -33,7 +33,7 @@ class ProfileController extends Controller
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect('/')->with('success', 'Password telah diubah, silakan login kembali');
+            return redirect()->route('login')->with('success', 'Password telah diubah, silakan login kembali');
         } catch (\Throwable $th) {
             return redirect()->back()->with('info', 'Maaf, terjadi kesalahan');
         }
