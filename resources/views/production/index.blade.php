@@ -16,6 +16,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-0">Data Produksi Per Jam</h5>
+                            <p class="mb-0">{{ now()->timezone('Asia/Makassar')->format('l, d F Y') }} WITA</p>
                         </div>
                         {{-- <h5 class="text-end my-2">5.44% <span class="badge bg-success">+2.6%</span></h5> --}}
                         <div id="production-per-hour-chart"></div>
@@ -52,7 +53,7 @@
                                         <p class="mb-0 d-grid text-start"><span
                                                 class="text-truncate w-100">Actual</span></p>
                                     </div>
-                                    <div class="badge bg-light-dark f-12"> {{ number_format($data['actual'], 0, ',', '.') }}
+                                    <div class="badge bg-light-dark f-12"> {{ number_format($data['actual'], 0, ',', '.') }} BCM
                                     </div>
                                 </div>
                             </a><a href="#" class="btn btn-link-secondary">
@@ -61,7 +62,7 @@
                                     <div class="flex-grow-1 mx-2">
                                         <p class="mb-0 d-grid text-start"><span class="text-truncate w-100">Plan</span></p>
                                     </div>
-                                    <div class="badge bg-light-dark f-12"> {{ number_format($data['plan'], 0, ',', '.') }}
+                                    <div class="badge bg-light-dark f-12"> {{ number_format($data['plan'], 0, ',', '.') }} BCM
                                     </div>
                                 </div>
                             </a></div>
