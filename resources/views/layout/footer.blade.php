@@ -195,7 +195,7 @@
 <script src="{{ asset('dashboard/assets') }}/js/plugins/datepicker-full.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/flatpickr.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/pages/w-chart.js"></script>
+{{-- <script src="{{ asset('dashboard/assets') }}/js/pages/w-chart.js"></script> --}}
 {{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> --}}
 
     <script src="{{ asset('dashboard/assets') }}/js/plugins/clipboard.min.js"></script>
