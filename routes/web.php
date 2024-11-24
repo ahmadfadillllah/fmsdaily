@@ -14,7 +14,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('dashboard.index');
+    return redirect()->route('production.index');
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
