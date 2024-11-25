@@ -21,9 +21,11 @@ class AuthController extends Controller
             return redirect()->route('production.index')->with('alert','Selamat Datang');
         }
 
-        return back()->withErrors([
-            'nik' => 'NIK atau password salah.',
-        ]);
+        return redirect()->back()->with('login', 'NIK atau password salah');
+
+        // return back()->withErrors([
+        //     'nik' => 'NIK atau password salah.',
+        // ]);
     }
 
     public function logout(Request $request)

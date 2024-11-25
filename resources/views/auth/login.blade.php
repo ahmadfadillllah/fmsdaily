@@ -4,10 +4,12 @@
             <div class="auth-form">
                 <div class="card my-5">
                     <div class="card-body">
+
                         <div class="text-center"><a href="javascript:void(0);"><img
                                     src="{{ asset('dashboard/assets') }}/images/logo-full.png" alt="img" width="300px"></a></div>
                         <div class="saprator my-3"><span></span></div>
                         <h4 class="text-center f-w-500 mb-3">Login - Laporan Harian Pengawas</h4>
+                        @include('layout.alert.login')
                         <form action="{{ route('login.post') }}" method="post">
                             @csrf
                             <div class="mb-3"><input type="text" class="form-control" id="floatingInput" placeholder="NIK" name="nik"></div>

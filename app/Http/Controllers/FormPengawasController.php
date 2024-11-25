@@ -10,10 +10,12 @@ use App\Models\Material;
 use App\Models\Personal;
 use App\Models\Unit;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class FormPengawasController extends Controller
 {
@@ -244,8 +246,27 @@ class FormPengawasController extends Controller
         }
     }
 
-    public function show()
+    public function show(Request $request)
     {
+
+        if (empty($request->rangeStart) || empty($request->rangeEnd)){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+
+        }else{
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
@@ -260,10 +281,57 @@ class FormPengawasController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent',
             'gl.PERSONALNAME as nama_superintendent',
-            'dr.tanggal_dasar',
         )
+        ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->where('dr.statusenabled', 'true')->get();
 
         return view('form-pengawas.daftar.index', compact('daily'));
+    }
+
+    public function download($id)
+    {
+
+        $daily = DB::table('daily_report_t as dr')
+        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('front_loading_t as fl', 'dr.id', '=', 'fl.daily_report_id')
+        ->leftJoin('alat_support_t as al', 'dr.id', '=', 'al.daily_report_id')
+        ->leftJoin('catatan_pengawas_t as cp', 'dr.id', '=', 'cp.daily_report_id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
+        ->select(
+            'dr.tanggal_dasar as tanggal_daily',
+            'dr.shift_dasar as shift_daily',
+            'dr.area as area_daily',
+            'dr.lokasi as lokasi_daily',
+            'us.nik as nik_foreman_daily',
+            'us.name as nama_foreman_daily',
+            'dr.nik_supervisor as nik_supervisor_daily',
+            'spv.PERSONALNAME as nama_supervisor_daily',
+            'dr.nik_superintendent as nik_superintendent_daily',
+            'gl.PERSONALNAME as nama_superintendent_daily',
+            'fl.nomor_unit as nomor_unit_front',
+            'fl.siang as siang_front',
+            'fl.malam as malam_front',
+            'al.jenis_unit as jenis_unit_support',
+            'al.alat_unit as alat_unit_support',
+            'al.nik_operator as nik_operator_support',
+            'al.nama_operator as nama_operator_support',
+            'al.tanggal_operator as tanggal_operator_support',
+            'al.shift_operator as shift_operator_support',
+            'al.hm_awal as hm_awal_support',
+            'al.hm_akhir as hm_akhir_support',
+            'al.hm_total as hm_total_support',
+            'al.hm_cash as hm_cash_support',
+            'al.material as material_support',
+            'cp.jam_start as jam_start_catatan',
+            'cp.jam_stop as jam_stop_catatan',
+            'cp.keterangan as keterangan_catatan',
+            )
+        ->get();
+
+        $pdf = PDF::loadView('form-pengawas.download', array(
+            'daily' => $daily,
+        ))->setPaper('a4', 'portrait');
+        return $pdf->download($daily[0]->tanggal_daily.'_'.$daily[0]->nik_foreman_daily.'_'.$daily[0]->nama_foreman_daily.'.pdf');
     }
 }

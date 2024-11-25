@@ -51,7 +51,7 @@
             <div class="loader-fill"></div>
         </div>
     </div>
-    @include('layout.alert')
+    @include('layout.alert.general')
     <style>
         hr {
             border: none;
