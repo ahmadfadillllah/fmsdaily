@@ -195,10 +195,10 @@ class FormPengawasController extends Controller
                     }
                 }
 
-                return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
+                return redirect()->route('form-pengawas.index')->with('success', 'Laporan harian berhasil dibuat');
             });
         } catch (\Throwable $th) {
-            return redirect()->route('form-pengawas.index')->with('info', 'Laporan gagal dibuat.. \n'. $th->getMessage());
+            return redirect()->route('form-pengawas.index')->with('info', nl2br('Laporan harian gagal dibuat..\n' . $th->getMessage()));
         }
     }
 }

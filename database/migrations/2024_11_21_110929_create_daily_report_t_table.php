@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('daily_report_t', function (Blueprint $table) {
             $table->id();
             $table->foreignId('foreman_id')->constrained('users');
-            $table->boolean('statusenabled');
+            $table->string('statusenabled');
             $table->date('tanggal_dasar')->nullable();
             $table->string('shift_dasar')->nullable();
             $table->string('area')->nullable();

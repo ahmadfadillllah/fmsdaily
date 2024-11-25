@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('klkh_loadingpoint_t', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pic')->constrained('users');
+            $table->string('statusenabled');
             $table->string('pit');
             $table->string('shift');
             $table->date('date');

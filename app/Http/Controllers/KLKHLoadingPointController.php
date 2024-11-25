@@ -4,25 +4,69 @@ namespace App\Http\Controllers;
 
 use App\Models\KLKHLoadingPoint;
 use App\Models\Personal;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KLKHLoadingPointController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $users = Personal::where('ROLETYPE', 2)->get();
+        if (empty($request->rangeStart) || empty($request->rangeEnd)){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
 
-        return view('klkh.loading-point', compact('users'));
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+
+        }else{
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $loading = DB::table('klkh_loadingpoint_t as lp')
+        ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
+        ->select(
+            'lp.pic as id',
+            'us.name as pic',
+            DB::raw('CONVERT(varchar, lp.created_at, 120) as tanggal_pembuatan'),
+            'lp.statusenabled',
+            'lp.pit',
+            'lp.shift',
+            'lp.date',
+            'lp.time',
+        )
+        ->where('statusenabled', 'true')
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
+        ->get();
+
+
+        return view('klkh.loading-point.index', compact('loading'));
     }
 
-    public function insert(Request $request)
+    public function insert()
+    {
+        $users = Personal::where('ROLETYPE', 2)->get();
+        return view('klkh.loading-point.insert', compact('users'));
+    }
+
+    public function post(Request $request)
     {
         try {
 
             $data = $request->all();
 
             KLKHLoadingPoint::create([
+                'pic' => Auth::user()->id,
+                'statusenabled' => 'true',
                 'pit' => $data['pit'],
                 'shift' => $data['shift'],
                 'date' => $data['date'],
@@ -60,9 +104,21 @@ class KLKHLoadingPointController extends Controller
 
             return redirect()->route('klkh.loading-point')->with('success', 'KLKH Loading Point berhasil dibuat');
 
-            } catch (\Throwable $th) {
-                return redirect()->route('klkh.loading-point')->with('info', 'KLKH Loading Point gagal dibuat.. \n'. $th->getMessage());
-            }
+        } catch (\Throwable $th) {
+            return redirect()->route('klkh.loading-point')->with('info', nl2br('KLKH Loading Point gagal dibuat..\n' . $th->getMessage()));
+        }
 
+    }
+
+    public function delete($id)
+    {
+        try {
+            KLKHLoadingPoint::where('id', $id) ->update(['statusenabled' => 'false']);
+
+            return redirect()->route('klkh.loading-point')->with('success', 'KLKH Loading Point berhasil dihapus');
+
+        } catch (\Throwable $th) {
+            return redirect()->route('klkh.loading-point')->with('info', nl2br('KLKH Loading Point gagal dihapus..\n' . $th->getMessage()));
+        }
     }
 }

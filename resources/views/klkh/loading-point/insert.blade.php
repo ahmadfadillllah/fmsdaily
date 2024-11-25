@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="container mt-3">
-                            <form action="{{ route('klkh.loading-point.insert') }}" method="POST">
+                            <form action="{{ route('klkh.loading-point.post') }}" method="POST">
                                 @csrf
                                 <!-- Inputan di atas tabel -->
                                 <div class="row mb-3">
@@ -43,7 +43,7 @@
                                     <div class="col-md-6 col-12 px-2 py-2">
                                         <label for="pit">PIT</label>
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect2"
-                                                                name="pit">
+                                                                name="pit" required>
                                                                 <option selected disabled></option>
                                                                 <option value="SM-B1">SM-B1</option>
                                                                 <option value="SM-B2">SM-B2</option>
@@ -55,7 +55,7 @@
                                     <div class="col-md-6 col-12 px-2 py-2">
                                         <label for="shift">Shift</label>
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect1"
-                                                                name="shift">
+                                                                name="shift" required>
                                                                 <option selected disabled></option>
                                                                 <option value="Siang">Siang</option>
                                                                 <option value="Malam">Malam</option>
