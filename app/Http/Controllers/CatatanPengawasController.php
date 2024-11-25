@@ -45,6 +45,7 @@ class CatatanPengawasController extends Controller
             'cp.jam_stop',
             'cp.keterangan'
         )
+        ->where('cp.statusenabled', 'true')
         ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->get();
 

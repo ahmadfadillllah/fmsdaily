@@ -44,7 +44,7 @@ class KLKHDisposalController extends Controller
             'dp.date',
             'dp.time',
         )
-        ->where('statusenabled', 'true')
+        ->where('dp.statusenabled', 'true')
         ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'Admin') {

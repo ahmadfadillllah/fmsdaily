@@ -53,7 +53,7 @@ class FrontLoadingController extends Controller
             'dr.updated_at',
         )
         ->whereNotNull('nomor_unit')
-        ->where('statusenabled', 'true')
+        ->where('dr.statusenabled', 'true')
         ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->get()
         ->flatMap(function ($item) {

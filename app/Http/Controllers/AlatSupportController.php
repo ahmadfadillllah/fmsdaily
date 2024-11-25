@@ -52,6 +52,7 @@ class AlatSupportController extends Controller
             'al.hm_cash',
             'al.material'
         )
+        ->where('al.statusenabled', 'true')
         ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->get();
 

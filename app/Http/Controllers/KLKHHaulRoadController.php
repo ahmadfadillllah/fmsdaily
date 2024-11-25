@@ -44,7 +44,7 @@ class KLKHHaulRoadController extends Controller
             'hr.date',
             'hr.time',
         )
-        ->where('statusenabled', 'true')
+        ->where('hr.statusenabled', 'true')
         ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'Admin') {
