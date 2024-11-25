@@ -919,7 +919,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
-                text: "Kolom Tanngal, Shift, Area dan Lokasi wajib diisi pada Tab Log On",
+                text: "Kolom Tanggal, Shift, Area dan Lokasi wajib diisi",
                 confirmButtonText: 'OK'
             });
             return false;
