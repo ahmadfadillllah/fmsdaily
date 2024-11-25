@@ -9,15 +9,15 @@
                 <form id="formCatatan">
                     <div class="mb-3">
                         <label for="start" class="form-label">Start</label>
-                        <input type="time" class="form-control" id="start_catatan" name="start_catatan" required>
+                        <input type="time" class="form-control" id="start_catatan" name="jam_start[]">
                     </div>
                     <div class="mb-3">
                         <label for="end" class="form-label">End</label>
-                        <input type="time" class="form-control" id="end_catatan" name="end_catatan" required>
+                        <input type="time" class="form-control" id="end_catatan" name="jam_stop[]">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Deskripsi</label>
-                        <textarea class="form-control" id="description_catatan" name="description_catatan" rows="3" required></textarea>
+                        <textarea class="form-control" id="description_catatan" name="keterangan[]" rows="3"></textarea>
                     </div>
                 </form>
             </div>

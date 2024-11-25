@@ -22,13 +22,13 @@
                                         <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
                                         <span class="input-group-text">s/d</span>
                                         <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
-                                        <button type="submit" class="btn btn-primary btn-sm">View Report</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
                                     </div>
                                 </form>
                             </div>
                             <div class="col-sm-12 col-md-2 mb-2 text-md-end text-center">
                                 <button type="button" class="btn btn-success w-100 w-md-auto">
-                                    <i class="fas fa-download"></i> Download
+                                    <i class="fas fa-download"></i> Unduh
                                 </button>
                             </div>
                         </div>
@@ -77,27 +77,27 @@
                                 <tbody>
                                     @foreach ($support as $item)
                                         <tr>
-                                            <td>{{ $item['tanggal_pelaporan'] }}</td>
-                                            <td>{{ $item['shift'] }}</td>
-                                            <td>{{ $item['area'] }}</td>
-                                            <td>{{ $item['lokasi'] }}</td>
-                                            <td>{{ $item['jenis_unit'] }}</td>
-                                            <td>{{ $item['nomor_unit'] }}</td>
-                                            <td>{{ $item['nik_operator'] }}</td>
-                                            <td>{{ $item['nama_operator'] }}</td>
-                                            <td>{{ $item['tanggal_operator'] }}</td>
-                                            <td>{{ $item['shift_operator'] }}</td>
-                                            <td>{{ $item['nik_foreman'] }}</td>
-                                            <td>{{ $item['nama_foreman'] }}</td>
-                                            <td>{{ $item['nik_supervisor'] }}</td>
-                                            <td>{{ $item['nama_supervisor'] }}</td>
-                                            <td>{{ $item['nik_superintendent'] }}</td>
-                                            <td>{{ $item['nama_superintendent'] }}</td>
-                                            <td>{{ $item['hm_awal'] }}</td>
-                                            <td>{{ $item['hm_akhir'] }}</td>
-                                            <td>{{ $item['hm_akhir'] - $item['hm_awal'] }}</td>
-                                            <td>{{ $item['hm_cash'] }}</td>
-                                            <td>{{ $item['material'] }}</td>
+                                            <td>{{ $item->tanggal_pelaporan }}</td>
+                                            <td>{{ $item->shift }}</td>
+                                            <td>{{ $item->area }}</td>
+                                            <td>{{ $item->lokasi }}</td>
+                                            <td>{{ $item->jenis_unit }}</td>
+                                            <td>{{ $item->nomor_unit }}</td>
+                                            <td>{{ $item->nik_operator }}</td>
+                                            <td>{{ $item->nama_operator }}</td>
+                                            <td>{{ $item->tanggal_operator }}</td>
+                                            <td>{{ $item->shift_operator }}</td>
+                                            <td>{{ $item->nik_foreman }}</td>
+                                            <td>{{ $item->nama_foreman }}</td>
+                                            <td>{{ $item->nik_supervisor }}</td>
+                                            <td>{{ $item->nama_supervisor }}</td>
+                                            <td>{{ $item->nik_superintendent }}</td>
+                                            <td>{{ $item->nama_superintendent }}</td>
+                                            <td>{{ $item->hm_awal }}</td>
+                                            <td>{{ $item->hm_akhir }}</td>
+                                            <td>{{ $item->hm_akhir - $item->hm_awal }}</td>
+                                            <td>{{ $item->hm_cash }}</td>
+                                            <td>{{ $item->material }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

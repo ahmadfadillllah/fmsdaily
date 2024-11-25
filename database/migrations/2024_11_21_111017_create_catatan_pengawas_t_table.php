@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('catatan_pengawas_t', function (Blueprint $table) {
             $table->id();
             $table->foreignId('daily_report_id')->constrained('daily_report_t');
-            $table->boolean('statusenabled');
+            $table->string('statusenabled');
             $table->time('jam_start')->nullable();
             $table->time('jam_stop')->nullable();
             $table->string('keterangan')->nullable();

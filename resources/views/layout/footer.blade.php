@@ -204,16 +204,22 @@
     <script src="{{ asset('dashboard/assets') }}/js/plugins/notifier.js"></script>
     <script src="{{ asset('dashboard/assets') }}/js/pages/ac-notification.js"></script>
 <script>
-    document.querySelector('#pc-timepicker-1').flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        time_24hr: true
-    });
-    document.querySelector('#pc-timepicker-2').flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        time_24hr: true
-    });
+ var timepicker1 = document.querySelector('#pc-timepicker-1');
+    var timepicker2 = document.querySelector('#pc-timepicker-2');
+    if(timepicker1){
+        timepicker1.flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            time_24hr: true
+        });
+    }
+    if(timepicker2){
+        timepicker2.flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            time_24hr: true
+        });
+    }
 
 </script>
 <script>

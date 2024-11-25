@@ -84,6 +84,13 @@ class FormPengawasController extends Controller
             'MAT_DENSITY',
         ])->get();
 
+        $nomor_unit = Unit::select([
+            'VHC_ID as MAT_ID'
+        ])
+            ->where('VHC_ACTIVE', true)
+            ->get();
+
+
         $data = [
             'HD' => $hd,
             'MG' => $mg,
@@ -91,6 +98,7 @@ class FormPengawasController extends Controller
             'WT' => $wt,
             'EX' => $ex,
             'material' => $material,
+            'nomor_unit' => $nomor_unit,
         ];
         return view('form-pengawas.index', compact('data'));
     }
@@ -128,6 +136,7 @@ class FormPengawasController extends Controller
                 // insert daily report
                 $dailyReport = DailyReport::create([
                     'foreman_id' => Auth::user()->id,
+                    'statusenabled' => 'true',
                     'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
                     'shift_dasar' => $request->shift_dasar,
                     'area' => $request->area,
@@ -139,38 +148,46 @@ class FormPengawasController extends Controller
                 ]);
 
                 // insert front loading
-                if (!empty($request->front_unit_number)) {
-                    foreach ($request->front_unit_number as $front_unit) {
-                        $timeIndexes = array_keys($front_unit["times"] ?? []);
+                if (!empty($request->front_loading)) {
+                    foreach ($request->front_loading as $front_unit) {
+                        $timeData = $front_unit["time"] ?? [];
 
-                        $morning = array_filter($request->front_time_siang, function ($key) use ($timeIndexes) {
-                            return in_array($key, $timeIndexes);
-                        }, ARRAY_FILTER_USE_KEY);
-                        $night = array_filter($request->front_time_malam, function ($key) use ($timeIndexes) {
-                            return in_array($key, $timeIndexes);
-                        }, ARRAY_FILTER_USE_KEY);
+                        $morning = [];
+                        $night = [];
+
+                        foreach ($timeData as $time) {
+                            $timeSlots = explode('|', $time);
+                            if (isset($timeSlots[0])) {
+                                $morning[] = trim($timeSlots[0]); // Waktu siang
+                            }
+                            if (isset($timeSlots[1])) {
+                                $night[] = trim($timeSlots[1]); // Waktu malam
+                            }
+                        }
 
                         FrontLoading::create([
                             'daily_report_id' => $dailyReport->id,
-                            'statusenabled'=> true,
-                            'nomor_unit' => $front_unit["name"],
-                            'siang' => json_encode(array_values($morning)),
-                            'malam' => json_encode(array_values($night)),
+                            'statusenabled' => 'true',
+                            'nomor_unit' => $front_unit["nomor_unit"],
+                            'siang' => json_encode($morning),
+                            'malam' => json_encode($night),
                         ]);
                     }
                 }
 
+
                 // insert alat support
                 // if (!empty($request->supports)) {
-                    foreach ($request->supports as $value) {
+                if (!empty($request->alat_support)) {
+                    foreach ($request->alat_support as $value) {
                         AlatSupport::create([
                             'daily_report_id' => $dailyReport->id,
-                            'statusenabled'=> true,
+                            'statusenabled' => 'true',
                             'jenis_unit' => $value['jenisSupport'],
                             'alat_unit' => $value['unitSupport'],
                             'nik_operator' => $value['nikSupport'],
                             'nama_operator' => $value['namaSupport'],
-                            'tanggal_operator' => now()->parse($value['tanggalSupport'])->format('Y-m-d'),
+                            'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
                             'shift_operator' => $value['shiftSupport'],
                             'hm_awal' => $value['hmAwalSupport'],
                             'hm_akhir' => $value['hmAkhirSupport'],
@@ -179,26 +196,74 @@ class FormPengawasController extends Controller
                             'material' => $value['materialSupport'],
                         ]);
                     }
-                // }
+                }
 
-                if (!empty($request->start_catatan) && !empty($request->end_catatan)) {
-                    foreach ($request->start_catatan as $index => $start) {
-                        $end = $request->end_catatan[$index];
-                        $description = $request->description_catatan[$index];
-
+                if (!empty($request->catatan)) {
+                    foreach ($request->catatan as $catatan) {
                         CatatanPengawas::create([
                             'daily_report_id' => $dailyReport->id,
-                            'jam_start' => $start,
-                            'jam_stop' => $end,
-                            'keterangan' => $description,
+                            'statusenabled' => 'true',
+                            'jam_start' => $catatan['start_catatan'],
+                            'jam_stop' => $catatan['end_catatan'],
+                            'keterangan' => $catatan['description_catatan'],
                         ]);
                     }
                 }
 
-                return redirect()->route('form-pengawas.index')->with('success', 'Laporan harian berhasil dibuat');
+
+                return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
             });
         } catch (\Throwable $th) {
-            return redirect()->route('form-pengawas.index')->with('info', nl2br('Laporan harian gagal dibuat..\n' . $th->getMessage()));
+            return redirect()->route('form-pengawas.index')->with('info', 'Laporan gagal dibuat.. \n' . $th->getMessage());
         }
+    }
+
+    public function getOperatorByNIK($nik)
+    {
+        // Data operator
+        $data = Personal::select(
+            'NRP as MAT_ID',
+            'PERSONALNAME as MAT_DESC',
+            'ROLETYPE as MAT_CATEGORY',
+        )
+        ->where('ROLETYPE', 0)->get();
+
+        // Cari operator berdasarkan NIK
+        $operator = $data->firstWhere('MAT_ID', $nik);
+
+        if ($operator) {
+            return response()->json([
+                'success' => true,
+                'nama' => $operator->MAT_DESC,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Operator tidak ditemukan',
+            ]);
+        }
+    }
+
+    public function show()
+    {
+        $daily = DB::table('daily_report_t as dr')
+        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
+        ->select(
+            'dr.id',
+            'dr.tanggal_dasar as tanggal',
+            'dr.shift_dasar as shift',
+            'dr.area',
+            'dr.lokasi',
+            'dr.nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dr.nik_superintendent',
+            'gl.PERSONALNAME as nama_superintendent',
+            'dr.tanggal_dasar',
+        )
+        ->where('dr.statusenabled', 'true')->get();
+
+        return view('form-pengawas.daftar.index', compact('daily'));
     }
 }

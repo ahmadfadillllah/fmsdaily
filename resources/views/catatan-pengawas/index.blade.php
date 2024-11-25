@@ -21,13 +21,13 @@
                                         <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
                                         <span class="input-group-text">s/d</span>
                                         <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
-                                        <button type="submit" class="btn btn-primary btn-sm">View Report</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
                                     </div>
                                 </form>
                             </div>
                             <div class="col-sm-12 col-md-2 mb-2 text-md-end text-center">
                                 <button type="button" class="btn btn-success w-100 w-md-auto">
-                                    <i class="fas fa-download"></i> Download
+                                    <i class="fas fa-download"></i> Unduh
                                 </button>
                             </div>
                         </div>

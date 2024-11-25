@@ -10,6 +10,7 @@ class AlatSupport extends Model
     protected $table = 'alat_support_t';
 
     protected $fillable = [
+        'statusenabled',
         'daily_report_id',
         'jenis_unit',
         'alat_unit',

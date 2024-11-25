@@ -47,12 +47,15 @@
             font-size: 9pt;
             padding: 6px;
         }
+
         .description-text {
-            word-wrap: break-word; white-space: normal; max-width: 100%; overflow-wrap: break-word;
+            word-wrap: break-word;
+            white-space: normal;
+            max-width: 100%;
+            overflow-wrap: break-word;
         }
 
     }
-
 </style>
 
 
@@ -256,9 +259,10 @@
                                                                 <th>Siang</th>
                                                                 <th>Malam</th>
                                                                 <th>
-                                                                    <select name="front_unit_number[][name]"
-                                                                        class="form-control">
-                                                                        <option></option>
+                                                                    <select name="front_loading[0][nomor_unit]"
+                                                                        id="frontUnitNumber" class="form-control">
+                                                                        <option value="" disabled selected>Pilih
+                                                                        </option>
                                                                         @foreach ($data['EX'] as $exa)
                                                                         <option value="{{ $exa->VHC_ID }}">
                                                                             {{ $exa->VHC_ID }}</option>
@@ -269,99 +273,123 @@
                                                         </thead>
                                                         <tbody id="tableBody">
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="07.00 - 08.00">07.00 - 08.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="19.00 - 20.00">19.00 - 20.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][0]"
+                                                                <td><input type="checkbox"
+                                                                        value="07.00 - 08.00 | 19.00 - 20.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="08.00 - 09.00">08.00 - 09.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="20.00 - 21.00">20.00 - 21.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][1]"
+                                                                <td><input type="checkbox"
+                                                                        value="08.00 - 09.00 | 20.00 - 21.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="09.00 - 10.00">09.00 - 10.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="21.00 - 22.00">21.00 - 22.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][2]"
+                                                                <td><input type="checkbox"
+                                                                        value="09.00 - 10.00 | 21.00 - 22.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="10.00 - 11.00">10.00 - 11.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="22.00 - 23.00">22.00 - 23.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][3]"
+                                                                <td><input type="checkbox"
+                                                                        value="10.00 - 11.00 | 22.00 - 23.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="11.00 - 12.00">11.00 - 12.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="23.00 - 24.00">23.00 - 24.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][4]"
+                                                                <td><input type="checkbox"
+                                                                        value="11.00 - 12.00 | 23.00 - 24.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="12.00 - 13.00">12.00 - 13.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="24.00 - 01.00">24.00 - 01.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][5]"
+                                                                <td><input type="checkbox"
+                                                                        value="12.00 - 13.00 | 24.00 - 01.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="13.00 - 14.00">13.00 - 14.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="01.00 - 02.00">01.00 - 02.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][6]"
+                                                                <td><input type="checkbox"
+                                                                        value="13.00 - 14.00 | 01.00 - 02.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="14.00 - 15.00">14.00 - 15.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="02.00 - 03.00">02.00 - 03.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][7]"
+                                                                <td><input type="checkbox"
+                                                                        value="14.00 - 15.00 | 02.00 - 03.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="15.00 - 16.00">15.00 - 16.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="03.00 - 04.00">03.00 - 04.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][8]"
+                                                                <td><input type="checkbox"
+                                                                        value="15.00 - 16.00 | 03.00 - 04.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="16.00 - 17.00">16.00 - 17.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="04.00 - 05.00">04.00 - 05.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][9]"
+                                                                <td><input type="checkbox"
+                                                                        value="16.00 - 17.00 | 04.00 - 05.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="17.00 - 18.00">17.00 - 18.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="05.00 - 06.00">05.00 - 06.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][10]"
+                                                                <td><input type="checkbox"
+                                                                        value="17.00 - 18.00 | 05.00 - 06.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="front_time_siang[]"
+                                                                <td><input type="hidden" name="siang[]"
                                                                         value="18.00 - 19.00">18.00 - 19.00</td>
-                                                                <td><input type="hidden" name="front_time_malam[]"
+                                                                <td><input type="hidden" name="malam[]"
                                                                         value="06.00 - 07.00">06.00 - 07.00</td>
-                                                                <td><input type="checkbox" name="front_unit_number[0][times][11]"
+                                                                <td><input type="checkbox"
+                                                                        value="18.00 - 19.00 | 06.00 - 07.00"
+                                                                        name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                         </tbody>
@@ -376,9 +404,11 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="mt-2">
-                                                <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahSupportModal">
+                                                <button class="btn btn-primary mb-3" type="button"
+                                                    data-bs-toggle="modal" data-bs-target="#tambahSupportModal">
                                                     <i class="fa-solid fa-add"></i> Tambah Alat Support
                                                 </button>
+                                                @include('form-pengawas.modal.alat-support')
                                                 <div class="accordion" id="accordionSupport"></div>
                                             </div>
                                         </div>
@@ -389,9 +419,11 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahCatatan">
+                                                <button type="button" class="btn btn-primary mb-3"
+                                                    data-bs-toggle="modal" data-bs-target="#tambahCatatan">
                                                     <i class="fa-solid fa-add"></i> Tambah Catatan
                                                 </button>
+                                                @include('form-pengawas.modal.catatan-pengawas')
                                                 <div class="accordion" id="accordionCatatan"></div>
 
                                             </div>
@@ -412,7 +444,7 @@
                                                                 class="form-check-label" for="customCheck1">Saya sudah
                                                                 mengisi form ini dengan benar</label></div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-success ">Submit</button>
+                                                    <button type="submit" class="btn btn-success">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -450,9 +482,6 @@
 
                                 </div>
                             </form>
-
-                            @include('form-pengawas.modal.catatan-pengawas')
-                            @include('form-pengawas.modal.alat-support')
                         </div>
                     </div>
                 </div>
@@ -513,7 +542,7 @@
     const headerRow2 = document.getElementById('headerRow2');
     const tableBody = document.getElementById('tableBody');
 
-    let unitCount = 1;
+    let unitCount = 0;
 
     const exa = @json($data['EX']);
 
@@ -527,7 +556,7 @@
 
         const newHeader2 = document.createElement('th');
         const selectElement = document.createElement('select');
-        selectElement.name = `front_unit_number[][name]`;
+        selectElement.name = `front_loading[${unitCount}][nomor_unit]`;
         selectElement.classList.add('form-control');
 
         const emptyOption = document.createElement('option');
@@ -546,12 +575,25 @@
 
         newHeader2.appendChild(selectElement);
         headerRow2.appendChild(newHeader2);
-
+        var values = [
+            "07.00 - 08.00 | 19.00 - 20.00",
+            "08.00 - 09.00 | 20.00 - 21.00",
+            "09.00 - 10.00 | 21.00 - 22.00",
+            "10.00 - 11.00 | 22.00 - 23.00",
+            "11.00 - 12.00 | 23.00 - 24.00",
+            "12.00 - 13.00 | 24.00 - 01.00",
+            "13.00 - 14.00 | 01.00 - 02.00",
+            "14.00 - 15.00 | 02.00 - 03.00",
+            "15.00 - 16.00 | 03.00 - 04.00",
+            "16.00 - 17.00 | 04.00 - 05.00",
+            "17.00 - 18.00 | 05.00 - 06.00",
+            "18.00 - 19.00 | 06.00 - 07.00",
+        ];
         var index = 0;
         for (const row of tableBody.rows) {
             const newCell = document.createElement('td');
             newCell.innerHTML =
-                `<input type="checkbox" name="front_unit_number[${unitCount-1}][times][${index}]" class="form-check-input">`;
+                `<input type="checkbox" value="${values[index]}" name="front_loading[${unitCount}][time][]" class="form-check-input">`;
             row.appendChild(newCell);
             index++;
         }
@@ -618,17 +660,17 @@
     }
 
     document.getElementById('saveSupport').addEventListener('click', () => {
-        const jenis = document.getElementById('jenisSupport').value;
-        const unit = document.getElementById('unitSupport').value;
-        const nik = document.getElementById('nikSupport').value;
-        const nama = document.getElementById('namaSupport').value;
-        const tanggal = document.getElementById('tanggalSupport').value;
-        const shift = document.getElementById('shiftSupport').value;
-        const hmAwal = document.getElementById('hmAwalSupport').value;
-        const hmAkhir = document.getElementById('hmAkhirSupport').value;
-        const hmCash = document.getElementById('hmCashSupport').value;
-        const total = document.getElementById('totalSupport').value;
-        const material = document.getElementById('materialSupport').value;
+       const jenis = document.getElementById('jenisSupport').value || '';
+        const unit = document.getElementById('unitSupport').value || '';
+        const nik = document.getElementById('nikSupport').value || '';
+        const nama = document.getElementById('namaSupport').value || '';
+        const tanggal = document.getElementById('tanggalSupport').value || '';
+        const shift = document.getElementById('shiftSupport').value || '';
+        const hmAwal = document.getElementById('hmAwalSupport').value || '';
+        const hmAkhir = document.getElementById('hmAkhirSupport').value || '';
+        const hmCash = document.getElementById('hmCashSupport').value || '';
+        const total = document.getElementById('totalSupport').value || '';
+        const material = document.getElementById('materialSupport').value || '';
 
         if ( !nik || !tanggal || !shift || !hmAwal || !hmAkhir) {
             Swal.fire({
@@ -644,70 +686,68 @@
         const accordionId = `support${supportCount}`;
         const collapseId = `collapseSupport${supportCount}`;
 
-        const newAccordionItem = `
-    <div class="accordion-item" id="${accordionId}">
-        <h2 class="accordion-header" id="heading${accordionId}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
-                Support #${supportCount}
-            </button>
-        </h2>
-        <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionSupport">
-            <div class="accordion-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>Jenis</th>
-                                <td <input type="hidden" name="jenisSupport[]" value="${jenis}">${jenis}</td>
-                            </tr>
-                            <tr>
-                                <th>Unit</th>
-                                <td <input type="hidden" name="nomorUnitSupport[]" value="${unit}">${unit}</td>
-                            </tr>
-                            <tr>
-                                <th>NIK</th>
-                                <td <input type="hidden" name="nikOperatorSupport[]" value="${nik}">${nik}</td>
-                            </tr>
-                            <tr>
-                                <th>Nama</th>
-                                <td <input type="hidden" name="namaOperatorSupport[]" value="${nama}">${nama}</td>
-                            </tr>
-                            <tr>
-                                <th>Tanggal</th>
-                                <td <input type="hidden" name="tanggalSupport[]" value="${tanggal}">${tanggal}</td>
-                            </tr>
-                            <tr>
-                                <th>Shift</th>
-                                <td <input type="hidden" name="shiftSupport[]" value="${shift}">${shift}</td>
-                            </tr>
-                            <tr>
-                                <th>HM Awal</th>
-                                <td <input type="hidden" name="hmAwalSupport[]" value="${hmAwal}">${hmAwal}</td>
-                            </tr>
-                            <tr>
-                                <th>HM Akhir</th>
-                                <td <input type="hidden" name="hmAkhirSupport[]" value="${hmAkhir}">${hmAkhir}</td>
-                            </tr>
-                            <tr>
-                                <th>HM Cash</th>
-                                <td <input type="hidden" name="hmCashSupport[]" value="${hmCash}">${hmCash}</td>
-                            </tr>
-                            <tr>
-                                <th>Total</th>
-                                <td <input type="hidden" name="totalSupport[]" value="${total}">${total}</td>
-                            </tr>
-                            <tr>
-                                <th>Material</th>
-                                <td <input type="hidden" name="materialSupport[]" value="${material}">${material}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <button type="button" class="btn btn-danger btn-sm" onclick="removeSupport('${accordionId}')">Hapus</button>
-            </div>
-        </div>
-    </div>
-`;
+        const newAccordionItem = `<div class="accordion-item" id="${accordionId}">
+                                        <h2 class="accordion-header" id="heading${accordionId}">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                                                Support #${supportCount}
+                                            </button>
+                                        </h2>
+                                        <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionSupport">
+                                            <div class="accordion-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>Jenis</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][jenisSupport]" value="${jenis}">${jenis}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Unit</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][unitSupport]" value="${unit}">${unit}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>NIK</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][nikSupport]" value="${nik}">${nik}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Nama</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][namaSupport]" value="${nama}">${nama}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Tanggal</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][tanggalSupport]" value="${tanggal}">${tanggal}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Shift</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][shiftSupport]" value="${shift}">${shift}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>HM Awal</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][hmAwalSupport]" value="${hmAwal}">${hmAwal}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>HM Akhir</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][hmAkhirSupport]" value="${hmAkhir}">${hmAkhir}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>HM Cash</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][hmCashSupport]" value="${hmCash}">${hmCash}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Total</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][totalSupport]" value="${total}">${total}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Material</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][materialSupport]" value="${material}">${material}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="removeSupport('${accordionId}')">Hapus</button>
+                                            </div>
+                                        </div>
+                                    </div>`;
 
         document.getElementById('accordionSupport').insertAdjacentHTML('beforeend', newAccordionItem);
 
@@ -723,10 +763,26 @@
             if (modalInstance) {
                 modalInstance.hide();
             }
-        });
+             document.getElementById('jenisSupport').value = null;
+             document.getElementById('unitSupport').value = null;
+             document.getElementById('nikSupport').value = null;
+             document.getElementById('namaSupport').value = null;
+             const today = new Date();
 
-        // Reset form setelah data ditambahkan
-        document.getElementById('formSupport').reset();
+            // Format tanggal menjadi YYYY-MM-DD
+            const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2,
+            '0')}/${today.getFullYear()}`;
+             document.getElementById('tanggalSupport').value = formattedDate;
+             document.getElementById('shiftSupport').value = null;
+             document.getElementById('hmAwalSupport').value = null;
+             document.getElementById('hmAkhirSupport').value = null;
+             document.getElementById('hmCashSupport').value = null;
+             document.getElementById('totalSupport').value = null;
+             document.getElementById('materialSupport').value = null;
+        });
+        // document.getElementById("formSupport").reset();
+
+        // // Reset form setelah data ditambahkan
     });
 
     // Fungsi untuk menghapus item support
@@ -784,16 +840,16 @@
                             <tbody>
                                 <tr>
                                     <th>Start</th>
-                                    <td><input type="hidden" name="start_catatan[]" value="${start}">${start}</td>
+                                    <td><input type="hidden" name="catatan[${catatanCount-1}][start_catatan]" value="${start}">${start}</td>
                                 </tr>
                                 <tr>
                                     <th>End</th>
-                                    <td><input type="hidden" name="end_catatan[]" value="${end}">${end}</td>
+                                    <td><input type="hidden" name="catatan[${catatanCount-1}][end_catatan]" value="${end}">${end}</td>
                                 </tr>
                                 <tr>
                                     <th>Deskripsi</th>
                                     <td style="word-wrap: break-word; white-space: normal; max-width: 100%; overflow-wrap: break-word;">
-                                        <input type="hidden" name="description_catatan[]" value="${description}">${description}
+                                        <input type="hidden" name="catatan[${catatanCount-1}][description_catatan]" value="${description}">${description}
                                     </td>
                                 </tr>
                                 <tr>
@@ -853,6 +909,51 @@
 {{-- Script Finishing --}}
 <script>
     function validateForm() {
+       const date = document.getElementById("pc-datepicker-1");
+        const select1 = document.getElementById("exampleFormControlSelect1");
+        const select2 = document.getElementById("exampleFormControlSelect2");
+        const select3 = document.getElementById("exampleFormControlSelect3");
+
+
+        if (!date.value || !select1.value || !select2.value || !select3.value) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: "Kolom Tanngal, Shift, Area dan Lokasi wajib diisi pada Tab Log On",
+                confirmButtonText: 'OK'
+            });
+            return false;
+        }
+
+        const frontcheckboxes = document.querySelectorAll('input[name^="front_loading"]');
+        let isChecked = false;
+
+        // Cek apakah ada checkbox yang dicentang
+        frontcheckboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                isChecked = true;
+            }
+        });
+        var frontN = document.getElementById("frontUnitNumber");
+
+        if(!frontN.value){
+            Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: 'Nomor Unit harus diisi pada form Front Loading',
+            confirmButtonText: 'OK'
+            });
+            return false;
+        }
+        if(!isChecked){
+            Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: 'Harap centang minimal 1 kotak pada form Front Loading',
+            confirmButtonText: 'OK'
+            });
+            return false;
+        }
         var checkBox = document.getElementById("customCheck1");
         if (!checkBox.checked) {
             Swal.fire({

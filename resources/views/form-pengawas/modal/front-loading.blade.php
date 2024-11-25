@@ -8,7 +8,8 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="unitNumber" class="form-label">Nomor Unit</label>
-                    <input type="text" id="unitNumber" name="unitNumber" class="form-control" placeholder="Masukkan Nomor Unit">
+                    <input type="text" id="unitNumber" name="unitNumber" class="form-control"
+                        placeholder="Masukkan Nomor Unit">
                 </div>
             </div>
             <div class="modal-footer">

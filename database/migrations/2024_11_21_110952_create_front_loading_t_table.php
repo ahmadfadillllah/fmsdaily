@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('front_loading_t', function (Blueprint $table) {
             $table->id();
             $table->foreignId('daily_report_id')->constrained('daily_report_t');
-            $table->boolean('statusenabled');
+            $table->string('statusenabled');
             $table->string('nomor_unit')->nullable();
             $table->string('siang')->nullable();
             $table->string('malam')->nullable();

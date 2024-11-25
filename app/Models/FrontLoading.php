@@ -10,6 +10,7 @@ class FrontLoading extends Model
     protected $table = 'front_loading_t';
 
     protected $fillable = [
+        'statusenabled',
         'daily_report_id',
         'nomor_unit',
         'siang',
