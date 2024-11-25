@@ -1,3 +1,8 @@
+
+<!--
+    Copyright (c) 2024 Ahmad Fadillah - IT SIMS.
+    All rights reserved. Unauthorized duplication is prohibited.
+    -->
 <!doctype html>
 <html lang="en">
 
