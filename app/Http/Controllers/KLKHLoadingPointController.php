@@ -32,7 +32,7 @@ class KLKHLoadingPointController extends Controller
         $endTimeFormatted = $end->format('Y-m-d');
 
 
-        $loading = DB::table('klkh_loadingpoint_t as lp')
+        $baseQuery = DB::table('klkh_loadingpoint_t as lp')
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->select(
             'lp.pic as id',
@@ -45,8 +45,14 @@ class KLKHLoadingPointController extends Controller
             'lp.time',
         )
         ->where('statusenabled', 'true')
-        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
-        ->get();
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+
+        if (Auth::user()->role !== 'Admin') {
+            $baseQuery->where('pic', Auth::user()->id);
+        }
+
+        $loading = $baseQuery->get();
+
 
 
         return view('klkh.loading-point.index', compact('loading'));

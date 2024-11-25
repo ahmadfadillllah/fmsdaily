@@ -32,7 +32,7 @@ class KLKHDisposalController extends Controller
         $endTimeFormatted = $end->format('Y-m-d');
 
 
-        $disposal = DB::table('klkh_disposal_t as dp')
+        $baseQuery = DB::table('klkh_disposal_t as dp')
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->select(
             'dp.pic as id',
@@ -45,8 +45,13 @@ class KLKHDisposalController extends Controller
             'dp.time',
         )
         ->where('statusenabled', 'true')
-        ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
-        ->get();
+        ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+
+        if (Auth::user()->role !== 'Admin') {
+            $baseQuery->where('pic', Auth::user()->id);
+        }
+
+        $disposal = $baseQuery->get();
 
         return view('klkh.disposal.index', compact('disposal'));
     }

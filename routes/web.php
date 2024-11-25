@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/production/index', [ProductionController::class, 'index'])->name('production.index');
 
     //Form Pengawas
+    Route::get('/form-pengawas/show', [FormPengawasController::class, 'show'])->name('form-pengawas.show');
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
     Route::post('/form-pengawas/post', [FormPengawasController::class, 'post'])->name('form-pengawas.post');
 

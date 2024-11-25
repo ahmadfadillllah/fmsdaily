@@ -32,7 +32,7 @@ class KLKHHaulRoadController extends Controller
         $endTimeFormatted = $end->format('Y-m-d');
 
 
-        $haul = DB::table('klkh_haulroad_t as hr')
+        $baseQuery = DB::table('klkh_haulroad_t as hr')
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->select(
             'hr.pic as id',
@@ -45,8 +45,13 @@ class KLKHHaulRoadController extends Controller
             'hr.time',
         )
         ->where('statusenabled', 'true')
-        ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
-        ->get();
+        ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+
+        if (Auth::user()->role !== 'Admin') {
+            $baseQuery->where('pic', Auth::user()->id);
+        }
+
+        $haul = $baseQuery->get();
 
         return view('klkh.haul-road.index', compact('haul'));
     }

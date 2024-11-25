@@ -46,6 +46,7 @@
                             <table id="table-style-hover" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
+                                        <th>No</th>
                                         <th>Tanggal Pembuatan</th>
                                         <th>PIC</th>
                                         <th>Pit</th>
@@ -59,12 +60,13 @@
                                 <tbody>
                                     @foreach ($loading as $item)
                                         <tr>
-                                            <td>{{ $item->tanggal_pembuatan }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ date('d-m-Y H:i:s', strtotime($item->tanggal_pembuatan)) }}
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->pit }}</td>
                                             <td>{{ $item->shift }}</td>
-                                            <td>{{ $item->date }}</td>
-                                            <td>{{ $item->time }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($item->date)) }}</td>
+                                            <td>{{ date('H:i', strtotime($item->time)) }}</td>
                                             <td>
                                                 {{-- <a href="#" class="btn btn-warning btn-sm">Edit</a> --}}
                                                 <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteLP{{$item->id}}">Hapus</a>
