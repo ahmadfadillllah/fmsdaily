@@ -25,7 +25,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 12px;
         }
         /* table{
@@ -46,7 +46,7 @@
         }
         tr{
             page-break-inside:avoid;
-            page-break-after:auto
+            page-break-after:auto;
         }
         table{
             /* border:1px solid #000; */
@@ -56,10 +56,11 @@
         tr td{
             /* border:1px solid #000; */
             border-collapse:collapse;
+
 			/* padding:.1rem; */
         }
         table tr td, table tr th{
-            font-size: xx-small;
+            font-size: x-small;
         }
         .header {
             margin-bottom: 20px;
@@ -99,7 +100,7 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 2px;
         }
         table.inf-table{
             border:none;
@@ -205,67 +206,68 @@
             display: flex;
             flex-direction: column;
         }
+        h4{
+            margin-bottom: 0px;
+        }
     </style>
 </head>
 
 <body>
     <div class="header">
         <div class="flex">
-            <img alt="Company Logo" height="50"
-                src="{{ asset('dashboard/assets/images/Net Not.png') }}"
-                alt="logo disini" width="70" />
+            <img alt="Company Logo" height="30"
+                src="{{ asset('dashboard/assets/images/logo-full.png') }}"
+                alt="logo disini"  />
 
         </div>
         <div class="doc-number">
             <p>
-                FM-PRD-03/03/06/02/24
+                <b>FM-PRD-03/03/06/02/24</b>
             </p>
         </div>
     </div>
-    <h2 style="text-align: center;">
-        LAPORAN HARIAN FOREMAN PRODUKSI
-    </h2>
+    <h2 style="text-align: center;"><u>LAPORAN HARIAN FOREMAN PRODUKSI</u></h2>
     <table class="info-table">
         <tr>
             <td colspan="14">Tanggal</td>
             <td>:</td>
-            <td>........................................................</td>
+            <td>{{ date('d-m-Y', strtotime($data['daily']->tanggal)) }}</td>
             <td colspan="7"></td>
             <td colspan="3">Nama Foreman</td>
             <td>:</td>
-            <td colspan="7">........................................................</td>
+            <td colspan="7">{{ $data['daily']->nama_foreman }}</td>
         </tr>
         <tr>
             <td colspan="14">Shift</td>
             <td>:</td>
-            <td>........................................................</td>
+            <td>{{ $data['daily']->shift }}</td>
             <td colspan="7"></td>
             <td colspan="3">NIK Foreman</td>
             <td>:</td>
-            <td colspan="7">........................................................</td>
+            <td colspan="7">{{ $data['daily']->nik_foreman }}</td>
         </tr>
         <tr>
             <td colspan="14">Lokasi</td>
             <td>:</td>
-            <td>........................................................</td>
+            <td>{{ $data['daily']->lokasi }}</td>
             <td colspan="7"></td>
             <td colspan="3">Nama Supervisor</td>
             <td>:</td>
-            <td colspan="7">........................................................</td>
+            <td colspan="7">{{ $data['daily']->nama_supervisor }}</td>
         </tr>
         <tr>
             <td colspan="14">Jam Kerja</td>
             <td>:</td>
-            <td>........................................................</td>
+            <td>{{ $data['daily']->shift == 'Siang' ? '06:30 - 18:30' : '18:30 - 06:30' }}</td>
             <td colspan="7"></td>
             <td colspan="3"></td>
             <td></td>
             <td colspan="7"></td>
         </tr>
     </table>
-    <h3>
+    <h4>
         A. FRONT LOADING
-    </h3>
+    </h4>
     <table class="data-table">
         <tr>
             <th rowspan="3">Brand</th>
@@ -555,13 +557,13 @@
     <div class="footer">
         Keterangan: beri tanda centang (√) pada unit excavator yang diawasi
     </div>
-    <h3>
+    <h4>
         B.  ALAT SUPPORT ( SIANG / MALAM ) TANGGAL :
-    </h3>
+    </h4>
     <table class="data_table">
         <thead>
             <tr>
-                <th rowspan="2">No</th>
+                <th rowspan="2" style="width:25px;">No</th>
                 <th rowspan="2">No. Unit</th>
                 <th rowspan="2">Nama Operator</th>
                 <th colspan="2">HM Unit</th>
@@ -575,99 +577,27 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($data['support'] as $sp)
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center">{{ $loop->iteration }}</td>
+                <td style="padding-left:2px;">{{ $sp->nomor_unit }}</td>
+                <td style="padding-left:2px;">{{ $sp->nama_operator }}</td>
+                <td style="text-align: center">{{ $sp->hm_awal }}</td>
+                <td style="text-align: center">{{ $sp->hm_akhir }}</td>
+                <td style="text-align: center">{{ $sp->hm_akhir - $sp->hm_awal }}</td>
+                <td style="padding-left:2px;">{{ $sp->hm_cash }}</td>
+                <td style="padding-left:2px;"></td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @endforeach
 
         </tbody>
     </table>
     <br>
-    <div style="font-size: 12pt;">Ket</div>
-    <hr>
-    <hr>
-    <hr>
-    <hr>
+    <div style="font-size: 8pt;"><i>KET:</i></div>
     <div>
         <table class="table_close">
             <tr>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
+                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;">lfksdflkslfkslf;sf</th>
                 <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
                 <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
                 <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
@@ -782,6 +712,12 @@
 
         </table>
     </div>
+    <script type="text/javascript">
+        window.onload = function() {
+            window.print();
+        };
+    </script>
 </body>
+
 
 </html>

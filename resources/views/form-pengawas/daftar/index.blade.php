@@ -65,7 +65,7 @@
                                             <td>{{ $item->nik_superintendent }}</td>
                                             <td>{{ $item->nama_superintendent }}</td>
                                             <td>
-                                                <a href="{{ route('form-pengawas.download', $item->id) }}" class="btn btn-primary btn-sm""><i class="fas fa-download"></i> Download</a>
+                                                <a href="{{ route('form-pengawas.download', $item->id) }}" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-print"></i> Cetak</a>
                                                 {{-- <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteDP{{$item->id}}">Download</a> --}}
                                             </td>
                                         </tr>
