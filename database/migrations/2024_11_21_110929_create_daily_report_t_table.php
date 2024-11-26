@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('nama_supervisor')->nullable();
             $table->string('nik_superintendent')->nullable();
             $table->string('nama_superintendent')->nullable();
+            $table->integer('deleted_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

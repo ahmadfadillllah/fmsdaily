@@ -26,6 +26,8 @@ return new class extends Migration
             $table->decimal('hm_total')->nullable();
             $table->string('hm_cash')->nullable();
             $table->string('material')->nullable();
+            $table->integer('deleted_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

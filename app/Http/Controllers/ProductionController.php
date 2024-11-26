@@ -33,13 +33,23 @@ class ProductionController extends Controller
             }
         }
 
+        $waktu_sekarang = date('H');
+        // $kategori_terpilih[];
+
+        if ($waktu_sekarang >= 7 && $waktu_sekarang <= 18) {
+            $kategori_terpilih["Siang"] = $categorizedData["Siang"];
+        } else {
+            $kategori_terpilih["Malam"] = $categorizedData["Malam"];
+        }
+
         $data = [
             'all' => $data,
-            'kategori' => $categorizedData,
+            'kategori' => $kategori_terpilih,
             'actual' => array_sum(array_column($data, 'PRODUCTION')),
             'plan' => array_sum(array_column($data, 'PLAN_PRODUCTION')),
             'by' => 'ahmadfadillllah'
         ];
+        // dd($data);
         return view('production.index', compact('data'));
     }
 }

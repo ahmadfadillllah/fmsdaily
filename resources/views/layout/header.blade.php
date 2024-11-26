@@ -98,7 +98,7 @@
                                 <p class="text-span">Manage</p><a href="#" class="dropdown-item"><span><svg
                                             class="pc-icon text-muted me-2">
                                             <use xlink:href="#custom-setting-outline"></use>
-                                        </svg> <span>Pengaturan</span> </span></a>
+                                        </svg> <span>Profil</span> </span></a>
                                         <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changePassword">
                                             <span> <svg class="pc-icon text-muted me-2"> <use xlink:href="#custom-share-bold"></use> </svg>
                                                 <span>Ganti Password</span>

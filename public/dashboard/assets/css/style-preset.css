@@ -15,7 +15,7 @@ h2 {
     --pc-sidebar-background: transparent;
     --pc-sidebar-color: #5b6b79;
     --pc-sidebar-color-rgb: 91, 107, 121;
-    --pc-sidebar-active-color: #0d6efd;
+    --pc-sidebar-active-color: orange;
     --pc-sidebar-shadow: none;
     --pc-sidebar-caption-color: #3e4853;
     --pc-sidebar-border: 1px dashed #bec8d0;
@@ -31,14 +31,14 @@ h2 {
 [data-pc-theme_contrast=true] {
     --bs-body-bg: #ffffff;
     --pc-sidebar-background: transparent;
-    --pc-sidebar-active-color: #0d6efd;
+    --pc-sidebar-active-color: orange;
     --pc-sidebar-shadow: 1px 0 3px 0px #dbe0e5;
     --pc-sidebar-border: none;
     --pc-card-box-shadow: 0px 8px 24px rgba(27, 46, 94, 0.08)
 }
 
 [data-pc-preset=preset-1] {
-    --pc-sidebar-active-color: #001932;
+    --pc-sidebar-active-color: orange;
     --bs-blue: #001932;
     --bs-primary: #001932;
     --bs-primary-rgb: 70, 128, 255;

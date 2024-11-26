@@ -47,7 +47,7 @@ class KLKHDisposalController extends Controller
         ->where('dp.statusenabled', 'true')
         ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'Admin') {
+        if (Auth::user()->role !== 'ADMIN') {
             $baseQuery->where('pic', Auth::user()->id);
         }
 
@@ -136,7 +136,8 @@ class KLKHDisposalController extends Controller
     public function delete($id)
     {
         try {
-            KLKHDisposal::where('id', $id) ->update(['statusenabled' => 'false']);
+            KLKHDisposal::where('id', $id)->update(['statusenabled' => 'false'])
+            ->update(['deleted_by' => Auth::user()->id]);
 
             return redirect()->route('klkh.disposal')->with('success', 'KLKH Disposal berhasil dihapus');
 

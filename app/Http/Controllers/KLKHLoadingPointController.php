@@ -47,7 +47,7 @@ class KLKHLoadingPointController extends Controller
         ->where('lp.statusenabled', 'true')
         ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'Admin') {
+        if (Auth::user()->role !== 'ADMIN') {
             $baseQuery->where('pic', Auth::user()->id);
         }
 
@@ -119,7 +119,7 @@ class KLKHLoadingPointController extends Controller
     public function delete($id)
     {
         try {
-            KLKHLoadingPoint::where('id', $id) ->update(['statusenabled' => 'false']);
+            KLKHLoadingPoint::where('id', $id) ->update(['statusenabled' => 'false'])->update(['deleted_by' => Auth::user()->id]);
 
             return redirect()->route('klkh.loading-point')->with('success', 'KLKH Loading Point berhasil dihapus');
 

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->time('jam_start')->nullable();
             $table->time('jam_stop')->nullable();
             $table->string('keterangan')->nullable();
+            $table->integer('deleted_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

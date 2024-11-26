@@ -11,19 +11,18 @@
 
             </div>
             <!-- [ sample-page ] start -->
-            <div class="col-lg-12 col-xxl-9">
+            {{-- <div class="col-lg-12 col-xxl-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <h5 class="mb-0">Data Produksi Per Jam</h5>
                             <p class="mb-0">{{ now()->timezone('Asia/Makassar')->format('l, d F Y') }} WITA</p>
                         </div>
-                        {{-- <h5 class="text-end my-2">5.44% <span class="badge bg-success">+2.6%</span></h5> --}}
                         <div id="production-per-hour-chart"></div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
+            </div> --}}
+            <div class="col-xl-4 col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-center my-3">
@@ -70,68 +69,70 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xl-6 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Siang</h5>
-                        </div>
-                        <div class="card-body pc-component">
-                           @foreach ($data['kategori']['Siang'] as $item)
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-2">
-                                    <label for="">{{ $item['HOUR'] }}:00</label>
-                                </div>
-                                <div class="col-12 col-md-10">
-                                    <div class="progress" style="height: 20px">
-                                        <div class="progress-bar
-                                        @if (number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) < 80) bg-danger
-                                        @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) > 80 ) bg-success
-                                        @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) == 80 ) bg-warning
-                                        @endif" role="progressbar" style="width: {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%"
-                                            aria-valuenow="{{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}"
-                                            aria-valuemin="0" aria-valuemax="100">
-                                            {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%
+            {{-- <div class="row"> --}}
+                @if (!empty($data['kategori']['Siang']))
+                    <div class="col-xl-8 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Siang</h5>
+                            </div>
+                            <div class="card-body pc-component">
+                            @foreach ($data['kategori']['Siang'] as $item)
+                                <div class="row mb-4">
+                                    <div class="col-12 col-md-2">
+                                        <label for="">{{ $item['HOUR'] }}:00</label>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <div class="progress" style="height: 20px">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%;
+                                            @if (number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) < 80) background-color:#ff7070;
+                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) == 80 ) background-color:#36c186;
+                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) > 80 ) background-color:#1e5287;
+                                            @endif"aria-valuenow="{{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}"
+                                                aria-valuemin="0" aria-valuemax="100">
+                                                {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                           @endforeach
+                            @endforeach
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-6 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Malam</h5>
-                        </div>
-                        <div class="card-body pc-component">
-                           @foreach ($data['kategori']['Malam'] as $item)
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-2">
-                                    <label for="">{{ $item['HOUR'] }}:00</label>
-                                </div>
-                                <div class="col-12 col-md-10">
-                                    <div class="progress" style="height: 20px">
-                                        <div class="progress-bar
-                                        @if (number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) < 80) bg-danger
-                                        @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) > 80 ) bg-success
-                                        @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) == 80 ) bg-warning
-                                        @endif" role="progressbar" style="width: {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%"
-                                            aria-valuenow="{{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}"
-                                            aria-valuemin="0" aria-valuemax="100">
-                                            {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%
+                @endif
+                @if (!empty($data['kategori']['Malam']))
+                    <div class="col-xl-8 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Malam</h5>
+                            </div>
+                            <div class="card-body pc-component">
+                            @foreach ($data['kategori']['Malam'] as $item)
+                                <div class="row mb-4">
+                                    <div class="col-12 col-md-2">
+                                        <label for="">{{ $item['HOUR'] }}:00</label>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <div class="progress" style="height: 20px">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%;
+                                            @if (number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) < 80) background-color:#ff7070;
+                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) == 80 ) background-color:#36c186;
+                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) > 80 ) background-color:#1e5287;
+                                            @endif"aria-valuenow="{{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}"
+                                                aria-valuemin="0" aria-valuemax="100">
+                                                {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                           @endforeach
+                            @endforeach
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                @endif
+            {{-- </div> --}}
         </div><!-- [ Main Content ] end -->
     </div>
 </div>
@@ -140,6 +141,26 @@
 
 <script>
     "use strict";
+    const categories = [
+        "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00",
+        "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00",
+        "22:00", "23:00"
+    ];
+
+    const kategori = {
+        "Siang": [],
+        "Malam": []
+    };
+
+    categories.forEach(time => {
+    const hour = parseInt(time.split(":")[0]); // Mendapatkan jam (0-23)
+
+    if (hour >= 7 && hour <= 18) {
+        kategori.Siang.push(time);
+    } else {
+        kategori.Malam.push(time);
+    }
+    });
 
     function floatchart() {
         const productionData = @json($data['all']); // Data dari server
@@ -184,10 +205,7 @@
                 data: dataSeries
             }],
             xaxis: {
-                categories: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
-                    "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
-                    "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
-                ],
+                categories: kategori,
                 axisBorder: {
                     show: !1
                 },

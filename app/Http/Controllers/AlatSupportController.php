@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
+
 class AlatSupportController extends Controller
 {
     //
@@ -53,8 +55,12 @@ class AlatSupportController extends Controller
             'al.material'
         )
         ->where('al.statusenabled', 'true')
-        ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
-        ->get();
+        ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
+        if (Auth::user()->role !== 'ADMIN') {
+            $support->where('dr.foreman_id', Auth::user()->id);
+        }
+
+        $support = $support->get();
 
         return view('alat-support.index', compact('support'));
     }

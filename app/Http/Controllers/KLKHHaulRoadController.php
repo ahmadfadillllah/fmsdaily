@@ -47,7 +47,7 @@ class KLKHHaulRoadController extends Controller
         ->where('hr.statusenabled', 'true')
         ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'Admin') {
+        if (Auth::user()->role !== 'ADMIN') {
             $baseQuery->where('pic', Auth::user()->id);
         }
 
@@ -126,7 +126,7 @@ class KLKHHaulRoadController extends Controller
     public function delete($id)
     {
         try {
-            KLKHHaulRoad::where('id', $id) ->update(['statusenabled' => 'false']);
+            KLKHHaulRoad::where('id', $id) ->update(['statusenabled' => 'false'])->update(['deleted_by' => Auth::user()->id]);
 
             return redirect()->route('klkh.haul-road')->with('success', 'KLKH Haul Road berhasil dihapus');
 

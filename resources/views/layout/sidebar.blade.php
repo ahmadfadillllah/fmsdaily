@@ -20,7 +20,7 @@
                     <div class="collapse pc-user-links" id="pc_sidebar_userlink">
                         <div class="pt-3">
                             <a href="#!" data-bs-toggle="modal" data-bs-target="#changePassword"><svg class="pc-icon text-muted me-2"> <use xlink:href="#custom-share-bold"></use> </svg> <span>Ganti Password</span></a>
-                            <a href="#!"><i class="ti ti-settings"></i><span>Settings</span></a>
+                            <a href="#!"><i class="ti ti-settings"></i><span>Profil</span></a>
                             <a href="{{ route('logout') }}"><i class="ti ti-power"></i><span>Logout</span></a>
                         </div>
 
@@ -50,7 +50,9 @@
                 </li>
                 {{-- <li class="pc-item"><a href="#" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/excavator.png" alt="EX"></span><span class="pc-mtext">Front Loading</span></a></li> --}}
                 <li class="pc-item"><a href="{{ route('form-pengawas.show') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="BD"></span><span class="pc-mtext">Daftar Laporan</span></a></li>
-                <li class="pc-item"><a href="{{ route('form-pengawas.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
+                @if(Auth::user()->role != 'ADMIN')
+                    <li class="pc-item"><a href="{{ route('form-pengawas.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
+                @endif
                 <li class="pc-item pc-caption"><label>KLKH</label> <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
                     </svg>

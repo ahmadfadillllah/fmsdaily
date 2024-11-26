@@ -6,6 +6,7 @@ use App\Models\FrontLoading;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FrontLoadingController extends Controller
@@ -54,8 +55,12 @@ class FrontLoadingController extends Controller
         )
         ->whereNotNull('nomor_unit')
         ->where('dr.statusenabled', 'true')
-        ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
-        ->get()
+        ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
+        if (Auth::user()->role !== 'ADMIN') {
+            $front->where('dr.foreman_id', Auth::user()->id);
+        }
+
+        $front = $front->get()
         ->flatMap(function ($item) {
             $siang = json_decode($item->siang, true) ?? [];
             $malam = json_decode($item->malam, true) ?? [];
@@ -106,6 +111,7 @@ class FrontLoadingController extends Controller
 
                 return $result;
             });
+
 
         return view('front-loading.index', compact('front'));
     }

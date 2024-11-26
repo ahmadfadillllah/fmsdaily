@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
+
 class CatatanPengawasController extends Controller
 {
     //
@@ -46,8 +48,12 @@ class CatatanPengawasController extends Controller
             'cp.keterangan'
         )
         ->where('cp.statusenabled', 'true')
-        ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
-        ->get();
+        ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
+        if (Auth::user()->role !== 'ADMIN') {
+            $note->where('dr.foreman_id', Auth::user()->id);
+        }
+
+        $note = $note->get();
 
         return view('catatan-pengawas.index', compact('note'));
     }

@@ -48,7 +48,7 @@
                                         <th>Nama Supervisor</th>
                                         <th>NIK Superintendent</th>
                                         <th>Nama Superintendent</th>
-                                        <td>Aksi</td>
+                                        <th>Aksi</th>
                                     </tr>
 
                                 </thead>
