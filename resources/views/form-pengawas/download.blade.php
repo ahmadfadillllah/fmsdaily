@@ -159,6 +159,13 @@
         .data-table td[colspan] {
             text-align: left;
         }
+        .data-table tr:nth-child(odd) {
+            background-color: #f2f2f2; /* Warna zebra (warna abu-abu muda untuk baris ganjil) */
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #ffffff; /* Warna putih untuk baris genap */
+        }
 
         .footer {
             font-size: 10px;
@@ -346,7 +353,7 @@
             <td></td>
         </tr>
         <tr>
-            <td rowspan="8">HT2500</td>
+            <td rowspan="8" style="background-color: #ffffff;">HT2500</td>
             <td colspan="2">EX265</td>
             <td></td>
             <td></td>
@@ -467,7 +474,7 @@
             <td></td>
         </tr>
         <tr>
-            <td>HT1900</td>
+            <td style="background-color: #ffffff;">HT1900</td>
             <td colspan="2">EX264</td>
             <td></td>
             <td></td>
@@ -611,7 +618,108 @@
                 <td style="padding-left:2px;"></td>
             </tr>
             @endforeach
-
+            @if ($data['support']->isEmpty())
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="padding-left:2px;"></td>
+                    <td style="padding-left:2px;"></td>
+                </tr>
+            @endif
         </tbody>
     </table>
     <br>
@@ -622,9 +730,26 @@
                 <tbody>
                     @foreach ($data['catatan'] as $cp)
                     <tr>
-                        <td style="border: none; border-bottom: 1px solid black; text-align:left">({{ $cp->jam_start }} - {{ $cp->jam_stop }}) {{ $cp->keterangan }}</td>
+                        <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;">({{ $cp->jam_start }} - {{ $cp->jam_stop }}) {{ $cp->keterangan }}</td>
                     </tr>
                     @endforeach
+                    @if ($data['catatan']->isEmpty())
+                        <tr>
+                            <td style="border: none; border-bottom: 1px solid black; text-align:left"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -640,7 +765,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Data 1</td>
+                        <td style="padding-top: 20px;padding-bottom: 20px;">Data 1</td>
                         <td>Data 2</td>
                     </tr>
                 </tbody>
