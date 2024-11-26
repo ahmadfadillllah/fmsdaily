@@ -209,6 +209,28 @@
         h4{
             margin-bottom: 0px;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .grid-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .grid-table th, .grid-table td {
+            border: 1px solid #000;
+            /* padding: 8px; */
+            text-align: center;
+        }
+
+        .grid-table th {
+            background-color: #f4f4f4;
+        }
+
     </style>
 </head>
 
@@ -558,7 +580,7 @@
         Keterangan: beri tanda centang (√) pada unit excavator yang diawasi
     </div>
     <h4>
-        B.  ALAT SUPPORT ( SIANG / MALAM ) TANGGAL :
+        B.  ALAT SUPPORT ( {{ $data['daily']->shift }} ) TANGGAL : {{ date('d-m-Y', strtotime($data['daily']->tanggal)) }}
     </h4>
     <table class="data_table">
         <thead>
@@ -594,123 +616,42 @@
     </table>
     <br>
     <div style="font-size: 8pt;"><i>KET:</i></div>
-    <div>
-        <table class="table_close">
-            <tr>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;">lfksdflkslfkslf;sf</th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th class="noborder" width="5px"></th>
-                <th style="border:1px solid #000;" colspan="3">Dibuat</th>
-                <th style="border:1px solid #000;" colspan="3">Diperiksa</th>
+    <div class="grid-container">
+        <div class="grid-table">
+            <table >
+                <tbody>
+                    @foreach ($data['catatan'] as $cp)
+                    <tr>
+                        <td style="border: none; border-bottom: 1px solid black; text-align:left">({{ $cp->jam_start }} - {{ $cp->jam_stop }}) {{ $cp->keterangan }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-            </tr>
-            <tr>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th class="noborder" width="5px"></th>
-                <th style="border:1px solid #000;" rowspan="2" colspan="3"></th>
-                <th style="border:1px solid #000;" rowspan="2" colspan="3"></th>
-            </tr>
-            <tr>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th class="noborder" width="5px"></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th style="border-bottom: 1px solid #000; border-top: 1px solid #000;"></th>
-                <th class="noborder" width="5px"></th>
-                <th style="border:1px solid #000;" colspan="3">Foreman</th>
-                <th style="border:1px solid #000;" colspan="3">SV/SI</th>
-            </tr>
-
-        </table>
+        <!-- Grid kedua: Tabel -->
+        <div class="grid-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dibuat</th>
+                        <th>Diperiksa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Foreman</th>
+                        <th>SV/SI</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
     <script type="text/javascript">
         window.onload = function() {

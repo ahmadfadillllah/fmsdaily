@@ -355,12 +355,24 @@ class FormPengawasController extends Controller
             'al.hm_awal',
             'al.hm_akhir',
             'al.hm_cash',
+            'al.shift_operator as shift',
+            'al.tanggal_operator as tanggal',
         )
         ->where('al.daily_report_id', $id)->get();
+
+        $catatan = DB::table('catatan_pengawas_t as cp')
+        ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
+        ->select(
+            'cp.jam_start',
+            'cp.jam_stop',
+            'cp.keterangan',
+        )
+        ->where('cp.daily_report_id', $id)->get();
 
         $data = [
             'daily' => $daily,
             'support' => $support,
+            'catatan' => $catatan,
         ];
 
         // $pdf = PDF::loadView('form-pengawas.download', array(
