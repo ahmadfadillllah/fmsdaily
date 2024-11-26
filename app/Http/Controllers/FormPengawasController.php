@@ -102,7 +102,7 @@ class FormPengawasController extends Controller
             'material' => $material,
             'nomor_unit' => $nomor_unit,
         ];
-        return view('form-pengawas.index', compact('data'));
+        return view('form-pengawas.index', compact('data', 'daily'));
     }
 
     public function users(Request $request)
