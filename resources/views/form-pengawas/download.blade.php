@@ -615,7 +615,7 @@
                 <td style="text-align: center">{{ $sp->hm_akhir }}</td>
                 <td style="text-align: center">{{ $sp->hm_akhir - $sp->hm_awal }}</td>
                 <td style="padding-left:2px;">{{ $sp->hm_cash }}</td>
-                <td style="padding-left:2px;"></td>
+                <td style="padding-left:2px;">{{ $sp->keterangan }}</td>
             </tr>
             @endforeach
             @if ($data['support']->isEmpty())
@@ -730,7 +730,7 @@
                 <tbody>
                     @foreach ($data['catatan'] as $cp)
                     <tr>
-                        <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;">({{ $cp->jam_start }} - {{ $cp->jam_stop }}) {{ $cp->keterangan }}</td>
+                        <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;">({{ \Carbon\Carbon::parse($cp->jam_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($cp->jam_stop)->format('H:i') }}) {{ $cp->keterangan }}</td>
                     </tr>
                     @endforeach
                     @if ($data['catatan']->isEmpty())
@@ -765,8 +765,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding-top: 20px;padding-bottom: 20px;">Data 1</td>
-                        <td>Data 2</td>
+                        <td style="padding-top: 20px;padding-bottom: 20px;"></td>
+                        <td></td>
                     </tr>
                 </tbody>
                 <thead>

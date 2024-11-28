@@ -265,8 +265,12 @@ class FormPengawasController extends Controller
             'gl.PERSONALNAME as nama_superintendent',
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
-        ->where('dr.foreman_id', Auth::user()->id)
-        ->where('dr.statusenabled', 'true')->get();
+        ->where('dr.statusenabled', 'true');
+        if (Auth::user()->role !== 'ADMIN') {
+            $daily->where('dr.foreman_id', Auth::user()->id);
+        }
+
+        $daily = $daily->get();
 
         return view('form-pengawas.daftar.index', compact('daily'));
     }
@@ -338,6 +342,7 @@ class FormPengawasController extends Controller
             'al.hm_awal',
             'al.hm_akhir',
             'al.hm_cash',
+            'al.keterangan',
             'al.shift_operator as shift',
             'al.tanggal_operator as tanggal',
         )
