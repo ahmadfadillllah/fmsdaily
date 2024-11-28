@@ -40,9 +40,9 @@ class FormPengawasController extends Controller
             ->where('VHC_ACTIVE', true)
             ->get();
 
-        $nomor_unit = Unit::select([
-            'VHC_ID'
-        ])->get();
+        $nomor_unit = Unit::select('VHC_ID')
+            ->where('VHC_ID', 'NOT LIKE', 'HD%')
+            ->get();
 
         $operator = Personal::select
         (
