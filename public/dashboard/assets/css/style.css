@@ -28580,7 +28580,7 @@ pre[class*=language-] {
 }
 
 .table thead th {
-    padding: .9rem .75rem
+    padding: .2rem .75rem
 }
 
 .table.table-borderless td,
@@ -29941,7 +29941,7 @@ select[data-multiselectsplitter-secondselect-selector].datatable-input {
     border: 1px solid #bec8d0;
     border-radius: 8px;
     font-size: 14px;
-    min-height: 44px;
+    /* min-height: 44px; */
     overflow: hidden
 }
 
@@ -34706,7 +34706,7 @@ body.anim-slip-from-top.modal-open .pc-header {
 .datatable-table>thead>tr>td,
 .datatable-table>thead>tr>th {
     vertical-align: middle;
-    padding: .7rem .75rem
+    padding: .2rem .75rem
 }
 
 .datatable-table td,
@@ -34716,7 +34716,7 @@ body.anim-slip-from-top.modal-open .pc-header {
     border-top: 1px solid #e7eaee;
     border-bottom: none;
     white-space: nowrap;
-    padding: .7rem .75rem;
+    padding: .2rem .75rem;
     vertical-align: middle
 }
 

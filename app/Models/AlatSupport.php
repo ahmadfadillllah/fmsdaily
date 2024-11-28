@@ -22,7 +22,7 @@ class AlatSupport extends Model
         'hm_akhir',
         'hm_total',
         'hm_cash',
-        'material',
+        'keterangan',
     ];
 
     protected $guarded = [];

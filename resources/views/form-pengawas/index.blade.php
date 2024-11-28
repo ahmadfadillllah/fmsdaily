@@ -105,7 +105,7 @@
                             </ul>
                         </div>
                     </div>
-                    @if (!empty('daily'))
+                    @if ($daily->isNotEmpty())
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>Info!</strong>
                             Anda sudah mengisi Laporan Harian hari ini
@@ -176,69 +176,28 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-12">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="row">
-                                                                    <div class="col-sm-9 col-9">
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label"
-                                                                                for="nikSupervisor">Supervisor</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="nikSupervisor" name="nik_supervisor"
-                                                                                placeholder="Masukkan NIK">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3 col-3 d-flex align-items-end">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary mb-3 w-100 rounded"
-                                                                            id="btnCariSupervisor">
-                                                                            <i class="fa-solid fa-magnifying-glass"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="col-sm-12">
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label"
-                                                                                for="namaSupervisor">Nama
-                                                                                Supervisor</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="namaSupervisor"
-                                                                                name="nama_supervisor" readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="row">
-                                                                    <div class="col-sm-9 col-9">
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label"
-                                                                                for="nikSuperintendent">Superintendent</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="nikSuperintendent"
-                                                                                name="nik_superintendent"
-                                                                                placeholder="Masukkan NIK">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3 col-3 d-flex align-items-end">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary mb-3 w-100 rounded"
-                                                                            id="btnCariSuperintendent">
-                                                                            <i class="fa-solid fa-magnifying-glass"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="col-sm-12">
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label"
-                                                                                for="namaSuperintendent">Nama
-                                                                                Superintendent</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="namaSuperintendent"
-                                                                                name="nama_superintendent" readonly>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3"> <label class="form-label"
+                                                                for="nikSupervisor">Supervisor</label>
+                                                            <select class="form-select"  data-trigger id="nikSupervisor"
+                                                                name="nik_supervisor">
+                                                                <option selected disabled></option>
+                                                                @foreach ($data['supervisor'] as $sv)
+                                                                    <option value="{{ $sv->NRP }}|{{ $sv->PERSONALNAME }}">{{ $sv->NRP }}|{{ $sv->PERSONALNAME }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3"> <label class="form-label"
+                                                                for="nikSuperintendent">Superintendent</label>
+                                                            <select class="form-select"  data-trigger id="nikSuperintendent"
+                                                                name="nik_superintendent">
+                                                                <option selected disabled></option>
+                                                                @foreach ($data['superintendent'] as $st)
+                                                                    <option value="{{ $st->NRP }}|{{ $st->PERSONALNAME }}">{{ $st->NRP }}|{{ $st->PERSONALNAME }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -280,9 +239,9 @@
                                                         </thead>
                                                         <tbody id="tableBody">
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="07.00 - 08.00">07.00 - 08.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="19.00 - 20.00">19.00 - 20.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="07.00 - 08.00 | 19.00 - 20.00"
@@ -290,9 +249,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="08.00 - 09.00">08.00 - 09.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="20.00 - 21.00">20.00 - 21.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="08.00 - 09.00 | 20.00 - 21.00"
@@ -300,9 +259,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="09.00 - 10.00">09.00 - 10.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="21.00 - 22.00">21.00 - 22.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="09.00 - 10.00 | 21.00 - 22.00"
@@ -310,9 +269,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="10.00 - 11.00">10.00 - 11.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="22.00 - 23.00">22.00 - 23.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="10.00 - 11.00 | 22.00 - 23.00"
@@ -320,9 +279,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="11.00 - 12.00">11.00 - 12.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="23.00 - 24.00">23.00 - 24.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="11.00 - 12.00 | 23.00 - 24.00"
@@ -330,9 +289,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="12.00 - 13.00">12.00 - 13.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="24.00 - 01.00">24.00 - 01.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="12.00 - 13.00 | 24.00 - 01.00"
@@ -340,9 +299,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="13.00 - 14.00">13.00 - 14.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="01.00 - 02.00">01.00 - 02.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="13.00 - 14.00 | 01.00 - 02.00"
@@ -350,9 +309,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="14.00 - 15.00">14.00 - 15.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="02.00 - 03.00">02.00 - 03.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="14.00 - 15.00 | 02.00 - 03.00"
@@ -360,9 +319,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="15.00 - 16.00">15.00 - 16.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="03.00 - 04.00">03.00 - 04.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="15.00 - 16.00 | 03.00 - 04.00"
@@ -370,9 +329,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="16.00 - 17.00">16.00 - 17.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="04.00 - 05.00">04.00 - 05.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="16.00 - 17.00 | 04.00 - 05.00"
@@ -380,9 +339,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="17.00 - 18.00">17.00 - 18.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="05.00 - 06.00">05.00 - 06.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="17.00 - 18.00 | 05.00 - 06.00"
@@ -390,9 +349,9 @@
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden" name="siang[]"
+                                                                <td><input type="hidden"
                                                                         value="18.00 - 19.00">18.00 - 19.00</td>
-                                                                <td><input type="hidden" name="malam[]"
+                                                                <td><input type="hidden"
                                                                         value="06.00 - 07.00">06.00 - 07.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="18.00 - 19.00 | 06.00 - 07.00"
@@ -549,7 +508,7 @@
     const headerRow2 = document.getElementById('headerRow2');
     const tableBody = document.getElementById('tableBody');
 
-    let unitCount = 0;
+    let unitCount = 1;
 
     const exa = @json($data['EX']);
 
@@ -656,30 +615,30 @@
     let supportCount = 0;
 
     // Menghitung Total otomatis berdasarkan HM Akhir - HM Awal
-    document.getElementById('hmAwalSupport').addEventListener('input', calculateTotal);
-    document.getElementById('hmAkhirSupport').addEventListener('input', calculateTotal);
+    // document.getElementById('hmAwalSupport').addEventListener('input', calculateTotal);
+    // document.getElementById('hmAkhirSupport').addEventListener('input', calculateTotal);
 
-    function calculateTotal() {
-        const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
-        const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
-        const total = hmAkhir - hmAwal;
-        document.getElementById('totalSupport').value = total >= 0 ? total : 0;
-    }
+    // function calculateTotal() {
+    //     const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
+    //     const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
+    //     const total = hmAkhir - hmAwal;
+    //     document.getElementById('totalSupport').value = total >= 0 ? total : 0;
+    // }
 
     document.getElementById('saveSupport').addEventListener('click', () => {
-       const jenis = document.getElementById('jenisSupport').value || '';
+    //    const jenis = document.getElementById('jenisSupport').value || '';
         const unit = document.getElementById('unitSupport').value || '';
-        const nik = document.getElementById('nikSupport').value || '';
+        // const nik = document.getElementById('nikSupport').value || '';
         const nama = document.getElementById('namaSupport').value || '';
         const tanggal = document.getElementById('tanggalSupport').value || '';
         const shift = document.getElementById('shiftSupport').value || '';
         const hmAwal = document.getElementById('hmAwalSupport').value || '';
         const hmAkhir = document.getElementById('hmAkhirSupport').value || '';
         const hmCash = document.getElementById('hmCashSupport').value || '';
-        const total = document.getElementById('totalSupport').value || '';
-        const material = document.getElementById('materialSupport').value || '';
+        // const total = document.getElementById('totalSupport').value || '';
+        const keterangan = document.getElementById('keteranganSupport').value || '';
 
-        if ( !nik || !tanggal || !shift || !hmAwal || !hmAkhir) {
+        if ( !nama || !tanggal || !shift || !hmAwal || !hmAkhir) {
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
@@ -696,7 +655,7 @@
         const newAccordionItem = `<div class="accordion-item" id="${accordionId}">
                                         <h2 class="accordion-header" id="heading${accordionId}">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
-                                                Support #${supportCount}
+                                                #${supportCount}. ${unit}
                                             </button>
                                         </h2>
                                         <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionSupport">
@@ -704,17 +663,10 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered">
                                                         <tbody>
-                                                            <tr>
-                                                                <th>Jenis</th>
-                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][jenisSupport]" value="${jenis}">${jenis}</td>
-                                                            </tr>
+
                                                             <tr>
                                                                 <th>Unit</th>
                                                                 <td><input type="hidden" name="alat_support[${supportCount-1}][unitSupport]" value="${unit}">${unit}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>NIK</th>
-                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][nikSupport]" value="${nik}">${nik}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Nama</th>
@@ -741,12 +693,8 @@
                                                                 <td><input type="hidden" name="alat_support[${supportCount-1}][hmCashSupport]" value="${hmCash}">${hmCash}</td>
                                                             </tr>
                                                             <tr>
-                                                                <th>Total</th>
-                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][totalSupport]" value="${total}">${total}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Material</th>
-                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][materialSupport]" value="${material}">${material}</td>
+                                                                <th>Keterangan</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][keteranganSupport]" value="${keterangan}">${keterangan}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -770,9 +718,9 @@
             if (modalInstance) {
                 modalInstance.hide();
             }
-             document.getElementById('jenisSupport').value = null;
+            //  document.getElementById('jenisSupport').value = null;
              document.getElementById('unitSupport').value = null;
-             document.getElementById('nikSupport').value = null;
+            //  document.getElementById('nikSupport').value = null;
              document.getElementById('namaSupport').value = null;
              const today = new Date();
 
@@ -784,8 +732,8 @@
              document.getElementById('hmAwalSupport').value = null;
              document.getElementById('hmAkhirSupport').value = null;
              document.getElementById('hmCashSupport').value = null;
-             document.getElementById('totalSupport').value = null;
-             document.getElementById('materialSupport').value = null;
+            //  document.getElementById('totalSupport').value = null;
+             document.getElementById('keteranganSupport').value = null;
         });
         // document.getElementById("formSupport").reset();
 
@@ -920,13 +868,15 @@
         const select1 = document.getElementById("exampleFormControlSelect1");
         const select2 = document.getElementById("exampleFormControlSelect2");
         const select3 = document.getElementById("exampleFormControlSelect3");
+        const select4 = document.getElementById("nikSupervisor");
+        const select5 = document.getElementById("nikSuperintendent");
 
 
-        if (!date.value || !select1.value || !select2.value || !select3.value) {
+        if (!date.value || !select1.value || !select2.value || !select3.value || !select4.value || !select5.value) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
-                text: "Kolom Tanggal, Shift, Area dan Lokasi wajib diisi",
+                text: "Kolom Tanggal, Shift, Area, Lokasi, Supervisor dan Superintendent wajib diisi",
                 confirmButtonText: 'OK'
             });
             return false;

@@ -18,63 +18,70 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card table-card">
-                    <div class="card-header d-flex align-items-center justify-content-between py-3">
-                        <h5 class="mb-0">Daftar yang sudah mengisi laporan harian</h5>
-                        {{-- <button class="btn btn-sm btn-link-primary">Lihat semua</button> --}}
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="pc-dt-simple">
-                                <thead>
-                                    <tr>
-                                        <th>NIK</th>
-                                        <th>Nama</th>
-                                        <th>Role</th>
-                                        {{-- <th>Tanggal</th>
-                                        <th>Shift</th>
-                                        <th>Area</th>
-                                        <th>Lokasi</th> --}}
-                                        <th>Jumlah</th>
-                                        <th class="text-end">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($daily as $item)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0"><img src="{{ asset('dashboard/assets/images/user/' . ($item->avatar !== null ? $item->avatar : 'avatar-1') . '.jpg') }}" alt="user image" class="img-radius wid-40"></div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h6 class="mb-0">{{ $item->nik }}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->role }}</td>
-                                            {{-- <td>{{ $item->tanggal }}</td>
-                                            <td>{{ $item->shift }}</td>
-                                            <td>{{ $item->area }}</td>
-                                            <td>{{ $item->lokasi }}</td> --}}
-                                            <td><span class="badge text-bg-success">{{ $item->jumlah }}</span></td>
-                                            <td class="text-end"><a href="#" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a></td>
-                                                        {{-- <a href="#"
-                                                    class="avtar avtar-xs btn-link-secondary"><i
-                                                        class="ti ti-edit f-20"></i> </a><a href="#"
-                                                    class="avtar avtar-xs btn-link-secondary"><i
-                                                        class="ti ti-trash f-20"></i></a> --}}
+        <div class="row g-1">
+            <h5 class="w-100">Fitur Pilihan</h5>
 
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+            <div class="col-6 col-md-6 col-xxl-2">
+                <a href="{{ route('form-pengawas.index') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="Form Pengawas" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:12px">Laporan Harian</h6>
                         </div>
                     </div>
-                </div>
+                </a>
+            </div>
+
+            <div class="col-6 col-md-6 col-xxl-2">
+                <a href="{{ route('production.index') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/production.png" alt="Produksi Per Jam" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:12px">Produksi Per Jam</h6>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
+
+        <div class="row g-1">
+
+            <h5 class="w-100">KLKH</h5>
+
+            <div class="col-4 col-md-6 col-xxl-2">
+                <a href="{{ route('klkh.loading-point') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="KLKH Loading Point" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:10px">Loading Point</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-4 col-md-6 col-xxl-2">
+                <a href="{{ route('klkh.haul-road') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="KLKH Haul Road" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:12px">Haul Road</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-4 col-md-6 col-xxl-2">
+                <a href="{{ route('klkh.disposal') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="KLKH Disposal" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:12px">Disposal</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
     </div>
 </div>
 

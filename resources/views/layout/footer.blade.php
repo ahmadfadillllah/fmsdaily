@@ -195,6 +195,7 @@
 <script src="{{ asset('dashboard/assets') }}/js/plugins/datepicker-full.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/flatpickr.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script>
+<script src="{{ asset('dashboard/assets') }}/js/plugins/choices.min.js"></script>
 {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/w-chart.js"></script> --}}
 {{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> --}}
 
@@ -220,6 +221,19 @@
             time_24hr: true
         });
     }
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var genericExamples = document.querySelectorAll('[data-trigger]');
+        for (i = 0; i < genericExamples.length; ++i) {
+            var element = genericExamples[i];
+            new Choices(element, {
+                placeholderValue: 'This is a placeholder set in the config',
+                searchPlaceholderValue: 'Ketik nama disini'
+            });
+        }
+    });
 
 </script>
 <script>

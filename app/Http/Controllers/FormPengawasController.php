@@ -40,66 +40,32 @@ class FormPengawasController extends Controller
             ->where('VHC_ACTIVE', true)
             ->get();
 
-        $hd = Unit::select([
-            'VHC_ID',
-            'VHC_TYPEID',
-            'VHC_GROUPID',
-            'VHC_ACTIVE',
-        ])
-            ->where('VHC_ID', 'like', 'HD%')
-            ->where('VHC_ACTIVE', true)
-            ->get();
-
-        $mg = Unit::select([
-            'VHC_ID',
-            'VHC_TYPEID',
-            'VHC_GROUPID',
-            'VHC_ACTIVE',
-        ])
-            ->where('VHC_ID', 'like', 'MG%')
-            ->where('VHC_ACTIVE', true)
-            ->get();
-
-        $bd = Unit::select([
-            'VHC_ID',
-            'VHC_TYPEID',
-            'VHC_GROUPID',
-            'VHC_ACTIVE',
-        ])
-            ->where('VHC_ID', 'like', 'BD%')
-            ->where('VHC_ACTIVE', true)
-            ->get();
-
-        $wt = Unit::select([
-            'VHC_ID',
-            'VHC_TYPEID',
-            'VHC_GROUPID',
-            'VHC_ACTIVE',
-        ])
-            ->where('VHC_ID', 'like', 'WT%')
-            ->where('VHC_ACTIVE', true)
-            ->get();
-
-        $material = Material::select([
-            'MAT_ID',
-            'MAT_DESC',
-            'MAT_DENSITY',
+        $nomor_unit = Unit::select([
+            'VHC_ID'
         ])->get();
 
-        $nomor_unit = Unit::select([
-            'VHC_ID as MAT_ID'
-        ])
-            ->where('VHC_ACTIVE', true)
-            ->get();
+        $operator = Personal::select
+        (
+            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+        )->where('ROLETYPE', 0)->get();
+
+        $supervisor = Personal::select
+        (
+            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+        )->where('ROLETYPE', 3)->get();
+
+        $superintendent = Personal::select
+        (
+            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+        )->where('ROLETYPE', 4)->get();
 
 
         $data = [
-            'HD' => $hd,
-            'MG' => $mg,
-            'BD' => $bd,
-            'WT' => $wt,
+            'operator' => $operator,
+            'supervisor' => $supervisor,
+            'superintendent' => $superintendent,
             'EX' => $ex,
-            'material' => $material,
+            'EX' => $ex,
             'nomor_unit' => $nomor_unit,
         ];
         return view('form-pengawas.index', compact('data', 'daily'));
@@ -136,6 +102,17 @@ class FormPengawasController extends Controller
         try {
             return DB::transaction(function () use ($request) {
                 // insert daily report
+                $supervisor = $request->nik_supervisor ?? [] ;
+                $superintendent = $request->nik_superintendent ?? [];
+
+                $nikSlotsSV = explode('|', $supervisor);
+                $nikSupervisor = $nikSlotsSV[0];
+                $namaSupervisor = trim($nikSlotsSV[1]);
+
+                $nikSlotsSI = explode('|', $superintendent);
+                $nikSuperintendent = $nikSlotsSI[0];
+                $namaSuperintendent = trim($nikSlotsSI[1]);
+
                 $dailyReport = DailyReport::create([
                     'foreman_id' => Auth::user()->id,
                     'statusenabled' => 'true',
@@ -143,10 +120,10 @@ class FormPengawasController extends Controller
                     'shift_dasar' => $request->shift_dasar,
                     'area' => $request->area,
                     'lokasi' => $request->lokasi,
-                    'nik_supervisor' => $request->nik_supervisor,
-                    'nama_supervisor' => $request->nama_supervisor,
-                    'nik_superintendent' => $request->nik_superintendent,
-                    'nama_superintendent' => $request->nama_superintendent
+                    'nik_supervisor' => $nikSupervisor,
+                    'nama_supervisor' => $namaSupervisor,
+                    'nik_superintendent' => $nikSuperintendent,
+                    'nama_superintendent' => $namaSuperintendent
                 ]);
 
                 // insert front loading
@@ -177,25 +154,30 @@ class FormPengawasController extends Controller
                     }
                 }
 
-
                 // insert alat support
                 // if (!empty($request->supports)) {
                 if (!empty($request->alat_support)) {
                     foreach ($request->alat_support as $value) {
+
+                        $operator = explode('|',  $value['namaSupport']);
+                        $nikOperator = $operator[0];
+                        $namaOperator = trim($operator[1]);
+                        $jenisUnit = substr($value['unitSupport'], 0, 2);
+
                         AlatSupport::create([
                             'daily_report_id' => $dailyReport->id,
                             'statusenabled' => 'true',
-                            'jenis_unit' => $value['jenisSupport'],
+                            'jenis_unit' => $jenisUnit,
                             'alat_unit' => $value['unitSupport'],
-                            'nik_operator' => $value['nikSupport'],
-                            'nama_operator' => $value['namaSupport'],
+                            'nik_operator' => $nikOperator,
+                            'nama_operator' => $namaOperator,
                             'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
                             'shift_operator' => $value['shiftSupport'],
                             'hm_awal' => $value['hmAwalSupport'],
                             'hm_akhir' => $value['hmAkhirSupport'],
-                            'hm_total' => $value['totalSupport'],
+                            'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
                             'hm_cash' => $value['hmCashSupport'],
-                            'material' => $value['materialSupport'],
+                            'keterangan' => $value['keteranganSupport'],
                         ]);
                     }
                 }
@@ -283,6 +265,7 @@ class FormPengawasController extends Controller
             'gl.PERSONALNAME as nama_superintendent',
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
+        ->where('dr.foreman_id', Auth::user()->id)
         ->where('dr.statusenabled', 'true')->get();
 
         return view('form-pengawas.daftar.index', compact('daily'));

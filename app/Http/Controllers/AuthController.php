@@ -18,7 +18,7 @@ class AuthController extends Controller
         $credentials = $request->only('nik', 'password');
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            return redirect()->route('production.index')->with('alert','Selamat Datang');
+            return redirect()->route('dashboard.index')->with('alert','Selamat Datang');
         }
 
         return redirect()->back()->with('login', 'NIK atau password salah');
