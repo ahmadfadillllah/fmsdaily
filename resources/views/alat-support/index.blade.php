@@ -97,7 +97,7 @@
                                             <td>{{ $item->hm_akhir }}</td>
                                             <td>{{ $item->hm_akhir - $item->hm_awal }}</td>
                                             <td>{{ $item->hm_cash }}</td>
-                                            <td>{{ $item->material }}</td>
+                                            <td>{{ $item->keterangan }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
