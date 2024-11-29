@@ -36,7 +36,8 @@ class KLKHHaulRoadController extends Controller
         $baseQuery = DB::table('klkh_haulroad_t as hr')
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->select(
-            'hr.pic as id',
+            'hr.id',
+            'hr.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, hr.created_at, 120) as tanggal_pembuatan'),
             'hr.statusenabled',
@@ -134,7 +135,10 @@ class KLKHHaulRoadController extends Controller
     public function delete($id)
     {
         try {
-            KLKHHaulRoad::where('id', $id) ->update(['statusenabled' => 'false'])->update(['deleted_by' => Auth::user()->id]);
+            KLKHHaulRoad::where('id', $id)->update([
+                'statusenabled' => 'false',
+                'deleted_by' => Auth::user()->id,
+            ]);
 
             return redirect()->route('klkh.haul-road')->with('success', 'KLKH Haul Road berhasil dihapus');
 

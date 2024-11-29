@@ -36,7 +36,8 @@ class KLKHLoadingPointController extends Controller
         $baseQuery = DB::table('klkh_loadingpoint_t as lp')
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->select(
-            'lp.pic as id',
+            'lp.id',
+            'lp.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, lp.created_at, 120) as tanggal_pembuatan'),
             'lp.statusenabled',
@@ -127,7 +128,10 @@ class KLKHLoadingPointController extends Controller
     public function delete($id)
     {
         try {
-            KLKHLoadingPoint::where('id', $id) ->update(['statusenabled' => 'false'])->update(['deleted_by' => Auth::user()->id]);
+            KLKHLoadingPoint::where('id', $id)->update([
+                'statusenabled' => 'false',
+                'deleted_by' => Auth::user()->id,
+            ]);
 
             return redirect()->route('klkh.loading-point')->with('success', 'KLKH Loading Point berhasil dihapus');
 

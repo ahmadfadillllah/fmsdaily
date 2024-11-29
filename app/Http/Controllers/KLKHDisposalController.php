@@ -36,7 +36,8 @@ class KLKHDisposalController extends Controller
         $baseQuery = DB::table('klkh_disposal_t as dp')
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->select(
-            'dp.pic as id',
+            'dp.id',
+            'dp.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, dp.created_at, 120) as tanggal_pembuatan'),
             'dp.statusenabled',
@@ -144,8 +145,10 @@ class KLKHDisposalController extends Controller
     public function delete($id)
     {
         try {
-            KLKHDisposal::where('id', $id)->update(['statusenabled' => 'false'])
-            ->update(['deleted_by' => Auth::user()->id]);
+            KLKHDisposal::where('id', $id)->update([
+                'statusenabled' => 'false',
+                'deleted_by' => Auth::user()->id,
+            ]);
 
             return redirect()->route('klkh.disposal')->with('success', 'KLKH Disposal berhasil dihapus');
 
