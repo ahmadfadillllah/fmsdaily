@@ -61,10 +61,10 @@
                         <label>HM Akhir</label>
                         <input type="number" id="hmAkhirSupport" class="form-control" name="hm_akhir[]">
                     </div>
-                    {{-- <div class="mb-3">
+                    <div class="mb-3">
                         <label>Total</label>
                         <input type="number" id="totalSupport" class="form-control" name="hm_total[]" readonly>
-                    </div> --}}
+                    </div>
                     <div class="mb-3">
                         <label>HM Cash</label>
                         <input type="text" id="hmCashSupport" class="form-control" name="hm_cash[]">

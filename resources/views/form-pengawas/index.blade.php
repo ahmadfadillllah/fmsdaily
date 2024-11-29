@@ -615,15 +615,15 @@
     let supportCount = 0;
 
     // Menghitung Total otomatis berdasarkan HM Akhir - HM Awal
-    // document.getElementById('hmAwalSupport').addEventListener('input', calculateTotal);
-    // document.getElementById('hmAkhirSupport').addEventListener('input', calculateTotal);
+    document.getElementById('hmAwalSupport').addEventListener('input', calculateTotal);
+    document.getElementById('hmAkhirSupport').addEventListener('input', calculateTotal);
 
-    // function calculateTotal() {
-    //     const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
-    //     const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
-    //     const total = hmAkhir - hmAwal;
-    //     document.getElementById('totalSupport').value = total >= 0 ? total : 0;
-    // }
+    function calculateTotal() {
+        const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
+        const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
+        const total = hmAkhir - hmAwal;
+        document.getElementById('totalSupport').value = total >= 0 ? total : 0;
+    }
 
     document.getElementById('saveSupport').addEventListener('click', () => {
     //    const jenis = document.getElementById('jenisSupport').value || '';
@@ -635,7 +635,7 @@
         const hmAwal = document.getElementById('hmAwalSupport').value || '';
         const hmAkhir = document.getElementById('hmAkhirSupport').value || '';
         const hmCash = document.getElementById('hmCashSupport').value || '';
-        // const total = document.getElementById('totalSupport').value || '';
+        const total = document.getElementById('totalSupport').value || '';
         const keterangan = document.getElementById('keteranganSupport').value || '';
 
         if ( !nama || !tanggal || !shift || !hmAwal || !hmAkhir) {
@@ -689,6 +689,10 @@
                                                                 <td><input type="hidden" name="alat_support[${supportCount-1}][hmAkhirSupport]" value="${hmAkhir}">${hmAkhir}</td>
                                                             </tr>
                                                             <tr>
+                                                                <th>Total</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][totalSupport]" value="${total}">${total}</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <th>HM Cash</th>
                                                                 <td><input type="hidden" name="alat_support[${supportCount-1}][hmCashSupport]" value="${hmCash}">${hmCash}</td>
                                                             </tr>
@@ -732,7 +736,7 @@
              document.getElementById('hmAwalSupport').value = null;
              document.getElementById('hmAkhirSupport').value = null;
              document.getElementById('hmCashSupport').value = null;
-            //  document.getElementById('totalSupport').value = null;
+             document.getElementById('totalSupport').value = null;
              document.getElementById('keteranganSupport').value = null;
         });
         // document.getElementById("formSupport").reset();
