@@ -58,7 +58,13 @@ class KLKHDisposalController extends Controller
 
     public function insert()
     {
-        $users = Personal::where('ROLETYPE', 2)->get();
+        $supervisor = Personal::where('ROLETYPE', 3)->get();
+        $superintendent = Personal::where('ROLETYPE', 4)->get();
+
+        $users = [
+            'supervisor' => $supervisor,
+            'superintendent' => $superintendent,
+        ];
         return view('klkh.disposal.insert', compact('users'));
     }
 

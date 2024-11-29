@@ -377,8 +377,8 @@
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect2"
                                                                 name="supervisor">
                                                                 <option selected disabled></option>
-                                                                @foreach ($users as $item)
-                                                                    <option value="{{ $item->NRP }}">{{ $item->PERSONALNAME }}</option>
+                                                                @foreach ($users['supervisor'] as $sv)
+                                                                    <option value="{{ $sv->NRP }}">{{ $sv->PERSONALNAME }}</option>
                                                                 @endforeach
                                                             </select>
                                     </div>
@@ -387,8 +387,8 @@
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect1"
                                                                 name="superintendent">
                                                                 <option selected disabled></option>
-                                                                @foreach ($users as $item)
-                                                                    <option value="{{ $item->NRP }}">{{ $item->PERSONALNAME }}</option>
+                                                                @foreach ($users['superintendent'] as $si)
+                                                                    <option value="{{ $si->NRP }}">{{ $si->PERSONALNAME }}</option>
                                                                 @endforeach
                                                             </select>
                                     </div>
