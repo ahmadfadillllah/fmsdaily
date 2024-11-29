@@ -4,6 +4,7 @@
     <title>
         Laporan Harian Foreman Produksi
     </title>
+    <link rel="icon" href="{{ asset('dashboard/assets') }}/images/icon.png" type="image/x-icon">
     <style>
         @media print {
             @page {

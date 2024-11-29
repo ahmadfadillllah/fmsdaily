@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('daily_report_t', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid')->index();
             $table->foreignId('foreman_id')->constrained('users');
             $table->string('statusenabled');
             $table->date('tanggal_dasar')->nullable();

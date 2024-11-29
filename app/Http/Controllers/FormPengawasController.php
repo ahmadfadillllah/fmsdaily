@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Ramsey\Uuid\Uuid;
 
 class FormPengawasController extends Controller
 {
@@ -114,6 +115,7 @@ class FormPengawasController extends Controller
                 $namaSuperintendent = trim($nikSlotsSI[1]);
 
                 $dailyReport = DailyReport::create([
+                    'uuid' => (string) Uuid::uuid4()->toString(),
                     'foreman_id' => Auth::user()->id,
                     'statusenabled' => 'true',
                     'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
@@ -144,8 +146,10 @@ class FormPengawasController extends Controller
                             }
                         }
 
-                        FrontLoading::create([
+                        $front = FrontLoading::create([
+                            'uuid' => (string) Uuid::uuid4()->toString(),
                             'daily_report_id' => $dailyReport->id,
+                            'daily_report_uuid' => $dailyReport->uuid,
                             'statusenabled' => 'true',
                             'nomor_unit' => $front_unit["nomor_unit"],
                             'siang' => json_encode($morning),
@@ -165,6 +169,8 @@ class FormPengawasController extends Controller
                         $jenisUnit = substr($value['unitSupport'], 0, 2);
 
                         AlatSupport::create([
+                            'uuid' => (string) Uuid::uuid4()->toString(),
+                            'daily_report_uuid' => $dailyReport->uuid,
                             'daily_report_id' => $dailyReport->id,
                             'statusenabled' => 'true',
                             'jenis_unit' => $jenisUnit,
@@ -185,6 +191,8 @@ class FormPengawasController extends Controller
                 if (!empty($request->catatan)) {
                     foreach ($request->catatan as $catatan) {
                         CatatanPengawas::create([
+                            'uuid' => (string) Uuid::uuid4()->toString(),
+                            'daily_report_uuid' => $dailyReport->uuid,
                             'daily_report_id' => $dailyReport->id,
                             'statusenabled' => 'true',
                             'jam_start' => $catatan['start_catatan'],
@@ -255,6 +263,7 @@ class FormPengawasController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
         ->select(
             'dr.id',
+            'dr.uuid',
             'dr.tanggal_dasar as tanggal',
             'dr.shift_dasar as shift',
             'dr.area',
@@ -275,7 +284,7 @@ class FormPengawasController extends Controller
         return view('form-pengawas.daftar.index', compact('daily'));
     }
 
-    public function download($id)
+    public function download($uuid)
     {
 
         // $daily = DB::table('daily_report_t as dr')
@@ -332,7 +341,7 @@ class FormPengawasController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
             'gl.PERSONALNAME as nama_superintendent'
-        )->where('dr.id', $id)->first();
+        )->where('dr.uuid', $uuid)->first();
 
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
@@ -346,7 +355,7 @@ class FormPengawasController extends Controller
             'al.shift_operator as shift',
             'al.tanggal_operator as tanggal',
         )
-        ->where('al.daily_report_id', $id)->get();
+        ->where('al.daily_report_uuid', $uuid)->get();
 
         $catatan = DB::table('catatan_pengawas_t as cp')
         ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
@@ -355,7 +364,7 @@ class FormPengawasController extends Controller
             'cp.jam_stop',
             'cp.keterangan',
         )
-        ->where('cp.daily_report_id', $id)->get();
+        ->where('cp.daily_report_uuid', $uuid)->get();
 
         $data = [
             'daily' => $daily,

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('klkh_disposal_t', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid')->index();
             $table->foreignId('pic')->constrained('users');
             $table->string('statusenabled');
             $table->string('pit');

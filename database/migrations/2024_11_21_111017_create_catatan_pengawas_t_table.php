@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('catatan_pengawas_t', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid')->index();
+            $table->string('daily_report_uuid')->index();
             $table->foreignId('daily_report_id')->constrained('daily_report_t');
             $table->string('statusenabled');
             $table->time('jam_start')->nullable();
