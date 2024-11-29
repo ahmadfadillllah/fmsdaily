@@ -8,6 +8,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 class KLKHLoadingPointController extends Controller
 {
@@ -78,6 +79,7 @@ class KLKHLoadingPointController extends Controller
 
             KLKHLoadingPoint::create([
                 'pic' => Auth::user()->id,
+                'uuid' => (string) Uuid::uuid4()->toString(),
                 'statusenabled' => 'true',
                 'pit' => $data['pit'],
                 'shift' => $data['shift'],
