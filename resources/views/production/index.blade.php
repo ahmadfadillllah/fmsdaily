@@ -80,17 +80,17 @@
                             @foreach ($data['kategori']['Siang'] as $item)
                                 <div class="row mb-4">
                                     <div class="col-12 col-md-2">
-                                        <label for="">{{ $item['HOUR'] }}:00</label>
+                                        <label for="">{{ $item->HOUR }}:00</label>
                                     </div>
                                     <div class="col-12 col-md-10">
                                         <div class="progress" style="height: 20px">
-                                            <div class="progress-bar" role="progressbar" style="width: {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%;
-                                            @if (number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) < 80) background-color:#ff7070;
-                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) == 80 ) background-color:#36c186;
-                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) > 80 ) background-color:#1e5287;
-                                            @endif"aria-valuenow="{{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}"
+                                            <div class="progress-bar" role="progressbar" style="width: {{ number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) }}%;
+                                            @if (number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) < 80) background-color:#ff7070;
+                                            @elseif(number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) == 80 ) background-color:#36c186;
+                                            @elseif(number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) > 80 ) background-color:#1e5287;
+                                            @endif"aria-valuenow="{{ number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) }}"
                                                 aria-valuemin="0" aria-valuemax="100">
-                                                {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%
+                                                {{ number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) }}%
                                             </div>
                                         </div>
                                     </div>
@@ -111,17 +111,17 @@
                             @foreach ($data['kategori']['Malam'] as $item)
                                 <div class="row mb-4">
                                     <div class="col-12 col-md-2">
-                                        <label for="">{{ $item['HOUR'] }}:00</label>
+                                        <label for="">{{ $item->HOUR }}:00</label>
                                     </div>
                                     <div class="col-12 col-md-10">
                                         <div class="progress" style="height: 20px">
-                                            <div class="progress-bar" role="progressbar" style="width: {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%;
-                                            @if (number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) < 80) background-color:#ff7070;
-                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) == 80 ) background-color:#36c186;
-                                            @elseif(number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) > 80 ) background-color:#1e5287;
-                                            @endif"aria-valuenow="{{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}"
+                                            <div class="progress-bar" role="progressbar" style="width: {{ number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) }}%;
+                                            @if (number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) < 80) background-color:#ff7070;
+                                            @elseif(number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) == 80 ) background-color:#36c186;
+                                            @elseif(number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) > 80 ) background-color:#1e5287;
+                                            @endif"aria-valuenow="{{ number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) }}"
                                                 aria-valuemin="0" aria-valuemax="100">
-                                                {{ number_format($item['PLAN_PRODUCTION'] != 0 ? ($item['PRODUCTION'] / $item['PLAN_PRODUCTION']) * 100 : 0, 2) }}%
+                                                {{ number_format($item->PLAN_PRODUCTION != 0 ? ($item->PRODUCTION / $item->PLAN_PRODUCTION) * 100 : 0, 2) }}%
                                             </div>
                                         </div>
                                     </div>

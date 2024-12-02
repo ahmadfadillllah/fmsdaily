@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontLoadingController;
 use App\Http\Controllers\KLKHDisposalController;
 use App\Http\Controllers\KLKHHaulRoadController;
 use App\Http\Controllers\KLKHLoadingPointController;
+use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert');
     Route::post('/klkh/disposal/post', [KLKHDisposalController::class, 'post'])->name('klkh.disposal.post');
     Route::get('/klkh/disposal/delete/{id}', [KLKHDisposalController::class, 'delete'])->name('klkh.disposal.delete');
+
+    //Paylaod & Ritation
+    Route::get('/payloadritation', [PayloadRitationController::class, 'index'])->name('payloadritation.index');
 
     // Profile
     Route::post('/profile.change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
