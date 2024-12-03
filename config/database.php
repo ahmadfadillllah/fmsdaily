@@ -134,6 +134,17 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'   => '',
         ],
+        'focus_reporting' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', '10.10.3.73'),
+            'port'     => env('DB_PORT', '1433'),
+            'database' => 'FOCUS_REPORTING',
+            'username' => env('DB_USERNAME', 'focus'),
+            'password' => env('DB_PASSWORD', 'sims12345A'),
+            'charset'  => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'   => '',
+        ],
 
     ],
 

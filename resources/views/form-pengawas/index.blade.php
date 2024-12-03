@@ -106,11 +106,11 @@
                         </div>
                     </div>
                     @if ($daily->isNotEmpty())
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Info!</strong>
-                            Anda sudah mengisi Laporan Harian hari ini
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Info!</strong>
+                        Anda sudah mengisi Laporan Harian hari ini
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
                     <div class="card">
                         <div class="card-body">
@@ -142,6 +142,7 @@
                                                         <div class="mb-3"> <label class="form-label"
                                                                 for="exampleFormControlSelect1">Shift</label>
                                                             <select class="form-select" id="exampleFormControlSelect1"
+                                                                onchange="handleChangeShift(this.value)"
                                                                 name="shift_dasar">
                                                                 <option selected disabled></option>
                                                                 <option value="Siang">Siang</option>
@@ -169,6 +170,7 @@
                                                             <select class="form-select" id="exampleFormControlSelect3"
                                                                 name="lokasi">
                                                                 <option selected disabled></option>
+                                                                <option value="RMC">RMC</option>
                                                                 <option value="Loading Point">Loading Point</option>
                                                                 <option value="Disposal">Disposal</option>
                                                                 <option value="Pit Stop">Pit Stop</option>
@@ -179,11 +181,12 @@
                                                     <div class="col-sm-6">
                                                         <div class="mb-3"> <label class="form-label"
                                                                 for="nikSupervisor">Supervisor</label>
-                                                            <select class="form-select"  data-trigger id="nikSupervisor"
+                                                            <select class="form-select" data-trigger id="nikSupervisor"
                                                                 name="nik_supervisor">
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['supervisor'] as $sv)
-                                                                    <option value="{{ $sv->NRP }}|{{ $sv->PERSONALNAME }}">{{ $sv->NRP }}|{{ $sv->PERSONALNAME }}</option>
+                                                                <option value="{{ $sv->NRP }}|{{ $sv->PERSONALNAME }}">
+                                                                    {{ $sv->NRP }}|{{ $sv->PERSONALNAME }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -191,11 +194,12 @@
                                                     <div class="col-sm-6">
                                                         <div class="mb-3"> <label class="form-label"
                                                                 for="nikSuperintendent">Superintendent</label>
-                                                            <select class="form-select"  data-trigger id="nikSuperintendent"
-                                                                name="nik_superintendent">
+                                                            <select class="form-select" data-trigger
+                                                                id="nikSuperintendent" name="nik_superintendent">
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['superintendent'] as $st)
-                                                                    <option value="{{ $st->NRP }}|{{ $st->PERSONALNAME }}">{{ $st->NRP }}|{{ $st->PERSONALNAME }}</option>
+                                                                <option value="{{ $st->NRP }}|{{ $st->PERSONALNAME }}">
+                                                                    {{ $st->NRP }}|{{ $st->PERSONALNAME }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -218,12 +222,12 @@
                                                     <table id="dynamicTable" class="table table-bordered">
                                                         <thead style="text-align: center; vertical-align: middle;">
                                                             <tr id="headerRow1">
-                                                                <th colspan="2">Jam</th>
+                                                                <th colspan="2" id="thJam">Jam</th>
                                                                 <th class="unitHeader" scope="col">Nomor Unit 1</th>
                                                             </tr>
                                                             <tr id="headerRow2">
-                                                                <th>Siang</th>
-                                                                <th>Malam</th>
+                                                                <th id="thSiang">Siang</th>
+                                                                <th id="thMalam">Malam</th>
                                                                 <th>
                                                                     <select name="front_loading[0][nomor_unit]"
                                                                         id="frontUnitNumber" class="form-control">
@@ -239,120 +243,120 @@
                                                         </thead>
                                                         <tbody id="tableBody">
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="07.00 - 08.00">07.00 - 08.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="19.00 - 20.00">19.00 - 20.00</td>
+                                                                <td><input type="hidden" value="07.00 - 08.00">07.00 -
+                                                                    08.00</td>
+                                                                <td><input type="hidden" value="19.00 - 20.00">19.00 -
+                                                                    20.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="07.00 - 08.00 | 19.00 - 20.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="08.00 - 09.00">08.00 - 09.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="20.00 - 21.00">20.00 - 21.00</td>
+                                                                <td><input type="hidden" value="08.00 - 09.00">08.00 -
+                                                                    09.00</td>
+                                                                <td><input type="hidden" value="20.00 - 21.00">20.00 -
+                                                                    21.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="08.00 - 09.00 | 20.00 - 21.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="09.00 - 10.00">09.00 - 10.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="21.00 - 22.00">21.00 - 22.00</td>
+                                                                <td><input type="hidden" value="09.00 - 10.00">09.00 -
+                                                                    10.00</td>
+                                                                <td><input type="hidden" value="21.00 - 22.00">21.00 -
+                                                                    22.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="09.00 - 10.00 | 21.00 - 22.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="10.00 - 11.00">10.00 - 11.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="22.00 - 23.00">22.00 - 23.00</td>
+                                                                <td><input type="hidden" value="10.00 - 11.00">10.00 -
+                                                                    11.00</td>
+                                                                <td><input type="hidden" value="22.00 - 23.00">22.00 -
+                                                                    23.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="10.00 - 11.00 | 22.00 - 23.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="11.00 - 12.00">11.00 - 12.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="23.00 - 24.00">23.00 - 24.00</td>
+                                                                <td><input type="hidden" value="11.00 - 12.00">11.00 -
+                                                                    12.00</td>
+                                                                <td><input type="hidden" value="23.00 - 24.00">23.00 -
+                                                                    24.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="11.00 - 12.00 | 23.00 - 24.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="12.00 - 13.00">12.00 - 13.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="24.00 - 01.00">24.00 - 01.00</td>
+                                                                <td><input type="hidden" value="12.00 - 13.00">12.00 -
+                                                                    13.00</td>
+                                                                <td><input type="hidden" value="24.00 - 01.00">24.00 -
+                                                                    01.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="12.00 - 13.00 | 24.00 - 01.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="13.00 - 14.00">13.00 - 14.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="01.00 - 02.00">01.00 - 02.00</td>
+                                                                <td><input type="hidden" value="13.00 - 14.00">13.00 -
+                                                                    14.00</td>
+                                                                <td><input type="hidden" value="01.00 - 02.00">01.00 -
+                                                                    02.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="13.00 - 14.00 | 01.00 - 02.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="14.00 - 15.00">14.00 - 15.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="02.00 - 03.00">02.00 - 03.00</td>
+                                                                <td><input type="hidden" value="14.00 - 15.00">14.00 -
+                                                                    15.00</td>
+                                                                <td><input type="hidden" value="02.00 - 03.00">02.00 -
+                                                                    03.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="14.00 - 15.00 | 02.00 - 03.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="15.00 - 16.00">15.00 - 16.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="03.00 - 04.00">03.00 - 04.00</td>
+                                                                <td><input type="hidden" value="15.00 - 16.00">15.00 -
+                                                                    16.00</td>
+                                                                <td><input type="hidden" value="03.00 - 04.00">03.00 -
+                                                                    04.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="15.00 - 16.00 | 03.00 - 04.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="16.00 - 17.00">16.00 - 17.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="04.00 - 05.00">04.00 - 05.00</td>
+                                                                <td><input type="hidden" value="16.00 - 17.00">16.00 -
+                                                                    17.00</td>
+                                                                <td><input type="hidden" value="04.00 - 05.00">04.00 -
+                                                                    05.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="16.00 - 17.00 | 04.00 - 05.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="17.00 - 18.00">17.00 - 18.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="05.00 - 06.00">05.00 - 06.00</td>
+                                                                <td><input type="hidden" value="17.00 - 18.00">17.00 -
+                                                                    18.00</td>
+                                                                <td><input type="hidden" value="05.00 - 06.00">05.00 -
+                                                                    06.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="17.00 - 18.00 | 05.00 - 06.00"
                                                                         name="front_loading[0][time][]"
                                                                         class="form-check-input"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input type="hidden"
-                                                                        value="18.00 - 19.00">18.00 - 19.00</td>
-                                                                <td><input type="hidden"
-                                                                        value="06.00 - 07.00">06.00 - 07.00</td>
+                                                                <td><input type="hidden" value="18.00 - 19.00">18.00 -
+                                                                    19.00</td>
+                                                                <td><input type="hidden" value="06.00 - 07.00">06.00 -
+                                                                    07.00</td>
                                                                 <td><input type="checkbox"
                                                                         value="18.00 - 19.00 | 06.00 - 07.00"
                                                                         name="front_loading[0][time][]"
@@ -458,6 +462,47 @@
 </div>
 
 @include('layout.footer')
+
+<script>
+    function handleChangeShift(value) {
+    const thJam = document.getElementById('thJam');
+    const thSiang = document.getElementById('thSiang');
+    const thMalam = document.getElementById('thMalam');
+    const tableRows = document.querySelectorAll('#tableBody tr');
+
+    // Atur colspan di header
+    if (value === "Siang") {
+    thJam.colSpan = 1;
+    thSiang.style.display = "table-cell";
+    thMalam.style.display = "none";
+    } else if (value === "Malam") {
+    thJam.colSpan = 1;
+    thSiang.style.display = "none";
+    thMalam.style.display = "table-cell";
+    } else {
+    thJam.colSpan = 2;
+    thSiang.style.display = "table-cell";
+    thMalam.style.display = "table-cell";
+    }
+
+    // Sembunyikan hanya <td> di tbody berdasarkan shift
+        tableRows.forEach(row => {
+        const tdSiang = row.querySelector('td:nth-child(1)');
+        const tdMalam = row.querySelector('td:nth-child(2)');
+
+        if (value === "Siang") {
+        if (tdSiang) tdSiang.style.display = "table-cell";
+        if (tdMalam) tdMalam.style.display = "none";
+        } else if (value === "Malam") {
+        if (tdSiang) tdSiang.style.display = "none";
+        if (tdMalam) tdMalam.style.display = "table-cell";
+        } else {
+        if (tdSiang) tdSiang.style.display = "table-cell";
+        if (tdMalam) tdMalam.style.display = "table-cell";
+        }
+        });
+        }
+</script>
 
 {{-- Script Cari User --}}
 <script>

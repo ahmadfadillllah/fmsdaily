@@ -61,56 +61,62 @@ class FrontLoadingController extends Controller
         }
 
         $front = $front->get()
-        ->flatMap(function ($item) {
-            $siang = json_decode($item->siang, true) ?? [];
-            $malam = json_decode($item->malam, true) ?? [];
+    ->flatMap(function ($item) {
+        $siang = json_decode($item->siang, true) ?? [];
+        $malam = json_decode($item->malam, true) ?? [];
 
-            $result = [];
+        $result = [];
 
-                foreach ($siang as $waktu) {
-                    $result[] = [
-                        'id' => $item->id,
-                        'tanggal_pelaporan' => $item->tanggal_pelaporan,
-                        'shift' => $item->shift,
-                        'area' => $item->area,
-                        'lokasi' => $item->lokasi,
-                        'jam' => $waktu,
-                        'nomor_unit' => $item->nomor_unit,
-                        'nik_foreman' => $item->nik_foreman,
-                        'nama_foreman' => $item->nama_foreman,
-                        'nik_supervisor' => $item->nik_supervisor,
-                        'nama_supervisor' => $item->nama_supervisor,
-                        'nik_superintendent' => $item->nik_superintendent,
-                        'nama_superintendent' => $item->nama_superintendent,
-                        'shift_dasar' => 'Siang',
-                        'created_at' => $item->created_at,
-                        'updated_at' => $item->updated_at,
-                    ];
-                }
+        // Proses shift Malam
+        if ($item->shift !== 'Siang') {
+            foreach ($malam as $waktu) {
+                $result[] = [
+                    'id' => $item->id,
+                    'tanggal_pelaporan' => $item->tanggal_pelaporan,
+                    'shift' => $item->shift,
+                    'area' => $item->area,
+                    'lokasi' => $item->lokasi,
+                    'jam' => $waktu,
+                    'nomor_unit' => $item->nomor_unit,
+                    'nik_foreman' => $item->nik_foreman,
+                    'nama_foreman' => $item->nama_foreman,
+                    'nik_supervisor' => $item->nik_supervisor,
+                    'nama_supervisor' => $item->nama_supervisor,
+                    'nik_superintendent' => $item->nik_superintendent,
+                    'nama_superintendent' => $item->nama_superintendent,
+                    'shift_dasar' => 'Malam',
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                ];
+            }
+        }
 
-                foreach ($malam as $waktu) {
-                    $result[] = [
-                        'id' => $item->id,
-                        'tanggal_pelaporan' => $item->tanggal_pelaporan,
-                        'shift' => $item->shift,
-                        'area' => $item->area,
-                        'lokasi' => $item->lokasi,
-                        'jam' => $waktu,
-                        'nomor_unit' => $item->nomor_unit,
-                        'nik_foreman' => $item->nik_foreman,
-                        'nama_foreman' => $item->nama_foreman,
-                        'nik_supervisor' => $item->nik_supervisor,
-                        'nama_supervisor' => $item->nama_supervisor,
-                        'nik_superintendent' => $item->nik_superintendent,
-                        'nama_superintendent' => $item->nama_superintendent,
-                        'shift_dasar' => 'Malam',
-                        'created_at' => $item->created_at,
-                        'updated_at' => $item->updated_at,
-                    ];
-                }
+        if ($item->shift !== 'Malam') {
+            foreach ($siang as $waktu) {
+                $result[] = [
+                    'id' => $item->id,
+                    'tanggal_pelaporan' => $item->tanggal_pelaporan,
+                    'shift' => $item->shift,
+                    'area' => $item->area,
+                    'lokasi' => $item->lokasi,
+                    'jam' => $waktu,
+                    'nomor_unit' => $item->nomor_unit,
+                    'nik_foreman' => $item->nik_foreman,
+                    'nama_foreman' => $item->nama_foreman,
+                    'nik_supervisor' => $item->nik_supervisor,
+                    'nama_supervisor' => $item->nama_supervisor,
+                    'nik_superintendent' => $item->nik_superintendent,
+                    'nama_superintendent' => $item->nama_superintendent,
+                    'shift_dasar' => 'Siang',
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                ];
+            }
+        }
 
-                return $result;
-            });
+        return $result;
+    });
+
 
 
         return view('front-loading.index', compact('front'));
