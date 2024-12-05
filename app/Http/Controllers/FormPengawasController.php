@@ -341,6 +341,27 @@ class FormPengawasController extends Controller
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }
 
+        $front = DB::table('front_loading_t as fl')
+        ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')
+        ->leftJoin('focus.dbo.FLT_VEHICLE as flt', 'fl.nomor_unit', '=', 'flt.VHC_ID')
+        ->select(
+            'fl.nomor_unit',
+            'flt.EQU_GROUPID as type',
+            DB::raw("CASE
+                    WHEN flt.EQU_GROUPID LIKE 'HT%' THEN 'Hitachi'
+                    WHEN flt.EQU_GROUPID LIKE 'PC%' THEN 'Komatsu'
+                    ELSE 'Unknown'
+                END as brand"),
+            'fl.siang',
+            'fl.malam',
+            'fl.checked',
+            'fl.keterangan',
+        )
+        ->where('fl.statusenabled', 'true')
+        ->where('fl.daily_report_uuid', $uuid)
+        ->get()
+        ->groupBy('brand');
+
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
         ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
@@ -354,6 +375,7 @@ class FormPengawasController extends Controller
             'sh.keterangan as shift',
             'al.tanggal_operator as tanggal',
         )
+        ->where('al.statusenabled', 'true')
         ->where('al.daily_report_uuid', $uuid)->get();
 
         $catatan = DB::table('catatan_pengawas_t as cp')
@@ -363,10 +385,12 @@ class FormPengawasController extends Controller
             'cp.jam_stop',
             'cp.keterangan',
         )
+        ->where('cp.statusenabled', 'true')
         ->where('cp.daily_report_uuid', $uuid)->get();
 
         $data = [
             'daily' => $daily,
+            'front' => $front,
             'support' => $support,
             'catatan' => $catatan,
         ];
@@ -376,44 +400,6 @@ class FormPengawasController extends Controller
 
     public function download($uuid)
     {
-
-        // $daily = DB::table('daily_report_t as dr')
-        // ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
-        // ->leftJoin('front_loading_t as fl', 'dr.id', '=', 'fl.daily_report_id')
-        // ->leftJoin('alat_support_t as al', 'dr.id', '=', 'al.daily_report_id')
-        // ->leftJoin('catatan_pengawas_t as cp', 'dr.id', '=', 'cp.daily_report_id')
-        // ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        // ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
-        // ->select(
-        //     'dr.tanggal_dasar as tanggal_daily',
-        //     'dr.shift_dasar as shift_daily',
-        //     'dr.area as area_daily',
-        //     'dr.lokasi as lokasi_daily',
-        //     'us.nik as nik_foreman_daily',
-        //     'us.name as nama_foreman_daily',
-        //     'dr.nik_supervisor as nik_supervisor_daily',
-        //     'spv.PERSONALNAME as nama_supervisor_daily',
-        //     'dr.nik_superintendent as nik_superintendent_daily',
-        //     'gl.PERSONALNAME as nama_superintendent_daily',
-        //     'fl.nomor_unit as nomor_unit_front',
-        //     'fl.siang as siang_front',
-        //     'fl.malam as malam_front',
-        //     'al.jenis_unit as jenis_unit_support',
-        //     'al.alat_unit as alat_unit_support',
-        //     'al.nik_operator as nik_operator_support',
-        //     'al.nama_operator as nama_operator_support',
-        //     'al.tanggal_operator as tanggal_operator_support',
-        //     'al.shift_operator as shift_operator_support',
-        //     'al.hm_awal as hm_awal_support',
-        //     'al.hm_akhir as hm_akhir_support',
-        //     'al.hm_total as hm_total_support',
-        //     'al.hm_cash as hm_cash_support',
-        //     'al.material as material_support',
-        //     'cp.jam_start as jam_start_catatan',
-        //     'cp.jam_stop as jam_stop_catatan',
-        //     'cp.keterangan as keterangan_catatan',
-        //     )
-        // ->get();
 
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')

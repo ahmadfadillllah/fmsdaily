@@ -3,13 +3,15 @@
 @include('layout.header')
 <style>
 
-    body {
+    /* body {
         font-family: 'Times New Roman', Times, serif;
         font-size: 12px;
-    }
+    } */
 
     table{
-        page-break-inside:auto
+        page-break-inside:auto;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 12px;
     }
     table {
         -fs-table-paginate: paginate;
