@@ -30,13 +30,16 @@ class CatatanPengawasController extends Controller
 
         $note = DB::table('catatan_pengawas_t as cp')
         ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', 'dr.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('users as us', 'dr.foreman_id', 'us.id')
         ->select(
             'cp.daily_report_id as id',
             'dr.tanggal_dasar as tanggal_pelaporan',
-            'dr.shift_dasar as shift',
-            'dr.area as area',
-            'dr.lokasi as lokasi',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.nik_supervisor',

@@ -44,6 +44,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('catatan-pengawas.index') }}">Catatan Pengawas</a></li>
                     </ul>
                 </li>
+
                 <li class="pc-item pc-caption"><label>Laporan Harian</label> <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
                     </svg>
@@ -53,13 +54,27 @@
                 @if(Auth::user()->role != 'ADMIN')
                     <li class="pc-item"><a href="{{ route('form-pengawas.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
                 @endif
-                <li class="pc-item pc-caption"><label>KLKH</label> <svg class="pc-icon">
+
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon">
+                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="DS"> </span><span class="pc-mtext">KLKH</span> <span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">7</span>
+                    </a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.loading-point') }}">Front Loading</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.haul-road') }}">Haul Road</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.disposal') }}">Disposal/Dumping Point</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>
+                        {{-- <li class="pc-item"><a class="pc-link" href="{{ route('klkh.ogs') }}">OGS</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.batubara') }}">Batu Bara</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li> --}}
+                    </ul>
+                </li>
+                <li class="pc-item pc-caption"><label></label>
+                    <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
                     </svg>
                 </li>
-                <li class="pc-item"><a href="{{ route('klkh.loading-point') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="NT"></span><span class="pc-mtext">Loading Point</span></a></li>
-                <li class="pc-item"><a href="{{ route('klkh.haul-road') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="NT"></span><span class="pc-mtext">Haul Road</span></a></li>
-                <li class="pc-item"><a href="{{ route('klkh.disposal') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="NT"></span><span class="pc-mtext">Disposal/Dumping Point</span></a></li>
             </ul>
         </div>
     </div>

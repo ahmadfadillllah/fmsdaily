@@ -6,9 +6,13 @@ use App\Http\Controllers\CatatanPengawasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormPengawasController;
 use App\Http\Controllers\FrontLoadingController;
+use App\Http\Controllers\KLKHBatuBaraController;
 use App\Http\Controllers\KLKHDisposalController;
 use App\Http\Controllers\KLKHHaulRoadController;
 use App\Http\Controllers\KLKHLoadingPointController;
+use App\Http\Controllers\KLKHLumpurController;
+use App\Http\Controllers\KLKHOGSController;
+use App\Http\Controllers\KLKHSimpangEmpatController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
@@ -65,6 +69,30 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert');
     Route::post('/klkh/disposal/post', [KLKHDisposalController::class, 'post'])->name('klkh.disposal.post');
     Route::get('/klkh/disposal/delete/{id}', [KLKHDisposalController::class, 'delete'])->name('klkh.disposal.delete');
+
+    //KLKH Lumpur
+    Route::get('/klkh/lumpur', [KLKHLumpurController::class, 'index'])->name('klkh.lumpur');
+    Route::get('/klkh/lumpur/insert', [KLKHLumpurController::class, 'insert'])->name('klkh.lumpur.insert');
+    Route::post('/klkh/lumpur/post', [KLKHLumpurController::class, 'post'])->name('klkh.lumpur.post');
+    Route::get('/klkh/lumpur/delete/{id}', [KLKHLumpurController::class, 'delete'])->name('klkh.lumpur.delete');
+
+    //KLKH OGS
+    Route::get('/klkh/ogs', [KLKHOGSController::class, 'index'])->name('klkh.ogs');
+    Route::get('/klkh/ogs/insert', [KLKHOGSController::class, 'insert'])->name('klkh.ogs.insert');
+    Route::post('/klkh/ogs/post', [KLKHOGSController::class, 'post'])->name('klkh.ogs.post');
+    Route::get('/klkh/ogs/delete/{id}', [KLKHOGSController::class, 'delete'])->name('klkh.ogs.delete');
+
+    //KLKH Batu Bara
+    Route::get('/klkh/batubara', [KLKHBatuBaraController::class, 'index'])->name('klkh.batubara');
+    Route::get('/klkh/batubara/insert', [KLKHBatuBaraController::class, 'insert'])->name('klkh.batubara.insert');
+    Route::post('/klkh/batubara/post', [KLKHBatuBaraController::class, 'post'])->name('klkh.batubara.post');
+    Route::get('/klkh/batubara/delete/{id}', [KLKHBatuBaraController::class, 'delete'])->name('klkh.batubara.delete');
+
+    //KLKH Simpang Empat
+    Route::get('/klkh/simpangempat', [KLKHSimpangEmpatController::class, 'index'])->name('klkh.simpangempat');
+    Route::get('/klkh/simpangempat/insert', [KLKHSimpangEmpatController::class, 'insert'])->name('klkh.simpangempat.insert');
+    Route::post('/klkh/simpangempat/post', [KLKHSimpangEmpatController::class, 'post'])->name('klkh.simpangempat.post');
+    Route::get('/klkh/simpangempat/delete/{id}', [KLKHSimpangEmpatController::class, 'delete'])->name('klkh.simpangempat.delete');
 
     //Paylaod & Ritation
     Route::get('/payloadritation', [PayloadRitationController::class, 'index'])->name('payloadritation.index');

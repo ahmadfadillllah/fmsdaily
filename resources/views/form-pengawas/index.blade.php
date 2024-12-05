@@ -145,8 +145,9 @@
                                                                 onchange="handleChangeShift(this.value)"
                                                                 name="shift_dasar">
                                                                 <option selected disabled></option>
-                                                                <option value="Siang">Siang</option>
-                                                                <option value="Malam">Malam</option>
+                                                                @foreach ($data['shift'] as $sh)
+                                                                    <option value="{{ $sh->id }}">{{ $sh->keterangan }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -156,11 +157,9 @@
                                                             <select class="form-select" id="exampleFormControlSelect2"
                                                                 name="area">
                                                                 <option selected disabled></option>
-                                                                <option value="SM-B1">SM-B1</option>
-                                                                <option value="SM-B2">SM-B2</option>
-                                                                <option value="SM-A3">SM-A3</option>
-                                                                <option value="SM-6">SM-6</option>
-                                                                <option value="All Area">All Area</option>
+                                                                @foreach ($data['area'] as $ar)
+                                                                    <option value="{{ $ar->id }}">{{ $ar->keterangan }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -170,11 +169,9 @@
                                                             <select class="form-select" id="exampleFormControlSelect3"
                                                                 name="lokasi">
                                                                 <option selected disabled></option>
-                                                                <option value="RMC">RMC</option>
-                                                                <option value="Loading Point">Loading Point</option>
-                                                                <option value="Disposal">Disposal</option>
-                                                                <option value="Pit Stop">Pit Stop</option>
-                                                                <option value="All Location">All Location</option>
+                                                                @foreach ($data['lokasi'] as $lok)
+                                                                    <option value="{{ $lok->id }}">{{ $lok->keterangan }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -247,120 +244,277 @@
                                                                     08.00</td>
                                                                 <td><input type="hidden" value="19.00 - 20.00">19.00 -
                                                                     20.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="07.00 - 08.00 | 19.00 - 20.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][0][checked]">
+                                                                        <input type="hidden"
+                                                                            value="07.00 - 08.00 | 19.00 - 20.00"
+                                                                            name="front_loading[0][time][0][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][0][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][0][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="08.00 - 09.00">08.00 -
                                                                     09.00</td>
                                                                 <td><input type="hidden" value="20.00 - 21.00">20.00 -
                                                                     21.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="08.00 - 09.00 | 20.00 - 21.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][1][checked]">
+                                                                        <input type="hidden"
+                                                                            value="08.00 - 09.00 | 20.00 - 21.00"
+                                                                            name="front_loading[0][time][1][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][1][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][1][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="09.00 - 10.00">09.00 -
                                                                     10.00</td>
                                                                 <td><input type="hidden" value="21.00 - 22.00">21.00 -
                                                                     22.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="09.00 - 10.00 | 21.00 - 22.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][2][checked]">
+                                                                        <input type="hidden"
+                                                                            value="09.00 - 10.00 | 21.00 - 22.00"
+                                                                            name="front_loading[0][time][2][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][2][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][2][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="10.00 - 11.00">10.00 -
                                                                     11.00</td>
                                                                 <td><input type="hidden" value="22.00 - 23.00">22.00 -
                                                                     23.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="10.00 - 11.00 | 22.00 - 23.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][3][checked]">
+                                                                        <input type="hidden"
+                                                                            value="10.00 - 11.00 | 22.00 - 23.00"
+                                                                            name="front_loading[0][time][3][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][3][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][3][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="11.00 - 12.00">11.00 -
                                                                     12.00</td>
                                                                 <td><input type="hidden" value="23.00 - 24.00">23.00 -
                                                                     24.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="11.00 - 12.00 | 23.00 - 24.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][4][checked]">
+                                                                        <input type="hidden"
+                                                                            value="11.00 - 12.00 | 23.00 - 24.00"
+                                                                            name="front_loading[0][time][4][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][4][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][4][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="12.00 - 13.00">12.00 -
                                                                     13.00</td>
                                                                 <td><input type="hidden" value="24.00 - 01.00">24.00 -
                                                                     01.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="12.00 - 13.00 | 24.00 - 01.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][5][checked]">
+                                                                        <input type="hidden"
+                                                                            value="12.00 - 13.00 | 24.00 - 01.00"
+                                                                            name="front_loading[0][time][5][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][5][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][5][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="13.00 - 14.00">13.00 -
                                                                     14.00</td>
                                                                 <td><input type="hidden" value="01.00 - 02.00">01.00 -
                                                                     02.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="13.00 - 14.00 | 01.00 - 02.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][6][checked]">
+                                                                        <input type="hidden"
+                                                                            value="13.00 - 14.00 | 01.00 - 02.00"
+                                                                            name="front_loading[0][time][6][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][6][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][6][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="14.00 - 15.00">14.00 -
                                                                     15.00</td>
                                                                 <td><input type="hidden" value="02.00 - 03.00">02.00 -
                                                                     03.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="14.00 - 15.00 | 02.00 - 03.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][7][checked]">
+                                                                        <input type="hidden"
+                                                                            value="14.00 - 15.00 | 02.00 - 03.00"
+                                                                            name="front_loading[0][time][7][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][7][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][7][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="15.00 - 16.00">15.00 -
                                                                     16.00</td>
                                                                 <td><input type="hidden" value="03.00 - 04.00">03.00 -
                                                                     04.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="15.00 - 16.00 | 03.00 - 04.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][8][checked]">
+                                                                        <input type="hidden"
+                                                                            value="15.00 - 16.00 | 03.00 - 04.00"
+                                                                            name="front_loading[0][time][8][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][8][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][8][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="16.00 - 17.00">16.00 -
                                                                     17.00</td>
                                                                 <td><input type="hidden" value="04.00 - 05.00">04.00 -
                                                                     05.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="16.00 - 17.00 | 04.00 - 05.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][9][checked]">
+                                                                        <input type="hidden"
+                                                                            value="16.00 - 17.00 | 04.00 - 05.00"
+                                                                            name="front_loading[0][time][9][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][9][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][9][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="17.00 - 18.00">17.00 -
                                                                     18.00</td>
                                                                 <td><input type="hidden" value="05.00 - 06.00">05.00 -
                                                                     06.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="17.00 - 18.00 | 05.00 - 06.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][10][checked]">
+                                                                        <input type="hidden"
+                                                                            value="17.00 - 18.00 | 05.00 - 06.00"
+                                                                            name="front_loading[0][time][10][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][10][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][10][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                        </ </div>
+
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><input type="hidden" value="18.00 - 19.00">18.00 -
                                                                     19.00</td>
                                                                 <td><input type="hidden" value="06.00 - 07.00">06.00 -
                                                                     07.00</td>
-                                                                <td><input type="checkbox"
-                                                                        value="18.00 - 19.00 | 06.00 - 07.00"
-                                                                        name="front_loading[0][time][]"
-                                                                        class="form-check-input"></td>
+                                                                <td>
+                                                                    <div
+                                                                        class="grid gap-3 d-flex align-items-center justify-content-center">
+                                                                        <input type="hidden" value="false"
+                                                                            name="front_loading[0][time][11][checked]">
+                                                                        <input type="hidden"
+                                                                            value="18.00 - 19.00 | 06.00 - 07.00"
+                                                                            name="front_loading[0][time][11][value]">
+                                                                        <input type="checkbox" value="true"
+                                                                            name="front_loading[0][time][11][checked]"
+                                                                            class="form-check-input">
+                                                                        <input type="text"
+                                                                            name="front_loading[0][time][11][keterangan]"
+                                                                            placeholder="Keterangan"
+                                                                            class="form-control">
+                                                                        </ </div>
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -604,7 +758,13 @@
         for (const row of tableBody.rows) {
             const newCell = document.createElement('td');
             newCell.innerHTML =
-                `<input type="checkbox" value="${values[index]}" name="front_loading[${unitCount}][time][]" class="form-check-input">`;
+           `<div class="grid gap-3 d-flex align-items-center justify-content-center">
+                <input type="hidden" value="false" name="front_loading[${unitCount}][time][${index}][checked]">
+                <input type="hidden" value="${values[index]}" name="front_loading[${unitCount}][time][${index}][value]">
+                <input type="checkbox" value="true" name="front_loading[${unitCount}][time][${index}][checked]" class="form-check-input">
+                <input type="text" name="front_loading[${unitCount}][time][${index}][keterangan]" placeholder="Keterangan" class="form-control">
+            </div>`;
+
             row.appendChild(newCell);
             index++;
         }
@@ -667,7 +827,7 @@
         const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
         const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
         const total = hmAkhir - hmAwal;
-        document.getElementById('totalSupport').value = total >= 0 ? total : 0;
+        document.getElementById('totalSupport').value = (total >= 0 ? total : 0).toFixed(2);
     }
 
     document.getElementById('saveSupport').addEventListener('click', () => {
@@ -677,6 +837,7 @@
         const nama = document.getElementById('namaSupport').value || '';
         const tanggal = document.getElementById('tanggalSupport').value || '';
         const shift = document.getElementById('shiftSupport').value || '';
+        const textShift = document.getElementById('shiftSupport').selectedOptions[0]?.text.trim() || '';
         const hmAwal = document.getElementById('hmAwalSupport').value || '';
         const hmAkhir = document.getElementById('hmAkhirSupport').value || '';
         const hmCash = document.getElementById('hmCashSupport').value || '';
@@ -687,7 +848,7 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
-                text: 'Semua field wajib diisi!'
+                text: 'Semua field harus diisi!'
             });
             return;
         }
@@ -723,7 +884,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th>Shift</th>
-                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][shiftSupport]" value="${shift}">${shift}</td>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][shiftSupport]" value="${shift}">${textShift}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>HM Awal</th>
@@ -768,9 +929,9 @@
                 modalInstance.hide();
             }
             //  document.getElementById('jenisSupport').value = null;
-             document.getElementById('unitSupport').value = null;
-            //  document.getElementById('nikSupport').value = null;
-             document.getElementById('namaSupport').value = null;
+            //  document.getElementById('unitSupport').value = null;
+            // //  document.getElementById('nikSupport').value = null;
+            //  document.getElementById('namaSupport').value = null;
              const today = new Date();
 
             // Format tanggal menjadi YYYY-MM-DD
@@ -816,11 +977,20 @@
         const description = document.getElementById('description_catatan').value;
 
         // Validasi input
-        if (!start || !end || !description) {
+        // if (!start || !end || !description) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Gagal',
+        //         text: 'Semua field harus diisi!'
+        //     });
+        //     return;
+        // }
+
+        if (!description) {
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
-                text: 'Semua field harus diisi!'
+                text: 'Kolom deskripsi harus diisi!'
             });
             return;
         }
@@ -925,7 +1095,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
-                text: "Kolom Tanggal, Shift, Area, Lokasi, Supervisor dan Superintendent wajib diisi",
+                text: "Kolom Tanggal, Shift, Area, Lokasi, Supervisor dan Superintendent harus diisi",
                 confirmButtonText: 'OK'
             });
             return false;

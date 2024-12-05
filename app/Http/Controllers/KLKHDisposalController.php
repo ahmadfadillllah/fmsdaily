@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\KLKHDisposal;
 use App\Models\Personal;
+use App\Models\Shift;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,14 +37,16 @@ class KLKHDisposalController extends Controller
 
         $baseQuery = DB::table('klkh_disposal_t as dp')
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'dp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
         ->select(
             'dp.id',
             'dp.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, dp.created_at, 120) as tanggal_pembuatan'),
             'dp.statusenabled',
-            'dp.pit',
-            'dp.shift',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
             'dp.date',
             'dp.time',
         )
@@ -62,10 +66,14 @@ class KLKHDisposalController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
+        $pit = Area::where('statusenabled', 'true')->get();
+        $shift = Shift::where('statusenabled', 'true')->get();
 
         $users = [
             'supervisor' => $supervisor,
             'superintendent' => $superintendent,
+            'pit' => $pit,
+            'shift' => $shift,
         ];
         return view('klkh.disposal.insert', compact('users'));
     }
@@ -82,8 +90,8 @@ class KLKHDisposalController extends Controller
                 'pic' => Auth::user()->id,
                 'uuid' => (string) Uuid::uuid4()->toString(),
                 'statusenabled' => 'true',
-                'pit' => $data['pit'],
-                'shift' => $data['shift'],
+                'pit_id' => $data['pit'],
+                'shift_id' => $data['shift'],
                 'date' => $data['date'],
                 'time' => $data['time'],
                 'dumping_point_1' => $data['dumping_point_1'],

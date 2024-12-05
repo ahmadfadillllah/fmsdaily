@@ -55,7 +55,7 @@
                                         <th colspan="2">Supervisor</th>
                                         <th colspan="2">Superintendent</th>
                                         <th colspan="4">HM</th>
-                                        <th rowspan="2">Material</th>
+                                        <th rowspan="2">Keterangan</th>
                                     </tr>
                                     <tr>
                                         <th>NIK</th>
@@ -95,7 +95,7 @@
                                             <td>{{ $item->nama_superintendent }}</td>
                                             <td>{{ $item->hm_awal }}</td>
                                             <td>{{ $item->hm_akhir }}</td>
-                                            <td>{{ $item->hm_akhir - $item->hm_awal }}</td>
+                                            <td>{{ number_format($item->hm_akhir - $item->hm_awal, 2) }}</td>
                                             <td>{{ $item->hm_cash }}</td>
                                             <td>{{ $item->keterangan }}</td>
                                         </tr>

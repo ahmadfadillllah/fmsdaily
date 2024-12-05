@@ -49,8 +49,9 @@
                                         <th rowspan="2">Area</th>
                                         <th rowspan="2">Lokasi</th>
                                         <th rowspan="2">Waktu</th>
-                                        <th rowspan="2">Jam</th>
                                         <th rowspan="2">Nomor Unit</th>
+                                        <th rowspan="2">Jam</th>
+                                        <th rowspan="2">Keterangan</th>
                                         <th colspan="2">Foreman</th>
                                         <th colspan="2">Supervisor</th>
                                         <th colspan="2">Superintendent</th>
@@ -72,8 +73,9 @@
                                             <td>{{ $item['area'] }}</td>
                                             <td>{{ $item['lokasi'] }}</td>
                                             <td>{{ $item['shift_dasar'] }}</td>
-                                            <td>{{ $item['jam'] }}</td>
                                             <td>{{ $item['nomor_unit'] }}</td>
+                                            <td>{{ $item['jam'] }}</td>
+                                            <td>{{ $item['keterangan'] }}</td>
                                             <td>{{ $item['nik_foreman'] }}</td>
                                             <td>{{ $item['nama_foreman'] }}</td>
                                             <td>{{ $item['nik_supervisor'] }}</td>

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('uuid')->index();
             $table->foreignId('pic')->constrained('users');
             $table->string('statusenabled');
-            $table->string('pit');
-            $table->string('shift');
+            $table->foreignId('pit_id')->constrained('area_m');
+            $table->foreignId('shift_id')->constrained('shift_m');
             $table->date('date');
             $table->time('time');
             $table->string('dumping_point_1');

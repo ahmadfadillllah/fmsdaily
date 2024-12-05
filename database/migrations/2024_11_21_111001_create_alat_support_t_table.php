@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nik_operator')->nullable();
             $table->string('nama_operator')->nullable();
             $table->date('tanggal_operator')->nullable();
-            $table->string('shift_operator')->nullable();
+            $table->foreignId('shift_operator_id')->nullable()->constrained('shift_m');
             $table->decimal('hm_awal')->nullable();
             $table->decimal('hm_akhir')->nullable();
             $table->decimal('hm_total')->nullable();

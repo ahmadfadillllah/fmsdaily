@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\KLKHLoadingPoint;
 use App\Models\Personal;
+use App\Models\Shift;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,14 +37,16 @@ class KLKHLoadingPointController extends Controller
 
         $baseQuery = DB::table('klkh_loadingpoint_t as lp')
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
         ->select(
             'lp.id',
             'lp.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, lp.created_at, 120) as tanggal_pembuatan'),
             'lp.statusenabled',
-            'lp.pit',
-            'lp.shift',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
             'lp.date',
             'lp.time',
         )
@@ -64,10 +68,14 @@ class KLKHLoadingPointController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
+        $pit = Area::where('statusenabled', 'true')->get();
+        $shift = Shift::where('statusenabled', 'true')->get();
 
         $users = [
             'supervisor' => $supervisor,
             'superintendent' => $superintendent,
+            'pit' => $pit,
+            'shift' => $shift,
         ];
         return view('klkh.loading-point.insert', compact('users'));
     }
@@ -82,8 +90,8 @@ class KLKHLoadingPointController extends Controller
                 'pic' => Auth::user()->id,
                 'uuid' => (string) Uuid::uuid4()->toString(),
                 'statusenabled' => 'true',
-                'pit' => $data['pit'],
-                'shift' => $data['shift'],
+                'pit_id' => $data['pit'],
+                'shift_id' => $data['shift'],
                 'date' => $data['date'],
                 'time' => $data['time'],
                 'loading_point_check' => $data['loading_point_check'],

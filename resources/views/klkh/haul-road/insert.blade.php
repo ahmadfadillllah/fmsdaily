@@ -28,11 +28,9 @@
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect2"
                                                                 name="pit" required>
                                                                 <option selected disabled></option>
-                                                                <option value="SM-B1">SM-B1</option>
-                                                                <option value="SM-B2">SM-B2</option>
-                                                                <option value="SM-A3">SM-A3</option>
-                                                                <option value="SM-6">SM-6</option>
-                                                                <option value="All Area">All Area</option>
+                                                                @foreach ($users['pit'] as $pit)
+                                                                    <option value="{{ $pit->id }}">{{ $pit->keterangan }}</option>
+                                                                @endforeach
                                                             </select>
                                     </div>
                                     <div class="col-md-6 col-12 px-2 py-2">
@@ -40,8 +38,9 @@
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect1"
                                                                 name="shift" required>
                                                                 <option selected disabled></option>
-                                                                <option value="Siang">Siang</option>
-                                                                <option value="Malam">Malam</option>
+                                                                @foreach ($users['shift'] as $sh)
+                                                                    <option value="{{ $sh->id }}">{{ $sh->keterangan }}</option>
+                                                                @endforeach
                                                             </select>
                                     </div>
                                 </div>

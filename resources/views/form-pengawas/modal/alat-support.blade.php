@@ -49,8 +49,9 @@
                         <label>Shift</label>
                         <select class="form-select" id="shiftSupport" name="shift_operator[]">
                             <option selected disabled>Pilih shift</option>
-                            <option value="Siang">Siang</option>
-                            <option value="Malam">Malam</option>
+                            @foreach ($data['shift'] as $shh)
+                                <option value="{{ $shh->id }}">{{ $shh->keterangan }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">

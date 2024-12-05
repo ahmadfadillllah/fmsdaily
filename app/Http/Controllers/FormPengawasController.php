@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlatSupport;
+use App\Models\Area;
 use App\Models\CatatanPengawas;
 use App\Models\DailyReport;
 use App\Models\FrontLoading;
+use App\Models\Lokasi;
 use App\Models\Material;
 use App\Models\Personal;
+use App\Models\Shift;
 use App\Models\Unit;
 use App\Models\User;
 use DateTime;
@@ -60,6 +63,10 @@ class FormPengawasController extends Controller
             'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
         )->where('ROLETYPE', 4)->get();
 
+        $lokasi = Lokasi::where('statusenabled', 'true')->get();
+        $area = Area::where('statusenabled', 'true')->get();
+        $shift = Shift::where('statusenabled', 'true')->get();
+
 
         $data = [
             'operator' => $operator,
@@ -68,6 +75,9 @@ class FormPengawasController extends Controller
             'EX' => $ex,
             'EX' => $ex,
             'nomor_unit' => $nomor_unit,
+            'lokasi' => $lokasi,
+            'area' => $area,
+            'shift' => $shift,
         ];
         return view('form-pengawas.index', compact('data', 'daily'));
     }
@@ -103,7 +113,7 @@ class FormPengawasController extends Controller
         try {
             return DB::transaction(function () use ($request) {
                 // insert daily report
-                $supervisor = $request->nik_supervisor ?? [] ;
+                $supervisor = $request->nik_supervisor ?? [];
                 $superintendent = $request->nik_superintendent ?? [];
 
                 $nikSlotsSV = explode('|', $supervisor);
@@ -119,9 +129,9 @@ class FormPengawasController extends Controller
                     'foreman_id' => Auth::user()->id,
                     'statusenabled' => 'true',
                     'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
-                    'shift_dasar' => $request->shift_dasar,
-                    'area' => $request->area,
-                    'lokasi' => $request->lokasi,
+                    'shift_dasar_id' => $request->shift_dasar,
+                    'area_id' => $request->area,
+                    'lokasi_id' => $request->lokasi,
                     'nik_supervisor' => $nikSupervisor,
                     'nama_supervisor' => $namaSupervisor,
                     'nik_superintendent' => $nikSuperintendent,
@@ -135,28 +145,44 @@ class FormPengawasController extends Controller
 
                         $morning = [];
                         $night = [];
+                        $checked = []; // Untuk menyimpan status checked
+                        $keterangan = []; // Untuk menyimpan keterangan
 
                         foreach ($timeData as $time) {
-                            $timeSlots = explode('|', $time);
-                            if (isset($timeSlots[0])) {
-                                $morning[] = trim($timeSlots[0]); // Waktu siang
-                            }
-                            if (isset($timeSlots[1])) {
-                                $night[] = trim($timeSlots[1]); // Waktu malam
+                            // Hanya proses yang checked = true atau keterangan terisi
+                            if ($time['checked'] == 'true' || !empty($time['keterangan'])) {
+                                $timeSlots = explode('|', $time['value']);
+
+                                if (isset($timeSlots[0])) {
+                                    $morning[] = trim($timeSlots[0]); // Waktu siang
+                                }
+                                if (isset($timeSlots[1])) {
+                                    $night[] = trim($timeSlots[1]); // Waktu malam
+                                }
+
+                                // Tambahkan 'checked' dan 'keterangan' untuk waktu yang valid
+                                $checked[] = $time['checked'] == "false" ? NULL : $time['checked'];
+                                $keterangan[] = $time['keterangan'] ?? NULL;
                             }
                         }
 
-                        $front = FrontLoading::create([
-                            'uuid' => (string) Uuid::uuid4()->toString(),
-                            'daily_report_id' => $dailyReport->id,
-                            'daily_report_uuid' => $dailyReport->uuid,
-                            'statusenabled' => 'true',
-                            'nomor_unit' => $front_unit["nomor_unit"],
-                            'siang' => json_encode($morning),
-                            'malam' => json_encode($night),
-                        ]);
+                        // Jika ada data yang valid, buat entry di database
+                        if (!empty($checked)) {
+                            FrontLoading::create([
+                                'uuid' => (string) Uuid::uuid4()->toString(),
+                                'daily_report_id' => $dailyReport->id,
+                                'daily_report_uuid' => $dailyReport->uuid,
+                                'statusenabled' => 'true',
+                                'checked' => json_encode($checked), // Store checked values in JSON format
+                                'keterangan' => json_encode($keterangan), // Store keterangan values in JSON format
+                                'nomor_unit' => $front_unit["nomor_unit"],
+                                'siang' => json_encode($morning),
+                                'malam' => json_encode($night),
+                            ]);
+                        }
                     }
                 }
+
 
                 // insert alat support
                 // if (!empty($request->supports)) {
@@ -178,7 +204,7 @@ class FormPengawasController extends Controller
                             'nik_operator' => $nikOperator,
                             'nama_operator' => $namaOperator,
                             'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
-                            'shift_operator' => $value['shiftSupport'],
+                            'shift_operator_id' => $value['shiftSupport'],
                             'hm_awal' => $value['hmAwalSupport'],
                             'hm_akhir' => $value['hmAkhirSupport'],
                             'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
@@ -259,15 +285,18 @@ class FormPengawasController extends Controller
 
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
         ->select(
             'dr.id',
             'dr.uuid',
             'dr.tanggal_dasar as tanggal',
-            'dr.shift_dasar as shift',
-            'dr.area',
-            'dr.lokasi',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
             'dr.nik_supervisor',
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent',
@@ -327,14 +356,17 @@ class FormPengawasController extends Controller
 
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
         ->select(
             'dr.foreman_id as id_foreman',
             'dr.tanggal_dasar as tanggal',
-            'dr.shift_dasar as shift',
-            'dr.area',
-            'dr.lokasi',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
@@ -345,6 +377,7 @@ class FormPengawasController extends Controller
 
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
         ->select(
             'al.alat_unit as nomor_unit',
             'al.nama_operator',
@@ -352,7 +385,7 @@ class FormPengawasController extends Controller
             'al.hm_akhir',
             'al.hm_cash',
             'al.keterangan',
-            'al.shift_operator as shift',
+            'sh.keterangan as shift',
             'al.tanggal_operator as tanggal',
         )
         ->where('al.daily_report_uuid', $uuid)->get();

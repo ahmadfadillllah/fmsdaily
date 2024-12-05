@@ -20,7 +20,7 @@ class AlatSupport extends Model
         'nik_operator',
         'nama_operator',
         'tanggal_operator',
-        'shift_operator',
+        'shift_operator_id',
         'hm_awal',
         'hm_akhir',
         'hm_total',

@@ -23671,10 +23671,10 @@ pre[class*=language-] {
 
 .pc-sidebar .pc-link {
     display: block;
-    padding: 14px 20px;
+    padding: 10px 20px;
     color: var(--pc-sidebar-color);
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400
 }
 

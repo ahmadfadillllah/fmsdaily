@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('foreman_id')->constrained('users');
             $table->string('statusenabled');
             $table->date('tanggal_dasar')->nullable();
-            $table->string('shift_dasar')->nullable();
-            $table->string('area')->nullable();
-            $table->string('lokasi')->nullable();
+            $table->foreignId('shift_dasar_id')->nullable()->constrained('shift_m');
+            $table->foreignId('area_id')->nullable()->constrained('area_m');
+            $table->foreignId('lokasi_id')->nullable()->constrained('lokasi_m');
             $table->string('nik_supervisor')->nullable();
             $table->string('nama_supervisor')->nullable();
             $table->string('nik_superintendent')->nullable();

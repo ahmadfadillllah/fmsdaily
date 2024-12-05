@@ -30,6 +30,10 @@ class AlatSupportController extends Controller
 
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('shift_m as sh2', 'al.shift_operator_id', '=', 'sh2.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->select(
             'al.daily_report_id as id',
@@ -38,13 +42,13 @@ class AlatSupportController extends Controller
             'al.nik_operator',
             'al.nama_operator',
             'al.tanggal_operator',
-            'al.shift_operator',
+            'sh2.keterangan as shift_operator',
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.tanggal_dasar as tanggal_pelaporan',
-            'dr.shift_dasar as shift',
-            'dr.area as area',
-            'dr.lokasi as lokasi',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
             'dr.nik_supervisor',
             'dr.nama_supervisor',
             'dr.nik_superintendent',

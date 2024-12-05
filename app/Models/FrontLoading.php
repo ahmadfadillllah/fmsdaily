@@ -16,6 +16,8 @@ class FrontLoading extends Model
         'daily_report_uuid',
         'daily_report_id',
         'nomor_unit',
+        'checked',
+        'keterangan',
         'siang',
         'malam',
     ];

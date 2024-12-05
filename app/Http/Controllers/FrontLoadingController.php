@@ -34,15 +34,18 @@ class FrontLoadingController extends Controller
 
         $front = DB::table('front_loading_t as fl')
         ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->select(
             'fl.daily_report_id as id',
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.tanggal_dasar as tanggal_pelaporan',
-            'dr.shift_dasar as shift',
-            'dr.area as area',
-            'dr.lokasi as lokasi',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
             'dr.nik_supervisor',
             'dr.nama_supervisor',
             'dr.nik_superintendent',
@@ -50,6 +53,7 @@ class FrontLoadingController extends Controller
             'fl.nomor_unit',
             'fl.siang',
             'fl.malam',
+            'fl.keterangan',
             'dr.created_at',
             'dr.updated_at',
         )
@@ -64,12 +68,16 @@ class FrontLoadingController extends Controller
     ->flatMap(function ($item) {
         $siang = json_decode($item->siang, true) ?? [];
         $malam = json_decode($item->malam, true) ?? [];
+        $ket = json_decode($item->keterangan, true) ?? [];
 
         $result = [];
+        $siangKeteranganIndex = 0; // Indeks keterangan untuk siang
+        $malamKeteranganIndex = 0; // Indeks keterangan untuk malam
 
         // Proses shift Malam
         if ($item->shift !== 'Siang') {
             foreach ($malam as $waktu) {
+                $keteranganMalam = $ket[$malamKeteranganIndex] ?? '';  // Ambil keterangan untuk shift Malam
                 $result[] = [
                     'id' => $item->id,
                     'tanggal_pelaporan' => $item->tanggal_pelaporan,
@@ -85,14 +93,20 @@ class FrontLoadingController extends Controller
                     'nik_superintendent' => $item->nik_superintendent,
                     'nama_superintendent' => $item->nama_superintendent,
                     'shift_dasar' => 'Malam',
+                    'keterangan' => $keteranganMalam,  // Keterangan malam yang sesuai
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
                 ];
+
+                // Increment index untuk keterangan malam
+                $malamKeteranganIndex++;
             }
         }
 
+        // Proses shift Siang
         if ($item->shift !== 'Malam') {
             foreach ($siang as $waktu) {
+                $keteranganSiang = $ket[$siangKeteranganIndex] ?? '';  // Ambil keterangan untuk shift Siang
                 $result[] = [
                     'id' => $item->id,
                     'tanggal_pelaporan' => $item->tanggal_pelaporan,
@@ -108,16 +122,18 @@ class FrontLoadingController extends Controller
                     'nik_superintendent' => $item->nik_superintendent,
                     'nama_superintendent' => $item->nama_superintendent,
                     'shift_dasar' => 'Siang',
+                    'keterangan' => $keteranganSiang,  // Keterangan siang yang sesuai
                     'created_at' => $item->created_at,
                     'updated_at' => $item->updated_at,
                 ];
+
+                // Increment index untuk keterangan siang
+                $siangKeteranganIndex++;
             }
         }
 
         return $result;
     });
-
-
 
         return view('front-loading.index', compact('front'));
     }
