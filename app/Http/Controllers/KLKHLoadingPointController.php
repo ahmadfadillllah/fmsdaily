@@ -41,6 +41,7 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
         ->select(
             'lp.id',
+            'lp.uuid',
             'lp.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, lp.created_at, 120) as tanggal_pembuatan'),
@@ -62,6 +63,32 @@ class KLKHLoadingPointController extends Controller
 
 
         return view('klkh.loading-point.index', compact('loading'));
+    }
+
+    public function preview($uuid)
+    {
+        $ld = DB::table('klkh_loadingpoint_t as lp')
+        ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.superintendent', '=', 'gl.NRP')
+        ->select(
+            'lp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'gl.PERSONALNAME as nama_superintendent'
+            )
+        ->where('lp.statusenabled', 'true')
+        ->where('lp.uuid', $uuid)->first();
+
+        if($ld == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }
+
+        return view('klkh.loading-point.preview', compact('ld'));
     }
 
     public function insert()

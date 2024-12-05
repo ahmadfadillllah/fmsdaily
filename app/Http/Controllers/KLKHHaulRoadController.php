@@ -41,6 +41,7 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('shift_m as sh', 'hr.shift_id', '=', 'sh.id')
         ->select(
             'hr.id',
+            'hr.uuid',
             'hr.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, hr.created_at, 120) as tanggal_pembuatan'),

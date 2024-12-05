@@ -41,6 +41,7 @@ class KLKHDisposalController extends Controller
         ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
         ->select(
             'dp.id',
+            'dp.uuid',
             'dp.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, dp.created_at, 120) as tanggal_pembuatan'),

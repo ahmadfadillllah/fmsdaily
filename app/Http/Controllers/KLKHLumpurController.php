@@ -41,6 +41,7 @@ class KLKHLumpurController extends Controller
         ->leftJoin('shift_m as sh', 'lum.shift_id', '=', 'sh.id')
         ->select(
             'lum.id',
+            'lum.uuid',
             'lum.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, lum.created_at, 120) as tanggal_pembuatan'),

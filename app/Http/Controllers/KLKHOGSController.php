@@ -41,6 +41,7 @@ class KLKHOGSController extends Controller
         ->leftJoin('shift_m as sh', 'ogs.shift_id', '=', 'sh.id')
         ->select(
             'ogs.id',
+            'ogs.uuid',
             'ogs.pic as pic_id',
             'us.name as pic',
             DB::raw('CONVERT(varchar, ogs.created_at, 120) as tanggal_pembuatan'),

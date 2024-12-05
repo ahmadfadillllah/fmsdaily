@@ -66,7 +66,7 @@
                                             <td>{{ $item->nama_superintendent }}</td>
                                             <td>
                                                 <a href="{{ route('form-pengawas.download', $item->uuid) }}" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-print"></i> Cetak</a>
-                                                {{-- <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteDP{{$item->id}}">Download</a> --}}
+                                                <a href="{{ route('form-pengawas.preview', $item->uuid) }}" class="btn btn-success btn-sm">Preview</a>
                                             </td>
                                         </tr>
                                     @endforeach

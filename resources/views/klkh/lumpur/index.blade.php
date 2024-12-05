@@ -63,7 +63,7 @@
                                     @foreach ($lumpur as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ date('d-m-Y H:i:s', strtotime($item->tanggal_pembuatan)) }}
+                                            <td>{{ date('d-m-Y H:i', strtotime($item->tanggal_pembuatan)) }}
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->pit }}</td>
                                             <td>{{ $item->shift }}</td>

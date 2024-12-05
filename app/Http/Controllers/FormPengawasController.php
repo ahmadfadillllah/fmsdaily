@@ -313,6 +313,67 @@ class FormPengawasController extends Controller
         return view('form-pengawas.daftar.index', compact('daily'));
     }
 
+    public function preview($uuid)
+    {
+        $daily = DB::table('daily_report_t as dr')
+        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
+        ->select(
+            'dr.uuid',
+            'dr.foreman_id as id_foreman',
+            'dr.tanggal_dasar as tanggal',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
+            'us.nik as nik_foreman',
+            'us.name as nama_foreman',
+            'dr.nik_supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dr.nik_superintendent as nik_superintendent',
+            'gl.PERSONALNAME as nama_superintendent'
+        )->where('dr.uuid', $uuid)->first();
+
+        if($daily == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }
+
+        $support = DB::table('alat_support_t as al')
+        ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
+        ->select(
+            'al.alat_unit as nomor_unit',
+            'al.nama_operator',
+            'al.hm_awal',
+            'al.hm_akhir',
+            'al.hm_cash',
+            'al.keterangan',
+            'sh.keterangan as shift',
+            'al.tanggal_operator as tanggal',
+        )
+        ->where('al.daily_report_uuid', $uuid)->get();
+
+        $catatan = DB::table('catatan_pengawas_t as cp')
+        ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
+        ->select(
+            'cp.jam_start',
+            'cp.jam_stop',
+            'cp.keterangan',
+        )
+        ->where('cp.daily_report_uuid', $uuid)->get();
+
+        $data = [
+            'daily' => $daily,
+            'support' => $support,
+            'catatan' => $catatan,
+        ];
+
+        return view('form-pengawas.preview', compact('data'));
+    }
+
     public function download($uuid)
     {
 

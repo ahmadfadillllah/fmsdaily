@@ -22,8 +22,10 @@ return new class extends Migration
             $table->foreignId('lokasi_id')->nullable()->constrained('lokasi_m');
             $table->string('nik_supervisor')->nullable();
             $table->string('nama_supervisor')->nullable();
+            $table->string('verified_supervisor')->nullable();
             $table->string('nik_superintendent')->nullable();
             $table->string('nama_superintendent')->nullable();
+            $table->string('verified_superintendent')->nullable();
             $table->integer('deleted_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

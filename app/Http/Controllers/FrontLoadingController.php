@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\FrontLoading;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class FrontLoadingController extends Controller
 {
@@ -138,12 +140,12 @@ class FrontLoadingController extends Controller
         return view('front-loading.index', compact('front'));
     }
 
-    public function download()
+    public function excel()
     {
         // $pdf = App::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
         // return $pdf->stream();
-
-        return view('front-loading.modal.download');
+        return Excel::download(new FrontLoading, 'users.xlsx');
+        // return view('front-loading.modal.download');
     }
 }

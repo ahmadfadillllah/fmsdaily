@@ -71,6 +71,8 @@ return new class extends Migration
             $table->text('additional_notes')->nullable();
             $table->string('supervisor')->nullable();
             $table->string('superintendent')->nullable();
+            $table->string('verified_supervisor')->nullable();
+            $table->string('verified_superintendent')->nullable();
             $table->integer('deleted_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

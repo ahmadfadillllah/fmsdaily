@@ -39,11 +39,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas/show', [FormPengawasController::class, 'show'])->name('form-pengawas.show');
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
     Route::get('/form-pengawas/download/{uuid}', [FormPengawasController::class, 'download'])->name('form-pengawas.download');
+    Route::get('/form-pengawas/preview/{uuid}', [FormPengawasController::class, 'preview'])->name('form-pengawas.preview');
     Route::post('/form-pengawas/post', [FormPengawasController::class, 'post'])->name('form-pengawas.post');
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');
-    Route::get('/front-loading/download', [FrontLoadingController::class, 'download'])->name('front-loading.download');
+    Route::get('/front-loading/export/excel', [FrontLoadingController::class, 'excel'])->name('front-loading.excel');
 
 
     //Alat Support
@@ -57,6 +58,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/loading-point/insert', [KLKHLoadingPointController::class, 'insert'])->name('klkh.loading-point.insert');
     Route::post('/klkh/loading-point/post', [KLKHLoadingPointController::class, 'post'])->name('klkh.loading-point.post');
     Route::get('/klkh/loading-point/delete/{id}', [KLKHLoadingPointController::class, 'delete'])->name('klkh.loading-point.delete');
+    Route::get('/klkh/loading-point/preview/{uuid}', [KLKHLoadingPointController::class, 'preview'])->name('klkh.loading-point.preview');
 
     //KLKH Haul Road
     Route::get('/klkh/haul-road', [KLKHHaulRoadController::class, 'index'])->name('klkh.haul-road');
