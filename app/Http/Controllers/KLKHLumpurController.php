@@ -118,8 +118,6 @@ class KLKHLumpurController extends Controller
                 'crack_note' => $data['crack_note'] ?? null,
                 'luas_area_check' => $data['luas_area_check'] ?? null,
                 'luas_area_note' => $data['luas_area_note'] ?? null,
-                'luas_area_check' => $data['luas_area_check'] ?? null,
-                'luas_area_note' => $data['luas_area_note'] ?? null,
                 'tanggul_check' => $data['tanggul_check'] ?? null,
                 'tanggul_note' => $data['tanggul_note'] ?? null,
                 'free_dump_check' => $data['free_dump_check'] ?? null,

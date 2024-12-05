@@ -614,7 +614,7 @@
                 <td style="padding-left:2px;">{{ $sp->nama_operator }}</td>
                 <td style="text-align: center">{{ $sp->hm_awal }}</td>
                 <td style="text-align: center">{{ $sp->hm_akhir }}</td>
-                <td style="text-align: center">{{ $sp->hm_akhir - $sp->hm_awal }}</td>
+                <td style="text-align: center">{{ number_format($sp->hm_akhir - $sp->hm_awal, 2) }}</td>
                 <td style="padding-left:2px;">{{ $sp->hm_cash }}</td>
                 <td style="padding-left:2px;">{{ $sp->keterangan }}</td>
             </tr>

@@ -71,7 +71,7 @@
                                             <td>{{ date('H:i', strtotime($item->time)) }}</td>
                                             <td>
                                                 {{-- <a href="#" class="btn btn-warning btn-sm">Edit</a> --}}
-                                                <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteLP{{$item->id}}">Hapus</a>
+                                                <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteLPR{{$item->id}}">Hapus</a>
                                             </td>
                                         </tr>
                                         @include('klkh.lumpur.delete')

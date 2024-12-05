@@ -47,8 +47,32 @@
                 </a>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <img
+                        class="img-fluid me-2"
+                        src="{{ asset('dashboard/assets/images/widget/to-do-list.png') }}"
+                        alt="Logo KLKH"
+                        style="max-width: 20px; height: auto;">
+                    <h5 class="card-title mb-0">KLKH</h5>
+                </div>
 
-        <div class="row g-1">
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ route('klkh.loading-point') }}" class="list-group-item list-group-item-action">Loading Point</a>
+                        <a href="{{ route('klkh.haul-road') }}" class="list-group-item list-group-item-action">Haul Road</a>
+                        <a href="{{ route('klkh.disposal') }}" class="list-group-item list-group-item-action">Disposal/Dumping Point</a>
+                        <a href="{{ route('klkh.lumpur') }}" class="list-group-item list-group-item-action">Dumping di Kolam Air/Lumpur</a>
+                        <a href="{{ route('klkh.ogs') }}" class="list-group-item list-group-item-action">OGS</a>
+                        <a href="{{ route('klkh.batubara') }}" class="list-group-item list-group-item-action">Batubara</a>
+                        <a href="{{ route('klkh.simpangempat') }}" class="list-group-item list-group-item-action"> INTERSECTION (Simpang Empat)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- <div class="row g-1">
 
             <h5 class="w-100">KLKH</h5>
 
@@ -84,7 +108,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 </div>

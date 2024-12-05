@@ -65,8 +65,8 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('klkh.haul-road') }}">Haul Road</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('klkh.disposal') }}">Disposal/Dumping Point</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>
-                        {{-- <li class="pc-item"><a class="pc-link" href="{{ route('klkh.ogs') }}">OGS</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.batubara') }}">Batu Bara</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.ogs') }}">OGS</a></li>
+                        {{-- <li class="pc-item"><a class="pc-link" href="{{ route('klkh.batubara') }}">Batu Bara</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li> --}}
                     </ul>
                 </li>

@@ -17,8 +17,21 @@ class AuthController extends Controller
     {
         $credentials = $request->only('nik', 'password');
 
+        // if (Auth::attempt($credentials, $request->has('remember'))) {
+        //     return redirect()->route('dashboard.index')->with('alert','Selamat Datang');
+        // }
+
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            return redirect()->route('dashboard.index')->with('alert','Selamat Datang');
+            // Periksa apakah statusenabled pengguna bernilai true
+            if (Auth::user()->statusenabled == "true") {
+                return redirect()->route('dashboard.index')->with('alert', 'Selamat Datang');
+            } else {
+                // Logout jika statusenabled adalah false
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect()->back()->with('info', 'Akun Anda tidak diaktifkan.');
+            }
         }
 
         return redirect()->back()->with('login', 'NIK atau password salah');
