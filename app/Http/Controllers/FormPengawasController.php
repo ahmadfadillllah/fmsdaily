@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Ramsey\Uuid\Uuid;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FormPengawasController extends Controller
 {
@@ -339,6 +340,8 @@ class FormPengawasController extends Controller
 
         if($daily == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $daily->generate_foreman = $daily->id_foreman ? QrCode::size(70)->generate('Telah dibuat oleh: ' . $daily->nama_foreman) : null;
         }
 
         $front = DB::table('front_loading_t as fl')

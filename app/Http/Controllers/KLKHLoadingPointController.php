@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KLKHLoadingPointController extends Controller
 {
@@ -86,6 +87,10 @@ class KLKHLoadingPointController extends Controller
 
         if($ld == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $ld->generate_foreman = $ld->pic ? QrCode::size(70)->generate('Telah dibuat oleh: ' . $ld->nama_foreman) : null;
+            $ld->verified_supervisor = $ld->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_supervisor) : null;
+            $ld->verified_superintendent = $ld->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_superintendent) : null;
         }
 
         return view('klkh.loading-point.preview', compact('ld'));

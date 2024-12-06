@@ -709,7 +709,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td style="padding-top: 20px;padding-bottom: 20px;"></td>
+                                                <td style="padding-top: 5px;padding-bottom: 5px;">{!! $data['daily']->generate_foreman !!}</td>
                                                 <td></td>
                                             </tr>
                                         </tbody>

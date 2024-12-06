@@ -182,20 +182,27 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
-                                    <h6 class="mb-0">Foreman</h6>
+                                    <h6>Foreman</h6>
+                                    <h5>{!! $ld->generate_foreman !!}</h5>
                                     <h5>{{ $ld->nama_foreman }}</h5>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
-                                    <h6 class="mb-0">Supervisor</h6>
-                                    <h5>{{ $ld->nama_supervisor ? $ld->nama_supervisor : '.......................' }}</h5>
+                                    <h6>Supervisor</h6>
+                                    @if ($ld->verified_supervisor != null)
+                                        <h5>{!! $ld->verified_supervisor !!}</h5>
+                                        <h5>{{ $ld->nama_supervisor ? $ld->nama_supervisor : '.......................' }}</h5>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
-                                    <h6 class="mb-0">Superintendent</h6>
-                                    <h5>{{ $ld->nama_superintendent ? $ld->nama_superintendent : '.......................' }}</h5>
+                                    <h6>Superintendent</h6>
+                                    @if ($ld->verified_superintendent != null)
+                                        <h5>{!! $ld->verified_superintendent !!}</h5>
+                                        <h5>{{ $ld->nama_superintendent ? $ld->nama_superintendent : '.......................' }}</h5>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body p-3">

@@ -70,11 +70,18 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li> --}}
                     </ul>
                 </li>
-                <li class="pc-item pc-caption"><label></label>
-                    <svg class="pc-icon">
+                @if (Auth::user()->role == 'ADMIN')
+                    <li class="pc-item pc-caption"><label>Configuration</label> <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
-                    </svg>
-                </li>
+                        </svg>
+                    </li>
+                    <li class="pc-item"><a href="{{ route('user.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/user.png" alt="NT"></span><span class="pc-mtext">Users</span></a></li>
+                    <li class="pc-item pc-caption"><label></label>
+                        <svg class="pc-icon">
+                            <use xlink:href="#custom-presentation-chart"></use>
+                        </svg>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

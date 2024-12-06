@@ -16,6 +16,7 @@ use App\Http\Controllers\KLKHSimpangEmpatController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -100,5 +101,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/payloadritation', [PayloadRitationController::class, 'index'])->name('payloadritation.index');
 
     // Profile
-    Route::post('/profile.change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+
+    // User
+    Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');
+    Route::get('/user/status-enabled/{id}', [UserController::class, 'statusEnabled'])->name('user.status-enabled');
 });
