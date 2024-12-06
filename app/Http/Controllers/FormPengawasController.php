@@ -298,6 +298,8 @@ class FormPengawasController extends Controller
             'sh.keterangan as shift',
             'ar.keterangan as area',
             'lok.keterangan as lokasi',
+            'us.nik as nik_foreman',
+            'us.name as nama_foreman',
             'dr.nik_supervisor',
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent',
@@ -365,6 +367,40 @@ class FormPengawasController extends Controller
         ->get()
         ->groupBy('brand');
 
+        $timeSlots = [
+            'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
+            // 'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
+        ];
+
+        $processedData = $front->map(function ($units, $brand) use ($timeSlots) {
+            return $units->map(function ($unit) use ($timeSlots) {
+                $siangTimes = json_decode($unit->siang, true);
+                $malamTimes = json_decode($unit->malam, true);
+                $checked = array_map(function ($item) {
+                    return $item === 'true'; // Convert 'true' string to boolean
+                }, json_decode($unit->checked, true));
+                // dd($checked);
+                // Cek slot yang dicentang
+                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked) {
+                    return in_array($slot, $siangTimes) && $checked[array_search($slot, $siangTimes)] === true ? '✓' : '';
+                });
+
+                // ini dimatikan karena cukup 1 aja untuk ceklisannya
+                // $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked) {
+                //     return in_array($slot, $malamTimes) && $checked[array_search($slot, $malamTimes)] === true ? '✓' : '';
+                // });
+
+                return [
+                    'brand' => $unit->brand,
+                    'type' => $unit->type,
+                    'nomor_unit' => $unit->nomor_unit,
+                    'siang' => $siangResult,
+                    // 'malam' => $malamResult,
+                ];
+            });
+        });
+
+
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
         ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
@@ -393,7 +429,7 @@ class FormPengawasController extends Controller
 
         $data = [
             'daily' => $daily,
-            'front' => $front,
+            'front' => $processedData,
             'support' => $support,
             'catatan' => $catatan,
         ];
@@ -425,6 +461,27 @@ class FormPengawasController extends Controller
             'gl.PERSONALNAME as nama_superintendent'
         )->where('dr.uuid', $uuid)->first();
 
+        $front = DB::table('front_loading_t as fl')
+        ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')
+        ->leftJoin('focus.dbo.FLT_VEHICLE as flt', 'fl.nomor_unit', '=', 'flt.VHC_ID')
+        ->select(
+            'fl.nomor_unit',
+            'flt.EQU_GROUPID as type',
+            DB::raw("CASE
+                    WHEN flt.EQU_GROUPID LIKE 'HT%' THEN 'Hitachi'
+                    WHEN flt.EQU_GROUPID LIKE 'PC%' THEN 'Komatsu'
+                    ELSE 'Unknown'
+                END as brand"),
+            'fl.siang',
+            'fl.malam',
+            'fl.checked',
+            'fl.keterangan',
+        )
+        ->where('fl.statusenabled', 'true')
+        ->where('fl.daily_report_uuid', $uuid)
+        ->get()
+        ->groupBy('brand');
+
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
         ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
@@ -449,8 +506,43 @@ class FormPengawasController extends Controller
         )
         ->where('cp.daily_report_uuid', $uuid)->get();
 
+        $timeSlots = [
+            'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
+            // 'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
+        ];
+
+        // Menghasilkan data seperti '✓' untuk menandakan waktu yang dicentang
+        $processedData = $front->map(function ($units, $brand) use ($timeSlots) {
+            return $units->map(function ($unit) use ($timeSlots) {
+                $siangTimes = json_decode($unit->siang, true);
+                $malamTimes = json_decode($unit->malam, true);
+                $checked = array_map(function ($item) {
+                    return $item === 'true'; // Convert 'true' string to boolean
+                }, json_decode($unit->checked, true));
+                // dd($checked);
+                // Cek slot yang dicentang
+                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked) {
+                    return in_array($slot, $siangTimes) && $checked[array_search($slot, $siangTimes)] === true ? '✓' : '';
+                });
+
+                // ini dimatikan karena cukup 1 aja untuk ceklisannya
+                // $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked) {
+                //     return in_array($slot, $malamTimes) && $checked[array_search($slot, $malamTimes)] === true ? '✓' : '';
+                // });
+
+                return [
+                    'brand' => $unit->brand,
+                    'type' => $unit->type,
+                    'nomor_unit' => $unit->nomor_unit,
+                    'siang' => $siangResult,
+                    // 'malam' => $malamResult,
+                ];
+            });
+        });
+
         $data = [
             'daily' => $daily,
+            'front' => $processedData,
             'support' => $support,
             'catatan' => $catatan,
         ];

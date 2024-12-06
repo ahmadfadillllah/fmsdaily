@@ -242,290 +242,48 @@
                                 A. FRONT LOADING
                             </h4>
                             <table class="data-table">
-                                <tr>
-                                    <th rowspan="3">Brand</th>
-                                    <th rowspan="3">Type</th>
-                                    <th rowspan="3">No Unit</th>
-                                    <th>Shift</th>
-                                    <th colspan="12">Jam</th>
-                                </tr>
-                                <tr>
-                                    <th>Siang</th>
-                                    <th>07-08</th>
-                                    <th>08-09</th>
-                                    <th>09-10</th>
-                                    <th>10-11</th>
-                                    <th>11-12</th>
-                                    <th>12-13</th>
-                                    <th>13-14</th>
-                                    <th>14-15</th>
-                                    <th>15-16</th>
-                                    <th>16-17</th>
-                                    <th>17-18</th>
-                                    <th>18-19</th>
-                                </tr>
-                                <tr>
-                                    <th>Malam</th>
-                                    <th>19-20</th>
-                                    <th>20-21</th>
-                                    <th>21-22</th>
-                                    <th>22-23</th>
-                                    <th>23-24</th>
-                                    <th>24-01</th>
-                                    <th>01-02</th>
-                                    <th>02-03</th>
-                                    <th>03-04</th>
-                                    <th>04-05</th>
-                                    <th>05-06</th>
-                                    <th>06-07</th>
-                                </tr>
-                                <tr>
-                                    <td rowspan="12">Hitachi</td>
-                                    <td>HT2600</td>
-                                    <td colspan="2">EX5279</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="8" style="background-color: #ffffff;">HT2500</td>
-                                    <td colspan="2">EX265</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX266</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX267</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX268</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX269</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX272</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX273</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX274</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td style="background-color: #ffffff;">HT1900</td>
-                                    <td colspan="2">EX264</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="2">HT1200</td>
-                                    <td colspan="2">EX2701</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX2702</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="4">Komatsu</td>
-                                    <td rowspan="4">PC2000</td>
-                                    <td colspan="2">EX275</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX276</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX277</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">EX278</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="3">Brand</th>
+                                        <th rowspan="3">Type</th>
+                                        <th rowspan="3">No Unit</th>
+                                        <th>Shift</th>
+                                        <th colspan="12">Jam</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Siang</th>
+                                        @foreach(['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00',
+                                        '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00',
+                                        '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'] as $slot)
+                                        <th>{{ $slot }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data['front'] as $brand => $units)
+                                    @php
+                                    $groupedByType = $units->groupBy('type');
+                                    @endphp
+                                    @foreach($groupedByType as $type => $typeUnits)
+                                    @foreach($typeUnits as $index => $unit)
+                                    <tr>
+                                        <!-- Tampilkan Brand hanya di baris pertama dari grup -->
+                                        @if($loop->parent->first && $index === 0)
+                                        <td rowspan="{{ $units->count() }}">{{ $brand }}</td>
+                                        @endif
+                                        <!-- Tampilkan Type hanya di baris pertama dari grup Type -->
+                                        @if($index === 0)
+                                        <td rowspan="{{ $typeUnits->count() }}">{{ $type }}</td>
+                                        @endif
+                                        <td colspan="2">{{ $unit['nomor_unit'] }}</td>
+                                        @foreach($unit['siang'] as $slot)
+                                        <td>{{ $slot }}</td>
+                                        @endforeach
+                                    </tr>
+                                    @endforeach
+                                    @endforeach
+                                    @endforeach
+                                </tbody>
                             </table>
                             <div class="footer">
                                 Keterangan: beri tanda centang (√) pada unit excavator yang diawasi

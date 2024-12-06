@@ -44,6 +44,7 @@
                                         <th>Shift</th>
                                         <th>Area</th>
                                         <th>Lokasi</th>
+                                        <th>Nama Foreman</th>
                                         <th>NIK Supervisor</th>
                                         <th>Nama Supervisor</th>
                                         <th>NIK Superintendent</th>
@@ -60,6 +61,7 @@
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ $item->area }}</td>
                                             <td>{{ $item->lokasi }}</td>
+                                            <td>{{ $item->nama_foreman }}</td>
                                             <td>{{ $item->nik_supervisor }}</td>
                                             <td>{{ $item->nama_supervisor }}</td>
                                             <td>{{ $item->nik_superintendent }}</td>
