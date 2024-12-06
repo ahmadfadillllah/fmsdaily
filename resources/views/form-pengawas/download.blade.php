@@ -245,7 +245,7 @@
 <body>
     <div class="header">
         <div class="flex">
-            <img alt="Company Logo" height="30"
+            <img alt="Company Logo" height="40"
                 src="{{ asset('dashboard/assets/images/logo-full.png') }}"
                 alt="logo disini"  />
 
