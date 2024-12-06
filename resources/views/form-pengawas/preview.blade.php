@@ -277,7 +277,7 @@
                                         @endif
                                         <td colspan="2">{{ $unit['nomor_unit'] }}</td>
                                         @foreach($unit['siang'] as $slot)
-                                        <td>{{ $slot }}</td>
+                                        <td>{{ $slot->status }}</td>
                                         @endforeach
                                     </tr>
                                     @endforeach
@@ -435,22 +435,33 @@
                                                 <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;">({{ \Carbon\Carbon::parse($cp->jam_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($cp->jam_stop)->format('H:i') }}) {{ $cp->keterangan }}</td>
                                             </tr>
                                             @endforeach
-                                            @if ($data['catatan']->isEmpty())
-                                                <tr>
-                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;"></td>
-                                                </tr>
+
+                                            @foreach ($data['front'] as $brand => $units)
+                                                @foreach ($units as $unit)
+                                                    @foreach ($unit['siang'] as $index => $slot)
+                                                        @if($slot->keterangan != "")
+                                                            <tr>
+                                                                <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
+                                                                    <!-- Menampilkan nomor unit -->
+                                                                    {{ $unit['nomor_unit'] }} =>
+                                                                    <!-- Waktu -->
+                                                                    ({{ $timeSlots['siang'][$index] }})
+                                                                    <!-- Keterangan -->
+                                                                    {{ $slot->keterangan }}
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+                                            @endforeach
+                                            @if ($data['front']->isEmpty())
+                                                @for ($i = 0; $i < 5; $i++)
+                                                    <tr>
+                                                        <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                @endfor
                                             @endif
                                         </tbody>
                                     </table>

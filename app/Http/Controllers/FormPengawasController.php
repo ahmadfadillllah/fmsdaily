@@ -379,16 +379,23 @@ class FormPengawasController extends Controller
                 $checked = array_map(function ($item) {
                     return $item === 'true'; // Convert 'true' string to boolean
                 }, json_decode($unit->checked, true));
-                // dd($checked);
-                // Cek slot yang dicentang
-                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked) {
-                    return in_array($slot, $siangTimes) && $checked[array_search($slot, $siangTimes)] === true ? '✓' : '';
-                });
+                $keterangan = array_map(function ($item) {
+                    return $item === null ? '' : $item; // Mengganti null dengan string kosong
+                }, json_decode($unit->keterangan, true));
 
-                // ini dimatikan karena cukup 1 aja untuk ceklisannya
-                // $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked) {
-                //     return in_array($slot, $malamTimes) && $checked[array_search($slot, $malamTimes)] === true ? '✓' : '';
-                // });
+                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $siangTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => 'V', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
 
                 return [
                     'brand' => $unit->brand,
@@ -434,7 +441,7 @@ class FormPengawasController extends Controller
             'catatan' => $catatan,
         ];
 
-        return view('form-pengawas.preview', compact('data'));
+        return view('form-pengawas.preview', compact(['data', 'timeSlots']));
     }
 
     public function download($uuid)
@@ -519,17 +526,23 @@ class FormPengawasController extends Controller
                 $checked = array_map(function ($item) {
                     return $item === 'true'; // Convert 'true' string to boolean
                 }, json_decode($unit->checked, true));
-                // dd($checked);
-                // Cek slot yang dicentang
-                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked) {
-                    return in_array($slot, $siangTimes) && $checked[array_search($slot, $siangTimes)] === true ? '✓' : '';
+                $keterangan = array_map(function ($item) {
+                    return $item === null ? '' : $item; // Mengganti null dengan string kosong
+                }, json_decode($unit->keterangan, true));
+
+                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $siangTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => 'V', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
                 });
-
-                // ini dimatikan karena cukup 1 aja untuk ceklisannya
-                // $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked) {
-                //     return in_array($slot, $malamTimes) && $checked[array_search($slot, $malamTimes)] === true ? '✓' : '';
-                // });
-
                 return [
                     'brand' => $unit->brand,
                     'type' => $unit->type,
@@ -552,6 +565,6 @@ class FormPengawasController extends Controller
         // ))->setPaper('a4', 'portrait');
         // return $pdf->download($data['daily']->tanggal.'_'.$data['daily']->nik_foreman.'_'.$data['daily']->nama_foreman.'.pdf');
 
-        return view('form-pengawas.download', compact('data'));
+        return view('form-pengawas.download', compact(['data', 'timeSlots']));
     }
 }
