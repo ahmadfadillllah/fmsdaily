@@ -387,7 +387,7 @@ class FormPengawasController extends Controller
                     $index = array_search($slot, $siangTimes);
                     if ($index !== false && $checked[$index] === true) {
                         return (object)[
-                            'status' => 'V', // Checkmark
+                            'status' => '√', // Checkmark
                             'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
                         ];
                     }
@@ -534,7 +534,7 @@ class FormPengawasController extends Controller
                     $index = array_search($slot, $siangTimes);
                     if ($index !== false && $checked[$index] === true) {
                         return (object)[
-                            'status' => 'V', // Checkmark
+                            'status' => '√', // Checkmark
                             'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
                         ];
                     }
