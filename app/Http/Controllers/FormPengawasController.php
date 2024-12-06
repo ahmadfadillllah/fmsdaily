@@ -367,11 +367,36 @@ class FormPengawasController extends Controller
         ->get()
         ->groupBy('brand');
 
+        $support = DB::table('alat_support_t as al')
+        ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
+        ->select(
+            'al.alat_unit as nomor_unit',
+            'al.nama_operator',
+            'al.hm_awal',
+            'al.hm_akhir',
+            'al.hm_cash',
+            'al.keterangan',
+            'sh.keterangan as shift',
+            'al.tanggal_operator as tanggal',
+        )
+        ->where('al.daily_report_uuid', $uuid)->get();
+
+        $catatan = DB::table('catatan_pengawas_t as cp')
+        ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
+        ->select(
+            'cp.jam_start',
+            'cp.jam_stop',
+            'cp.keterangan',
+        )
+        ->where('cp.daily_report_uuid', $uuid)->get();
+
         $timeSlots = [
             'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
             // 'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
         ];
 
+        // Menghasilkan data seperti '✓' untuk menandakan waktu yang dicentang
         $processedData = $front->map(function ($units, $brand) use ($timeSlots) {
             return $units->map(function ($unit) use ($timeSlots) {
                 $siangTimes = json_decode($unit->siang, true);
@@ -396,7 +421,6 @@ class FormPengawasController extends Controller
                         'keterangan' => '', // No keterangan
                     ];
                 });
-
                 return [
                     'brand' => $unit->brand,
                     'type' => $unit->type,
@@ -406,33 +430,6 @@ class FormPengawasController extends Controller
                 ];
             });
         });
-
-
-        $support = DB::table('alat_support_t as al')
-        ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
-        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
-        ->select(
-            'al.alat_unit as nomor_unit',
-            'al.nama_operator',
-            'al.hm_awal',
-            'al.hm_akhir',
-            'al.hm_cash',
-            'al.keterangan',
-            'sh.keterangan as shift',
-            'al.tanggal_operator as tanggal',
-        )
-        ->where('al.statusenabled', 'true')
-        ->where('al.daily_report_uuid', $uuid)->get();
-
-        $catatan = DB::table('catatan_pengawas_t as cp')
-        ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
-        ->select(
-            'cp.jam_start',
-            'cp.jam_stop',
-            'cp.keterangan',
-        )
-        ->where('cp.statusenabled', 'true')
-        ->where('cp.daily_report_uuid', $uuid)->get();
 
         $data = [
             'daily' => $daily,
@@ -455,6 +452,7 @@ class FormPengawasController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
         ->select(
+            'dr.uuid',
             'dr.foreman_id as id_foreman',
             'dr.tanggal_dasar as tanggal',
             'sh.keterangan as shift',
@@ -467,6 +465,12 @@ class FormPengawasController extends Controller
             'dr.nik_superintendent as nik_superintendent',
             'gl.PERSONALNAME as nama_superintendent'
         )->where('dr.uuid', $uuid)->first();
+
+        if($daily == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $daily->generate_foreman = $daily->id_foreman ? QrCode::size(70)->generate('Telah dibuat oleh: ' . $daily->nama_foreman) : null;
+        }
 
         $front = DB::table('front_loading_t as fl')
         ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')

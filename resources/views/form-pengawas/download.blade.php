@@ -547,7 +547,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding-top: 20px;padding-bottom: 20px;"></td>
+                        <td >{{ $data['daily']->generate_foreman }} <br> {{ $data['daily']->nama_foreman }}</td>
                         <td></td>
                     </tr>
                 </tbody>
