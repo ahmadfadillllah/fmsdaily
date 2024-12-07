@@ -212,40 +212,24 @@
                             <div class="col-12"><label class="form-label">Catatan:</label>
                                 <p class="mb-0">{{ $hr->additional_notes }}</p>
                             </div>
-                            @if (Auth::user()->role == 'FOREMAN')
-                                <div class="col-sm-4">
-                                    <div class="border rounded p-3">
-                                        <h6>Foreman</h6>
-                                        <h5>{!! $hr->generate_pic !!}</h5>
-                                        <h5>{{ $hr->nama_pic }}</h5>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="border rounded p-3">
-                                        <h6>Supervisor</h6>
-                                        @if ($hr->verified_supervisor != null)
-                                            <h5>{!! $hr->verified_supervisor !!}</h5>
-                                            <h5>{{ $hr->nama_supervisor ? $hr->nama_supervisor : '.......................' }}</h5>
-                                        @endif
-                                    </div>
-                                </div>
-                            @elseif(Auth::user()->role == 'SUPERVISOR')
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Foreman</h6>
-                                    <h5></h5>
-                                    <h5></h5>
+                                    @if ($hr->verified_foreman != null)
+                                        <h5>{!! $hr->verified_foreman !!}</h5>
+                                        <h5>{{ $hr->nama_foreman ? $hr->nama_foreman : '.......................' }}</h5>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Supervisor</h6>
-                                    <h5>{!! $hr->generate_pic !!}</h5>
-                                    <h5>{{ $hr->nama_pic ? $hr->nama_pic : '.......................' }}</h5>
+                                    @if ($hr->verified_supervisor != null)
+                                        <h5>{!! $hr->verified_supervisor !!}</h5>
+                                        <h5>{{ $hr->nama_supervisor ? $hr->nama_supervisor : '.......................' }}</h5>
+                                    @endif
                                 </div>
                             </div>
-                            @endif
-
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Superintendent</h6>

@@ -87,8 +87,7 @@ class KLKHOGSController extends Controller
 
             $data = $request->all();
 
-            if(Auth::user()->role == 'SUPERVISOR'){
-                KLKHOGS::create([
+            $dataToInsert = [
                     'pic' => Auth::user()->id,
                     'uuid' => (string) Uuid::uuid4()->toString(),
                     'statusenabled' => 'true',
@@ -145,73 +144,20 @@ class KLKHOGSController extends Controller
                     'jalur_hd_check' => $data['jalur_hd_check'] ?? null,
                     'jalur_hd_note' => $data['jalur_hd_note'] ?? null,
                     'additional_notes' => $data['additional_notes'] ?? null,
-                    'supervisor' => Auth::user()->nik,
-                    'verified_supervisor' => Auth::user()->nik,
                     'superintendent' => $data['superintendent'] ?? null,
-                ]);
-            }else{
-                KLKHOGS::create([
-                    'pic' => Auth::user()->id,
-                    'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
-                    'pit_id' => $data['pit'],
-                    'shift_id' => $data['shift'],
-                    'date' => $data['date'],
-                    'time' => $data['time'],
-                    'rata_padat_check' => $data['rata_padat_check'] ?? null,
-                    'rata_padat_note' => $data['rata_padat_note'] ?? null,
-                    'parkir_terpisah_check' => $data['parkir_terpisah_check'] ?? null,
-                    'parkir_terpisah_note' => $data['parkir_terpisah_note'] ?? null,
-                    'ceceran_oli_check' => $data['ceceran_oli_check'] ?? null,
-                    'ceceran_oli_note' => $data['ceceran_oli_note'] ?? null,
-                    'genangan_air_check' => $data['genangan_air_check'] ?? null,
-                    'genangan_air_note' => $data['genangan_air_note'] ?? null,
-                    'rambu_darurat_check' => $data['rambu_darurat_check'] ?? null,
-                    'rambu_darurat_note' => $data['rambu_darurat_note'] ?? null,
-                    'rambu_lalulintas_check' => $data['rambu_lalulintas_check'] ?? null,
-                    'rambu_lalulintas_note' => $data['rambu_lalulintas_note'] ?? null,
-                    'rambu_berhenti_check' => $data['rambu_berhenti_check'] ?? null,
-                    'rambu_berhenti_note' => $data['rambu_berhenti_note'] ?? null,
-                    'rambu_masuk_keluar_check' => $data['rambu_masuk_keluar_check'] ?? null,
-                    'rambu_masuk_keluar_note' => $data['rambu_masuk_keluar_note'] ?? null,
-                    'rambu_ogs_check' => $data['rambu_ogs_check'] ?? null,
-                    'rambu_ogs_note' => $data['rambu_ogs_note'] ?? null,
-                    'papan_nama_check' => $data['papan_nama_check'] ?? null,
-                    'papan_nama_note' => $data['papan_nama_note'] ?? null,
-                    'emergency_call_check' => $data['emergency_call_check'] ?? null,
-                    'emergency_call_note' => $data['emergency_call_note'] ?? null,
-                    'tempat_sampah_check' => $data['tempat_sampah_check'] ?? null,
-                    'tempat_sampah_note' => $data['tempat_sampah_note'] ?? null,
-                    'penyalur_petir_check' => $data['penyalur_petir_check'] ?? null,
-                    'penyalur_petir_note' => $data['penyalur_petir_note'] ?? null,
-                    'tempat_istirahat_check' => $data['tempat_istirahat_check'] ?? null,
-                    'tempat_istirahat_note' => $data['tempat_istirahat_note'] ?? null,
-                    'apar_check' => $data['apar_check'] ?? null,
-                    'apar_note' => $data['apar_note'] ?? null,
-                    'kotak_p3k_check' => $data['kotak_p3k_check'] ?? null,
-                    'kotak_p3k_note' => $data['kotak_p3k_note'] ?? null,
-                    'penerangan_check' => $data['penerangan_check'] ?? null,
-                    'penerangan_note' => $data['penerangan_note'] ?? null,
-                    'kamar_mandi_check' => $data['kamar_mandi_check'] ?? null,
-                    'kamar_mandi_note' => $data['kamar_mandi_note'] ?? null,
-                    'permukaan_tanah_check' => $data['permukaan_tanah_check'] ?? null,
-                    'permukaan_tanah_note' => $data['permukaan_tanah_note'] ?? null,
-                    'akses_jalan_check' => $data['akses_jalan_check'] ?? null,
-                    'akses_jalan_note' => $data['akses_jalan_note'] ?? null,
-                    'tinggi_tanggul_check' => $data['tinggi_tanggul_check'] ?? null,
-                    'tinggi_tanggul_note' => $data['tinggi_tanggul_note'] ?? null,
-                    'lebar_bus_check' => $data['lebar_bus_check'] ?? null,
-                    'lebar_bus_note' => $data['lebar_bus_note'] ?? null,
-                    'lebar_hd_check' => $data['lebar_hd_check'] ?? null,
-                    'lebar_hd_note' => $data['lebar_hd_note'] ?? null,
-                    'jalur_hd_check' => $data['jalur_hd_check'] ?? null,
-                    'jalur_hd_note' => $data['jalur_hd_note'] ?? null,
-                    'additional_notes' => $data['additional_notes'] ?? null,
-                    'supervisor' => $data['supervisor'] ?? null,
-                    'superintendent' => $data['superintendent'] ?? null,
-                ]);
+            ];
+
+            if (Auth::user()->role == 'SUPERVISOR') {
+                $dataToInsert['supervisor'] = Auth::user()->nik;
+                $dataToInsert['verified_supervisor'] = Auth::user()->nik;
             }
 
+            if (Auth::user()->role == 'FOREMAN') {
+                $dataToInsert['foreman'] = Auth::user()->nik;
+                $dataToInsert['verified_foreman'] = Auth::user()->nik;
+            }
+
+            KLKHOGS::create($dataToInsert);
 
             return redirect()->route('klkh.ogs')->with('success', 'KLKH OGS berhasil dibuat');
 

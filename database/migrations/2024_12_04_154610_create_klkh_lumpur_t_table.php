@@ -85,8 +85,10 @@ return new class extends Migration
             $table->string('life_jacket_spotter_check')->nullable();
             $table->text('life_jacket_spotter_note')->nullable();
             $table->text('additional_notes')->nullable();
+            $table->string('foreman')->nullable();
             $table->string('supervisor')->nullable();
             $table->string('superintendent')->nullable();
+            $table->string('verified_foreman')->nullable();
             $table->string('verified_supervisor')->nullable();
             $table->string('verified_superintendent')->nullable();
             $table->integer('deleted_by')->nullable();

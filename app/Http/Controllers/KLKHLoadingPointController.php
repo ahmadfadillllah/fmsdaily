@@ -72,15 +72,17 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.superintendent', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
         ->select(
             'lp.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
             'spv.PERSONALNAME as nama_supervisor',
-            'gl.PERSONALNAME as nama_superintendent'
+            'spt.PERSONALNAME as nama_superintendent'
             )
         ->where('lp.statusenabled', 'true')
         ->where('lp.uuid', $uuid)->first();
@@ -88,7 +90,7 @@ class KLKHLoadingPointController extends Controller
         if($ld == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $ld->generate_pic = $ld->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_pic) : null;
+            $ld->verified_foreman = $ld->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_foreman) : null;
             $ld->verified_supervisor = $ld->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_supervisor) : null;
             $ld->verified_superintendent = $ld->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_superintendent) : null;
         }
@@ -118,88 +120,55 @@ class KLKHLoadingPointController extends Controller
 
             $data = $request->all();
 
-            if(Auth::user()->role == 'SUPERVISOR'){
-                KLKHLoadingPoint::create([
-                    'pic' => Auth::user()->id,
-                    'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
-                    'pit_id' => $data['pit'],
-                    'shift_id' => $data['shift'],
-                    'date' => $data['date'],
-                    'time' => $data['time'],
-                    'loading_point_check' => $data['loading_point_check'],
-                    'loading_point_note' => $data['loading_point_note'] ?? null,
-                    'front_surface_check' => $data['front_surface_check'],
-                    'front_surface_note' => $data['front_surface_note'] ?? null,
-                    'bench_work_check' => $data['bench_work_check'],
-                    'bench_work_note' => $data['bench_work_note'] ?? null,
-                    'access_dike_check' => $data['access_dike_check'],
-                    'access_dike_note' => $data['access_dike_note'] ?? null,
-                    'loading_point_width_check' => $data['loading_point_width_check'],
-                    'loading_point_width_note' => $data['loading_point_width_note'] ?? null,
-                    'drainage_check' => $data['drainage_check'],
-                    'drainage_note' => $data['drainage_note'] ?? null,
-                    'no_waves_check' => $data['no_waves_check'],
-                    'no_waves_note' => $data['no_waves_note'] ?? null,
-                    'unit_placement_check' => $data['unit_placement_check'],
-                    'unit_placement_note' => $data['unit_placement_note'] ?? null,
-                    'material_stock_check' => $data['material_stock_check'],
-                    'material_stock_note' => $data['material_stock_note'] ?? null,
-                    'loading_hauling_check' => $data['loading_hauling_check'],
-                    'loading_hauling_note' => $data['loading_hauling_note'] ?? null,
-                    'dust_control_check' => $data['dust_control_check'],
-                    'dust_control_note' => $data['dust_control_note'] ?? null,
-                    'lighting_check' => $data['lighting_check'],
-                    'lighting_note' => $data['lighting_note'] ?? null,
-                    'housekeeping_check' => $data['housekeeping_check'],
-                    'housekeeping_note' => $data['housekeeping_note'] ?? null,
-                    'additional_notes' => $data['additional_notes'] ?? null,
-                    'supervisor' => Auth::user()->nik,
-                    'verified_supervisor' => Auth::user()->nik,
-                    'superintendent' => $data['superintendent'] ?? null,
-                ]);
-            }else{
-                KLKHLoadingPoint::create([
-                    'pic' => Auth::user()->id,
-                    'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
-                    'pit_id' => $data['pit'],
-                    'shift_id' => $data['shift'],
-                    'date' => $data['date'],
-                    'time' => $data['time'],
-                    'loading_point_check' => $data['loading_point_check'],
-                    'loading_point_note' => $data['loading_point_note'] ?? null,
-                    'front_surface_check' => $data['front_surface_check'],
-                    'front_surface_note' => $data['front_surface_note'] ?? null,
-                    'bench_work_check' => $data['bench_work_check'],
-                    'bench_work_note' => $data['bench_work_note'] ?? null,
-                    'access_dike_check' => $data['access_dike_check'],
-                    'access_dike_note' => $data['access_dike_note'] ?? null,
-                    'loading_point_width_check' => $data['loading_point_width_check'],
-                    'loading_point_width_note' => $data['loading_point_width_note'] ?? null,
-                    'drainage_check' => $data['drainage_check'],
-                    'drainage_note' => $data['drainage_note'] ?? null,
-                    'no_waves_check' => $data['no_waves_check'],
-                    'no_waves_note' => $data['no_waves_note'] ?? null,
-                    'unit_placement_check' => $data['unit_placement_check'],
-                    'unit_placement_note' => $data['unit_placement_note'] ?? null,
-                    'material_stock_check' => $data['material_stock_check'],
-                    'material_stock_note' => $data['material_stock_note'] ?? null,
-                    'loading_hauling_check' => $data['loading_hauling_check'],
-                    'loading_hauling_note' => $data['loading_hauling_note'] ?? null,
-                    'dust_control_check' => $data['dust_control_check'],
-                    'dust_control_note' => $data['dust_control_note'] ?? null,
-                    'lighting_check' => $data['lighting_check'],
-                    'lighting_note' => $data['lighting_note'] ?? null,
-                    'housekeeping_check' => $data['housekeeping_check'],
-                    'housekeeping_note' => $data['housekeeping_note'] ?? null,
-                    'additional_notes' => $data['additional_notes'] ?? null,
-                    'supervisor' => $data['supervisor'] ?? null,
-                    'superintendent' => $data['superintendent'] ?? null,
-                ]);
+            $dataToInsert = [
+                'pic' => Auth::user()->id,
+                'uuid' => (string) Uuid::uuid4()->toString(),
+                'statusenabled' => 'true',
+                'pit_id' => $data['pit'],
+                'shift_id' => $data['shift'],
+                'date' => $data['date'],
+                'time' => $data['time'],
+                'loading_point_check' => $data['loading_point_check'],
+                'loading_point_note' => $data['loading_point_note'] ?? null,
+                'front_surface_check' => $data['front_surface_check'],
+                'front_surface_note' => $data['front_surface_note'] ?? null,
+                'bench_work_check' => $data['bench_work_check'],
+                'bench_work_note' => $data['bench_work_note'] ?? null,
+                'access_dike_check' => $data['access_dike_check'],
+                'access_dike_note' => $data['access_dike_note'] ?? null,
+                'loading_point_width_check' => $data['loading_point_width_check'],
+                'loading_point_width_note' => $data['loading_point_width_note'] ?? null,
+                'drainage_check' => $data['drainage_check'],
+                'drainage_note' => $data['drainage_note'] ?? null,
+                'no_waves_check' => $data['no_waves_check'],
+                'no_waves_note' => $data['no_waves_note'] ?? null,
+                'unit_placement_check' => $data['unit_placement_check'],
+                'unit_placement_note' => $data['unit_placement_note'] ?? null,
+                'material_stock_check' => $data['material_stock_check'],
+                'material_stock_note' => $data['material_stock_note'] ?? null,
+                'loading_hauling_check' => $data['loading_hauling_check'],
+                'loading_hauling_note' => $data['loading_hauling_note'] ?? null,
+                'dust_control_check' => $data['dust_control_check'],
+                'dust_control_note' => $data['dust_control_note'] ?? null,
+                'lighting_check' => $data['lighting_check'],
+                'lighting_note' => $data['lighting_note'] ?? null,
+                'housekeeping_check' => $data['housekeeping_check'],
+                'housekeeping_note' => $data['housekeeping_note'] ?? null,
+                'additional_notes' => $data['additional_notes'] ?? null,
+                'superintendent' => $data['superintendent'] ?? null,
+            ];
+
+            if (Auth::user()->role == 'SUPERVISOR') {
+                $dataToInsert['supervisor'] = Auth::user()->nik;
+                $dataToInsert['verified_supervisor'] = Auth::user()->nik;
             }
 
+            if (Auth::user()->role == 'FOREMAN') {
+                $dataToInsert['foreman'] = Auth::user()->nik;
+                $dataToInsert['verified_foreman'] = Auth::user()->nik;
+            }
 
+            KLKHLoadingPoint::create($dataToInsert);
 
             return redirect()->route('klkh.loading-point')->with('success', 'KLKH Loading Point berhasil dibuat');
 

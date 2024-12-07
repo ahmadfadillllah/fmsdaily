@@ -87,8 +87,8 @@ class KLKHDisposalController extends Controller
         try {
 
             $data = $request->all();
-            if(Auth::user()->role == 'SUPERVISOR'){
-                KLKHDisposal::create([
+
+            $dataToInsert = [
                     'pic' => Auth::user()->id,
                     'uuid' => (string) Uuid::uuid4()->toString(),
                     'statusenabled' => 'true',
@@ -141,69 +141,20 @@ class KLKHDisposalController extends Controller
                     'dumping_point_22' => $data['dumping_point_22'],
                     'dumping_point_22_note' => $data['dumping_point_22_note'] ?? null,
                     'additional_notes' => $data['additional_notes'] ?? null,
-                    'supervisor' => Auth::user()->nik,
-                    'verified_supervisor' => Auth::user()->nik,
                     'superintendent' => $data['superintendent'] ?? null,
-                ]);
-            }else{
-                KLKHDisposal::create([
-                    'pic' => Auth::user()->id,
-                    'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
-                    'pit_id' => $data['pit'],
-                    'shift_id' => $data['shift'],
-                    'date' => $data['date'],
-                    'time' => $data['time'],
-                    'dumping_point_1' => $data['dumping_point_1'],
-                    'dumping_point_1_note' => $data['dumping_point_1_note'] ?? null,
-                    'dumping_point_2' => $data['dumping_point_2'],
-                    'dumping_point_2_note' => $data['dumping_point_2_note'] ?? null,
-                    'dumping_point_3' => $data['dumping_point_3'],
-                    'dumping_point_3_note' => $data['dumping_point_3_note'] ?? null,
-                    'dumping_point_4' => $data['dumping_point_4'],
-                    'dumping_point_4_note' => $data['dumping_point_4_note'] ?? null,
-                    'dumping_point_5' => $data['dumping_point_5'],
-                    'dumping_point_5_note' => $data['dumping_point_5_note'] ?? null,
-                    'dumping_point_6' => $data['dumping_point_6'],
-                    'dumping_point_6_note' => $data['dumping_point_6_note'] ?? null,
-                    'dumping_point_7' => $data['dumping_point_7'],
-                    'dumping_point_7_note' => $data['dumping_point_7_note'] ?? null,
-                    'dumping_point_8' => $data['dumping_point_8'],
-                    'dumping_point_8_note' => $data['dumping_point_8_note'] ?? null,
-                    'dumping_point_9' => $data['dumping_point_9'],
-                    'dumping_point_9_note' => $data['dumping_point_9_note'] ?? null,
-                    'dumping_point_10' => $data['dumping_point_10'],
-                    'dumping_point_10_note' => $data['dumping_point_10_note'] ?? null,
-                    'dumping_point_11' => $data['dumping_point_11'],
-                    'dumping_point_11_note' => $data['dumping_point_11_note'] ?? null,
-                    'dumping_point_12' => $data['dumping_point_12'],
-                    'dumping_point_12_note' => $data['dumping_point_12_note'] ?? null,
-                    'dumping_point_13' => $data['dumping_point_13'],
-                    'dumping_point_13_note' => $data['dumping_point_13_note'] ?? null,
-                    'dumping_point_14' => $data['dumping_point_14'],
-                    'dumping_point_14_note' => $data['dumping_point_14_note'] ?? null,
-                    'dumping_point_15' => $data['dumping_point_15'],
-                    'dumping_point_15_note' => $data['dumping_point_15_note'] ?? null,
-                    'dumping_point_16' => $data['dumping_point_16'],
-                    'dumping_point_16_note' => $data['dumping_point_16_note'] ?? null,
-                    'dumping_point_17' => $data['dumping_point_17'],
-                    'dumping_point_17_note' => $data['dumping_point_17_note'] ?? null,
-                    'dumping_point_18' => $data['dumping_point_18'],
-                    'dumping_point_18_note' => $data['dumping_point_18_note'] ?? null,
-                    'dumping_point_19' => $data['dumping_point_19'],
-                    'dumping_point_19_note' => $data['dumping_point_19_note'] ?? null,
-                    'dumping_point_20' => $data['dumping_point_20'],
-                    'dumping_point_20_note' => $data['dumping_point_20_note'] ?? null,
-                    'dumping_point_21' => $data['dumping_point_21'],
-                    'dumping_point_21_note' => $data['dumping_point_21_note'] ?? null,
-                    'dumping_point_22' => $data['dumping_point_22'],
-                    'dumping_point_22_note' => $data['dumping_point_22_note'] ?? null,
-                    'additional_notes' => $data['additional_notes'] ?? null,
-                    'supervisor' => $data['supervisor'] ?? null,
-                    'superintendent' => $data['superintendent'] ?? null,
-                ]);
+            ];
+
+            if (Auth::user()->role == 'SUPERVISOR') {
+                $dataToInsert['supervisor'] = Auth::user()->nik;
+                $dataToInsert['verified_supervisor'] = Auth::user()->nik;
             }
 
+            if (Auth::user()->role == 'FOREMAN') {
+                $dataToInsert['foreman'] = Auth::user()->nik;
+                $dataToInsert['verified_foreman'] = Auth::user()->nik;
+            }
+
+            KLKHDisposal::create($dataToInsert);
 
             return redirect()->route('klkh.disposal')->with('success', 'KLKH Disposal/Dumping Point berhasil dibuat');
 
@@ -218,15 +169,17 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.superintendent', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dp.superintendent', '=', 'spt.NRP')
         ->select(
             'dp.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
             'spv.PERSONALNAME as nama_supervisor',
-            'gl.PERSONALNAME as nama_superintendent'
+            'spt.PERSONALNAME as nama_superintendent'
             )
         ->where('dp.statusenabled', 'true')
         ->where('dp.uuid', $uuid)->first();
@@ -234,7 +187,7 @@ class KLKHDisposalController extends Controller
         if($dp == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $dp->generate_pic = $dp->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_pic) : null;
+            $dp->verified_foreman = $dp->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_foreman) : null;
             $dp->verified_supervisor = $dp->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_supervisor) : null;
             $dp->verified_superintendent = $dp->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_superintendent) : null;
         }

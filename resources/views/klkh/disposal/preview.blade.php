@@ -252,40 +252,24 @@
                             <div class="col-12"><label class="form-label">Catatan:</label>
                                 <p class="mb-0">{{ $dp->additional_notes }}</p>
                             </div>
-                            @if (Auth::user()->role == 'FOREMAN')
-                                <div class="col-sm-4">
-                                    <div class="border rounded p-3">
-                                        <h6>Foreman</h6>
-                                        <h5>{!! $dp->generate_pic !!}</h5>
-                                        <h5>{{ $dp->nama_pic }}</h5>
-                                    </div>
+                            <div class="col-sm-4">
+                                <div class="border rounded p-3">
+                                    <h6>Foreman</h6>
+                                    @if ($dp->verified_foreman != null)
+                                        <h5>{!! $dp->verified_foreman !!}</h5>
+                                        <h5>{{ $dp->nama_foreman ? $dp->nama_foreman : '.......................' }}</h5>
+                                    @endif
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="border rounded p-3">
-                                        <h6>Supervisor</h6>
-                                        @if ($dp->verified_supervisor != null)
-                                            <h5>{!! $dp->verified_supervisor !!}</h5>
-                                            <h5>{{ $dp->nama_supervisor ? $dp->nama_supervisor : '.......................' }}</h5>
-                                        @endif
-                                    </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="border rounded p-3">
+                                    <h6>Supervisor</h6>
+                                    @if ($dp->verified_supervisor != null)
+                                        <h5>{!! $dp->verified_supervisor !!}</h5>
+                                        <h5>{{ $dp->nama_supervisor ? $dp->nama_supervisor : '.......................' }}</h5>
+                                    @endif
                                 </div>
-                            @elseif(Auth::user()->role == 'SUPERVISOR')
-                                <div class="col-sm-4">
-                                    <div class="border rounded p-3">
-                                        <h6>Foreman</h6>
-                                        <h5></h5>
-                                        <h5></h5>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="border rounded p-3">
-                                        <h6>Supervisor</h6>
-                                        <h5>{!! $dp->generate_pic !!}</h5>
-                                        <h5>{{ $dp->nama_pic ? $dp->nama_pic : '.......................' }}</h5>
-                                    </div>
-                                </div>
-                            @endif
-
+                            </div>
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Superintendent</h6>
