@@ -603,16 +603,18 @@
                                 <hr>
                                 <div class="row mb-3">
                                     <!-- Kolom 1: PIT dan Shift -->
-                                    <div class="col-md-6 col-12 px-2 py-2">
-                                        <label for="supervisor">Supervisor</label>
-                                        <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect2"
-                                                                name="supervisor">
-                                                                <option selected disabled></option>
-                                                                @foreach ($users['supervisor'] as $sv)
-                                                                    <option value="{{ $sv->NRP }}">{{ $sv->PERSONALNAME }}</option>
-                                                                @endforeach
-                                                            </select>
-                                    </div>
+                                    @if (Auth::user()->role != 'SUPERVISOR')
+                                        <div class="col-md-6 col-12 px-2 py-2">
+                                            <label for="supervisor">Supervisor</label>
+                                            <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect2"
+                                                                    name="supervisor">
+                                                                    <option selected disabled></option>
+                                                                    @foreach ($users['supervisor'] as $sv)
+                                                                        <option value="{{ $sv->NRP }}">{{ $sv->PERSONALNAME }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                        </div>
+                                    @endif
                                     <div class="col-md-6 col-12 px-2 py-2">
                                         <label for="superintendent">Superintendent</label>
                                         <select class="form-control form-control-sm pb-2" id="exampleFormControlSelect1"

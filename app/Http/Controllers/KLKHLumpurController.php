@@ -11,6 +11,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Personal;
 use App\Models\Shift;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KLKHLumpurController extends Controller
 {
@@ -249,6 +250,36 @@ class KLKHLumpurController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.lumpur')->with('info', nl2br('KLKH Dumping di Kolam Air/Lumpur gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function preview($uuid)
+    {
+        $lpr = DB::table('klkh_lumpur_t as lpr')
+        ->leftJoin('users as us', 'lpr.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lpr.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lpr.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lpr.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lpr.superintendent', '=', 'gl.NRP')
+        ->select(
+            'lpr.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'spv.PERSONALNAME as nama_supervisor',
+            'gl.PERSONALNAME as nama_superintendent'
+            )
+        ->where('lpr.statusenabled', 'true')
+        ->where('lpr.uuid', $uuid)->first();
+
+        if($lpr == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $lpr->generate_pic = $lpr->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lpr->nama_pic) : null;
+            $lpr->verified_supervisor = $lpr->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lpr->nama_supervisor) : null;
+            $lpr->verified_superintendent = $lpr->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lpr->nama_superintendent) : null;
+        }
+
+        return view('klkh.lumpur.preview', compact('lpr'));
     }
 
     public function delete($id)

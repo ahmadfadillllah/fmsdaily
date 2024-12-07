@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KLKHHaulRoadController extends Controller
 {
@@ -188,6 +189,36 @@ class KLKHHaulRoadController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.haul-road')->with('info', nl2br('KLKH Haul Road gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function preview($uuid)
+    {
+        $hr = DB::table('klkh_haulroad_t as hr')
+        ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'hr.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'hr.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.superintendent', '=', 'gl.NRP')
+        ->select(
+            'hr.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'spv.PERSONALNAME as nama_supervisor',
+            'gl.PERSONALNAME as nama_superintendent'
+            )
+        ->where('hr.statusenabled', 'true')
+        ->where('hr.uuid', $uuid)->first();
+
+        if($hr == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $hr->generate_pic = $hr->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $hr->nama_pic) : null;
+            $hr->verified_supervisor = $hr->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $hr->nama_supervisor) : null;
+            $hr->verified_superintendent = $hr->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $hr->nama_superintendent) : null;
+        }
+
+        return view('klkh.haul-road.preview', compact('hr'));
     }
 
     public function delete($id)

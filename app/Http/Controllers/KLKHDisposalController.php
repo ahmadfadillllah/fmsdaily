@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KLKHDisposalController extends Controller
 {
@@ -209,6 +210,36 @@ class KLKHDisposalController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.disposal')->with('info', nl2br('KLKH Disposal/Dumping Point gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function preview($uuid)
+    {
+        $dp = DB::table('klkh_disposal_t as dp')
+        ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'dp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.superintendent', '=', 'gl.NRP')
+        ->select(
+            'dp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'spv.PERSONALNAME as nama_supervisor',
+            'gl.PERSONALNAME as nama_superintendent'
+            )
+        ->where('dp.statusenabled', 'true')
+        ->where('dp.uuid', $uuid)->first();
+
+        if($dp == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $dp->generate_pic = $dp->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_pic) : null;
+            $dp->verified_supervisor = $dp->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_supervisor) : null;
+            $dp->verified_superintendent = $dp->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_superintendent) : null;
+        }
+
+        return view('klkh.disposal.preview', compact('dp'));
     }
 
     public function delete($id)
