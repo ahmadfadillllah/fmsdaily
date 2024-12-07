@@ -11,6 +11,7 @@ use App\Models\Personal;
 use App\Models\Shift;
 use App\Models\Area;
 use App\Models\KLKHOGS;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KLKHOGSController extends Controller
 {
@@ -153,6 +154,7 @@ class KLKHOGSController extends Controller
             }
 
             if (Auth::user()->role == 'FOREMAN') {
+                $dataToInsert['supervisor'] = $data['supervisor'] ?? null;
                 $dataToInsert['foreman'] = Auth::user()->nik;
                 $dataToInsert['verified_foreman'] = Auth::user()->nik;
             }
@@ -164,6 +166,38 @@ class KLKHOGSController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.ogs')->with('info', nl2br('KLKH OGS gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function preview($uuid)
+    {
+        $ogs = DB::table('klkh_ogs_t as ogs')
+        ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'ogs.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'ogs.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->select(
+            'ogs.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('ogs.statusenabled', 'true')
+        ->where('ogs.uuid', $uuid)->first();
+
+        if($ogs == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $ogs->verified_foreman = $ogs->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_foreman) : null;
+            $ogs->verified_supervisor = $ogs->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_supervisor) : null;
+            $ogs->verified_superintendent = $ogs->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_superintendent) : null;
+        }
+
+        return view('klkh.ogs.preview', compact('ogs'));
     }
 
     public function delete($id)

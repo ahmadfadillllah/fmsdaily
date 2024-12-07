@@ -150,6 +150,7 @@ class KLKHDisposalController extends Controller
             }
 
             if (Auth::user()->role == 'FOREMAN') {
+                $dataToInsert['supervisor'] = $data['supervisor'] ?? null;
                 $dataToInsert['foreman'] = Auth::user()->nik;
                 $dataToInsert['verified_foreman'] = Auth::user()->nik;
             }

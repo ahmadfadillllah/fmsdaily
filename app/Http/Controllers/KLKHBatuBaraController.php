@@ -59,41 +59,43 @@ class KLKHBatuBaraController extends Controller
             $baseQuery->where('pic', Auth::user()->id);
         }
 
-        $loading = $baseQuery->get();
+        $bb = $baseQuery->get();
 
 
 
-        return view('klkh.batu-bara.index', compact('loading'));
+        return view('klkh.batu-bara.index', compact('bb'));
     }
 
     public function preview($uuid)
     {
-        $ld = DB::table('klkh_batubara_t as lp')
-        ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
-        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
-        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.superintendent', '=', 'gl.NRP')
+        $bb = DB::table('klkh_batubara_t as bb')
+        ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'bb.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'bb.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
         ->select(
-            'lp.*',
+            'bb.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
             'spv.PERSONALNAME as nama_supervisor',
-            'gl.PERSONALNAME as nama_superintendent'
+            'spt.PERSONALNAME as nama_superintendent'
             )
-        ->where('lp.statusenabled', 'true')
-        ->where('lp.uuid', $uuid)->first();
+        ->where('bb.statusenabled', 'true')
+        ->where('bb.uuid', $uuid)->first();
 
-        if($ld == null){
+        if($bb == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $ld->generate_pic = $ld->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_pic) : null;
-            $ld->verified_supervisor = $ld->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_supervisor) : null;
-            $ld->verified_superintendent = $ld->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_superintendent) : null;
+            $bb->verified_foreman = $bb->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_foreman) : null;
+            $bb->verified_supervisor = $bb->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_supervisor) : null;
+            $bb->verified_superintendent = $bb->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_superintendent) : null;
         }
 
-        return view('klkh.batu-bara.preview', compact('ld'));
+        return view('klkh.batu-bara.preview', compact('bb'));
     }
 
     public function insert()
@@ -114,6 +116,7 @@ class KLKHBatuBaraController extends Controller
 
     public function post(Request $request)
     {
+        // dd($request->all());
         try {
 
             $data = $request->all();
@@ -182,6 +185,7 @@ class KLKHBatuBaraController extends Controller
             }
 
             if (Auth::user()->role == 'FOREMAN') {
+                $dataToInsert['supervisor'] = $data['supervisor'] ?? null;
                 $dataToInsert['foreman'] = Auth::user()->nik;
                 $dataToInsert['verified_foreman'] = Auth::user()->nik;
             }

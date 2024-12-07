@@ -65,7 +65,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr colspan="6">A. Jalan</tr>
+                                            <tr>
+                                                <td colspan="6"><b>A. Jalan</b></td>
+                                            </tr>
                                             <tr>
                                                 <td>1</td>
                                                 <td>Apakah terdapat unit breakdown di jalan</td>
@@ -146,7 +148,9 @@
                                                 <td>{{ $lpr->pengelolaan_air_check == 'n/a' ? "✔️" : "" }}</td>
                                                 <td>{{ $lpr->pengelolaan_air_note }}</td>
                                             </tr>
-                                            <tr colspan="6">B. Dumpingan</tr>
+                                            <tr>
+                                                <td colspan="6"><b>B. Dumpingan</b></td>
+                                            </tr>
                                             <tr>
                                                 <td>11</td>
                                                 <td>Apakah terdapat crack, patahan penurunan dumpingan</td>
