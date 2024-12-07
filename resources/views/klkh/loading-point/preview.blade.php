@@ -180,22 +180,40 @@
                             <div class="col-12"><label class="form-label">Catatan:</label>
                                 <p class="mb-0">{{ $ld->additional_notes }}</p>
                             </div>
+                            @if (Auth::user()->role == 'FOREMAN')
+                                <div class="col-sm-4">
+                                    <div class="border rounded p-3">
+                                        <h6>Foreman</h6>
+                                        <h5>{!! $ld->generate_pic !!}</h5>
+                                        <h5>{{ $ld->nama_pic }}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="border rounded p-3">
+                                        <h6>Supervisor</h6>
+                                        @if ($ld->verified_supervisor != null)
+                                            <h5>{!! $ld->verified_supervisor !!}</h5>
+                                            <h5>{{ $ld->nama_supervisor ? $ld->nama_supervisor : '.......................' }}</h5>
+                                        @endif
+                                    </div>
+                                </div>
+                            @elseif(Auth::user()->role == 'SUPERVISOR')
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Foreman</h6>
-                                    <h5>{!! $ld->generate_foreman !!}</h5>
-                                    <h5>{{ $ld->nama_foreman }}</h5>
+                                    <h5></h5>
+                                    <h5></h5>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Supervisor</h6>
-                                    @if ($ld->verified_supervisor != null)
-                                        <h5>{!! $ld->verified_supervisor !!}</h5>
-                                        <h5>{{ $ld->nama_supervisor ? $ld->nama_supervisor : '.......................' }}</h5>
-                                    @endif
+                                    <h5>{!! $ld->generate_pic !!}</h5>
+                                    <h5>{{ $ld->nama_pic ? $ld->nama_pic : '.......................' }}</h5>
                                 </div>
                             </div>
+                            @endif
+
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Superintendent</h6>
