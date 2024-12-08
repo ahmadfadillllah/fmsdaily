@@ -68,32 +68,34 @@ class KLKHSimpangEmpatController extends Controller
 
     public function preview($uuid)
     {
-        $ld = DB::table('klkh_simpangempat_t as se')
+        $se = DB::table('klkh_simpangempat_t as se')
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'se.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.superintendent', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
         ->select(
             'se.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
             'spv.PERSONALNAME as nama_supervisor',
-            'gl.PERSONALNAME as nama_superintendent'
+            'spt.PERSONALNAME as nama_superintendent'
             )
         ->where('se.statusenabled', 'true')
         ->where('se.uuid', $uuid)->first();
 
-        if($ld == null){
+        if($se == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $ld->generate_pic = $ld->pic ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_pic) : null;
-            $ld->verified_supervisor = $ld->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_supervisor) : null;
-            $ld->verified_superintendent = $ld->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ld->nama_superintendent) : null;
+            $se->verified_foreman = $se->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_foreman) : null;
+            $se->verified_supervisor = $se->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_supervisor) : null;
+            $se->verified_superintendent = $se->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_superintendent) : null;
         }
 
-        return view('klkh.simpang-empat.preview', compact('ld'));
+        return view('klkh.simpang-empat.preview', compact('se'));
     }
 
     public function insert()

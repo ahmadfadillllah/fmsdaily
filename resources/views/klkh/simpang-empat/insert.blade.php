@@ -163,19 +163,19 @@
                                 <hr>
 
                                 <div class="mb-3">
-                                    <label for="horn_sign_check">6. Rambu mulai & berhenti klakson:</label>
+                                    <label for="horn_sign_unit_check">6. Rambu mulai & berhenti klakson:</label>
                                     <div class="d-flex justify-content-start">
-                                        <label for="horn_sign_true" class="me-3 px-2 py-2">
-                                            <input type="radio" id="horn_sign_true" name="horn_sign_check" value="true" required /> Ya
+                                        <label for="horn_sign_unit_true" class="me-3 px-2 py-2">
+                                            <input type="radio" id="horn_sign_unit_true" name="horn_sign_unit_check" value="true" required /> Ya
                                         </label>
-                                        <label for="horn_sign_false" class="me-3 px-2 py-2">
-                                            <input type="radio" id="horn_sign_false" name="horn_sign_check" value="false" /> Tidak
+                                        <label for="horn_sign_unit_false" class="me-3 px-2 py-2">
+                                            <input type="radio" id="horn_sign_unit_false" name="horn_sign_unit_check" value="false" /> Tidak
                                         </label>
-                                        <label for="horn_sign_na" class="me-3 px-2 py-2">
-                                            <input type="radio" id="horn_sign_na" name="horn_sign_check" value="n/a" /> N/A
+                                        <label for="horn_sign_unit_na" class="me-3 px-2 py-2">
+                                            <input type="radio" id="horn_sign_unit_na" name="horn_sign_unit_check" value="n/a" /> N/A
                                         </label>
                                     </div>
-                                    <input type="text" name="horn_sign_note" id="horn_sign_note" class="form-control form-control-sm pb-2 mt-2" placeholder="Keterangan" />
+                                    <input type="text" name="horn_sign_unit_note" id="horn_sign_unit_note" class="form-control form-control-sm pb-2 mt-2" placeholder="Keterangan" />
                                 </div>
                                 <hr>
 
