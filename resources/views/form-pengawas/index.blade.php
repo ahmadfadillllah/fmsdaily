@@ -624,6 +624,8 @@
     const thMalam = document.getElementById('thMalam');
     const tableRows = document.querySelectorAll('#tableBody tr');
 
+    if(value == 1) value = "Siang";
+    if(value == 2) value = "Malam";
     // Atur colspan di header
     if (value === "Siang") {
     thJam.colSpan = 1;

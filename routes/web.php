@@ -111,6 +111,8 @@ Route::group(['middleware' => ['auth']], function(){
 
     // User
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
+    Route::post('/user/insert', [UserController::class, 'insert'])->name('user.insert');
+    Route::post('/user/change-role/{id}', [UserController::class, 'changeRole'])->name('user.change-role');
     Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');
     Route::get('/user/status-enabled/{id}', [UserController::class, 'statusEnabled'])->name('user.status-enabled');
 });

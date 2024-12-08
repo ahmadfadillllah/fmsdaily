@@ -6,8 +6,23 @@
     <div class="pc-content">
         <div class="row">
             <div class="col-xl-12 col-md-12">
+                <div class="mb-3 row d-flex align-items-center">
+                    <div class="col-sm-12 col-md-10 mb-2"></div>
+                    {{-- @if (Auth::user()->role != 'ADMIN') --}}
+                        <div class="col-sm-12 col-md-2 mb-2 text-md-end">
+                            <a href="#" class="btn btn-success w-auto w-md-auto ms-md-0" data-bs-toggle="modal" data-bs-target="#insertUser">
+                                <i class="fas fa-plus"></i> Tambah User
+                            </a>
+                        </div>
+                        @include('user.modal.insert')
+                    {{-- @endif --}}
+                </div>
                 <div class="card">
+                    <div class="col-12">
+
+                    </div>
                     <div class="card-body">
+
                         <div class="table-responsive">
                             <table class="table table-hover" id="pc-dt-simple">
                                 <thead>
@@ -46,13 +61,14 @@
                                             @if ($us->statusenabled == 'true')
                                                 <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}">Nonaktifkan</a>
                                             @else
-                                            <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}">Aktifkan</a>
+                                                <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}">Aktifkan</a>
                                             @endif
-
+                                            <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#changeRole{{ $us->id }}">Ganti Role</a>
                                         </td>
                                     </tr>
                                     @include('user.modal.statusEnabled')
                                     @include('user.modal.resetPassword')
+                                    @include('user.modal.changeRole')
                                     @endforeach
                                 </tbody>
                             </table>

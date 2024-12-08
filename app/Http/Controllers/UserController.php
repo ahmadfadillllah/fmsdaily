@@ -31,6 +31,46 @@ class UserController extends Controller
         }
     }
 
+    public function changeRole(Request $request, $id)
+    {
+        // dd($request->all());
+        try {
+            User::where('id', $id)->update([
+                'role' => $request->role,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Ganti role berhasil');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('Ganti role gagal...\n' . $th->getMessage()));
+        }
+    }
+
+    public function insert(Request $request)
+    {
+        $user = User::where('nik', $request->nik)->first();
+
+        if ($user) {
+            return redirect()->back()->with('info', 'Maaf, NIK/User sudah ada');
+        }
+
+        try {
+            User::create([
+                'name' => $request->name,
+                'nik' => $request->nik,
+                'role' => $request->role,
+                'statusenabled' => 'true',
+                'created_by' => Auth::user()->id,
+                'password' => Hash::make('12345'),
+            ]);
+
+            return redirect()->back()->with('success', 'User berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('User gagal ditambahn..\n' . $th->getMessage()));
+        }
+    }
+
     public function statusEnabled($id)
     {
         $user = User::where('id', $id)->first();
