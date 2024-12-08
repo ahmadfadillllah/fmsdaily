@@ -8,10 +8,11 @@
                             class="ti ti-menu-2"></i></a></li>
                 <li class="pc-h-item pc-sidebar-popup"><a href="#" class="pc-head-link ms-0" id="mobile-collapse"><i
                             class="ti ti-menu-2"></i></a></li>
-                <li class="pc-h-item d-none d-md-inline-flex">
-                    <form class="form-search"><i class="search-icon"><svg class="pc-icon">
+                <li class="pc-h-item  d-md-inline-flex">
+                    {{-- <form class="form-search"><i class="search-icon"><svg class="pc-icon">
                                 <use xlink:href="#custom-search-normal-1"></use>
-                            </svg> </i><input type="search" class="form-control" placeholder="Ctrl + K"></form>
+                            </svg> </i><input type="search" class="form-control" placeholder="Ctrl + K"></form> --}}
+                            <span class="badge bg-light-success rounded-pill ms-2 theme-version">Daily Pengawas</span>
                 </li>
             </ul>
         </div><!-- [Mobile Media Block end] -->

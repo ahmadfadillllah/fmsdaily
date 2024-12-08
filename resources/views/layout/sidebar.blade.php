@@ -1,8 +1,8 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
-        <div class="m-header"><a href="index.html" class="b-brand text-primary">
+        <div class="m-header"><a href="#" class="b-brand text-primary">
                 <img src="{{ asset('dashboard/assets') }}/images/icon.png" class="img-fluid" width="100px" alt="logo">
-                <span class="badge bg-light-success rounded-pill ms-2 theme-version">Laporan Pengawas</span></a></div>
+                <span class="badge bg-light-success rounded-pill ms-2 theme-version">Daily Pengawas</span></a></div>
         <div class="navbar-content">
             <a data-bs-toggle="collapse" href="#pc_sidebar_userlink">
                 <div class="card pc-user-card">
