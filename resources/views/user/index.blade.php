@@ -10,9 +10,7 @@
                     <div class="col-sm-12 col-md-10 mb-2"></div>
                     {{-- @if (Auth::user()->role != 'ADMIN') --}}
                         <div class="col-sm-12 col-md-2 mb-2 text-md-end">
-                            <a href="#" class="btn btn-success w-auto w-md-auto ms-md-0" data-bs-toggle="modal" data-bs-target="#insertUser">
-                                <i class="fas fa-plus"></i> Tambah User
-                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#insertUser"><span class="badge bg-success" style="font-size: 16px"><i class="fas fa-plus"></i> Tambah User</span></a>
                         </div>
                         @include('user.modal.insert')
                     {{-- @endif --}}
@@ -57,13 +55,14 @@
                                             @endif
                                         </td>
                                         <td class="text-left f-w-600">
-                                            <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#resetPassword{{ $us->id }}">Reset Password</a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#resetPassword{{ $us->id }}"><span class="badge bg-secondary">Reset Password</span></a>
+                                            {{-- <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#resetPassword{{ $us->id }}">Reset Password</a> --}}
                                             @if ($us->statusenabled == 'true')
-                                                <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}">Nonaktifkan</a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}"><span class="badge bg-warning">Nonaktifkan</span></a>
                                             @else
-                                                <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}">Aktifkan</a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}"><span class="badge bg-success">Aktifkan</span></a>
                                             @endif
-                                            <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#changeRole{{ $us->id }}">Ganti Role</a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#changeRole{{ $us->id }}"><span class="badge bg-info">Ganti Role</span></a>
                                         </td>
                                     </tr>
                                     @include('user.modal.statusEnabled')

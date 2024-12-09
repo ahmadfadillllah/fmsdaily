@@ -578,14 +578,16 @@
                                     <div class="d-flex wizard justify-content-end flex-wrap gap-2 mt-5">
                                         <div class="d-flex">
                                             <div class="previous me-2">
-                                                <a href="javascript:void(0);" class="btn btn-secondary btn-md">
+                                                <a href="javascript:void(0);"><span class="badge bg-secondary" style="font-size:14px"><i class="fa-solid fa-arrow-left"></i> Kembali</span></a>
+                                                {{-- <a href="javascript:void(0);" class="btn btn-secondary btn-md">
                                                     <i class="fa-solid fa-arrow-left"></i> Kembali
-                                                </a>
+                                                </a> --}}
                                             </div>
                                             <div class="next me-3">
-                                                <a href="javascript:void(0);" class="btn btn-success btn-md">
+                                                <a href="javascript:void(0);"><span class="badge bg-success" style="font-size:14px">Lanjut <i class="fa-solid fa-arrow-right"></i></span></a>
+                                                {{-- <a href="javascript:void(0);" class="btn btn-success btn-md">
                                                     Lanjut <i class="fa-solid fa-arrow-right"></i>
-                                                </a>
+                                                </a> --}}
                                             </div>
                                         </div>
 

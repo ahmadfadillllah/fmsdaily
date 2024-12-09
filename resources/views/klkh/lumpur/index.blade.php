@@ -28,10 +28,7 @@
                             </div>
                             @if (Auth::user()->role != 'ADMIN')
                                 <div class="col-sm-12 col-md-2 mb-2 text-md-end">
-                                    <a href="{{ route('klkh.lumpur.insert') }}"
-                                    class="btn btn-success w-auto w-md-auto ms-md-0">
-                                        <i class="fas fa-plus"></i> Tambah Data
-                                    </a>
+                                    <a href="{{ route('klkh.lumpur.insert') }}"><span class="badge bg-success" style="font-size:14px"><i class="fas fa-plus"></i> Tambah Data</span></a>
                                 </div>
                             @endif
                         </div>

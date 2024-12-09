@@ -13,6 +13,7 @@ use App\Http\Controllers\KLKHLoadingPointController;
 use App\Http\Controllers\KLKHLumpurController;
 use App\Http\Controllers\KLKHOGSController;
 use App\Http\Controllers\KLKHSimpangEmpatController;
+use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,15 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login/post', [AuthController::class, 'login_post'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+//Payload & Ritation API
+Route::get('/payloadritation/api', [PayloadRitationController::class, 'api'])->name('payloadritation.api');
+
+//Operator Assignment
+Route::get('/OprAssignment/B1', [OprAssigntmentController::class, 'b1'])->name('opr.b1');
+Route::get('/OprAssignment/B2', [OprAssigntmentController::class, 'b2'])->name('opr.b2');
+Route::get('/OprAssignment/A3', [OprAssigntmentController::class, 'a3'])->name('opr.a3');
+
 
 Route::group(['middleware' => ['auth']], function(){
     //dashboard
@@ -117,4 +127,4 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/user/status-enabled/{id}', [UserController::class, 'statusEnabled'])->name('user.status-enabled');
 });
 
-Route::get('/payloadritation/api', [PayloadRitationController::class, 'api'])->name('payloadritation.api');
+
