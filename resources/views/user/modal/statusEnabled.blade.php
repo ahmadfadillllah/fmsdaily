@@ -11,7 +11,7 @@
                 <div class="mt-4 pt-4">
                     <h4>Yakin mengubah status user ini?</h4>
                     <!-- Toogle to second dialog -->
-                    <a href="{{ route('user.status-enabled', $us->id) }}" type="button"  class="btn btn-warning">Ubah</a>
+                    <a href="{{ route('user.status-enabled', $us->id) }}" type="button"><span class="badge bg-warning" style="font-size:14px">Ubah</span></a>
                 </div>
             </div>
         </div>

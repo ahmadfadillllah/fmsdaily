@@ -11,7 +11,7 @@
                 <div class="mt-4 pt-4">
                     <h4>Yakin mereset password user ini?</h4>
                     <!-- Toogle to second dialog -->
-                    <a href="{{ route('user.reset-password', $us->id) }}" type="button"  class="btn btn-warning">Reset</a>
+                    <a href="{{ route('user.reset-password', $us->id) }}" type="button"><span class="badge bg-warning" style="font-size:14px">Reset</span></a>
                 </div>
             </div>
         </div>
