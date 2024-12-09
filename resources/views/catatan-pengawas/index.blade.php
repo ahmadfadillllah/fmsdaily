@@ -128,8 +128,14 @@
             },
             {
                 extend: 'pdfHtml5',
+                orientation: 'landscape', // Set orientation menjadi landscape
+                pageSize: 'A4', // Ukuran halaman (opsional, default A4)
                 exportOptions: {
-                    columns: [0, 1, 2, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                },
+                customize: function (doc) {
+                    // Menyesuaikan margin atau pengaturan tambahan
+                    doc.content[1].margin = [10, 10, 10, 10]; // Atur margin [kiri, atas, kanan, bawah]
                 }
             },
             'colvis'

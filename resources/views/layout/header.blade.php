@@ -18,7 +18,7 @@
         </div><!-- [Mobile Media Block end] -->
         <div class="ms-auto">
             <ul class="list-unstyled">
-                <li class="dropdown pc-h-item"><a class="pc-head-link dropdown-toggle arrow-none me-0"
+                {{-- <li class="dropdown pc-h-item"><a class="pc-head-link dropdown-toggle arrow-none me-0"
                         data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                         aria-expanded="false"><svg class="pc-icon">
                             <use xlink:href="#custom-sun-1"></use>
@@ -33,8 +33,8 @@
                             onclick="layout_change_default()"><svg class="pc-icon">
                                 <use xlink:href="#custom-setting-2"></use>
                             </svg> <span>Default</span></a></div>
-                </li>
-                </li>
+                </li> --}}
+
                 {{-- <li class="dropdown pc-h-item"><a class="pc-head-link dropdown-toggle arrow-none me-0"
                         data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                         aria-expanded="false"><svg class="pc-icon">

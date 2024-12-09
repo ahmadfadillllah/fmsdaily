@@ -116,3 +116,5 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');
     Route::get('/user/status-enabled/{id}', [UserController::class, 'statusEnabled'])->name('user.status-enabled');
 });
+
+Route::get('/payloadritation/api', [PayloadRitationController::class, 'api'])->name('payloadritation.api');
