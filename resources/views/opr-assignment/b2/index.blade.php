@@ -53,7 +53,7 @@
             <!-- Badge Section -->
             <div>
                 <span class="badge" style="background-color: #0000ff;">EX-Sudah Finger</span>
-                <span class="badge" style="background-color: #00ff00;">HD-Sudah Finger</span>
+                <span class="badge" style="background-color: #00ff00;color:black">HD-Sudah Finger</span>
             </div>
 
             <!-- Divider -->
