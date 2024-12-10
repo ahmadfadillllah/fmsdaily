@@ -76,15 +76,15 @@
                     <div class="col">
                         <div class="card border-0">
                             <div class="text-center text-white"
-                                    @if ($assignments['0']->NIK_FINGER_LOADER_ORI == null) style="background-color:#588BAE;" @endif
-                                    @if ($assignments['0']->NAMA_FGR_LOADER != null) style="background-color:#063970;" @endif
-                                    @if ($assignments['0']->NAMA_FGR_LOADER == null) style="background-color:#ab3c42;" @endif
+                                    @if ($assignments['0']->NIK_FINGER_LOADER_ORI == null) style="background-color:#6495ed;" @endif
+                                    @if ($assignments['0']->NAMA_FGR_LOADER != null) style="background-color:#0000ff;" @endif
+                                    @if ($assignments['0']->NAMA_FGR_LOADER == null) style="background-color:#6495ed;" @endif
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="top"
                                         data-bs-html="true"
                                         data-bs-custom-class="custom-tooltip"
                                         data-bs-title="Status: {{ $assignments['0']->STATUSDESCLOADER }}">
-                                    <h5 class="mb-0 text-info">{{ $loaderId }}</h5>
+                                    <h5 class="mb-0 text-white">{{ $loaderId }}</h5>
                                     <p class="mb-0">{{ $assignments['0']->NAMA_FGR_LOADER }}</p>
                                     <p class="mb-0 anymore">{{ $assignments['0']->NIK_FGR_LOADER }}</p>
                             </div>
@@ -93,9 +93,9 @@
                         <div class="mt-2">
                             @foreach($assignments as $assignment)
                                 <div class="card mb-3 border-0 shadow-sm text-white"
-                                @if ($assignment->NIK_FGR_ORI == null) style="background-color:#68969e;" @endif
-                                @if ($assignment->NAMA_FGR != null) style="background-color:#035361;" @endif
-                                @if ($assignment->NAMA_FGR == null)style="background-color:#deddb8;" @endif
+                                @if ($assignment->NIK_FGR_ORI == null) style="background-color:#afeeee;" @endif
+                                @if ($assignment->NAMA_FGR != null) style="background-color:#00ff00;" @endif
+                                @if ($assignment->NAMA_FGR == null)style="background-color:#00ff00;" @endif
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="top"
                                 data-bs-html="true"
@@ -104,9 +104,9 @@
                                 <br>Material: {{ $assignments['0']->ASG_MAT_ID }}
                                 <br>Status: {{ $assignments['0']->STATUSDESCTRUCK }}">
                                     <div class="text-center">
-                                        <p class="fw-bold text-warning mb-1">{{ $assignment->VHC_ID }}</p>
-                                        <p class="mb-0">{{ Str::limit($assignment->NAMA_FGR, 13) ? Str::limit($assignment->NAMA_FGR, 13) : '______' }}</p>
-                                        <p class="mb-0 anymore">{{ $assignment->NIK_FGR ? $assignment->NIK_FGR : '_____' }}</p>
+                                        <p class="fw-bold text-black mb-1">{{ $assignment->VHC_ID }}</p>
+                                        <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ? Str::limit($assignment->NAMA_FGR, 13) : '______' }}</p>
+                                        <p class="mb-0 anymore text-black">{{ $assignment->NIK_FGR ? $assignment->NIK_FGR : '_____' }}</p>
                                     </div>
                                 </div>
                             @endforeach
