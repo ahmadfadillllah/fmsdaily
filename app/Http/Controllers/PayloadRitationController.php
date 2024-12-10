@@ -36,4 +36,22 @@ class PayloadRitationController extends Controller
 
         return view('payloadritation.index', compact('data'));
     }
+
+    public function exa()
+    {
+        $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_PAYLOAD_RITATION');
+
+        $data = collect($data)->map(function ($item) {
+            return (object) array_map(function ($value) {
+                return is_numeric($value) ? round($value, 1) : $value;
+            }, (array) $item);
+        });
+        $data = $data->groupBy('ASG_LOADERID');
+        $data = $data->filter(function ($group, $key) {
+            return !empty($key);
+        });
+
+
+        return view('payloadritation.exa', compact('data'));
+    }
 }

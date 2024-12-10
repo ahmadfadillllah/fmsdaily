@@ -33,7 +33,9 @@ Route::get('/payloadritation/api', [PayloadRitationController::class, 'api'])->n
 
 //Operator Assignment
 Route::get('/OprAssignment/B1', [OprAssigntmentController::class, 'b1'])->name('opr.b1');
+Route::get('/OprAssignment/B1/api', [OprAssigntmentController::class, 'b1_api'])->name('opr.b1.api');
 Route::get('/OprAssignment/B2', [OprAssigntmentController::class, 'b2'])->name('opr.b2');
+Route::get('/OprAssignment/B2/api', [OprAssigntmentController::class, 'b2_api'])->name('opr.b2.api');
 Route::get('/OprAssignment/A3', [OprAssigntmentController::class, 'a3'])->name('opr.a3');
 
 
@@ -114,7 +116,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/simpangempat/preview/{uuid}', [KLKHSimpangEmpatController::class, 'preview'])->name('klkh.simpangempat.preview');
 
     //Paylaod & Ritation
-    Route::get('/payloadritation', [PayloadRitationController::class, 'index'])->name('payloadritation.index');
+    Route::get('/payloadritation/all', [PayloadRitationController::class, 'index'])->name('payloadritation.index');
+    Route::get('/payloadritation/exa', [PayloadRitationController::class, 'exa'])->name('payloadritation.exa');
 
     // Profile
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');

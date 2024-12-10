@@ -34,9 +34,19 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0)">Payload & Ritation</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">All Summary</a></li>
                         </ul>
                     </div>
-
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a href="{{ route('payloadritation.index') }}">
+                                <span class="badge bg-primary" style="font-size:14px">All Summary</span>
+                            </a>
+                            <a href="{{ route('payloadritation.exa') }}">
+                                <span class="badge bg-success" style="font-size:14px">Summary per EX</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

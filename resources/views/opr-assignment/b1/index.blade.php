@@ -4,78 +4,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal IT</title>
+    <title>Operator Assignment B1</title>
     <link rel="shortcut icon" href="{{ asset('oprAssignment') }}/icon/sims.png" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('oprAssignment') }}/css/bootstrap.min.css">
-    <script src="{{ asset('oprAssignment') }}/js/bootstrap.bundle.min.js"></script>
+
 </head>
+
+@php
+    use Illuminate\Support\Str;
+@endphp
 
 <style>
     p{
-        font-size:11px;
+        font-size:12px;
+    }
+    p.anymore{
+        font-size:14px;
+    }
+    .custom-tooltip {
+    font-size: 11px; /* Ukuran font kecil (12px) */
+    }
+    #spinner {
+        display: none;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    #content {
+        display: none;
     }
 </style>
 
-<body>
 
-    <section class="bg-light py-3 py-xl-8">
+<body>
+    <div id="spinner" class="spinner"></div>
+    <section class="bg-light py-1 py-xl-8">
         <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="col-lg-8 col-xl-7">
-                    <!-- <h3 class="fs-6 mb-2 text-secondary text-center text-uppercase">What We Do?</h3> -->
-                    <h2 class="text-center" style="background-color: #001831;color:white">SM-B1</h2>
-                    {{-- <hr> --}}
+            <!-- Badge Section -->
+            <div>
+                <span class="badge" style="background-color: #001831;">EX-Sudah Finger</span>
+                <span class="badge" style="background-color: #035361;">HD-Sudah Finger</span>
+            </div>
+
+            <!-- Divider -->
+            <hr class="mt-2 mb-0" style="height: 1px; border: none; background-color: #ddd;">
+
+            <!-- Centered Content Section -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7 text-center">
+                    <!-- Title -->
+                    <h2 class="text-white py-2" style="background-color: #001831;">SM-B1</h2>
                 </div>
             </div>
         </div>
 
+
         <div class="container overflow-hidden">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 gy-4">
-                <div class="col">
-                    <div class="card border-0 border-bottom border-primary shadow-sm hover-effect">
-                        <div class="card-body text-center">
-                            <p>Hasta Budiansyah</p>
+            <div class="row">
+                @foreach($data as $loaderId => $assignments)
+                    <!-- Kolom Loader ID -->
+                    <div class="col">
+                        <div class="card border-0">
+                            <div class="text-center text-white"
+                                    @if ($assignments['0']->NIK_FINGER_LOADER_ORI == null) style="background-color:#588BAE;" @endif
+                                    @if ($assignments['0']->NAMA_FGR_LOADER != null) style="background-color:#063970;" @endif
+                                    @if ($assignments['0']->NAMA_FGR_LOADER == null) style="background-color:#ab3c42;" @endif
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-html="true"
+                                        data-bs-custom-class="custom-tooltip"
+                                        data-bs-title="Status: {{ $assignments['0']->STATUSDESCLOADER }}">
+                                    <h5 class="mb-0 text-info">{{ $loaderId }}</h5>
+                                    <p class="mb-0">{{ $assignments['0']->NAMA_FGR_LOADER }}</p>
+                                    <p class="mb-0 anymore">{{ $assignments['0']->NIK_FGR_LOADER }}</p>
+                            </div>
+                        </div>
+                        <!-- Data Assignments -->
+                        <div class="mt-2">
+                            @foreach($assignments as $assignment)
+                                <div class="card mb-3 border-0 shadow-sm text-white"
+                                @if ($assignment->NIK_FGR_ORI == null) style="background-color:#68969e;" @endif
+                                @if ($assignment->NAMA_FGR != null) style="background-color:#035361;" @endif
+                                @if ($assignment->NAMA_FGR == null)style="background-color:#deddb8;" @endif
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                data-bs-html="true"
+                                data-bs-custom-class="custom-tooltip"
+                                data-bs-title="Assignment: {{ date('d-m-Y H:i', strtotime($assignments['0']->ASG_TIMESTAMP)) }}
+                                <br>Material: {{ $assignments['0']->ASG_MAT_ID }}
+                                <br>Status: {{ $assignments['0']->STATUSDESCTRUCK }}">
+                                    <div class="text-center">
+                                        <p class="fw-bold text-warning mb-1">{{ $assignment->VHC_ID }}</p>
+                                        <p class="mb-0">{{ Str::limit($assignment->NAMA_FGR, 13) ? Str::limit($assignment->NAMA_FGR, 13) : '______' }}</p>
+                                        <p class="mb-0 anymore">{{ $assignment->NIK_FGR ? $assignment->NIK_FGR : '_____' }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 border-bottom border-primary shadow-sm hover-effect">
-                        <div class="card-body text-center">
-                            <p>Hasta Budiansyah</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 border-bottom border-primary shadow-sm hover-effect">
-                        <div class="card-body text-center">
-                            <p>Hasta Budiansyah</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 border-bottom border-primary shadow-sm hover-effect">
-                        <div class="card-body text-center">
-                            <p>Hasta Budiansyah</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 border-bottom border-primary shadow-sm hover-effect">
-                        <div class="card-body text-center">
-                            <p>Hasta Budiansyah</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 border-bottom border-primary shadow-sm hover-effect">
-                        <div class="card-body text-center">
-                            <p>Hasta Budiansyah</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
     </section>
 </body>
+<script src="{{ asset('oprAssignment') }}/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Inisialisasi semua elemen dengan atribut data-bs-toggle="tooltip"
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+<script>
+    setInterval(function() {
+        location.reload();
+    }, 10000); //10 detik
+</script>
 </html>
