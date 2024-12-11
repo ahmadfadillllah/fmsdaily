@@ -3,8 +3,8 @@
 @include('layout.header')
 <style>
     .table td, .table thead tr th {
-    font-size: 11px;  /* Ukuran font lebih kecil */
-    padding: 5px;     /* Mengurangi padding */
+    font-size: 14px;
+    padding: 5px;
 }
 </style>
 
@@ -96,79 +96,8 @@
 
 @include('layout.footer')
 <script>
-    // Memuat ulang halaman setiap 5 menit (300.000 milidetik)
     setTimeout(function() {
         location.reload();
     }, 300000); // 300000 milidetik = 5 menit
 </script>
-
-<script>
-    // [ HTML5 Export Buttons ]
-    $('#basic-btn').DataTable({
-        dom: 'Bfrtip',
-        buttons: ['copy', 'csv', 'excel', 'print']
-    });
-
-    // [ Column Selectors ]
-    $('#cbtn-selectors').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: [0, ':visible']
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape', // Set orientation menjadi landscape
-                pageSize: 'A3', // Ukuran halaman (opsional, default A4)
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-                },
-                customize: function (doc) {
-                    // Menyesuaikan margin atau pengaturan tambahan
-                    doc.content[1].margin = [10, 10, 10, 10]; // Atur margin [kiri, atas, kanan, bawah]
-                }
-            },
-            'colvis'
-        ]
-    });
-
-    // [ Excel - Cell Background ]
-    $('#excel-bg').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-            extend: 'excelHtml5',
-            customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                $('row c[r^="F"]', sheet).each(function () {
-                    if ($('is t', this).text().replace(/[^\d]/g, '') * 1 >= 500000) {
-                        $(this).attr('s', '20');
-                    }
-                });
-            }
-        }]
-    });
-
-    // [ Custom File (JSON) ]
-    $('#pdf-json').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-            text: 'JSON',
-            action: function (e, dt, button, config) {
-                var data = dt.buttons.exportData();
-                $.fn.dataTable.fileSave(new Blob([JSON.stringify(data)]), 'Export.json');
-            }
-        }]
-    });
-
-</script>
-
-
 
