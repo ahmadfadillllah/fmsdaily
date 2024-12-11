@@ -16,7 +16,7 @@
 
 <style>
     p{
-        font-size:12px;
+        font-size:16px;
     }
     p.anymore{
         font-size:14px;
