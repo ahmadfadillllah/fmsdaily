@@ -40,8 +40,8 @@
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             @foreach ($data as $loader_id => $item)
                             @php
-                                $payload_today_total = $item->sum('PAYLOAD_SHIFT');
-                                $rit_today_total = $item->sum('RIT_TODAY');
+                                $payload_today_total = $item->sum('LOD_TONNAGE');
+                                $volume_today_total = $item->sum('LOD_VOLUME');
                             @endphp
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne"><button
@@ -56,10 +56,9 @@
                                             <thead style="text-align: center; vertical-align: middle;">
                                                 <tr>
                                                     <th rowspan="3">No</th>
-                                                    <th rowspan="3">Type</th>
                                                     <th rowspan="3">No. Unit</th>
-                                                    <th>Payload</th>
-                                                    <th>Ritation</th>
+                                                    <th>Load Tonnage</th>
+                                                    <th>Load Volume</th>
                                                 </tr>
 
                                             </thead>
@@ -67,10 +66,9 @@
                                                 @foreach ($item as $dt)
                                                     <tr>
                                                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                                        <td>{{ $dt->EQU_TYPEID }}</td>
                                                         <td>{{ $dt->VHC_ID }}</td>
-                                                        <td style="text-align: center;">{{ $dt->PAYLOAD_TODAY }}</td>
-                                                        <td style="text-align: center;">{{ $dt->RIT_TODAY }}</td>
+                                                        <td style="text-align: center;">{{ number_format($dt->LOD_TONNAGE, 2) }}</td>
+                                                        <td style="text-align: center;">{{ number_format($dt->LOD_VOLUME, 2) }}</td>
                                                     </tr>
 
                                                 @endforeach
@@ -78,9 +76,9 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="3" style="text-align: center; font-weight: bold;">Total</td>
-                                                    <td style="text-align: center;">{{ $payload_today_total }}</td>
-                                                    <td style="text-align: center;">{{ $rit_today_total }}</td>
+                                                    <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
+                                                    <td style="text-align: center;">{{ number_format($payload_today_total, 2) }}</td>
+                                                    <td style="text-align: center;">{{ number_format($volume_today_total, 2) }}</td>
                                                 </tr>
                                             </tfoot>
                                           </table>
