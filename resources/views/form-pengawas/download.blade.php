@@ -547,13 +547,15 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ $data['daily']->verified_foreman }}
+                        <td>
+                            {{ $data['daily']->verified_foreman }}
                             <br>
                             @if ($data['daily']->verified_foreman != null)
                                 {{ $data['daily']->nama_foreman }}
                             @endif
                         </td>
                         <td>
+                            {{ $data['daily']->verified_supervisor }}
                             <br>
                             @if ($data['daily']->verified_supervisor != null)
                                 {{ $data['daily']->nama_supervisor }}
