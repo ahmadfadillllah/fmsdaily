@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use App\Traits\HasDraft;
 
 class FrontLoading extends Model
 {
+    use HasDraft;
     //
     protected $table = 'front_loading_t';
 

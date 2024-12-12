@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('area_m', function (Blueprint $table) {
-            $table->id();
-            $table->string('statusenabled');
-            $table->string('keterangan');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('area_m')) {
+
+            Schema::create('area_m', function (Blueprint $table) {
+                $table->id();
+                $table->string('statusenabled');
+                $table->string('keterangan');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

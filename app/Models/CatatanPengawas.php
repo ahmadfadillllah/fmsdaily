@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasDraft;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 class CatatanPengawas extends Model
 {
-    //
+    use HasDraft;
     protected $table = 'catatan_pengawas_t';
 
     protected $fillable = [

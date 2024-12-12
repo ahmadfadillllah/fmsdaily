@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas/download/{uuid}', [FormPengawasController::class, 'download'])->name('form-pengawas.download');
     Route::get('/form-pengawas/preview/{uuid}', [FormPengawasController::class, 'preview'])->name('form-pengawas.preview');
     Route::post('/form-pengawas/post', [FormPengawasController::class, 'post'])->name('form-pengawas.post');
+    Route::post('/form-pengawas/auto-save', [FormPengawasController::class, 'autoSave'])->name('form-pengawas.auto-save');
+
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');

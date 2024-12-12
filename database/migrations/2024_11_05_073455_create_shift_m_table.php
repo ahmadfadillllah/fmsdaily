@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shift_m', function (Blueprint $table) {
-            $table->id();
-            $table->string('statusenabled');
-            $table->string('keterangan');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('shift_m')) {
+            Schema::create('shift_m', function (Blueprint $table) {
+                $table->id();
+                $table->string('statusenabled');
+                $table->string('keterangan');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -43,6 +43,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.lordicon.com/lordicon-1.1.0.js"></script>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 

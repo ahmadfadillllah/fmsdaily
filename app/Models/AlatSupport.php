@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasDraft;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 class AlatSupport extends Model
 {
-    //
+
+    use HasDraft;
     protected $table = 'alat_support_t';
 
     protected $fillable = [

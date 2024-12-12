@@ -13,6 +13,7 @@ use App\Models\Personal;
 use App\Models\Shift;
 use App\Models\Unit;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,64 +25,95 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FormPengawasController extends Controller
 {
-    //
     public function index()
     {
-
         $daily = DailyReport::where('foreman_id', Auth::user()->id)
-        ->whereDate('created_at', now())
-        ->get();
+            ->where('is_draft', true)
+            ->first();
 
-        // if(empty($daily)){
-        //     return view('form-pengawas.empty');
-        // }
-        $ex = Unit::select([
-            'VHC_ID',
-            'VHC_TYPEID',
-            'VHC_GROUPID',
-            'VHC_ACTIVE',
-        ])
-            ->where('VHC_ID', 'like', 'EX%')
-            ->where('VHC_ACTIVE', true)
-            ->get();
-
-        $nomor_unit = Unit::select('VHC_ID')
-            ->where('VHC_ID', 'NOT LIKE', 'HD%')
-            ->get();
-
-        $operator = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
-        )->where('ROLETYPE', 0)->get();
-
-        $supervisor = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
-        )->where('ROLETYPE', 3)->get();
-
-        $superintendent = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
-        )->where('ROLETYPE', 4)->get();
-
-        $lokasi = Lokasi::where('statusenabled', 'true')->get();
-        $area = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
-
+        $frontLoading = [];
+        if ($daily) {
+            $frontLoading = FrontLoading::where('daily_report_id', $daily->id)->get();
+        }
 
         $data = [
-            'operator' => $operator,
-            'supervisor' => $supervisor,
-            'superintendent' => $superintendent,
-            'EX' => $ex,
-            'EX' => $ex,
-            'nomor_unit' => $nomor_unit,
-            'lokasi' => $lokasi,
-            'area' => $area,
-            'shift' => $shift,
+            'operator' => Personal::where('ROLETYPE', 0)->get(),
+            'supervisor' => Personal::where('ROLETYPE', 3)->get(),
+            'superintendent' => Personal::where('ROLETYPE', 4)->get(),
+            'lokasi' => Lokasi::where('statusenabled', 'true')->get(),
+            'area' => Area::where('statusenabled', 'true')->get(),
+            'shift' => Shift::where('statusenabled', 'true')->get(),
+            'EX' => Unit::select(['VHC_ID', 'VHC_TYPEID', 'VHC_GROUPID', 'VHC_ACTIVE'])
+                ->where('VHC_ID', 'like', 'EX%')
+                ->where('VHC_ACTIVE', true)
+                ->get(),
+            'nomor_unit' => Unit::select('VHC_ID')
+            ->where('VHC_ID', 'NOT LIKE', 'HD%')
+            ->get(),
         ];
-        return view('form-pengawas.index', compact('data', 'daily'));
+
+        return view('form-pengawas.index', compact('data', 'daily', 'frontLoading'));
     }
+
+    //
+//    public function index()
+//    {
+//
+//        $daily = DailyReport::where('foreman_id', Auth::user()->id)
+//        ->whereDate('created_at', now())
+//            ->draft()
+//        ->get();
+//
+//        // if(empty($daily)){
+//        //     return view('form-pengawas.empty');
+//        // }
+//        $ex = Unit::select([
+//            'VHC_ID',
+//            'VHC_TYPEID',
+//            'VHC_GROUPID',
+//            'VHC_ACTIVE',
+//        ])
+//            ->where('VHC_ID', 'like', 'EX%')
+//            ->where('VHC_ACTIVE', true)
+//            ->get();
+//
+//        $nomor_unit = Unit::select('VHC_ID')
+//            ->where('VHC_ID', 'NOT LIKE', 'HD%')
+//            ->get();
+//
+//        $operator = Personal::select
+//        (
+//            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+//        )->where('ROLETYPE', 0)->get();
+//
+//        $supervisor = Personal::select
+//        (
+//            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+//        )->where('ROLETYPE', 3)->get();
+//
+//        $superintendent = Personal::select
+//        (
+//            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+//        )->where('ROLETYPE', 4)->get();
+//
+//        $lokasi = Lokasi::where('statusenabled', 'true')->get();
+//        $area = Area::where('statusenabled', 'true')->get();
+//        $shift = Shift::where('statusenabled', 'true')->get();
+//
+//
+//        $data = [
+//            'operator' => $operator,
+//            'supervisor' => $supervisor,
+//            'superintendent' => $superintendent,
+//            'EX' => $ex,
+//            'EX' => $ex,
+//            'nomor_unit' => $nomor_unit,
+//            'lokasi' => $lokasi,
+//            'area' => $area,
+//            'shift' => $shift,
+//        ];
+//        return view('form-pengawas.index', compact('data', 'daily'));
+//    }
 
     public function users(Request $request)
     {
@@ -605,4 +637,151 @@ class FormPengawasController extends Controller
 
         return view('form-pengawas.download', compact(['data', 'timeSlots']));
     }
+
+    public function autoSave(Request $request)
+    {
+        try {
+            return DB::transaction(function () use ($request) {
+                $data = $request->validate([
+                    'uuid' => 'nullable|string',
+                    'tanggal_dasar' => 'nullable|date_format:d/m/Y',
+                    'shift_dasar' => 'nullable|string',
+                    'area' => 'nullable|string',
+                    'lokasi' => 'nullable|string',
+                    'nik_supervisor' => 'nullable|string',
+                    'nama_supervisor' => 'nullable|string',
+                    'nik_superintendent' => 'nullable|string',
+                    'nama_superintendent' => 'nullable|string',
+                ]);
+
+                $supervisor = $request->nik_supervisor ?? '';
+                $superintendent = $request->nik_superintendent ?? '';
+
+                $nikSupervisor = $namaSupervisor = null;
+                if ($supervisor) {
+                    $nikSlotsSV = explode('|', $supervisor);
+                    $nikSupervisor = $nikSlotsSV[0];
+                    $namaSupervisor = trim($nikSlotsSV[1] ?? '');
+                }
+
+                $nikSuperintendent = $namaSuperintendent = null;
+                if ($superintendent) {
+                    $nikSlotsSI = explode('|', $superintendent);
+                    $nikSuperintendent = $nikSlotsSI[0];
+                    $namaSuperintendent = trim($nikSlotsSI[1] ?? '');
+                }
+
+                $tanggalDasar = null;
+                if ($request->filled('tanggal_dasar')) {
+                    try {
+                        $tanggalDasar = Carbon::createFromFormat('d/m/Y', $request->tanggal_dasar)->format('Y-m-d');
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'message' => 'Format tanggal salah',
+                            'error' => $e->getMessage(),
+                        ], 422);
+                    }
+                }
+
+                // Siapkan data untuk disimpan
+                $dataToSave = [
+                    'tanggal_dasar' => $tanggalDasar,
+                    'shift_dasar_id' => $request->shift_dasar,
+                    'area_id' => $request->area,
+                    'lokasi_id' => $request->lokasi,
+                    'nik_supervisor' => $nikSupervisor,
+                    'nama_supervisor' => $namaSupervisor,
+                    'nik_superintendent' => $nikSuperintendent,
+                    'nama_superintendent' => $namaSuperintendent,
+                    'statusenabled' => 'true',
+                    'is_draft' => true,
+                ];
+
+                // Tambahkan data berdasarkan role
+                if (Auth::user()->role == 'SUPERVISOR') {
+                    $dataToSave['nik_supervisor'] = Auth::user()->nik;
+                    $dataToSave['nama_supervisor'] = Auth::user()->name;
+                    $dataToSave['verified_supervisor'] = Auth::user()->nik;
+                }
+                if (Auth::user()->role == 'FOREMAN') {
+                    $dataToSave['nik_foreman'] = Auth::user()->nik;
+                    $dataToSave['nama_foreman'] = Auth::user()->name;
+                    $dataToSave['verified_foreman'] = Auth::user()->nik;
+                }
+
+                $draft = DailyReport::where('uuid', $request->uuid)
+                    ->orWhere(function ($query) {
+                        $query->where('foreman_id', Auth::id())->where('is_draft', true);
+                    })
+                    ->first();
+
+                if ($draft) {
+                    $draft->update($dataToSave);
+                } else {
+                    $dataToSave['uuid'] = $request->uuid ?? Uuid::uuid4()->toString();
+                    $dataToSave['foreman_id'] = Auth::id();
+                    $draft = DailyReport::create($dataToSave);
+                }
+
+                // Proses front_loading jika ada
+                if (!empty($request->front_loading)) {
+                    foreach ($request->front_loading as $front_unit) {
+                        $timeData = $front_unit["time"] ?? [];
+
+                        $morning = [];
+                        $night = [];
+                        $checked = [];
+                        $keterangan = [];
+
+                        foreach ($timeData as $time) {
+                            if ($time['checked'] == 'true' || !empty($time['keterangan'])) {
+                                $timeSlots = explode('|', $time['value']);
+
+                                if (isset($timeSlots[0])) {
+                                    $morning[] = trim($timeSlots[0]);
+                                }
+                                if (isset($timeSlots[1])) {
+                                    $night[] = trim($timeSlots[1]);
+                                }
+
+                                $checked[] = $time['checked'] == "false" ? null : $time['checked'];
+                                $keterangan[] = $time['keterangan'] ?? null;
+                            }
+                        }
+
+                        if (!empty($checked)) {
+                            FrontLoading::updateOrCreate(
+                                [
+                                    'daily_report_id' => $draft->id,
+                                    'nomor_unit' => $front_unit["nomor_unit"],
+                                ],
+                                [
+                                    'uuid' => $front_unit["uuid"] ?? (string) Uuid::uuid4()->toString(),
+                                    'daily_report_uuid' => $draft->uuid, // Tambahkan kolom ini
+                                    'statusenabled' => 'true',
+                                    'checked' => json_encode($checked),
+                                    'keterangan' => json_encode($keterangan),
+                                    'siang' => json_encode($morning),
+                                    'malam' => json_encode($night),
+                                ]
+                            );
+                        }
+                    }
+                }
+
+//                dd($draft);
+
+                return response()->json([
+                    'message' => 'Draft berhasil disimpan',
+                    'draft' => $draft,
+                ]);
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Gagal menyimpan draft',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }

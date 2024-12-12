@@ -23,8 +23,9 @@
                         <select class="form-select" data-trigger id="unitSupport" name="alat_unit[]">
                             <option selected disabled></option>
                             @foreach ($data['nomor_unit'] as $nu)
-                            <option value="{{ $nu->VHC_ID }}">{{ $nu->VHC_ID }}</option>
-                            @endforeach
+                                <option value="{{ $nu->VHC_ID }}" {{ isset($daily) && $daily->vhc_id == $nu->VHC_ID ? 'selected' : '' }}>
+                                    {{ $nu->VHC_ID }}
+                                </option>                            @endforeach
                         </select>
                     </div>
                     {{-- <div class="mb-3">
@@ -36,7 +37,9 @@
                         <select class="form-select"  data-trigger id="namaSupport" name="nama_operator[]">
                             <option selected disabled></option>
                             @foreach ($data['operator'] as $op)
-                                <option value="{{ $op->NRP }}|{{ $op->PERSONALNAME }}">{{ $op->NRP }}|{{ $op->PERSONALNAME }}</option>
+                                <option value="{{ $op->NRP }}|{{ $op->PERSONALNAME }}" {{ isset($daily) && $daily->nik_operator == $op->NRP ? 'selected' : '' }}>
+                                    {{ $op->NRP }}|{{ $op->PERSONALNAME }}
+                                </option>
                             @endforeach
                         </select>
                         {{-- <input type="text" id="namaSupport" class="form-control" name="nama_operator[]" readonly> --}}
@@ -50,7 +53,9 @@
                         <select class="form-select" id="shiftSupport" name="shift_operator[]">
                             <option selected disabled>Pilih shift</option>
                             @foreach ($data['shift'] as $shh)
-                                <option value="{{ $shh->id }}">{{ $shh->keterangan }}</option>
+                                <option value="{{ $shh->id }}" {{ isset($daily) && $daily->shift_dasar_id == $shh->id ? 'selected' : '' }}>
+                                    {{ $shh->keterangan }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

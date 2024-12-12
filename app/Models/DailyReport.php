@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use App\Traits\HasDraft;
 
 class DailyReport extends Model
 {
+    use HasDraft;
     //
     protected $table = 'daily_report_t';
 
@@ -27,6 +29,7 @@ class DailyReport extends Model
         'nik_superintendent',
         'nama_superintendent',
         'verified_superintendent',
+        'is_draft',
     ];
 
     protected $guarded = [];
