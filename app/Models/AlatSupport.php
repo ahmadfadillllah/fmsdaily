@@ -28,6 +28,7 @@ class AlatSupport extends Model
         'hm_total',
         'hm_cash',
         'keterangan',
+        'is_draft',
     ];
 
     protected $guarded = [];

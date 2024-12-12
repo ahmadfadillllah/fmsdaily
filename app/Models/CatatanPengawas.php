@@ -19,6 +19,7 @@ class CatatanPengawas extends Model
         'jam_start',
         'jam_stop',
         'keterangan',
+        'is_draft',
     ];
 
     protected $guarded = [];

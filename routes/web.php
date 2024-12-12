@@ -64,9 +64,12 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Alat Support
     Route::get('/alat-support/index', [AlatSupportController::class, 'index'])->name('alat-support.index');
+    Route::delete('/alat-support/{id}', [AlatSupportController::class, 'destroy']);
 
     //Catatan Pengawas
     Route::get('/catatan-pengawas/index', [CatatanPengawasController::class, 'index'])->name('catatan-pengawas.index');
+    Route::delete('/catatan-pengawas/{id}/delete', [CatatanPengawasController::class, 'destroy'])->name('catatan-pengawas.destroy');
+
 
     //KLKH Loading Point
     Route::get('/klkh/loading-point', [KLKHLoadingPointController::class, 'index'])->name('klkh.loading-point');

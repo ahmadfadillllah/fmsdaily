@@ -22,6 +22,7 @@ class FrontLoading extends Model
         'keterangan',
         'siang',
         'malam',
+        'is_draft',
     ];
 
     protected $guarded = [];

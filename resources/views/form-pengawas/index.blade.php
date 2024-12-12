@@ -235,6 +235,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="tab-pane" id="frontLoading">
                                         <div class="text-center">
                                             <h3 class="mb-2">Front Loading</h3>
@@ -248,26 +249,41 @@
                                                 <div class="table-responsive">
                                                     <table id="dynamicTable" class="table table-bordered">
                                                         <thead style="text-align: center; vertical-align: middle;">
-                                                            <tr id="headerRow1">
-                                                                <th colspan="2" id="thJam">Jam</th>
+                                                        <tr id="headerRow1">
+                                                            <th colspan="2" id="thJam">Jam</th>
+                                                            @forelse ($frontLoading as $index => $row)
+                                                                <th class="unitHeader" scope="col">Nomor Unit {{ $index + 1 }}</th>
+                                                            @empty
                                                                 <th class="unitHeader" scope="col">Nomor Unit 1</th>
-                                                            </tr>
-                                                            <tr id="headerRow2">
-                                                                <th id="thSiang">Siang</th>
-                                                                <th id="thMalam">Malam</th>
+                                                            @endforelse
+                                                        </tr>
+                                                        <tr id="headerRow2">
+                                                            <th id="thSiang">Siang</th>
+                                                            <th id="thMalam">Malam</th>
+                                                            @forelse ($frontLoading as $index => $row)
                                                                 <th>
-                                                                    <select name="front_loading[0][nomor_unit]"
-                                                                        id="frontUnitNumber" class="form-control">
-                                                                        <option value="" disabled selected>Pilih
-                                                                        </option>
+                                                                    <select name="front_loading[{{ $index }}][nomor_unit]" id="frontUnitNumber" class="form-control">
+                                                                        <option value="" disabled {{ empty($row->nomor_unit) ? 'selected' : '' }}>Pilih</option>
                                                                         @foreach ($data['EX'] as $exa)
-                                                                            <option value="{{ $exa->VHC_ID }}" {{ isset($daily) && $daily->vhc_id == $exa->VHC_ID ? 'selected' : '' }}>
-                                                                            {{ $exa->VHC_ID }}</option>
+                                                                            <option value="{{ $exa->VHC_ID }}" {{ $row->nomor_unit == $exa->VHC_ID ? 'selected' : '' }}>
+                                                                                {{ $exa->VHC_ID }}
+                                                                            </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </th>
-                                                            </tr>
+                                                            @empty
+                                                                <th>
+                                                                    <select name="front_loading[0][nomor_unit]" id="frontUnitNumber" class="form-control">
+                                                                        <option value="" disabled selected>Pilih</option>
+                                                                        @foreach ($data['EX'] as $exa)
+                                                                            <option value="{{ $exa->VHC_ID }}">{{ $exa->VHC_ID }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </th>
+                                                            @endforelse
+                                                        </tr>
                                                         </thead>
+
                                                         <tbody id="tableBody">
                                                         @php
                                                             $times = [
@@ -287,10 +303,10 @@
                                                         @endphp
                                                         @foreach ($times as $index => $time)
                                                             @php
-                                                                // Ambil data untuk waktu saat ini
                                                                 $morningTime = $time[0];
                                                                 $nightTime = $time[1];
 
+                                                                // Cari data front loading berdasarkan waktu
                                                                 $row = $frontLoading->first(function ($item) use ($morningTime, $nightTime) {
                                                                     $siang = json_decode($item->siang, true);
                                                                     $malam = json_decode($item->malam, true);
@@ -301,8 +317,8 @@
                                                                 $keterangan = $row ? json_decode($row->keterangan, true) : [];
                                                             @endphp
                                                             <tr>
-                                                                <td><input type="hidden" value="{{ $morningTime }}">{{ $morningTime }}</td>
-                                                                <td><input type="hidden" value="{{ $nightTime }}">{{ $nightTime }}</td>
+                                                                <td><input type="hidden" value="{{ $morningTime }}" name="front_loading[{{ $index }}][time][value]">{{ $morningTime }}</td>
+                                                                <td><input type="hidden" value="{{ $nightTime }}" name="front_loading[{{ $index }}][time][value]">{{ $nightTime }}</td>
                                                                 <td>
                                                                     <div class="grid gap-3 d-flex align-items-center justify-content-center">
                                                                         @if ($row)
@@ -337,6 +353,7 @@
                                             </div>
                                         </div>
                                     </div><!-- end job detail tab pane -->
+
                                     <div class="tab-pane" id="alatSupport">
                                         <div class="text-center">
                                             <h3 class="mb-2">Alat Support</h3>
@@ -363,8 +380,41 @@
                                                     <i class="fa-solid fa-add"></i> Tambah Catatan
                                                 </button>
                                                 @include('form-pengawas.modal.catatan-pengawas')
-                                                <div class="accordion" id="accordionCatatan"></div>
-
+                                                <div class="accordion" id="accordionCatatan">
+                                                    @forelse ($supervisorNotes as $key => $note)
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="headingNote-{{ $key }}">
+                                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapseNote-{{ $key }}" aria-expanded="false"
+                                                                        aria-controls="collapseNote-{{ $key }}">
+                                                                    Catatan #{{ $key + 1 }}
+                                                                </button>
+                                                            </h2>
+                                                            <div id="collapseNote-{{ $key }}" class="accordion-collapse collapse"
+                                                                 aria-labelledby="headingNote-{{ $key }}" data-bs-parent="#accordionCatatan">
+                                                                <div class="accordion-body">
+                                                                    <table class="table table-borderless">
+                                                                        <tr>
+                                                                            <th>Jam Start</th>
+                                                                            <td>{{ $note->jam_start }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Jam Stop</th>
+                                                                            <td>{{ $note->jam_stop }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Keterangan</th>
+                                                                            <td>{{ $note->keterangan }}</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <button class="btn btn-danger btn-sm" onclick="hapusCatatan('{{ $note->id }}')">Hapus</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                        <p class="text-center">Belum ada catatan yang ditambahkan.</p>
+                                                    @endforelse
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -391,7 +441,7 @@
 
 
                                     <div class="d-flex wizard justify-content-end flex-wrap gap-2 mt-5">
-                                        <div class="d-flex">
+                                        <div class="d-flex" id="navigation-buttons">
                                             <div class="previous me-2">
                                                 <a href="javascript:void(0);"><span class="badge bg-secondary" style="font-size:14px"><i class="fa-solid fa-arrow-left"></i> Kembali</span></a>
                                                 {{-- <a href="javascript:void(0);" class="btn btn-secondary btn-md">
@@ -960,6 +1010,25 @@
             return false;
         }
         return true;
+
+        const frontValues = document.querySelectorAll('input[name^="front_loading"][name$="[value]"]');
+        let isValueSet = true;
+
+        frontValues.forEach(function(input) {
+            if (!input.value) {
+                isValueSet = false;
+            }
+        });
+
+        if (!isValueSet) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Semua input "value" pada form Front Loading harus diisi.',
+                confirmButtonText: 'OK'
+            });
+            return false;
+        }
     }
 
 </script>
@@ -1040,4 +1109,31 @@
         }
     }
 </script>
+
+<script>
+    function hapusCatatan(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus catatan ini?')) {
+            fetch(`/catatan-pengawas/${id}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Catatan berhasil dihapus.');
+                        location.reload();
+                    } else {
+                        alert('Gagal menghapus catatan.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus catatan.');
+                });
+        }
+    }
+</script>
+
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CatatanPengawas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -63,4 +64,23 @@ class CatatanPengawasController extends Controller
 
         return view('catatan-pengawas.index', compact('note'));
     }
+
+    public function destroy($id)
+    {
+        try {
+            $note = CatatanPengawas::findOrFail($id);
+            $note->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Catatan berhasil dihapus.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus catatan.',
+            ], 500);
+        }
+    }
+
 }

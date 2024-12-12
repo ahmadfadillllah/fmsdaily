@@ -32,8 +32,13 @@ class FormPengawasController extends Controller
             ->first();
 
         $frontLoading = [];
+        $alatSupports = [];
+        $supervisorNotes = [];
+
         if ($daily) {
             $frontLoading = FrontLoading::where('daily_report_id', $daily->id)->get();
+            $alatSupports = AlatSupport::where('daily_report_id', $daily->id)->get();
+            $supervisorNotes = CatatanPengawas::where('daily_report_id', $daily->id)->get();
         }
 
         $data = [
@@ -52,7 +57,7 @@ class FormPengawasController extends Controller
             ->get(),
         ];
 
-        return view('form-pengawas.index', compact('data', 'daily', 'frontLoading'));
+        return view('form-pengawas.index', compact('data', 'daily', 'frontLoading', 'alatSupports', 'supervisorNotes'));
     }
 
     //
@@ -191,14 +196,19 @@ class FormPengawasController extends Controller
                     foreach ($request->front_loading as $front_unit) {
                         $timeData = $front_unit["time"] ?? [];
 
+                        // Pastikan $timeData adalah array
+                        if (!is_array($timeData)) {
+                            throw new \Exception('Format data time tidak valid');
+                        }
+
                         $morning = [];
                         $night = [];
-                        $checked = []; // Untuk menyimpan status checked
-                        $keterangan = []; // Untuk menyimpan keterangan
+                        $checked = [];
+                        $keterangan = [];
 
                         foreach ($timeData as $time) {
-                            // Hanya proses yang checked = true atau keterangan terisi
-                            if ($time['checked'] == 'true' || !empty($time['keterangan'])) {
+                            // Validasi key 'value', 'checked', dan 'keterangan'
+                            if (isset($time['value'], $time['checked'])) {
                                 $timeSlots = explode('|', $time['value']);
 
                                 if (isset($timeSlots[0])) {
@@ -208,28 +218,33 @@ class FormPengawasController extends Controller
                                     $night[] = trim($timeSlots[1]); // Waktu malam
                                 }
 
-                                // Tambahkan 'checked' dan 'keterangan' untuk waktu yang valid
-                                $checked[] = $time['checked'] == "false" ? NULL : $time['checked'];
-                                $keterangan[] = $time['keterangan'] ?? NULL;
+                                // Simpan checked dan keterangan jika ada
+                                $checked[] = $time['checked'] === "false" ? null : $time['checked'];
+                                $keterangan[] = $time['keterangan'] ?? null;
                             }
                         }
 
-                        // Jika ada data yang valid, buat entry di database
+                        // Simpan data ke database jika valid
                         if (!empty($checked)) {
-                            FrontLoading::create([
-                                'uuid' => (string) Uuid::uuid4()->toString(),
-                                'daily_report_id' => $dailyReport->id,
-                                'daily_report_uuid' => $dailyReport->uuid,
-                                'statusenabled' => 'true',
-                                'checked' => json_encode($checked), // Store checked values in JSON format
-                                'keterangan' => json_encode($keterangan), // Store keterangan values in JSON format
-                                'nomor_unit' => $front_unit["nomor_unit"],
-                                'siang' => json_encode($morning),
-                                'malam' => json_encode($night),
-                            ]);
+                            FrontLoading::updateOrCreate(
+                                [
+                                    'daily_report_id' => $dailyReport->id,
+                                    'nomor_unit' => $front_unit["nomor_unit"],
+                                ],
+                                [
+                                    'uuid' => $front_unit['uuid'] ?? (string) Uuid::uuid4()->toString(),
+                                    'daily_report_uuid' => $dailyReport->uuid,
+                                    'statusenabled' => 'true',
+                                    'checked' => json_encode($checked),
+                                    'keterangan' => json_encode($keterangan),
+                                    'siang' => json_encode($morning),
+                                    'malam' => json_encode($night),
+                                ]
+                            );
                         }
                     }
                 }
+
 
 
                 // insert alat support
@@ -242,37 +257,46 @@ class FormPengawasController extends Controller
                         $namaOperator = trim($operator[1]);
                         $jenisUnit = substr($value['unitSupport'], 0, 2);
 
-                        AlatSupport::create([
-                            'uuid' => (string) Uuid::uuid4()->toString(),
-                            'daily_report_uuid' => $dailyReport->uuid,
-                            'daily_report_id' => $dailyReport->id,
-                            'statusenabled' => 'true',
-                            'jenis_unit' => $jenisUnit,
-                            'alat_unit' => $value['unitSupport'],
-                            'nik_operator' => $nikOperator,
-                            'nama_operator' => $namaOperator,
-                            'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
-                            'shift_operator_id' => $value['shiftSupport'],
-                            'hm_awal' => $value['hmAwalSupport'],
-                            'hm_akhir' => $value['hmAkhirSupport'],
-                            'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
-                            'hm_cash' => $value['hmCashSupport'],
-                            'keterangan' => $value['keteranganSupport'],
-                        ]);
+                        AlatSupport::updateOrCreate(
+                            [
+                                'daily_report_id' => $dailyReport->id,
+                                'alat_unit' => $value['unitSupport'],
+                            ],
+                            [
+                                'uuid' => $value['uuid'] ?? (string) Uuid::uuid4()->toString(),
+                                'daily_report_uuid' => $dailyReport->uuid,
+                                'statusenabled' => 'true',
+                                'jenis_unit' => $jenisUnit,
+                                'nik_operator' => $nikOperator,
+                                'nama_operator' => $namaOperator,
+                                'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
+                                'shift_operator_id' => $value['shiftSupport'],
+                                'hm_awal' => $value['hmAwalSupport'],
+                                'hm_akhir' => $value['hmAkhirSupport'],
+                                'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
+                                'hm_cash' => $value['hmCashSupport'],
+                                'keterangan' => $value['keteranganSupport'],
+                            ]
+                        );
                     }
                 }
 
                 if (!empty($request->catatan)) {
                     foreach ($request->catatan as $catatan) {
-                        CatatanPengawas::create([
-                            'uuid' => (string) Uuid::uuid4()->toString(),
-                            'daily_report_uuid' => $dailyReport->uuid,
-                            'daily_report_id' => $dailyReport->id,
-                            'statusenabled' => 'true',
-                            'jam_start' => $catatan['start_catatan'],
-                            'jam_stop' => $catatan['end_catatan'],
-                            'keterangan' => $catatan['description_catatan'],
-                        ]);
+                        CatatanPengawas::updateOrCreate(
+                            [
+                                'daily_report_id' => $dailyReport->id,
+                                'jam_start' => $catatan['start_catatan'],
+                                'jam_stop' => $catatan['end_catatan'],
+                            ],
+                            [
+                                'uuid' => $catatan['uuid'] ?? (string) Uuid::uuid4()->toString(),
+                                'daily_report_uuid' => $dailyReport->uuid,
+                                'statusenabled' => 'true',
+                                'keterangan' => $catatan['description_catatan'],
+                            ]
+                        );
+
                     }
                 }
 
@@ -726,7 +750,11 @@ class FormPengawasController extends Controller
                 // Proses front_loading jika ada
                 if (!empty($request->front_loading)) {
                     foreach ($request->front_loading as $front_unit) {
-                        $timeData = $front_unit["time"] ?? [];
+                        $timeData = isset($front_unit["time"]) && is_array($front_unit["time"]) ? $front_unit["time"] : [];
+
+                        if (!is_array($timeData)) {
+                            throw new \Exception('Format data time tidak valid');
+                        }
 
                         $morning = [];
                         $night = [];
@@ -734,7 +762,7 @@ class FormPengawasController extends Controller
                         $keterangan = [];
 
                         foreach ($timeData as $time) {
-                            if ($time['checked'] == 'true' || !empty($time['keterangan'])) {
+                            if (isset($time['value']) && ($time['checked'] == 'true' || !empty($time['keterangan']))) {
                                 $timeSlots = explode('|', $time['value']);
 
                                 if (isset($timeSlots[0])) {
@@ -757,7 +785,7 @@ class FormPengawasController extends Controller
                                 ],
                                 [
                                     'uuid' => $front_unit["uuid"] ?? (string) Uuid::uuid4()->toString(),
-                                    'daily_report_uuid' => $draft->uuid, // Tambahkan kolom ini
+                                    'daily_report_uuid' => $draft->uuid,
                                     'statusenabled' => 'true',
                                     'checked' => json_encode($checked),
                                     'keterangan' => json_encode($keterangan),
@@ -766,6 +794,113 @@ class FormPengawasController extends Controller
                                 ]
                             );
                         }
+                    }
+                }
+
+
+//                if (!empty($request->front_loading)) {
+//                    foreach ($request->front_loading as $front_unit) {
+//                        $timeData = $front_unit["time"] ?? [];
+//
+//                        $morning = [];
+//                        $night = [];
+//                        $checked = [];
+//                        $keterangan = [];
+//
+//                        foreach ($timeData as $time) {
+//                            // Validasi apakah kunci 'value' ada
+//                            if (!isset($time['value'])) {
+//                                continue; // Jika tidak ada, lewati iterasi ini
+//                            }
+//
+//                            if ($time['checked'] == 'true' || !empty($time['keterangan'])) {
+//                                $timeSlots = explode('|', $time['value']);
+//
+//                                if (isset($timeSlots[0])) {
+//                                    $morning[] = trim($timeSlots[0]);
+//                                }
+//                                if (isset($timeSlots[1])) {
+//                                    $night[] = trim($timeSlots[1]);
+//                                }
+//
+//                                $checked[] = $time['checked'] == "false" ? null : $time['checked'];
+//                                $keterangan[] = $time['keterangan'] ?? null;
+//                            }
+//                        }
+//
+//                        if (!empty($checked)) {
+//                            FrontLoading::updateOrCreate(
+//                                [
+//                                    'daily_report_id' => $draft->id,
+//                                    'nomor_unit' => $front_unit["nomor_unit"],
+//                                    'is_draft' => true,
+//                                ],
+//                                [
+//                                    'uuid' => $front_unit["uuid"] ?? (string) Uuid::uuid4()->toString(),
+//                                    'daily_report_uuid' => $draft->uuid,
+//                                    'statusenabled' => 'true',
+//                                    'checked' => json_encode($checked),
+//                                    'keterangan' => json_encode($keterangan),
+//                                    'siang' => json_encode($morning),
+//                                    'malam' => json_encode($night),
+//                                ]
+//                            );
+//                        }
+//                    }
+//                }
+
+
+
+                // Insert alat support
+                if (!empty($request->alat_support)) {
+                    foreach ($request->alat_support as $value) {
+                        $operator = explode('|', $value['namaSupport']);
+                        $nikOperator = $operator[0];
+                        $namaOperator = trim($operator[1]);
+                        $jenisUnit = substr($value['unitSupport'], 0, 2);
+
+                        AlatSupport::updateOrCreate(
+                            [
+                                'daily_report_id' => $draft->id,
+                                'alat_unit' => $value['unitSupport'],
+                                'is_draft' => true,
+                            ],
+                            [
+                                'uuid' => (string) Uuid::uuid4()->toString(),
+                                'daily_report_uuid' => $draft->uuid,
+                                'statusenabled' => 'true',
+                                'jenis_unit' => $jenisUnit,
+                                'nik_operator' => $nikOperator,
+                                'nama_operator' => $namaOperator,
+                                'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
+                                'shift_operator_id' => $value['shiftSupport'],
+                                'hm_awal' => $value['hmAwalSupport'],
+                                'hm_akhir' => $value['hmAkhirSupport'],
+                                'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
+                                'hm_cash' => $value['hmCashSupport'],
+                                'keterangan' => $value['keteranganSupport'],
+                            ]
+                        );
+                    }
+                }
+
+                // Insert catatan pengawas
+                if (!empty($request->catatan)) {
+                    foreach ($request->catatan as $catatan) {
+                        CatatanPengawas::updateOrCreate(
+                            [
+                                'daily_report_id' => $draft->id,
+                                'jam_start' => $catatan['start_catatan'],
+                                'jam_stop' => $catatan['end_catatan'],
+                                'is_draft' => true,
+                            ],
+                            [
+                                'uuid' => (string) Uuid::uuid4()->toString(),
+                                'daily_report_uuid' => $draft->uuid,
+                                'statusenabled' => 'true',
+                                'keterangan' => $catatan['description_catatan'],
+                            ]
+                        );
                     }
                 }
 

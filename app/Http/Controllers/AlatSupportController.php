@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlatSupport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -71,4 +72,15 @@ class AlatSupportController extends Controller
 
         return view('alat-support.index', compact('support'));
     }
+
+    public function destroy($id)
+    {
+        try {
+            AlatSupport::findOrFail($id)->delete();
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal menghapus data', 'error' => $e->getMessage()], 500);
+        }
+    }
+
 }
