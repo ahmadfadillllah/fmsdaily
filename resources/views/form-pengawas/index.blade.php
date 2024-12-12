@@ -1152,7 +1152,8 @@
 <script>
     (function () {
             const d_week = new Datepicker(document.querySelector('#tanggalSupport'), {
-                buttonClass: 'btn'
+                buttonClass: 'btn',
+                autohide: true,
             });
         })();
 </script>

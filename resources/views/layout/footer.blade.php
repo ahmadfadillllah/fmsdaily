@@ -282,18 +282,20 @@
     main_layout_change('vertical');
 
 </script>
-
 <script>
     // minimum setup
     (function () {
         const d_week = new Datepicker(document.querySelector('#pc-datepicker-1'), {
-            buttonClass: 'btn'
+            buttonClass: 'btn',
+            autohide: true,
         });
+
     })();
 
     (function () {
         const d_week = new Datepicker(document.querySelector('#pc-datepicker-2'), {
-            buttonClass: 'btn'
+            buttonClass: 'btn',
+            autohide: true,
         });
     })();
 
