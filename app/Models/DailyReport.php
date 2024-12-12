@@ -18,10 +18,15 @@ class DailyReport extends Model
         'shift_dasar_id',
         'area_id',
         'lokasi_id',
+        'nik_foreman',
+        'nama_foreman',
+        'verified_foreman',
         'nik_supervisor',
         'nama_supervisor',
+        'verified_supervisor',
         'nik_superintendent',
         'nama_superintendent',
+        'verified_superintendent',
     ];
 
     protected $guarded = [];

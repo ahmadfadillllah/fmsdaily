@@ -20,6 +20,9 @@ return new class extends Migration
             $table->foreignId('shift_dasar_id')->nullable()->constrained('shift_m');
             $table->foreignId('area_id')->nullable()->constrained('area_m');
             $table->foreignId('lokasi_id')->nullable()->constrained('lokasi_m');
+            $table->string('nik_foreman')->nullable();
+            $table->string('nama_foreman')->nullable();
+            $table->string('verified_foreman')->nullable();
             $table->string('nik_supervisor')->nullable();
             $table->string('nama_supervisor')->nullable();
             $table->string('verified_supervisor')->nullable();

@@ -125,19 +125,34 @@ class FormPengawasController extends Controller
                 $nikSuperintendent = $nikSlotsSI[0];
                 $namaSuperintendent = trim($nikSlotsSI[1]);
 
-                $dailyReport = DailyReport::create([
-                    'uuid' => (string) Uuid::uuid4()->toString(),
-                    'foreman_id' => Auth::user()->id,
+                $data = [
+                    'uuid' => Uuid::uuid4()->toString(),
+                    'foreman_id' => Auth::id(),
                     'statusenabled' => 'true',
                     'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
                     'shift_dasar_id' => $request->shift_dasar,
                     'area_id' => $request->area,
                     'lokasi_id' => $request->lokasi,
-                    'nik_supervisor' => $nikSupervisor,
-                    'nama_supervisor' => $namaSupervisor,
                     'nik_superintendent' => $nikSuperintendent,
-                    'nama_superintendent' => $namaSuperintendent
-                ]);
+                    'nama_superintendent' => $namaSuperintendent,
+                ];
+
+                // Tambahkan data berdasarkan role
+                if (Auth::user()->role == 'SUPERVISOR') {
+                    $data['nik_supervisor'] = Auth::user()->nik;
+                    $data['nama_supervisor'] = Auth::user()->name;
+                    $data['verified_supervisor'] = Auth::user()->nik;
+                }
+                if (Auth::user()->role == 'FOREMAN') {
+                    $data['nik_foreman'] = Auth::user()->nik;
+                    $data['nama_foreman'] = Auth::user()->name;
+                    $data['verified_foreman'] = Auth::user()->nik;
+                    $data['nik_supervisor'] = $nikSupervisor;
+                    $data['nama_supervisor'] = $namaSupervisor;
+                }
+
+                // Buat DailyReport
+                $dailyReport = DailyReport::create($data);
 
                 // insert front loading
                 if (!empty($request->front_loading)) {
@@ -289,8 +304,9 @@ class FormPengawasController extends Controller
         ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -298,12 +314,14 @@ class FormPengawasController extends Controller
             'sh.keterangan as shift',
             'ar.keterangan as area',
             'lok.keterangan as lokasi',
-            'us.nik as nik_foreman',
-            'us.name as nama_foreman',
+            'us.name as pic',
+            'dr.nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
             'dr.nik_supervisor',
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent',
-            'gl.PERSONALNAME as nama_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->where('dr.statusenabled', 'true');
@@ -323,27 +341,35 @@ class FormPengawasController extends Controller
         ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
         ->select(
             'dr.uuid',
-            'dr.foreman_id as id_foreman',
+            'dr.foreman_id as pic',
             'dr.tanggal_dasar as tanggal',
             'sh.keterangan as shift',
             'ar.keterangan as area',
             'lok.keterangan as lokasi',
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
+            'dr.nik_foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'gl.PERSONALNAME as nama_superintendent'
+            'spt.PERSONALNAME as nama_superintendent',
+            'dr.verified_foreman',
+            'dr.verified_supervisor',
+            'dr.verified_superintendent',
         )->where('dr.uuid', $uuid)->first();
 
         if($daily == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $daily->generate_foreman = $daily->id_foreman ? QrCode::size(70)->generate('Telah dibuat oleh: ' . $daily->nama_foreman) : null;
+            $daily->verified_foreman = $daily->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_foreman) : null;
+            $daily->verified_supervisor = $daily->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_supervisor) : null;
+            $daily->verified_superintendent = $daily->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_superintendent) : null;
         }
 
         $front = DB::table('front_loading_t as fl')
@@ -449,27 +475,35 @@ class FormPengawasController extends Controller
         ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_superintendent', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
         ->select(
             'dr.uuid',
-            'dr.foreman_id as id_foreman',
+            'dr.foreman_id as pic',
             'dr.tanggal_dasar as tanggal',
             'sh.keterangan as shift',
             'ar.keterangan as area',
             'lok.keterangan as lokasi',
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
+            'dr.nik_foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'gl.PERSONALNAME as nama_superintendent'
+            'spt.PERSONALNAME as nama_superintendent',
+            'dr.verified_foreman',
+            'dr.verified_supervisor',
+            'dr.verified_superintendent',
         )->where('dr.uuid', $uuid)->first();
 
         if($daily == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $daily->generate_foreman = $daily->id_foreman ? QrCode::size(70)->generate('Telah dibuat oleh: ' . $daily->nama_foreman) : null;
+            $daily->verified_foreman = $daily->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_foreman) : null;
+            $daily->verified_supervisor = $daily->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_supervisor) : null;
+            $daily->verified_superintendent = $daily->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_superintendent) : null;
         }
 
         $front = DB::table('front_loading_t as fl')

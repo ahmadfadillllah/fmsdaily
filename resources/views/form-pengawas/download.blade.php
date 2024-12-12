@@ -547,8 +547,18 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td >{{ $data['daily']->generate_foreman }} <br> {{ $data['daily']->nama_foreman }}</td>
-                        <td></td>
+                        <td>{{ $data['daily']->verified_foreman }}
+                            <br>
+                            @if ($data['daily']->verified_foreman != null)
+                                {{ $data['daily']->nama_foreman }}
+                            @endif
+                        </td>
+                        <td>
+                            <br>
+                            @if ($data['daily']->verified_supervisor != null)
+                                {{ $data['daily']->nama_supervisor }}
+                            @endif
+                        </td>
                     </tr>
                 </tbody>
                 <thead>

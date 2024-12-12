@@ -39,19 +39,22 @@ class FrontLoadingController extends Controller
         ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        // ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
         ->select(
             'fl.daily_report_id as id',
-            'us.nik as nik_foreman',
-            'us.name as nama_foreman',
+            'dr.nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
             'dr.tanggal_dasar as tanggal_pelaporan',
             'sh.keterangan as shift',
             'ar.keterangan as area',
             'lok.keterangan as lokasi',
-            'dr.nik_supervisor',
-            'dr.nama_supervisor',
-            'dr.nik_superintendent',
-            'dr.nama_superintendent',
+            'dr.nik_supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dr.nik_superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
             'fl.nomor_unit',
             'fl.siang',
             'fl.malam',

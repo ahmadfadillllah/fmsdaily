@@ -44,7 +44,7 @@
                                         <th>Shift</th>
                                         <th>Area</th>
                                         <th>Lokasi</th>
-                                        <th>Nama Foreman</th>
+                                        <th>PIC</th>
                                         <th>NIK Supervisor</th>
                                         <th>Nama Supervisor</th>
                                         <th>NIK Superintendent</th>
@@ -61,14 +61,14 @@
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ $item->area }}</td>
                                             <td>{{ $item->lokasi }}</td>
-                                            <td>{{ $item->nama_foreman }}</td>
+                                            <td>{{ $item->pic }}</td>
                                             <td>{{ $item->nik_supervisor }}</td>
                                             <td>{{ $item->nama_supervisor }}</td>
                                             <td>{{ $item->nik_superintendent }}</td>
                                             <td>{{ $item->nama_superintendent }}</td>
                                             <td>
-                                                <a href="{{ route('form-pengawas.download', $item->uuid) }}" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-print"></i> Cetak</a>
-                                                <a href="{{ route('form-pengawas.preview', $item->uuid) }}" class="btn btn-success btn-sm">Preview</a>
+                                                <a href="{{ route('form-pengawas.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
+                                                <a href="{{ route('form-pengawas.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
                                             </td>
                                         </tr>
                                     @endforeach
