@@ -52,7 +52,7 @@ class KLKHLumpurController extends Controller
             'lum.date',
             'lum.time',
         )
-        ->where('lum.statusenabled', 'true')
+        ->where('lum.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'ADMIN') {
@@ -68,8 +68,8 @@ class KLKHLumpurController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
-        $pit = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
+        $pit = Area::where('statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
 
         $users = [
             'supervisor' => $supervisor,
@@ -90,7 +90,7 @@ class KLKHLumpurController extends Controller
             $dataToInsert = [
                     'pic' => Auth::user()->id,
                     'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'pit_id' => $data['pit'],
                     'shift_id' => $data['shift'],
                     'date' => $data['date'],
@@ -200,7 +200,7 @@ class KLKHLumpurController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'spt.PERSONALNAME as nama_superintendent'
             )
-        ->where('lpr.statusenabled', 'true')
+        ->where('lpr.statusenabled', true)
         ->where('lpr.uuid', $uuid)->first();
 
         if($lpr == null){
@@ -218,7 +218,7 @@ class KLKHLumpurController extends Controller
     {
         try {
             KLKHLumpur::where('id', $id)->update([
-                'statusenabled' => 'false',
+                'statusenabled' => false,
                 'deleted_by' => Auth::user()->id,
             ]);
 

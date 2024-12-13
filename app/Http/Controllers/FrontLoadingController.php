@@ -63,7 +63,7 @@ class FrontLoadingController extends Controller
             'dr.updated_at',
         )
         ->whereNotNull('nomor_unit')
-        ->where('dr.statusenabled', 'true')
+        ->where('dr.statusenabled', true)
         ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
         if (Auth::user()->role !== 'ADMIN') {
             $front->where('dr.foreman_id', Auth::user()->id);

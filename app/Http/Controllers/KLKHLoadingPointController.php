@@ -52,7 +52,7 @@ class KLKHLoadingPointController extends Controller
             'lp.date',
             'lp.time',
         )
-        ->where('lp.statusenabled', 'true')
+        ->where('lp.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'ADMIN') {
@@ -84,7 +84,7 @@ class KLKHLoadingPointController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'spt.PERSONALNAME as nama_superintendent'
             )
-        ->where('lp.statusenabled', 'true')
+        ->where('lp.statusenabled', true)
         ->where('lp.uuid', $uuid)->first();
 
         if($ld == null){
@@ -102,8 +102,8 @@ class KLKHLoadingPointController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
-        $pit = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
+        $pit = Area::where('statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
 
         $users = [
             'supervisor' => $supervisor,
@@ -123,7 +123,7 @@ class KLKHLoadingPointController extends Controller
             $dataToInsert = [
                 'pic' => Auth::user()->id,
                 'uuid' => (string) Uuid::uuid4()->toString(),
-                'statusenabled' => 'true',
+                'statusenabled' => true,
                 'pit_id' => $data['pit'],
                 'shift_id' => $data['shift'],
                 'date' => $data['date'],
@@ -183,7 +183,7 @@ class KLKHLoadingPointController extends Controller
     {
         try {
             KLKHLoadingPoint::where('id', $id)->update([
-                'statusenabled' => 'false',
+                'statusenabled' => false,
                 'deleted_by' => Auth::user()->id,
             ]);
 

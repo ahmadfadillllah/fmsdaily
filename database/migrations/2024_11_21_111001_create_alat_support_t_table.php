@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uuid')->index();
             $table->string('daily_report_uuid')->index();
             $table->foreignId('daily_report_id')->constrained('daily_report_t');
-            $table->string('statusenabled');
+            $table->boolean('statusenabled')->default(1);
             $table->string('jenis_unit')->nullable();
             $table->string('alat_unit')->nullable();
             $table->string('nik_operator')->nullable();

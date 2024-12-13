@@ -45,9 +45,9 @@ class FormPengawasController extends Controller
             'operator' => Personal::where('ROLETYPE', 0)->get(),
             'supervisor' => Personal::where('ROLETYPE', 3)->get(),
             'superintendent' => Personal::where('ROLETYPE', 4)->get(),
-            'lokasi' => Lokasi::where('statusenabled', 'true')->get(),
-            'area' => Area::where('statusenabled', 'true')->get(),
-            'shift' => Shift::where('statusenabled', 'true')->get(),
+            'lokasi' => Lokasi::where('statusenabled', true)->get(),
+            'area' => Area::where('statusenabled', true)->get(),
+            'shift' => Shift::where('statusenabled', true)->get(),
             'EX' => Unit::select(['VHC_ID', 'VHC_TYPEID', 'VHC_GROUPID', 'VHC_ACTIVE'])
                 ->where('VHC_ID', 'like', 'EX%')
                 ->where('VHC_ACTIVE', true)
@@ -101,9 +101,9 @@ class FormPengawasController extends Controller
 //            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
 //        )->where('ROLETYPE', 4)->get();
 //
-//        $lokasi = Lokasi::where('statusenabled', 'true')->get();
-//        $area = Area::where('statusenabled', 'true')->get();
-//        $shift = Shift::where('statusenabled', 'true')->get();
+//        $lokasi = Lokasi::where('statusenabled', true)->get();
+//        $area = Area::where('statusenabled', true)->get();
+//        $shift = Shift::where('statusenabled', true)->get();
 //
 //
 //        $data = [
@@ -165,7 +165,7 @@ class FormPengawasController extends Controller
                 $data = [
                     'uuid' => Uuid::uuid4()->toString(),
                     'foreman_id' => Auth::id(),
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
                     'shift_dasar_id' => $request->shift_dasar,
                     'area_id' => $request->area,
@@ -234,7 +234,7 @@ class FormPengawasController extends Controller
                                 [
                                     'uuid' => $front_unit['uuid'] ?? (string) Uuid::uuid4()->toString(),
                                     'daily_report_uuid' => $dailyReport->uuid,
-                                    'statusenabled' => 'true',
+                                    'statusenabled' => true,
                                     'checked' => json_encode($checked),
                                     'keterangan' => json_encode($keterangan),
                                     'siang' => json_encode($morning),
@@ -265,7 +265,7 @@ class FormPengawasController extends Controller
                             [
                                 'uuid' => $value['uuid'] ?? (string) Uuid::uuid4()->toString(),
                                 'daily_report_uuid' => $dailyReport->uuid,
-                                'statusenabled' => 'true',
+                                'statusenabled' => true,
                                 'jenis_unit' => $jenisUnit,
                                 'nik_operator' => $nikOperator,
                                 'nama_operator' => $namaOperator,
@@ -292,7 +292,7 @@ class FormPengawasController extends Controller
                             [
                                 'uuid' => $catatan['uuid'] ?? (string) Uuid::uuid4()->toString(),
                                 'daily_report_uuid' => $dailyReport->uuid,
-                                'statusenabled' => 'true',
+                                'statusenabled' => true,
                                 'keterangan' => $catatan['description_catatan'],
                             ]
                         );
@@ -380,7 +380,7 @@ class FormPengawasController extends Controller
 
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
-        ->where('dr.statusenabled', 'true');
+        ->where('dr.statusenabled', true);
         if (Auth::user()->role !== 'ADMIN') {
             $daily->where('dr.foreman_id', Auth::user()->id);
         }
@@ -444,7 +444,7 @@ class FormPengawasController extends Controller
             'fl.checked',
             'fl.keterangan',
         )
-        ->where('fl.statusenabled', 'true')
+        ->where('fl.statusenabled', true)
         ->where('fl.daily_report_uuid', $uuid)
         ->get()
         ->groupBy('brand');
@@ -484,7 +484,7 @@ class FormPengawasController extends Controller
                 $siangTimes = json_decode($unit->siang, true);
                 $malamTimes = json_decode($unit->malam, true);
                 $checked = array_map(function ($item) {
-                    return $item === 'true'; // Convert 'true' string to boolean
+                    return $item === true; // Convert true string to boolean
                 }, json_decode($unit->checked, true));
                 $keterangan = array_map(function ($item) {
                     return $item === null ? '' : $item; // Mengganti null dengan string kosong
@@ -578,7 +578,7 @@ class FormPengawasController extends Controller
             'fl.checked',
             'fl.keterangan',
         )
-        ->where('fl.statusenabled', 'true')
+        ->where('fl.statusenabled', true)
         ->where('fl.daily_report_uuid', $uuid)
         ->get()
         ->groupBy('brand');
@@ -618,7 +618,7 @@ class FormPengawasController extends Controller
                 $siangTimes = json_decode($unit->siang, true);
                 $malamTimes = json_decode($unit->malam, true);
                 $checked = array_map(function ($item) {
-                    return $item === 'true'; // Convert 'true' string to boolean
+                    return $item === true; // Convert true string to boolean
                 }, json_decode($unit->checked, true));
                 $keterangan = array_map(function ($item) {
                     return $item === null ? '' : $item; // Mengganti null dengan string kosong
@@ -668,7 +668,7 @@ class FormPengawasController extends Controller
             return DB::transaction(function () use ($request) {
                 $data = $request->validate([
                     'uuid' => 'nullable|string',
-                    'tanggal_dasar' => 'nullable|date_format:d/m/Y',
+                    'tanggal_dasar' => 'nullable|date_format:m/d/Y',
                     'shift_dasar' => 'nullable|string',
                     'area' => 'nullable|string',
                     'lokasi' => 'nullable|string',
@@ -698,7 +698,7 @@ class FormPengawasController extends Controller
                 $tanggalDasar = null;
                 if ($request->filled('tanggal_dasar')) {
                     try {
-                        $tanggalDasar = Carbon::createFromFormat('d/m/Y', $request->tanggal_dasar)->format('Y-m-d');
+                        $tanggalDasar = Carbon::createFromFormat('m/d/Y', $request->tanggal_dasar)->format('Y-m-d');
                     } catch (\Exception $e) {
                         return response()->json([
                             'message' => 'Format tanggal salah',
@@ -717,7 +717,7 @@ class FormPengawasController extends Controller
                     'nama_supervisor' => $namaSupervisor,
                     'nik_superintendent' => $nikSuperintendent,
                     'nama_superintendent' => $namaSuperintendent,
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'is_draft' => true,
                 ];
 
@@ -762,7 +762,7 @@ class FormPengawasController extends Controller
                         $keterangan = [];
 
                         foreach ($timeData as $time) {
-                            if (isset($time['value']) && ($time['checked'] == 'true' || !empty($time['keterangan']))) {
+                            if (isset($time['value']) && ($time['checked'] == true || !empty($time['keterangan']))) {
                                 $timeSlots = explode('|', $time['value']);
 
                                 if (isset($timeSlots[0])) {
@@ -786,7 +786,7 @@ class FormPengawasController extends Controller
                                 [
                                     'uuid' => $front_unit["uuid"] ?? (string) Uuid::uuid4()->toString(),
                                     'daily_report_uuid' => $draft->uuid,
-                                    'statusenabled' => 'true',
+                                    'statusenabled' => true,
                                     'checked' => json_encode($checked),
                                     'keterangan' => json_encode($keterangan),
                                     'siang' => json_encode($morning),
@@ -813,7 +813,7 @@ class FormPengawasController extends Controller
 //                                continue; // Jika tidak ada, lewati iterasi ini
 //                            }
 //
-//                            if ($time['checked'] == 'true' || !empty($time['keterangan'])) {
+//                            if ($time['checked'] == true || !empty($time['keterangan'])) {
 //                                $timeSlots = explode('|', $time['value']);
 //
 //                                if (isset($timeSlots[0])) {
@@ -838,7 +838,7 @@ class FormPengawasController extends Controller
 //                                [
 //                                    'uuid' => $front_unit["uuid"] ?? (string) Uuid::uuid4()->toString(),
 //                                    'daily_report_uuid' => $draft->uuid,
-//                                    'statusenabled' => 'true',
+//                                    'statusenabled' => true,
 //                                    'checked' => json_encode($checked),
 //                                    'keterangan' => json_encode($keterangan),
 //                                    'siang' => json_encode($morning),
@@ -868,7 +868,7 @@ class FormPengawasController extends Controller
                             [
                                 'uuid' => (string) Uuid::uuid4()->toString(),
                                 'daily_report_uuid' => $draft->uuid,
-                                'statusenabled' => 'true',
+                                'statusenabled' => true,
                                 'jenis_unit' => $jenisUnit,
                                 'nik_operator' => $nikOperator,
                                 'nama_operator' => $namaOperator,
@@ -897,7 +897,7 @@ class FormPengawasController extends Controller
                             [
                                 'uuid' => (string) Uuid::uuid4()->toString(),
                                 'daily_report_uuid' => $draft->uuid,
-                                'statusenabled' => 'true',
+                                'statusenabled' => true,
                                 'keterangan' => $catatan['description_catatan'],
                             ]
                         );

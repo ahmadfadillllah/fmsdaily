@@ -60,7 +60,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'nik' => $request->nik,
                 'role' => $request->role,
-                'statusenabled' => 'true',
+                'statusenabled' => true,
                 'created_by' => Auth::user()->id,
                 'password' => Hash::make('12345'),
             ]);
@@ -77,8 +77,8 @@ class UserController extends Controller
 
         try {
 
-            if($user->statusenabled == 'true'){
-                $statusenabled = 'false';
+            if($user->statusenabled == true){
+                $statusenabled = false;
 
                 User::where('id', $id)->update([
                     'statusenabled' => $statusenabled,
@@ -87,7 +87,7 @@ class UserController extends Controller
                 ]);
 
             }else{
-                $statusenabled = 'true';
+                $statusenabled = true;
                 User::where('id', $id)->update([
                     'statusenabled' => $statusenabled,
                     'updated_by' => Auth::user()->id,

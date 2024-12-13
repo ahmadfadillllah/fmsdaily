@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uuid')->index();
             $table->string('daily_report_uuid')->index();
             $table->foreignId('daily_report_id')->constrained('daily_report_t');
-            $table->string('statusenabled');
+            $table->boolean('statusenabled')->default(1);
             $table->time('jam_start')->nullable();
             $table->time('jam_stop')->nullable();
             $table->string('keterangan')->nullable();

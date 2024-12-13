@@ -52,7 +52,7 @@ class KLKHSimpangEmpatController extends Controller
             'se.date',
             'se.time',
         )
-        ->where('se.statusenabled', 'true')
+        ->where('se.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'ADMIN') {
@@ -84,7 +84,7 @@ class KLKHSimpangEmpatController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'spt.PERSONALNAME as nama_superintendent'
             )
-        ->where('se.statusenabled', 'true')
+        ->where('se.statusenabled', true)
         ->where('se.uuid', $uuid)->first();
 
         if($se == null){
@@ -102,8 +102,8 @@ class KLKHSimpangEmpatController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
-        $pit = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
+        $pit = Area::where('statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
 
         $users = [
             'supervisor' => $supervisor,
@@ -122,7 +122,7 @@ class KLKHSimpangEmpatController extends Controller
             $dataToInsert = [
                     'pic' => Auth::user()->id,
                     'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'pit_id' => $data['pit'],
                     'shift_id' => $data['shift'],
                     'date' => $data['date'],
@@ -206,7 +206,7 @@ class KLKHSimpangEmpatController extends Controller
     {
         try {
             KLKHSimpangEmpat::where('id', $id)->update([
-                'statusenabled' => 'false',
+                'statusenabled' => false,
                 'deleted_by' => Auth::user()->id,
             ]);
 

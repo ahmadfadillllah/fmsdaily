@@ -52,7 +52,7 @@ class KLKHHaulRoadController extends Controller
             'hr.date',
             'hr.time',
         )
-        ->where('hr.statusenabled', 'true')
+        ->where('hr.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'ADMIN') {
@@ -68,8 +68,8 @@ class KLKHHaulRoadController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
-        $pit = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
+        $pit = Area::where('statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
 
         $users = [
             'supervisor' => $supervisor,
@@ -91,7 +91,7 @@ class KLKHHaulRoadController extends Controller
             $dataToInsert = [
                 'pic' => Auth::user()->id,
                     'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'pit_id' => $data['pit'],
                     'shift_id' => $data['shift'],
                     'date' => $data['date'],
@@ -172,7 +172,7 @@ class KLKHHaulRoadController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'spt.PERSONALNAME as nama_superintendent'
             )
-        ->where('hr.statusenabled', 'true')
+        ->where('hr.statusenabled', true)
         ->where('hr.uuid', $uuid)->first();
 
         if($hr == null){
@@ -190,7 +190,7 @@ class KLKHHaulRoadController extends Controller
     {
         try {
             KLKHHaulRoad::where('id', $id)->update([
-                'statusenabled' => 'false',
+                'statusenabled' => false,
                 'deleted_by' => Auth::user()->id,
             ]);
 

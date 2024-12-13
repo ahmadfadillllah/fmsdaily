@@ -54,7 +54,7 @@ class CatatanPengawasController extends Controller
             'cp.jam_stop',
             'cp.keterangan'
         )
-        ->where('cp.statusenabled', 'true')
+        ->where('cp.statusenabled', true)
         ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
         if (Auth::user()->role !== 'ADMIN') {
             $note->where('dr.foreman_id', Auth::user()->id);

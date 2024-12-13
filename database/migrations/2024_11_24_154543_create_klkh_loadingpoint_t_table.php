@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uuid')->index();
             $table->foreignId('pic')->constrained('users');
-            $table->string('statusenabled');
+            $table->boolean('statusenabled')->default(1);
             $table->foreignId('pit_id')->constrained('area_m');
             $table->foreignId('shift_id')->constrained('shift_m');
             $table->date('date');

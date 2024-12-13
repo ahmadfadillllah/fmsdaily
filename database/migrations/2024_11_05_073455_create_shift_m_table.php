@@ -14,7 +14,8 @@ return new class extends Migration
         if (!Schema::hasTable('shift_m')) {
             Schema::create('shift_m', function (Blueprint $table) {
                 $table->id();
-                $table->string('statusenabled');
+                $table->boolean('statusenabled')->default(1);
+                // $table->string('statusenabled');
                 $table->string('keterangan');
                 $table->timestamps();
             });

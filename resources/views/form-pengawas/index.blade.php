@@ -307,6 +307,7 @@
                                                                 $nightTime = $time[1];
 
                                                                 // Cari data front loading berdasarkan waktu
+                                                                $frontLoading = collect($frontLoading);
                                                                 $row = $frontLoading->first(function ($item) use ($morningTime, $nightTime) {
                                                                     $siang = json_decode($item->siang, true);
                                                                     $malam = json_decode($item->malam, true);

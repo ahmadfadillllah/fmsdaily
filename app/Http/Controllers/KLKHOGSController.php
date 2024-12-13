@@ -52,7 +52,7 @@ class KLKHOGSController extends Controller
             'ogs.date',
             'ogs.time',
         )
-        ->where('ogs.statusenabled', 'true')
+        ->where('ogs.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (Auth::user()->role !== 'ADMIN') {
@@ -68,8 +68,8 @@ class KLKHOGSController extends Controller
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
         $superintendent = Personal::where('ROLETYPE', 4)->get();
-        $pit = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
+        $pit = Area::where('statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
 
         $users = [
             'supervisor' => $supervisor,
@@ -91,7 +91,7 @@ class KLKHOGSController extends Controller
             $dataToInsert = [
                     'pic' => Auth::user()->id,
                     'uuid' => (string) Uuid::uuid4()->toString(),
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'pit_id' => $data['pit'],
                     'shift_id' => $data['shift'],
                     'date' => $data['date'],
@@ -186,7 +186,7 @@ class KLKHOGSController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'spt.PERSONALNAME as nama_superintendent'
             )
-        ->where('ogs.statusenabled', 'true')
+        ->where('ogs.statusenabled', true)
         ->where('ogs.uuid', $uuid)->first();
 
         if($ogs == null){
@@ -204,7 +204,7 @@ class KLKHOGSController extends Controller
     {
         try {
             KLKHOGS::where('id', $id)->update([
-                'statusenabled' => 'false',
+                'statusenabled' => false,
                 'deleted_by' => Auth::user()->id,
             ]);
 

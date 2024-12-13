@@ -62,7 +62,7 @@ class AlatSupportController extends Controller
             'al.hm_cash',
             'al.keterangan'
         )
-        ->where('al.statusenabled', 'true')
+        ->where('al.statusenabled', true)
         ->whereBetween('tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
         if (Auth::user()->role !== 'ADMIN') {
             $support->where('dr.foreman_id', Auth::user()->id);

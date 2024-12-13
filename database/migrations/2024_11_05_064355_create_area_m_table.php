@@ -15,7 +15,7 @@ return new class extends Migration
 
             Schema::create('area_m', function (Blueprint $table) {
                 $table->id();
-                $table->string('statusenabled');
+                $table->boolean('statusenabled')->default(1);
                 $table->string('keterangan');
                 $table->timestamps();
             });

@@ -22,7 +22,7 @@ class DashboardController extends Controller
         DB::raw('COUNT(dr.id) as jumlah')
     )
     ->whereDate('dr.tanggal_dasar', Carbon::now()->toDateString())
-    ->where('dr.statusenabled', 'true')
+    ->where('dr.statusenabled', true)
     ->groupBy('us.id', 'us.name', 'us.nik', 'us.role', 'us.avatar')
     ->orderByDesc('jumlah')
     ->get();

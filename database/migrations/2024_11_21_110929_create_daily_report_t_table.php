@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uuid')->index();
             $table->foreignId('foreman_id')->constrained('users');
-            $table->string('statusenabled');
+            $table->boolean('statusenabled')->default(1);
             $table->date('tanggal_dasar')->nullable();
             $table->foreignId('shift_dasar_id')->nullable()->constrained('shift_m');
             $table->foreignId('area_id')->nullable()->constrained('area_m');
