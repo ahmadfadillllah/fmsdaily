@@ -280,6 +280,21 @@
                                 </div>
                             </div>
                             <div class="card-body p-3">
+                                @if (Auth::user()->role == 'ADMIN')
+                                    <a href="{{ route('klkh.disposal.verified.all', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="{{ route('klkh.disposal.verified.foreman', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="{{ route('klkh.disposal.verified.supervisor', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="{{ route('klkh.disposal.verified.superintendent', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'FOREMAN' && $dp->verified_foreman == null)
+                                    <a href="{{ route('klkh.disposal.verified.foreman', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERVISOR' && $dp->verified_supervisor == null)
+                                    <a href="{{ route('klkh.disposal.verified.supervisor', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERINTENDENT' && $dp->verified_superintendent == null)
+                                    <a href="{{ route('klkh.disposal.verified.superintendent', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="{{ route('klkh.disposal') }}" class="avtar avtar-s btn-link-secondary">

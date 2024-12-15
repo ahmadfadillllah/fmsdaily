@@ -52,7 +52,7 @@
                 {{-- <li class="pc-item"><a href="#" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/excavator.png" alt="EX"></span><span class="pc-mtext">Front Loading</span></a></li> --}}
                 <li class="pc-item"><a href="{{ route('form-pengawas.show') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="BD"></span><span class="pc-mtext">Daftar Laporan</span></a></li>
                 @if(Auth::user()->role != 'ADMIN')
-                    <li class="pc-item"><a href="{{ route('form-pengawas.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
+                    <li class="pc-item"><a href="{{ route('form-pengawas-old.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
                 @endif
 
                 <li class="pc-item pc-hasmenu">

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanPengawasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormPengawasController;
+use App\Http\Controllers\FormPengawasOldController;
 use App\Http\Controllers\FrontLoadingController;
 use App\Http\Controllers\KLKHBatuBaraController;
 use App\Http\Controllers\KLKHDisposalController;
@@ -18,6 +19,9 @@ use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerifikasiKLKHLoadingPointController;
+use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -48,6 +52,14 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/production/index', [ProductionController::class, 'index'])->name('production.index');
 
+    //Form Pengawas Lama
+    Route::get('/form-pengawas-old/show', [FormPengawasOldController::class, 'show'])->name('form-pengawas-old.show');
+    Route::get('/form-pengawas-old/index', [FormPengawasOldController::class, 'index'])->name('form-pengawas-old.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/form-pengawas-old/download/{uuid}', [FormPengawasOldController::class, 'download'])->name('form-pengawas-old.download');
+    Route::get('/form-pengawas-old/preview/{uuid}', [FormPengawasOldController::class, 'preview'])->name('form-pengawas-old.preview');
+    Route::post('/form-pengawas-old/post', [FormPengawasOldController::class, 'post'])->name('form-pengawas-old.post');
+    Route::post('/form-pengawas-old/auto-save', [FormPengawasOldController::class, 'autoSave'])->name('form-pengawas-old.auto-save');
+
     //Form Pengawas
     Route::get('/form-pengawas/show', [FormPengawasController::class, 'show'])->name('form-pengawas.show');
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
@@ -70,52 +82,63 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/catatan-pengawas/index', [CatatanPengawasController::class, 'index'])->name('catatan-pengawas.index');
     Route::delete('/catatan-pengawas/{id}/delete', [CatatanPengawasController::class, 'destroy'])->name('catatan-pengawas.destroy');
 
-
     //KLKH Loading Point
     Route::get('/klkh/loading-point', [KLKHLoadingPointController::class, 'index'])->name('klkh.loading-point');
-    Route::get('/klkh/loading-point/insert', [KLKHLoadingPointController::class, 'insert'])->name('klkh.loading-point.insert');
+    Route::get('/klkh/loading-point/insert', [KLKHLoadingPointController::class, 'insert'])->name('klkh.loading-point.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/loading-point/post', [KLKHLoadingPointController::class, 'post'])->name('klkh.loading-point.post');
     Route::get('/klkh/loading-point/delete/{id}', [KLKHLoadingPointController::class, 'delete'])->name('klkh.loading-point.delete');
     Route::get('/klkh/loading-point/preview/{uuid}', [KLKHLoadingPointController::class, 'preview'])->name('klkh.loading-point.preview');
+    Route::get('/klkh/loading-point/verified/all/{uuid}', [KLKHLoadingPointController::class, 'verifiedAll'])->name('klkh.loading-point.verified.all');
+    Route::get('/klkh/loading-point/verified/foreman/{uuid}', [KLKHLoadingPointController::class, 'verifiedForeman'])->name('klkh.loading-point.verified.foreman');
+    Route::get('/klkh/loading-point/verified/supervisor/{uuid}', [KLKHLoadingPointController::class, 'verifiedSupervisor'])->name('klkh.loading-point.verified.supervisor');
+    Route::get('/klkh/loading-point/verified/superintendent/{uuid}', [KLKHLoadingPointController::class, 'verifiedSuperintendent'])->name('klkh.loading-point.verified.superintendent');
 
     //KLKH Haul Road
     Route::get('/klkh/haul-road', [KLKHHaulRoadController::class, 'index'])->name('klkh.haul-road');
-    Route::get('/klkh/haul-road/insert', [KLKHHaulRoadController::class, 'insert'])->name('klkh.haul-road.insert');
+    Route::get('/klkh/haul-road/insert', [KLKHHaulRoadController::class, 'insert'])->name('klkh.haul-road.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/haul-road/post', [KLKHHaulRoadController::class, 'post'])->name('klkh.haul-road.post');
     Route::get('/klkh/haul-road/delete/{id}', [KLKHHaulRoadController::class, 'delete'])->name('klkh.haul-road.delete');
     Route::get('/klkh/haul-road/preview/{uuid}', [KLKHHaulRoadController::class, 'preview'])->name('klkh.haul-road.preview');
+    Route::get('/klkh/haul-road/verified/all/{uuid}', [KLKHHaulRoadController::class, 'verifiedAll'])->name('klkh.haul-road.verified.all');
+    Route::get('/klkh/haul-road/verified/foreman/{uuid}', [KLKHHaulRoadController::class, 'verifiedForeman'])->name('klkh.haul-road.verified.foreman');
+    Route::get('/klkh/haul-road/verified/supervisor/{uuid}', [KLKHHaulRoadController::class, 'verifiedSupervisor'])->name('klkh.haul-road.verified.supervisor');
+    Route::get('/klkh/haul-road/verified/superintendent/{uuid}', [KLKHHaulRoadController::class, 'verifiedSuperintendent'])->name('klkh.haul-road.verified.superintendent');
 
     //KLKH Disposal
     Route::get('/klkh/disposal', [KLKHDisposalController::class, 'index'])->name('klkh.disposal');
-    Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert');
+    Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/disposal/post', [KLKHDisposalController::class, 'post'])->name('klkh.disposal.post');
     Route::get('/klkh/disposal/delete/{id}', [KLKHDisposalController::class, 'delete'])->name('klkh.disposal.delete');
     Route::get('/klkh/disposal/preview/{uuid}', [KLKHDisposalController::class, 'preview'])->name('klkh.disposal.preview');
+    Route::get('/klkh/disposal/verified/all/{uuid}', [KLKHDisposalController::class, 'verifiedAll'])->name('klkh.disposal.verified.all');
+    Route::get('/klkh/disposal/verified/foreman/{uuid}', [KLKHDisposalController::class, 'verifiedForeman'])->name('klkh.disposal.verified.foreman');
+    Route::get('/klkh/disposal/verified/supervisor/{uuid}', [KLKHDisposalController::class, 'verifiedSupervisor'])->name('klkh.disposal.verified.supervisor');
+    Route::get('/klkh/disposal/verified/superintendent/{uuid}', [KLKHDisposalController::class, 'verifiedSuperintendent'])->name('klkh.disposal.verified.superintendent');
 
     //KLKH Lumpur
     Route::get('/klkh/lumpur', [KLKHLumpurController::class, 'index'])->name('klkh.lumpur');
-    Route::get('/klkh/lumpur/insert', [KLKHLumpurController::class, 'insert'])->name('klkh.lumpur.insert');
+    Route::get('/klkh/lumpur/insert', [KLKHLumpurController::class, 'insert'])->name('klkh.lumpur.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/lumpur/post', [KLKHLumpurController::class, 'post'])->name('klkh.lumpur.post');
     Route::get('/klkh/lumpur/delete/{id}', [KLKHLumpurController::class, 'delete'])->name('klkh.lumpur.delete');
     Route::get('/klkh/lumpur/preview/{uuid}', [KLKHLumpurController::class, 'preview'])->name('klkh.lumpur.preview');
 
     //KLKH OGS
     Route::get('/klkh/ogs', [KLKHOGSController::class, 'index'])->name('klkh.ogs');
-    Route::get('/klkh/ogs/insert', [KLKHOGSController::class, 'insert'])->name('klkh.ogs.insert');
+    Route::get('/klkh/ogs/insert', [KLKHOGSController::class, 'insert'])->name('klkh.ogs.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/ogs/post', [KLKHOGSController::class, 'post'])->name('klkh.ogs.post');
     Route::get('/klkh/ogs/delete/{id}', [KLKHOGSController::class, 'delete'])->name('klkh.ogs.delete');
     Route::get('/klkh/ogs/preview/{uuid}', [KLKHOGSController::class, 'preview'])->name('klkh.ogs.preview');
 
     //KLKH Batu Bara
     Route::get('/klkh/batubara', [KLKHBatuBaraController::class, 'index'])->name('klkh.batubara');
-    Route::get('/klkh/batubara/insert', [KLKHBatuBaraController::class, 'insert'])->name('klkh.batubara.insert');
+    Route::get('/klkh/batubara/insert', [KLKHBatuBaraController::class, 'insert'])->name('klkh.batubara.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/batubara/post', [KLKHBatuBaraController::class, 'post'])->name('klkh.batubara.post');
     Route::get('/klkh/batubara/delete/{id}', [KLKHBatuBaraController::class, 'delete'])->name('klkh.batubara.delete');
     Route::get('/klkh/batubara/preview/{uuid}', [KLKHBatuBaraController::class, 'preview'])->name('klkh.batubara.preview');
 
     //KLKH Simpang Empat
     Route::get('/klkh/simpangempat', [KLKHSimpangEmpatController::class, 'index'])->name('klkh.simpangempat');
-    Route::get('/klkh/simpangempat/insert', [KLKHSimpangEmpatController::class, 'insert'])->name('klkh.simpangempat.insert');
+    Route::get('/klkh/simpangempat/insert', [KLKHSimpangEmpatController::class, 'insert'])->name('klkh.simpangempat.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
     Route::post('/klkh/simpangempat/post', [KLKHSimpangEmpatController::class, 'post'])->name('klkh.simpangempat.post');
     Route::get('/klkh/simpangempat/delete/{id}', [KLKHSimpangEmpatController::class, 'delete'])->name('klkh.simpangempat.delete');
     Route::get('/klkh/simpangempat/preview/{uuid}', [KLKHSimpangEmpatController::class, 'preview'])->name('klkh.simpangempat.preview');
@@ -128,7 +151,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 
     // User
-    Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('checkRole'.':ADMIN');
     Route::post('/user/insert', [UserController::class, 'insert'])->name('user.insert');
     Route::post('/user/change-role/{id}', [UserController::class, 'changeRole'])->name('user.change-role');
     Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-body text-center p-5">
                 <lord-icon
-                    src="https://cdn.lordicon.com/tdrtiskw.json"
+                    src="tdrtiskw.json"
                     trigger="loop"
                     colors="primary:#f7b84b,secondary:#405189"
                     style="width:130px;height:130px">

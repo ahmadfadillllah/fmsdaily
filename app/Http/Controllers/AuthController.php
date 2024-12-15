@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             // Periksa apakah statusenabled pengguna bernilai true
-            if (Auth::user()->statusenabled == "true") {
+            if (Auth::user()->statusenabled == true) {
                 return redirect()->route('dashboard.index')->with('alert', 'Selamat Datang');
             } else {
                 // Logout jika statusenabled adalah false

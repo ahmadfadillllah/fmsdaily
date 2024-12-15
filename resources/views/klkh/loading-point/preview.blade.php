@@ -208,6 +208,21 @@
                                 </div>
                             </div>
                             <div class="card-body p-3">
+                                @if (Auth::user()->role == 'ADMIN')
+                                    <a href="{{ route('klkh.loading-point.verified.all', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="{{ route('klkh.loading-point.verified.foreman', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="{{ route('klkh.loading-point.verified.supervisor', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="{{ route('klkh.loading-point.verified.superintendent', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'FOREMAN' && $ld->verified_foreman == null)
+                                    <a href="{{ route('klkh.loading-point.verified.foreman', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERVISOR' && $ld->verified_supervisor == null)
+                                    <a href="{{ route('klkh.loading-point.verified.supervisor', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERINTENDENT' && $ld->verified_superintendent == null)
+                                    <a href="{{ route('klkh.loading-point.verified.superintendent', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="{{ route('klkh.loading-point') }}" class="avtar avtar-s btn-link-secondary">
@@ -227,6 +242,7 @@
 
                                 </ul>
                             </div>
+
                             {{-- <div class="col-12 text-end d-print-none">
                                 <button class="btn btn-outline-secondary btn-print-invoice">Download</button>
                             </div> --}}

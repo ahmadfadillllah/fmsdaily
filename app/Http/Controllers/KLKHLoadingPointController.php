@@ -40,6 +40,9 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
         ->select(
             'lp.id',
             'lp.uuid',
@@ -49,19 +52,41 @@ class KLKHLoadingPointController extends Controller
             'lp.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
+            'lp.foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'lp.supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'lp.superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'lp.verified_foreman',
+            'lp.verified_supervisor',
+            'lp.verified_superintendent',
             'lp.date',
             'lp.time',
         )
         ->where('lp.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'ADMIN') {
-            $baseQuery->where('pic', Auth::user()->id);
+        if (Auth::user()->role == 'FOREMAN') {
+            $baseQuery->where('foreman', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERVISOR') {
+            $baseQuery->where('supervisor', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERINTENDENT') {
+            $baseQuery->where('superintendent', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'ADMIN') {
+            $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
         $loading = $baseQuery->get();
 
-
+        // $loading->each(function($item) {
+        //     $item->verified_foreman = $item->verified_foreman == null ? 'Unverified' : 'Verified';
+        //     $item->verified_supervisor = $item->verified_supervisor == null ? 'Unverified' : 'Verified';
+        //     $item->verified_superintendent = $item->verified_superintendent == null ? 'Unverified' : 'Verified';
+        // });
 
         return view('klkh.loading-point.index', compact('loading'));
     }
@@ -191,6 +216,76 @@ class KLKHLoadingPointController extends Controller
 
         } catch (\Throwable $th) {
             return redirect()->route('klkh.loading-point')->with('info', nl2br('KLKH Loading Point gagal dihapus..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  KLKHLoadingPoint::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLoadingPoint::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Loading Point berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Loading Point gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  KLKHLoadingPoint::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLoadingPoint::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Loading Point berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Loading Point gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  KLKHLoadingPoint::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLoadingPoint::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Loading Point berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Loading Point gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  KLKHLoadingPoint::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLoadingPoint::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Loading Point berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Loading Point gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 }

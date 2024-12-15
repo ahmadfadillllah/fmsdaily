@@ -40,6 +40,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'hr.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
         ->select(
             'hr.id',
             'hr.uuid',
@@ -49,6 +52,15 @@ class KLKHHaulRoadController extends Controller
             'hr.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
+            'hr.foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'hr.supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'hr.superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'hr.verified_foreman',
+            'hr.verified_supervisor',
+            'hr.verified_superintendent',
             'hr.date',
             'hr.time',
         )
@@ -198,6 +210,76 @@ class KLKHHaulRoadController extends Controller
 
         } catch (\Throwable $th) {
             return redirect()->route('klkh.haul-road')->with('info', nl2br('KLKH Haul Road gagal dihapus..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  KLKHHaulRoad::where('uuid', $uuid)->first();
+
+        try {
+            KLKHHaulRoad::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Haul Road berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Haul Road gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  KLKHHaulRoad::where('uuid', $uuid)->first();
+
+        try {
+            KLKHHaulRoad::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Haul Road berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Haul Road gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  KLKHHaulRoad::where('uuid', $uuid)->first();
+
+        try {
+            KLKHHaulRoad::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Haul Road berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Haul Road gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  KLKHHaulRoad::where('uuid', $uuid)->first();
+
+        try {
+            KLKHHaulRoad::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Haul Road berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Haul Road gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 }

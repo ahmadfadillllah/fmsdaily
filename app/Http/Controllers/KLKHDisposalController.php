@@ -40,6 +40,9 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dp.superintendent', '=', 'spt.NRP')
         ->select(
             'dp.id',
             'dp.uuid',
@@ -49,6 +52,15 @@ class KLKHDisposalController extends Controller
             'dp.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
+            'dp.foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'dp.supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dp.superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'dp.verified_foreman',
+            'dp.verified_supervisor',
+            'dp.verified_superintendent',
             'dp.date',
             'dp.time',
         )
@@ -208,6 +220,76 @@ class KLKHDisposalController extends Controller
 
         } catch (\Throwable $th) {
             return redirect()->route('klkh.disposal')->with('info', nl2br('KLKH Disposal gagal dihapus..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  KLKHDisposal::where('uuid', $uuid)->first();
+
+        try {
+            KLKHDisposal::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Disposal berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Disposal gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  KLKHDisposal::where('uuid', $uuid)->first();
+
+        try {
+            KLKHDisposal::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Disposal berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Disposal gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  KLKHDisposal::where('uuid', $uuid)->first();
+
+        try {
+            KLKHDisposal::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Disposal berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Disposal gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  KLKHDisposal::where('uuid', $uuid)->first();
+
+        try {
+            KLKHDisposal::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Disposal berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Disposal gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 }

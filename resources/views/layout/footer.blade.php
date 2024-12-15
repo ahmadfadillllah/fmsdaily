@@ -202,7 +202,7 @@
 <script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.bootstrap5.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/datepicker-full.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/flatpickr.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script>
+{{-- <script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script> --}}
 <script src="{{ asset('dashboard/assets') }}/js/plugins/choices.min.js"></script>
 {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/w-chart.js"></script> --}}
 {{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> --}}
@@ -211,7 +211,7 @@
     <script src="{{ asset('dashboard/assets') }}/js/component.js"></script>
 
     <script src="{{ asset('dashboard/assets') }}/js/plugins/notifier.js"></script>
-    <script src="{{ asset('dashboard/assets') }}/js/pages/ac-notification.js"></script>
+    {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/ac-notification.js"></script> --}}
 <script>
  var timepicker1 = document.querySelector('#pc-timepicker-1');
     var timepicker2 = document.querySelector('#pc-timepicker-2');

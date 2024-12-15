@@ -48,7 +48,7 @@
                                         <td class="text-left f-w-600">{{ $us->nik }}</td>
                                         <td class="text-left f-w-600">{{ $us->role }}</td>
                                         <td>
-                                            @if ($us->statusenabled == 'true')
+                                            @if ($us->statusenabled == true)
                                                 <span class="badge bg-success">Aktif</span>
                                             @else
                                                 <span class="badge bg-danger">Non Aktif</span>
@@ -57,7 +57,7 @@
                                         <td class="text-left f-w-600">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#resetPassword{{ $us->id }}"><span class="badge bg-secondary">Reset Password</span></a>
                                             {{-- <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#resetPassword{{ $us->id }}">Reset Password</a> --}}
-                                            @if ($us->statusenabled == 'true')
+                                            @if ($us->statusenabled == true)
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}"><span class="badge bg-warning">Nonaktifkan</span></a>
                                             @else
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#statusEnabled{{ $us->id }}"><span class="badge bg-success">Aktifkan</span></a>
