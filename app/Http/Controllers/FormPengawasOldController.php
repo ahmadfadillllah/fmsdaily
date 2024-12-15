@@ -31,7 +31,7 @@ class FormPengawasOldController extends Controller
 
         $daily = DailyReport::where('foreman_id', Auth::user()->id)
         ->where('is_draft', true)
-        // ->whereDate('created_at', now())
+        ->whereDate('created_at', now())
         ->first();
 
         $frontLoading = [];

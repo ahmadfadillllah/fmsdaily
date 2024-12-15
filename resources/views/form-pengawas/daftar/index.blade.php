@@ -67,8 +67,8 @@
                                             <td>{{ $item->nik_superintendent }}</td>
                                             <td>{{ $item->nama_superintendent }}</td>
                                             <td>
-                                                <a href="{{ route('form-pengawas.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
-                                                <a href="{{ route('form-pengawas.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
+                                                <a href="{{ route('form-pengawas-old.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
+                                                <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
                                             </td>
                                         </tr>
                                     @endforeach
