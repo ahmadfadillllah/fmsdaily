@@ -105,7 +105,7 @@
                             </ul>
                         </div>
                     </div>
-                    @if (collect([$daily])->isNotEmpty())
+                    @if ($daily != null)
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong>Info!</strong>
                         Anda sudah mengisi Laporan Harian hari ini
