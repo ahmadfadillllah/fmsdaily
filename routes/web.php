@@ -14,6 +14,7 @@ use App\Http\Controllers\KLKHLoadingPointController;
 use App\Http\Controllers\KLKHLumpurController;
 use App\Http\Controllers\KLKHOGSController;
 use App\Http\Controllers\KLKHSimpangEmpatController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
@@ -172,6 +173,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/user/change-role/{id}', [UserController::class, 'changeRole'])->name('user.change-role');
     Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');
     Route::get('/user/status-enabled/{id}', [UserController::class, 'statusEnabled'])->name('user.status-enabled');
+
+    // Log
+    Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');
+    Route::post('/log/search', [LogController::class, 'search'])->name('log.search')->middleware('checkRole'.':ADMIN');
 });
 
 
