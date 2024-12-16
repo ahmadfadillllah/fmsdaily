@@ -67,8 +67,17 @@ class KLKHHaulRoadController extends Controller
         ->where('hr.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'ADMIN') {
-            $baseQuery->where('pic', Auth::user()->id);
+        if (Auth::user()->role == 'FOREMAN') {
+            $baseQuery->where('foreman', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERVISOR') {
+            $baseQuery->where('supervisor', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERINTENDENT') {
+            $baseQuery->where('superintendent', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'ADMIN') {
+            $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
         $haul = $baseQuery->get();

@@ -315,6 +315,21 @@
                                 </div>
                             </div>
                             <div class="card-body p-3">
+                                @if (Auth::user()->role == 'ADMIN')
+                                    <a href="{{ route('klkh.batubara.verified.all', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="{{ route('klkh.batubara.verified.foreman', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="{{ route('klkh.batubara.verified.supervisor', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="{{ route('klkh.batubara.verified.superintendent', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'FOREMAN' && $bb->verified_foreman == null)
+                                    <a href="{{ route('klkh.batubara.verified.foreman', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERVISOR' && $bb->verified_supervisor == null)
+                                    <a href="{{ route('klkh.batubara.verified.supervisor', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERINTENDENT' && $bb->verified_superintendent == null)
+                                    <a href="{{ route('klkh.batubara.verified.superintendent', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="{{ route('klkh.batubara') }}" class="avtar avtar-s btn-link-secondary">

@@ -40,6 +40,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'ogs.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
         ->select(
             'ogs.id',
             'ogs.uuid',
@@ -49,14 +52,32 @@ class KLKHOGSController extends Controller
             'ogs.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
+            'ogs.foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'ogs.supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'ogs.superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'ogs.verified_foreman',
+            'ogs.verified_supervisor',
+            'ogs.verified_superintendent',
             'ogs.date',
             'ogs.time',
         )
         ->where('ogs.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'ADMIN') {
-            $baseQuery->where('pic', Auth::user()->id);
+        if (Auth::user()->role == 'FOREMAN') {
+            $baseQuery->where('foreman', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERVISOR') {
+            $baseQuery->where('supervisor', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERINTENDENT') {
+            $baseQuery->where('superintendent', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'ADMIN') {
+            $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
         $ogs = $baseQuery->get();
@@ -212,6 +233,76 @@ class KLKHOGSController extends Controller
 
         } catch (\Throwable $th) {
             return redirect()->route('klkh.ogs')->with('info', nl2br('KLKH OGS gagal dihapus..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  KLKHOGS::where('uuid', $uuid)->first();
+
+        try {
+            KLKHOGS::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH OGS berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH OGS gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  KLKHOGS::where('uuid', $uuid)->first();
+
+        try {
+            KLKHOGS::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH OGS berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH OGS gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  KLKHOGS::where('uuid', $uuid)->first();
+
+        try {
+            KLKHOGS::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH OGS berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH OGS gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  KLKHOGS::where('uuid', $uuid)->first();
+
+        try {
+            KLKHOGS::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH OGS berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH OGS gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 }

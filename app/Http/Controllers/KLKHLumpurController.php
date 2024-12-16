@@ -40,6 +40,9 @@ class KLKHLumpurController extends Controller
         ->leftJoin('users as us', 'lum.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'lum.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'lum.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lum.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lum.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lum.superintendent', '=', 'spt.NRP')
         ->select(
             'lum.id',
             'lum.uuid',
@@ -49,14 +52,32 @@ class KLKHLumpurController extends Controller
             'lum.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
+            'lum.foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'lum.supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'lum.superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'lum.verified_foreman',
+            'lum.verified_supervisor',
+            'lum.verified_superintendent',
             'lum.date',
             'lum.time',
         )
         ->where('lum.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'ADMIN') {
-            $baseQuery->where('pic', Auth::user()->id);
+        if (Auth::user()->role == 'FOREMAN') {
+            $baseQuery->where('foreman', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERVISOR') {
+            $baseQuery->where('supervisor', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERINTENDENT') {
+            $baseQuery->where('superintendent', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'ADMIN') {
+            $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
         $lumpur = $baseQuery->get();
@@ -226,6 +247,76 @@ class KLKHLumpurController extends Controller
 
         } catch (\Throwable $th) {
             return redirect()->route('klkh.lumpur')->with('info', nl2br('KLKH Dumping di Kolam Air/Lumpur gagal dihapus..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  KLKHLumpur::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLumpur::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Dumping di Kolam Air/Lumpur berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Dumping di Kolam Air/Lumpur gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  KLKHLumpur::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLumpur::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Dumping di Kolam Air/Lumpur berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Dumping di Kolam Air/Lumpur gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  KLKHLumpur::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLumpur::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Dumping di Kolam Air/Lumpur berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Dumping di Kolam Air/Lumpur gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  KLKHLumpur::where('uuid', $uuid)->first();
+
+        try {
+            KLKHLumpur::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Dumping di Kolam Air/Lumpur berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Dumping di Kolam Air/Lumpur gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 }

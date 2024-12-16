@@ -121,6 +121,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/lumpur/post', [KLKHLumpurController::class, 'post'])->name('klkh.lumpur.post');
     Route::get('/klkh/lumpur/delete/{id}', [KLKHLumpurController::class, 'delete'])->name('klkh.lumpur.delete');
     Route::get('/klkh/lumpur/preview/{uuid}', [KLKHLumpurController::class, 'preview'])->name('klkh.lumpur.preview');
+    Route::get('/klkh/lumpur/verified/all/{uuid}', [KLKHLumpurController::class, 'verifiedAll'])->name('klkh.lumpur.verified.all');
+    Route::get('/klkh/lumpur/verified/foreman/{uuid}', [KLKHLumpurController::class, 'verifiedForeman'])->name('klkh.lumpur.verified.foreman');
+    Route::get('/klkh/lumpur/verified/supervisor/{uuid}', [KLKHLumpurController::class, 'verifiedSupervisor'])->name('klkh.lumpur.verified.supervisor');
+    Route::get('/klkh/lumpur/verified/superintendent/{uuid}', [KLKHLumpurController::class, 'verifiedSuperintendent'])->name('klkh.lumpur.verified.superintendent');
 
     //KLKH OGS
     Route::get('/klkh/ogs', [KLKHOGSController::class, 'index'])->name('klkh.ogs');
@@ -128,6 +132,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/ogs/post', [KLKHOGSController::class, 'post'])->name('klkh.ogs.post');
     Route::get('/klkh/ogs/delete/{id}', [KLKHOGSController::class, 'delete'])->name('klkh.ogs.delete');
     Route::get('/klkh/ogs/preview/{uuid}', [KLKHOGSController::class, 'preview'])->name('klkh.ogs.preview');
+    Route::get('/klkh/ogs/verified/all/{uuid}', [KLKHOGSController::class, 'verifiedAll'])->name('klkh.ogs.verified.all');
+    Route::get('/klkh/ogs/verified/foreman/{uuid}', [KLKHOGSController::class, 'verifiedForeman'])->name('klkh.ogs.verified.foreman');
+    Route::get('/klkh/ogs/verified/supervisor/{uuid}', [KLKHOGSController::class, 'verifiedSupervisor'])->name('klkh.ogs.verified.supervisor');
+    Route::get('/klkh/ogs/verified/superintendent/{uuid}', [KLKHOGSController::class, 'verifiedSuperintendent'])->name('klkh.ogs.verified.superintendent');
 
     //KLKH Batu Bara
     Route::get('/klkh/batubara', [KLKHBatuBaraController::class, 'index'])->name('klkh.batubara');
@@ -135,6 +143,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/batubara/post', [KLKHBatuBaraController::class, 'post'])->name('klkh.batubara.post');
     Route::get('/klkh/batubara/delete/{id}', [KLKHBatuBaraController::class, 'delete'])->name('klkh.batubara.delete');
     Route::get('/klkh/batubara/preview/{uuid}', [KLKHBatuBaraController::class, 'preview'])->name('klkh.batubara.preview');
+    Route::get('/klkh/batubara/verified/all/{uuid}', [KLKHBatuBaraController::class, 'verifiedAll'])->name('klkh.batubara.verified.all');
+    Route::get('/klkh/batubara/verified/foreman/{uuid}', [KLKHBatuBaraController::class, 'verifiedForeman'])->name('klkh.batubara.verified.foreman');
+    Route::get('/klkh/batubara/verified/supervisor/{uuid}', [KLKHBatuBaraController::class, 'verifiedSupervisor'])->name('klkh.batubara.verified.supervisor');
+    Route::get('/klkh/batubara/verified/superintendent/{uuid}', [KLKHBatuBaraController::class, 'verifiedSuperintendent'])->name('klkh.batubara.verified.superintendent');
 
     //KLKH Simpang Empat
     Route::get('/klkh/simpangempat', [KLKHSimpangEmpatController::class, 'index'])->name('klkh.simpangempat');
@@ -142,6 +154,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/simpangempat/post', [KLKHSimpangEmpatController::class, 'post'])->name('klkh.simpangempat.post');
     Route::get('/klkh/simpangempat/delete/{id}', [KLKHSimpangEmpatController::class, 'delete'])->name('klkh.simpangempat.delete');
     Route::get('/klkh/simpangempat/preview/{uuid}', [KLKHSimpangEmpatController::class, 'preview'])->name('klkh.simpangempat.preview');
+    Route::get('/klkh/simpangempat/verified/all/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedAll'])->name('klkh.simpangempat.verified.all');
+    Route::get('/klkh/simpangempat/verified/foreman/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedForeman'])->name('klkh.simpangempat.verified.foreman');
+    Route::get('/klkh/simpangempat/verified/supervisor/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedSupervisor'])->name('klkh.simpangempat.verified.supervisor');
+    Route::get('/klkh/simpangempat/verified/superintendent/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedSuperintendent'])->name('klkh.simpangempat.verified.superintendent');
 
     //Paylaod & Ritation
     Route::get('/payloadritation/all', [PayloadRitationController::class, 'index'])->name('payloadritation.index');

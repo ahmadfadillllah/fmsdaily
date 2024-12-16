@@ -40,6 +40,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('area_m as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('shift_m as sh', 'se.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
         ->select(
             'se.id',
             'se.uuid',
@@ -49,14 +52,32 @@ class KLKHSimpangEmpatController extends Controller
             'se.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
+            'se.foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'se.supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'se.superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'se.verified_foreman',
+            'se.verified_supervisor',
+            'se.verified_superintendent',
             'se.date',
             'se.time',
         )
         ->where('se.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role !== 'ADMIN') {
-            $baseQuery->where('pic', Auth::user()->id);
+        if (Auth::user()->role == 'FOREMAN') {
+            $baseQuery->where('foreman', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERVISOR') {
+            $baseQuery->where('supervisor', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERINTENDENT') {
+            $baseQuery->where('superintendent', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'ADMIN') {
+            $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
         $simpang = $baseQuery->get();
@@ -214,6 +235,76 @@ class KLKHSimpangEmpatController extends Controller
 
         } catch (\Throwable $th) {
             return redirect()->route('klkh.simpangempat')->with('info', nl2br('KLKH Simpang Empat gagal dihapus..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
+
+        try {
+            KLKHSimpangEmpat::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Simpang Empat gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
+
+        try {
+            KLKHSimpangEmpat::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Simpang Empat gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
+
+        try {
+            KLKHSimpangEmpat::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Simpang Empat gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
+
+        try {
+            KLKHSimpangEmpat::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Simpang Empat gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 }

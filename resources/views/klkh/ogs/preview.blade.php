@@ -305,6 +305,21 @@
                                 </div>
                             </div>
                             <div class="card-body p-3">
+                                @if (Auth::user()->role == 'ADMIN')
+                                    <a href="{{ route('klkh.ogs.verified.all', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="{{ route('klkh.ogs.verified.foreman', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="{{ route('klkh.ogs.verified.supervisor', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="{{ route('klkh.ogs.verified.superintendent', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'FOREMAN' && $ogs->verified_foreman == null)
+                                    <a href="{{ route('klkh.ogs.verified.foreman', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERVISOR' && $ogs->verified_supervisor == null)
+                                    <a href="{{ route('klkh.ogs.verified.supervisor', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                @endif
+                                @if (Auth::user()->role == 'SUPERINTENDENT' && $ogs->verified_superintendent == null)
+                                    <a href="{{ route('klkh.ogs.verified.superintendent', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="{{ route('klkh.ogs') }}" class="avtar avtar-s btn-link-secondary">
