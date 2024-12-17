@@ -64,9 +64,17 @@
                                             <td>{{ $item->lokasi }}</td>
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->nik_supervisor }}</td>
-                                            <td>{{ $item->nama_supervisor }}</td>
+                                            @if ($item->verified_supervisor == null)
+                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">Unverified</span></td>
+                                            @else
+                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-success">Verified</span></td>
+                                            @endif
                                             <td>{{ $item->nik_superintendent }}</td>
-                                            <td>{{ $item->nama_superintendent }}</td>
+                                            @if ($item->verified_superintendent == null)
+                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">Unverified</span></td>
+                                            @else
+                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-success">Verified</span></td>
+                                            @endif
                                             <td>{{ $item->is_draft == true ? "Ya" : "Tidak" }}</td>
                                             <td>
                                                 <a href="{{ route('form-pengawas-old.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
