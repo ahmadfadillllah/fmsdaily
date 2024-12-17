@@ -20,7 +20,15 @@ use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerifikasiKLKHBatubaraController;
+use App\Http\Controllers\VerifikasiKLKHDisposalController;
+use App\Http\Controllers\VerifikasiKLKHHaulRoadController;
 use App\Http\Controllers\VerifikasiKLKHLoadingPointController;
+use App\Http\Controllers\VerifikasiKLKHLumpurController;
+use App\Http\Controllers\VerifikasiKLKHOGSController;
+use App\Http\Controllers\VerifikasiKLKHSimpangEmpatController;
+use App\Http\Controllers\VerifikasiLaporanKerja;
+use App\Http\Controllers\VerifikasiLaporanKerjaController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
@@ -172,6 +180,30 @@ Route::group(['middleware' => ['auth']], function(){
 
     // Profile
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+
+    //Verifikasi Laporan Kerja
+    Route::get('/verifikasi/laporan-kerja', [VerifikasiLaporanKerjaController::class, 'index'])->name('verifikasi.laporankerja');
+
+    //Verifikasi KLKH Loading Point
+    Route::get('/verifikasi/klkh/loading-point', [VerifikasiKLKHLoadingPointController::class, 'index'])->name('verifikasi.klkh.loadingpoint');
+
+    //Verifikasi KLKH Haul Road
+    Route::get('/verifikasi/klkh/haul-road', [VerifikasiKLKHHaulRoadController::class, 'index'])->name('verifikasi.klkh.haulroad');
+
+    //Verifikasi KLKH Disposal/Dumping Point
+    Route::get('/verifikasi/klkh/disposal', [VerifikasiKLKHDisposalController::class, 'index'])->name('verifikasi.klkh.disposal');
+
+    //Verifikasi KLKH Dumping di Lumpur
+    Route::get('/verifikasi/klkh/lumpur', [VerifikasiKLKHLumpurController::class, 'index'])->name('verifikasi.klkh.lumpur');
+
+    //Verifikasi KLKH OGS
+    Route::get('/verifikasi/klkh/ogs', [VerifikasiKLKHOGSController::class, 'index'])->name('verifikasi.klkh.ogs');
+
+    //Verifikasi KLKH Batu Bara
+    Route::get('/verifikasi/klkh/batu-bara', [VerifikasiKLKHBatubaraController::class, 'index'])->name('verifikasi.klkh.batubara');
+
+    //Verifikasi KLKH Intersection/Simpang Empat
+    Route::get('/verifikasi/klkh/simpang-empat', [VerifikasiKLKHSimpangEmpatController::class, 'index'])->name('verifikasi.klkh.simpangempat');
 
     // User
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('checkRole'.':ADMIN');
