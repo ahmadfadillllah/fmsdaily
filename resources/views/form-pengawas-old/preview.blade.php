@@ -545,7 +545,7 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="{{ route('form-pengawas.download', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('form-pengawas-old.download', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-printer f-22"></i>
                                         </a>
                                     </li>
