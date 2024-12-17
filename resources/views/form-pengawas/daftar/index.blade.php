@@ -49,6 +49,7 @@
                                         <th>Nama Supervisor</th>
                                         <th>NIK Superintendent</th>
                                         <th>Nama Superintendent</th>
+                                        <th>Draft</th>
                                         <th>Aksi</th>
                                     </tr>
 
@@ -66,6 +67,7 @@
                                             <td>{{ $item->nama_supervisor }}</td>
                                             <td>{{ $item->nik_superintendent }}</td>
                                             <td>{{ $item->nama_superintendent }}</td>
+                                            <td>{{ $item->is_draft == true ? "Ya" : "Tidak" }}</td>
                                             <td>
                                                 <a href="{{ route('form-pengawas-old.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
                                                 <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>

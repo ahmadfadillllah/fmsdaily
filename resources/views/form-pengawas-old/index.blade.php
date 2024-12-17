@@ -532,7 +532,7 @@
                                                     data-bs-toggle="modal" data-bs-target="#tambahSupportModal">
                                                     <i class="fa-solid fa-add"></i> Tambah Alat Support
                                                 </button>
-                                                @include('form-pengawas.modal.alat-support')
+                                                @include('form-pengawas-old.modal.alat-support')
                                                 <div class="accordion" id="accordionSupport"></div>
                                             </div>
                                         </div>
@@ -547,7 +547,7 @@
                                                     data-bs-toggle="modal" data-bs-target="#tambahCatatan">
                                                     <i class="fa-solid fa-add"></i> Tambah Catatan
                                                 </button>
-                                                @include('form-pengawas.modal.catatan-pengawas')
+                                                @include('form-pengawas-old.modal.catatan-pengawas')
                                                 <div class="accordion" id="accordionCatatan"></div>
 
                                             </div>

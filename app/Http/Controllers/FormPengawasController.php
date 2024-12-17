@@ -377,6 +377,7 @@ class FormPengawasController extends Controller
             'spv.PERSONALNAME as nama_supervisor',
             'dr.nik_superintendent',
             'spt.PERSONALNAME as nama_superintendent',
+            'dr.is_draft'
 
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])

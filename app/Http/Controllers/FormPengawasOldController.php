@@ -30,7 +30,7 @@ class FormPengawasOldController extends Controller
 
 
         $daily = DailyReport::where('foreman_id', Auth::user()->id)
-        ->where('is_draft', true)
+        // ->where('is_draft', true)
         ->whereDate('created_at', now())
         ->first();
 
@@ -76,9 +76,9 @@ class FormPengawasOldController extends Controller
             'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
         )->where('ROLETYPE', 4)->get();
 
-        $lokasi = Lokasi::where('statusenabled', 'true')->get();
-        $area = Area::where('statusenabled', 'true')->get();
-        $shift = Shift::where('statusenabled', 'true')->get();
+        $lokasi = Lokasi::where('statusenabled', true)->get();
+        $area = Area::where('statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
 
 
         $data = [
@@ -142,13 +142,14 @@ class FormPengawasOldController extends Controller
                 $data = [
                     'uuid' => Uuid::uuid4()->toString(),
                     'foreman_id' => Auth::id(),
-                    'statusenabled' => 'true',
+                    'statusenabled' => true,
                     'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
                     'shift_dasar_id' => $request->shift_dasar,
                     'area_id' => $request->area,
                     'lokasi_id' => $request->lokasi,
                     'nik_superintendent' => $nikSuperintendent,
                     'nama_superintendent' => $namaSuperintendent,
+                    'is_draft' => false,
                 ];
 
                 // Tambahkan data berdasarkan role
@@ -202,12 +203,13 @@ class FormPengawasOldController extends Controller
                                 'uuid' => (string) Uuid::uuid4()->toString(),
                                 'daily_report_id' => $dailyReport->id,
                                 'daily_report_uuid' => $dailyReport->uuid,
-                                'statusenabled' => 'true',
+                                'statusenabled' => true,
                                 'checked' => json_encode($checked), // Store checked values in JSON format
                                 'keterangan' => json_encode($keterangan), // Store keterangan values in JSON format
                                 'nomor_unit' => $front_unit["nomor_unit"],
                                 'siang' => json_encode($morning),
                                 'malam' => json_encode($night),
+                                'is_draft' => false,
                             ]);
                         }
                     }
@@ -228,7 +230,7 @@ class FormPengawasOldController extends Controller
                             'uuid' => (string) Uuid::uuid4()->toString(),
                             'daily_report_uuid' => $dailyReport->uuid,
                             'daily_report_id' => $dailyReport->id,
-                            'statusenabled' => 'true',
+                            'statusenabled' => true,
                             'jenis_unit' => $jenisUnit,
                             'alat_unit' => $value['unitSupport'],
                             'nik_operator' => $nikOperator,
@@ -240,6 +242,7 @@ class FormPengawasOldController extends Controller
                             'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
                             'hm_cash' => $value['hmCashSupport'],
                             'keterangan' => $value['keteranganSupport'],
+                            'is_draft' => false,
                         ]);
                     }
                 }
@@ -250,10 +253,11 @@ class FormPengawasOldController extends Controller
                             'uuid' => (string) Uuid::uuid4()->toString(),
                             'daily_report_uuid' => $dailyReport->uuid,
                             'daily_report_id' => $dailyReport->id,
-                            'statusenabled' => 'true',
+                            'statusenabled' => true,
                             'jam_start' => $catatan['start_catatan'],
                             'jam_stop' => $catatan['end_catatan'],
                             'keterangan' => $catatan['description_catatan'],
+                            'is_draft' => false,
                         ]);
                     }
                 }
@@ -338,7 +342,7 @@ class FormPengawasOldController extends Controller
 
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
-        ->where('dr.statusenabled', 'true');
+        ->where('dr.statusenabled', true);
         if (Auth::user()->role !== 'ADMIN') {
             $daily->where('dr.foreman_id', Auth::user()->id);
         }
@@ -402,7 +406,7 @@ class FormPengawasOldController extends Controller
             'fl.checked',
             'fl.keterangan',
         )
-        ->where('fl.statusenabled', 'true')
+        ->where('fl.statusenabled', true)
         ->where('fl.daily_report_uuid', $uuid)
         ->get()
         ->groupBy('brand');
@@ -536,7 +540,7 @@ class FormPengawasOldController extends Controller
             'fl.checked',
             'fl.keterangan',
         )
-        ->where('fl.statusenabled', 'true')
+        ->where('fl.statusenabled', true)
         ->where('fl.daily_report_uuid', $uuid)
         ->get()
         ->groupBy('brand');
