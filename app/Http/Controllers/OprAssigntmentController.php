@@ -11,7 +11,9 @@ class OprAssigntmentController extends Controller
     public function b1()
     {
         $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_SETTING_FLEET');
-        $data = collect($data)->where('PIT', 'SM-B1')->groupBy('ASG_LOADERID');
+        $data = collect($data)->where('PIT', 'SM-B1')->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->sortBy('VHC_ID');
+        });
 
         // dd($data);
 
@@ -21,7 +23,9 @@ class OprAssigntmentController extends Controller
     public function b1_api()
     {
         $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_SETTING_FLEET');
-        $data = collect($data)->where('PIT', 'SM-B1')->groupBy('ASG_LOADERID');
+        $data = collect($data)->where('PIT', 'SM-B1')->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->sortBy('VHC_ID');
+        });
 
         return response()->json($data);
     }
@@ -29,7 +33,9 @@ class OprAssigntmentController extends Controller
     public function b2()
     {
         $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_SETTING_FLEET');
-        $data = collect($data)->where('PIT', 'SM-B2')->groupBy('ASG_LOADERID');
+        $data = collect($data)->where('PIT', 'SM-B2')->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->sortBy('VHC_ID');
+        });
 
         // dd($data);
 
@@ -39,7 +45,9 @@ class OprAssigntmentController extends Controller
     public function b2_api()
     {
         $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_SETTING_FLEET');
-        $data = collect($data)->where('PIT', 'SM-B2')->groupBy('ASG_LOADERID');
+        $data = collect($data)->where('PIT', 'SM-B2')->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->sortBy('VHC_ID');
+        });
 
         return response()->json($data);
     }
