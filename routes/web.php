@@ -61,6 +61,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/form-pengawas-old/post', [FormPengawasOldController::class, 'post'])->name('form-pengawas-old.post');
     Route::post('/form-pengawas-old/auto-save', [FormPengawasOldController::class, 'autoSave'])->name('form-pengawas-old.auto-save');
 
+    //Verifikasi Form Pengawas
+    Route::get('/form-pengawas/verified/all/{uuid}', [FormPengawasController::class, 'verifiedAll'])->name('form-pengawas.verified.all');
+    Route::get('/form-pengawas/verified/foreman/{uuid}', [FormPengawasController::class, 'verifiedForeman'])->name('form-pengawas.verified.foreman');
+    Route::get('/form-pengawas/verified/supervisor/{uuid}', [FormPengawasController::class, 'verifiedSupervisor'])->name('form-pengawas.verified.supervisor');
+    Route::get('/form-pengawas/verified/superintendent/{uuid}', [FormPengawasController::class, 'verifiedSuperintendent'])->name('form-pengawas.verified.superintendent');
+
     //Form Pengawas
     Route::get('/form-pengawas/show', [FormPengawasController::class, 'show'])->name('form-pengawas.show');
     Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');

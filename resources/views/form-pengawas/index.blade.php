@@ -111,7 +111,7 @@
                         @if ($daily->is_draft)
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                 <strong>Info!</strong>
-                                <br>Form ini masih dalam status draft. Tolong selesaikan sampai tahap selanjutnya.
+                                <br>Form ini masih dalam status draft, harap selesaikan sampai tahap akhir.
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @else
@@ -157,7 +157,7 @@
                                                             <label class="form-label">Tanggal</label>
                                                             <input type="text" class="form-control" id="pc-datepicker-1"
                                                                    name="tanggal_dasar"
-                                                                   value="{{ isset($daily->tanggal_dasar) ? \Carbon\Carbon::parse($daily->tanggal_dasar)->format('d/m/Y') : '' }}">
+                                                                   value="{{ isset($daily->tanggal_dasar) ? \Carbon\Carbon::parse($daily->tanggal_dasar)->format('m/d/Y') : '' }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">

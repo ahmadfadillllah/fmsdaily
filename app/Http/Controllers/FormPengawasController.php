@@ -150,161 +150,34 @@ class FormPengawasController extends Controller
         // dd($request->all());
         try {
             return DB::transaction(function () use ($request) {
-                // insert daily report
-                $supervisor = $request->nik_supervisor ?? [];
-                $superintendent = $request->nik_superintendent ?? [];
+                $draft = DailyReport::where('uuid', $request->uuid)
+                    ->orWhere(function ($query) {
+                        $query->where('foreman_id', Auth::id())->where('is_draft', true);
+                    })
+                    ->first();
 
-                $nikSlotsSV = explode('|', $supervisor);
-                $nikSupervisor = $nikSlotsSV[0];
-                $namaSupervisor = trim($nikSlotsSV[1]);
-
-                $nikSlotsSI = explode('|', $superintendent);
-                $nikSuperintendent = $nikSlotsSI[0];
-                $namaSuperintendent = trim($nikSlotsSI[1]);
-
-                $data = [
-                    'uuid' => Uuid::uuid4()->toString(),
-                    'foreman_id' => Auth::id(),
-                    'statusenabled' => true,
-                    'tanggal_dasar' => now()->parse($request->tanggal_dasar)->format('Y-m-d'),
-                    'shift_dasar_id' => $request->shift_dasar,
-                    'area_id' => $request->area,
-                    'lokasi_id' => $request->lokasi,
-                    'nik_superintendent' => $nikSuperintendent,
-                    'nama_superintendent' => $namaSuperintendent,
-                ];
-
-                // Tambahkan data berdasarkan role
-                if (Auth::user()->role == 'SUPERVISOR') {
-                    $data['nik_supervisor'] = Auth::user()->nik;
-                    $data['nama_supervisor'] = Auth::user()->name;
-                    $data['verified_supervisor'] = Auth::user()->nik;
+                if ($draft['is_draft']) {
+                        DailyReport::where('uuid', $request->uuid)->update([
+                            'is_draft' => false,
+                            'updated_by' => Auth::user()->id,
+                        ]);
+                        FrontLoading::where('daily_report_uuid', $request->uuid)->update([
+                            'is_draft' => false,
+                            'updated_by' => Auth::user()->id,
+                        ]);
+                        AlatSupport::where('daily_report_uuid', $request->uuid)->update([
+                            'is_draft' => false,
+                            'updated_by' => Auth::user()->id,
+                        ]);
+                        CatatanPengawas::where('daily_report_uuid', $request->uuid)->update([
+                            'is_draft' => false,
+                            'updated_by' => Auth::user()->id,
+                        ]);
                 }
-                if (Auth::user()->role == 'FOREMAN') {
-                    $data['nik_foreman'] = Auth::user()->nik;
-                    $data['nama_foreman'] = Auth::user()->name;
-                    $data['verified_foreman'] = Auth::user()->nik;
-                    $data['nik_supervisor'] = $nikSupervisor;
-                    $data['nama_supervisor'] = $namaSupervisor;
-                }
-
-                // Buat DailyReport
-                $dailyReport = DailyReport::create($data);
-
-                // insert front loading
-                if (!empty($request->front_loading)) {
-                    foreach ($request->front_loading as $front_unit) {
-                        $timeData = $front_unit["time"] ?? [];
-
-                        // Pastikan $timeData adalah array
-                        if (!is_array($timeData)) {
-                            throw new \Exception('Format data time tidak valid');
-                        }
-
-                        $morning = [];
-                        $night = [];
-                        $checked = [];
-                        $keterangan = [];
-
-                        foreach ($timeData as $time) {
-                            // Validasi key 'value', 'checked', dan 'keterangan'
-                            if (isset($time['value'], $time['checked'])) {
-                                $timeSlots = explode('|', $time['value']);
-
-                                if (isset($timeSlots[0])) {
-                                    $morning[] = trim($timeSlots[0]); // Waktu siang
-                                }
-                                if (isset($timeSlots[1])) {
-                                    $night[] = trim($timeSlots[1]); // Waktu malam
-                                }
-
-                                // Simpan checked dan keterangan jika ada
-                                $checked[] = $time['checked'] === "false" ? null : $time['checked'];
-                                $keterangan[] = $time['keterangan'] ?? null;
-                            }
-                        }
-
-                        // Simpan data ke database jika valid
-                        if (!empty($checked)) {
-                            FrontLoading::updateOrCreate(
-                                [
-                                    'daily_report_id' => $dailyReport->id,
-                                    'nomor_unit' => $front_unit["nomor_unit"],
-                                ],
-                                [
-                                    'uuid' => $front_unit['uuid'] ?? (string) Uuid::uuid4()->toString(),
-                                    'daily_report_uuid' => $dailyReport->uuid,
-                                    'statusenabled' => true,
-                                    'checked' => json_encode($checked),
-                                    'keterangan' => json_encode($keterangan),
-                                    'siang' => json_encode($morning),
-                                    'malam' => json_encode($night),
-                                ]
-                            );
-                        }
-                    }
-                }
-
-
-
-                // insert alat support
-                // if (!empty($request->supports)) {
-                if (!empty($request->alat_support)) {
-                    foreach ($request->alat_support as $value) {
-
-                        $operator = explode('|',  $value['namaSupport']);
-                        $nikOperator = $operator[0];
-                        $namaOperator = trim($operator[1]);
-                        $jenisUnit = substr($value['unitSupport'], 0, 2);
-
-                        AlatSupport::updateOrCreate(
-                            [
-                                'daily_report_id' => $dailyReport->id,
-                                'alat_unit' => $value['unitSupport'],
-                            ],
-                            [
-                                'uuid' => $value['uuid'] ?? (string) Uuid::uuid4()->toString(),
-                                'daily_report_uuid' => $dailyReport->uuid,
-                                'statusenabled' => true,
-                                'jenis_unit' => $jenisUnit,
-                                'nik_operator' => $nikOperator,
-                                'nama_operator' => $namaOperator,
-                                'tanggal_operator' => \Carbon\Carbon::createFromFormat('m/d/Y', $value['tanggalSupport'])->format('Y-m-d'),
-                                'shift_operator_id' => $value['shiftSupport'],
-                                'hm_awal' => $value['hmAwalSupport'],
-                                'hm_akhir' => $value['hmAkhirSupport'],
-                                'hm_total' => $value['hmAkhirSupport'] - $value['hmAwalSupport'],
-                                'hm_cash' => $value['hmCashSupport'],
-                                'keterangan' => $value['keteranganSupport'],
-                            ]
-                        );
-                    }
-                }
-
-                if (!empty($request->catatan)) {
-                    foreach ($request->catatan as $catatan) {
-                        CatatanPengawas::updateOrCreate(
-                            [
-                                'daily_report_id' => $dailyReport->id,
-                                'jam_start' => $catatan['start_catatan'],
-                                'jam_stop' => $catatan['end_catatan'],
-                            ],
-                            [
-                                'uuid' => $catatan['uuid'] ?? (string) Uuid::uuid4()->toString(),
-                                'daily_report_uuid' => $dailyReport->uuid,
-                                'statusenabled' => true,
-                                'keterangan' => $catatan['description_catatan'],
-                            ]
-                        );
-
-                    }
-                }
-
-
-                return redirect()->route('form-pengawas.index')->with('success', 'Laporan berhasil dibuat');
+                return redirect()->route('form-pengawas.show')->with('success', 'Laporan berhasil dibuat');
             });
         } catch (\Throwable $th) {
-            return redirect()->route('form-pengawas.index')->with('info', 'Laporan gagal dibuat.. \n' . $th->getMessage());
+            return redirect()->route('form-pengawas.show')->with('info', 'Laporan gagal dibuat.. \n' . $th->getMessage());
         }
     }
 
@@ -384,9 +257,20 @@ class FormPengawasController extends Controller
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->where('dr.statusenabled', true);
-        if (Auth::user()->role !== 'ADMIN') {
-            $daily->where('dr.foreman_id', Auth::user()->id);
+
+
+        if (Auth::user()->role == 'FOREMAN') {
+            $daily->where('dr.nik_foreman', Auth::user()->nik);
         }
+        if (Auth::user()->role == 'SUPERVISOR') {
+            $daily->where('dr.nik_supervisor', Auth::user()->nik);
+        }
+        if (Auth::user()->role == 'SUPERINTENDENT') {
+            $daily->where('dr.nik_superintendent', Auth::user()->nik);
+        }
+        // if (Auth::user()->role == 'ADMIN') {
+        //     $daily->orWhere('pic', Auth::user()->id);
+        // }
 
         $daily = $daily->get();
 
@@ -919,6 +803,76 @@ class FormPengawasController extends Controller
                 'message' => 'Gagal menyimpan draft',
                 'error' => $e->getMessage(),
             ], 500);
+        }
+    }
+
+    public function verifiedAll($uuid)
+    {
+        $klkh =  DailyReport::where('uuid', $uuid)->first();
+
+        try {
+            DailyReport::where('id', $klkh->id)->update([
+                'verified_foreman' => $klkh->foreman,
+                'verified_supervisor' => $klkh->supervisor,
+                'verified_superintendent' => $klkh->superintendent,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'KLKH Loading Point berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('KLKH Loading Point gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedForeman($uuid)
+    {
+        $klkh =  DailyReport::where('uuid', $uuid)->first();
+
+        try {
+            DailyReport::where('id', $klkh->id)->update([
+                'verified_foreman' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Form/laporan berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('Form/laporan gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSupervisor($uuid)
+    {
+        $klkh =  DailyReport::where('uuid', $uuid)->first();
+
+        try {
+            DailyReport::where('id', $klkh->id)->update([
+                'verified_supervisor' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Form/laporan berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('Form/laporan gagal diverifikasi..\n' . $th->getMessage()));
+        }
+    }
+
+    public function verifiedSuperintendent($uuid)
+    {
+        $klkh =  DailyReport::where('uuid', $uuid)->first();
+
+        try {
+            DailyReport::where('id', $klkh->id)->update([
+                'verified_superintendent' => (string)Auth::user()->nik,
+                'updated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Form/laporan berhasil diverifikasi');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('Form/laporan gagal diverifikasi..\n' . $th->getMessage()));
         }
     }
 
