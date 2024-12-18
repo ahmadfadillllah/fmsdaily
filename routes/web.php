@@ -186,6 +186,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Verifikasi KLKH Loading Point
     Route::get('/verifikasi/klkh/loading-point', [VerifikasiKLKHLoadingPointController::class, 'index'])->name('verifikasi.klkh.loadingpoint');
+    Route::get('/verifikasi/klkh/loading-point/all', [VerifikasiKLKHLoadingPointController::class, 'all'])->name('verifikasi.klkh.loadingpoint.all');
 
     //Verifikasi KLKH Haul Road
     Route::get('/verifikasi/klkh/haul-road', [VerifikasiKLKHHaulRoadController::class, 'index'])->name('verifikasi.klkh.haulroad');

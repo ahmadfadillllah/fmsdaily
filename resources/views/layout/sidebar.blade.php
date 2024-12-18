@@ -78,7 +78,7 @@
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.laporankerja') }}">Laporan Kerja</a></li>
-                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.loadingpoint') }}">Front Loading</a></li>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.loadingpoint') }}">Loading Point</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.haulroad') }}">Haul Road</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.disposal') }}">Disposal/Dumping Point</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>
@@ -94,7 +94,7 @@
                         </svg>
                     </li>
                     <li class="pc-item"><a href="{{ route('user.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/user.png" alt="NT"></span><span class="pc-mtext">Users</span></a></li>
-                    <li class="pc-item"><a href="{{ route('log.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/log.png" alt="NT"></span><span class="pc-mtext">Logging User</span></a></li>
+                    {{-- <li class="pc-item"><a href="{{ route('log.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/log.png" alt="NT"></span><span class="pc-mtext">Logging User</span></a></li> --}}
                     <li class="pc-item pc-caption"><label></label>
                         <svg class="pc-icon">
                             <use xlink:href="#custom-presentation-chart"></use>
