@@ -77,14 +77,14 @@
                                     data-feather="chevron-right"></i></span> <span class="pc-badge">8</span>
                         </a>
                         <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.laporankerja') }}">Laporan Kerja</a></li>
+                            {{-- <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.laporankerja') }}">Laporan Kerja</a></li> --}}
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.loadingpoint') }}">Loading Point</a></li>
-                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.haulroad') }}">Haul Road</a></li>
+                            {{-- <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.haulroad') }}">Haul Road</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.disposal') }}">Disposal/Dumping Point</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.ogs') }}">OGS</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.batubara') }}">Batu Bara</a></li>
-                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li> --}}
                         </ul>
                     </li>
                 @endif
