@@ -65,7 +65,7 @@
                 <li class="dropdown pc-h-item header-user-profile"><a
                         class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false"><img
-                            src="{{ asset('dashboard/assets') }}/images/user/avatar-1.jpg" alt="user-image" class="user-avtar"></a>
+                            src="{{ asset('dashboard/assets') }}/images/user/avatar-1.png" alt="user-image" class="user-avtar"></a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header d-flex align-items-center justify-content-between">
                             <h5 class="m-0">Profile</h5>
@@ -74,12 +74,10 @@
                             <div class="profile-notification-scroll position-relative"
                                 style="max-height: calc(100vh - 225px)">
                                 <div class="d-flex mb-1">
-                                    <div class="flex-shrink-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.jpg"
+                                    <div class="flex-shrink-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.png"
                                             alt="user-image" class="user-avtar wid-35"></div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">{{ Auth::user()->name }}</h6><span><a
-                                                href="../cdn-cgi/l/email-protection.html" class="__cf_email__"
-                                                data-cfemail="d5b6b4a7a6babbfbb1b4a7a7bcbb95b6bab8a5b4bbacfbbcba">{{ Auth::user()->nik }}</a></span>
+                                        <h6 class="mb-1">{{ Auth::user()->name }}</h6><span><a href="#" style="color:#001932;">{{ Auth::user()->nik }}</a></span>
                                     </div>
                                 </div>
                                 <hr class="border-secondary border-opacity-50">
@@ -107,10 +105,18 @@
                                         </a>
 
                                 <hr class="border-secondary border-opacity-50">
-                                <div class="d-grid mb-3">
-                                    <a href="{{ route('logout') }}" class="btn btn-primary"><svg class="pc-icon me-2">
-                                            <use xlink:href="#custom-logout-1-outline"></use>
-                                        </svg>Logout</a></div>
+                                <div class="card-body">
+                                    <div class="d-grid mb-12">
+                                        <a href="{{ route('logout') }}" class="text-decoration-none">
+                                            <span class="badge w-100" style="font-size:14px;background-color:#001932">
+                                                <svg class="pc-icon me-2">
+                                                    <use xlink:href="#custom-logout-1-outline"></use>
+                                                </svg>
+                                                Logout
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

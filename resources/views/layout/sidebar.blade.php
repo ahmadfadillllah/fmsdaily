@@ -4,11 +4,11 @@
                 <img src="{{ asset('dashboard/assets') }}/images/icon.png" class="img-fluid" width="100px" alt="logo">
                 <span class="badge bg-light-success rounded-pill ms-2 theme-version">Daily Pengawas</span></a></div>
         <div class="navbar-content">
-            <a data-bs-toggle="collapse" href="#pc_sidebar_userlink">
+            <a style="color:#001932;" data-bs-toggle="collapse" href="#pc_sidebar_userlink">
                 <div class="card pc-user-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.jpg"
+                            <div class="flex-shrink-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.png"
                                     alt="user-image" class="user-avtar wid-45 rounded-circle"></div>
                             <div class="flex-grow-1 ms-3 me-2">
                                 <h6 class="mb-0" style="font-size: 12px">{{ Auth::user()->name }}</h6><small>{{ Auth::user()->role }}</small>
@@ -74,11 +74,11 @@
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/stamp.png" alt="DS"> </span><span class="pc-mtext">Verifikasi</span> <span class="pc-arrow"><i
-                                    data-feather="chevron-right"></i></span> <span class="pc-badge">8</span>
+                                    data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
                         </a>
                         <ul class="pc-submenu">
                             {{-- <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.laporankerja') }}">Laporan Kerja</a></li> --}}
-                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.loadingpoint') }}">Loading Point</a></li>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh') }}">KLKH</a></li>
                             {{-- <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.haulroad') }}">Haul Road</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.disposal') }}">Disposal/Dumping Point</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>

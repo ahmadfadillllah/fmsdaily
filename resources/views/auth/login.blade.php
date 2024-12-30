@@ -6,7 +6,7 @@
                     <div class="card-body">
 
                         <div class="text-center"><a href="javascript:void(0);"><img
-                                    src="{{ asset('dashboard/assets') }}/images/logo-full.png" alt="img" width="300px"></a></div>
+                                    src="{{ asset('dashboard/assets') }}/images/logo-full.png" alt="img" width="250px"></a></div>
                         <div class="saprator my-3"><span></span></div>
                         <h4 class="text-center f-w-500 mb-3">Login - Laporan Harian Pengawas</h4>
                         @include('layout.alert.login')
@@ -19,7 +19,10 @@
                                     id="customCheckc1" checked=""> <label class="form-check-label text-muted"
                                     for="customCheckc1">Ingat Saya!</label></div>
                         </div>
-                        <div class="d-grid mt-4"><button type="submit" class="btn btn-primary">Masuk</button></div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary" style="width: 100%; font-size:14pt;">Masuk</button>
+                        </div>
                         </form>
                     </div>
                 </div>

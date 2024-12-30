@@ -21,6 +21,7 @@ use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiKLKHBatubaraController;
+use App\Http\Controllers\VerifikasiKLKHController;
 use App\Http\Controllers\VerifikasiKLKHDisposalController;
 use App\Http\Controllers\VerifikasiKLKHHaulRoadController;
 use App\Http\Controllers\VerifikasiKLKHLoadingPointController;
@@ -183,6 +184,11 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Verifikasi Laporan Kerja
     Route::get('/verifikasi/laporan-kerja', [VerifikasiLaporanKerjaController::class, 'index'])->name('verifikasi.laporankerja');
+
+    //Verifikasi Semua KLKH
+    Route::get('/verifikasi/klkh', [VerifikasiKLKHController::class, 'index'])->name('verifikasi.klkh');
+    Route::get('/verifikasi/klkh/preview/{uuid}', [VerifikasiKLKHController::class, 'preview'])->name('verifikasi.klkh.preview');
+    Route::get('/verifikasi/klkh/all', [VerifikasiKLKHController::class, 'all'])->name('verifikasi.klkh.all');
 
     //Verifikasi KLKH Loading Point
     Route::get('/verifikasi/klkh/loading-point', [VerifikasiKLKHLoadingPointController::class, 'index'])->name('verifikasi.klkh.loadingpoint');

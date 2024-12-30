@@ -38,7 +38,7 @@
                                     <tr>
                                         <td>
                                             <div class="row align-items-center">
-                                                <div class="col-auto pe-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.jpg" alt="user-image" class="wid-40 hei-40 rounded"></div>
+                                                <div class="col-auto pe-0"><img src="{{ asset('dashboard/assets') }}/images/user/avatar-1.png" alt="user-image" class="wid-40 hei-40 rounded"></div>
                                                 <div class="col">
                                                     <h6 class="mb-2"><span class="text-truncate w-100">{{ $us->name }}</span></h6>
                                                 </div>
