@@ -16,13 +16,13 @@
 
 <style>
     p{
-        font-size:16px;
+        font-size:14px;
     }
     p.anymore{
         font-size:14px;
     }
     .custom-tooltip {
-    font-size: 11px; /* Ukuran font kecil (12px) */
+    font-size: 11px;
     }
     #spinner {
         display: none;
@@ -43,6 +43,19 @@
     #content {
         display: none;
     }
+    .card {
+    position: relative;
+    }
+
+    .card img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 5px;
+    }
+    span{
+        font-size: 9px;
+    }
 </style>
 
 
@@ -53,8 +66,12 @@
             <!-- Badge Section -->
             <hr>
             <div>
-                <span class="badge" style="background-color: #0000ff;">EX-Sudah Finger</span>
-                <span class="badge" style="background-color: #00ff00; color:black">HD-Sudah Finger</span>
+                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> Belum Disetting</span>
+                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> Belum Login</span>
+                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> Login & Setting Berbeda</span>
+                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> Login & Setting Sesuai</span>
+                <span class="badge" style="background-color: #0000ff;font-size:8pt;">EX-Sudah Finger</span>
+                <span class="badge" style="background-color: #00ff00;font-size:8pt; color:black">HD-Sudah Finger</span>
             </div>
 
             <!-- Divider -->
@@ -76,6 +93,10 @@
                     <!-- Kolom Loader ID -->
                     <div class="col">
                         <div class="card border-0">
+                            @if ($assignments['0']->IS_SETTING_LOADR == 0) <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> @endif
+                            @if ($assignments['0']->IS_LOGIN_LOADER == 0) <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> @endif
+                            @if ($assignments['0']->IS_LOGIN_LOADER == 1 && $assignments['0']->IS_SETTING_LOADR == 0) <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> @endif
+                            @if ($assignments['0']->IS_LOGIN_LOADER == 1 && $assignments['0']->IS_SETTING_LOADR == 1) <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> @endif
                             <div class="text-center text-white"
                                     @if ($assignments['0']->NIK_FINGER_LOADER_ORI == null) style="background-color:#6495ed;" @endif
                                     @if ($assignments['0']->NAMA_FGR_LOADER != null) style="background-color:#0000ff;" @endif
@@ -93,23 +114,27 @@
                         <!-- Data Assignments -->
                         <div class="mt-2">
                             @foreach($assignments as $assignment)
-                                <div class="card mb-3 border-0 shadow-sm text-white"
-                                @if ($assignment->NIK_FGR_ORI == null) style="background-color:#afeeee;" @endif
-                                @if ($assignment->NAMA_FGR != null) style="background-color:#00ff00;" @endif
-                                @if ($assignment->NAMA_FGR == null)style="background-color:#00ff00;" @endif
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                data-bs-html="true"
-                                data-bs-custom-class="custom-tooltip"
-                                data-bs-title="Assignment: {{ date('d-m-Y H:i', strtotime($assignments['0']->ASG_TIMESTAMP)) }}
-                                <br>Material: {{ $assignments['0']->ASG_MAT_ID }}
-                                <br>Status: {{ $assignments['0']->STATUSDESCTRUCK }}">
-                                    <div class="text-center">
-                                        <p class="fw-bold text-black mb-1">{{ $assignment->VHC_ID }}</p>
-                                        <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ? Str::limit($assignment->NAMA_FGR, 13) : '______' }}</p>
-                                        <p class="mb-0 anymore text-black">{{ $assignment->NIK_FGR ? $assignment->NIK_FGR : '_____' }}</p>
-                                    </div>
-                                </div>
+                            <div class="card mb-3 border-0 shadow-sm text-white"
+                            @if ($assignment->NIK_FGR_ORI == null) style="background-color:#afeeee;" @endif
+                            @if ($assignment->NAMA_FGR != null) style="background-color:#00ff00;" @endif
+                            @if ($assignment->NAMA_FGR == null)style="background-color:#00ff00;" @endif
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            data-bs-html="true"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title="Assignment: {{ date('d-m-Y H:i', strtotime($assignments['0']->ASG_TIMESTAMP)) }}
+                            <br>Material: {{ $assignments['0']->ASG_MAT_ID }}
+                            <br>Status: {{ $assignments['0']->STATUSDESCTRUCK }}">
+                            <div class="text-center">
+                                @if ($assignment->IS_SETTING == 0) <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> @endif
+                                @if ($assignment->IS_LOGIN == 0) <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> @endif
+                                @if ($assignment->IS_LOGIN == 1 && $assignment->IS_SETTING == 0) <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> @endif
+                                @if ($assignment->IS_LOGIN == 1 && $assignment->IS_SETTING == 1) <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> @endif
+                                <p class="fw-bold text-black mb-1">{{ $assignment->VHC_ID }}</p>
+                                <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ? Str::limit($assignment->NAMA_FGR, 13) : '______' }}</p>
+                                <p class="mb-0 anymore text-black">{{ $assignment->NIK_FGR ? $assignment->NIK_FGR : '_____' }}</p>
+                            </div>
+                        </div>
                             @endforeach
                         </div>
                     </div>

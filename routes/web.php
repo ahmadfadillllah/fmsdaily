@@ -51,6 +51,7 @@ Route::get('/OprAssignment/B1/api', [OprAssigntmentController::class, 'b1_api'])
 Route::get('/OprAssignment/B2', [OprAssigntmentController::class, 'b2'])->name('opr.b2');
 Route::get('/OprAssignment/B2/api', [OprAssigntmentController::class, 'b2_api'])->name('opr.b2.api');
 Route::get('/OprAssignment/A3', [OprAssigntmentController::class, 'a3'])->name('opr.a3');
+Route::get('/OprAssignment/A3/api', [OprAssigntmentController::class, 'a3_api'])->name('opr.a3.api');
 
 
 Route::group(['middleware' => ['auth']], function(){

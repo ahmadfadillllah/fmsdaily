@@ -51,4 +51,26 @@ class OprAssigntmentController extends Controller
 
         return response()->json($data);
     }
+
+    public function a3()
+    {
+        $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_SETTING_FLEET');
+        $data = collect($data)->where('PIT', 'SM-A3')->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->sortBy('VHC_ID');
+        });
+
+        // dd($data);
+
+        return view('opr-assignment.a3.index', compact('data'));
+    }
+
+    public function a3_api()
+    {
+        $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_SETTING_FLEET');
+        $data = collect($data)->where('PIT', 'SM-A3')->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->sortBy('VHC_ID');
+        });
+
+        return response()->json($data);
+    }
 }

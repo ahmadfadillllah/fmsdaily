@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operator Assignment B2</title>
+    <title>Operator Assignment A3</title>
     <link rel="shortcut icon" href="{{ asset('oprAssignment') }}/icon/sims.png" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('oprAssignment') }}/css/bootstrap.min.css">
 
@@ -81,7 +81,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7 text-center">
                     <!-- Title -->
-                    <h2 class="text-white py-2" style="background-color: #001831;">SM-B2</h2>
+                    <h2 class="text-white py-2" style="background-color: #001831;">SM-A3</h2>
                 </div>
             </div>
         </div>
