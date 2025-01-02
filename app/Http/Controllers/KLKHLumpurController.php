@@ -88,7 +88,9 @@ class KLKHLumpurController extends Controller
     public function insert()
     {
         $supervisor = Personal::where('ROLETYPE', 3)->get();
-        $superintendent = Personal::where('ROLETYPE', 4)->get();
+        $superintendent = Personal::whereIn('ROLETYPE', [3, 4])
+        ->select('*', DB::raw("CASE WHEN ROLETYPE = 3 THEN 'SUPERVISOR' WHEN ROLETYPE = 4 THEN 'SUPERINTENDENT' ELSE 'UNKNOWN' END as JABATAN "))
+        ->orderBy(DB::raw("CASE WHEN ROLETYPE = 3 THEN 1 WHEN ROLETYPE = 4 THEN 2 ELSE 3 END "))->get();
         $pit = Area::where('statusenabled', true)->get();
         $shift = Shift::where('statusenabled', true)->get();
 

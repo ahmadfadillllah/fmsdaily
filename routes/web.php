@@ -178,7 +178,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Paylaod & Ritation
     Route::get('/payloadritation/all', [PayloadRitationController::class, 'index'])->name('payloadritation.index');
-    Route::get('/payloadritation/exa', [PayloadRitationController::class, 'exa'])->name('payloadritation.exa');
+    Route::get('/payloadritation/exa', [PayloadRitationController::class, 'exa_new'])->name('payloadritation.exa');
 
     // Profile
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');

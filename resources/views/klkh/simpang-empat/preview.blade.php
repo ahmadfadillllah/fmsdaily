@@ -318,13 +318,13 @@
                                     <a href="{{ route('klkh.simpangempat.verified.supervisor', $se->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                     <a href="{{ route('klkh.simpangempat.verified.superintendent', $se->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'FOREMAN' && $se->verified_foreman == null)
+                                @if (Auth::user()->nik == $se->foreman && $se->verified_foreman == null)
                                     <a href="{{ route('klkh.simpangempat.verified.foreman', $se->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERVISOR' && $se->verified_supervisor == null)
+                                @if (Auth::user()->nik == $se->supervisor && $se->verified_supervisor == null)
                                     <a href="{{ route('klkh.simpangempat.verified.supervisor', $se->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERINTENDENT' && $se->verified_superintendent == null)
+                                @if (Auth::user()->nik == $se->superintendent && $se->verified_superintendent == null)
                                     <a href="{{ route('klkh.simpangempat.verified.superintendent', $se->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">

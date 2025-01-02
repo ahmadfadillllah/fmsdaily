@@ -214,13 +214,13 @@
                                     <a href="{{ route('klkh.loading-point.verified.supervisor', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                     <a href="{{ route('klkh.loading-point.verified.superintendent', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'FOREMAN' && $ld->verified_foreman == null)
+                                @if (Auth::user()->nik == $ld->foreman && $ld->verified_foreman == null)
                                     <a href="{{ route('klkh.loading-point.verified.foreman', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERVISOR' && $ld->verified_supervisor == null)
+                                @if (Auth::user()->nik == $ld->supervisor && $ld->verified_supervisor == null)
                                     <a href="{{ route('klkh.loading-point.verified.supervisor', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERINTENDENT' && $ld->verified_superintendent == null)
+                                @if (Auth::user()->nik == $ld->superintendent && $ld->verified_superintendent == null)
                                     <a href="{{ route('klkh.loading-point.verified.superintendent', $ld->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">

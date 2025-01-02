@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PayloadRitation;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -72,5 +73,45 @@ class PayloadRitationController extends Controller
 
 
         return view('payloadritation.exa', compact('data'));
+    }
+
+    public function exa_new()
+    {
+
+        $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_PAYLOAD_RITATION');
+
+        $exa = Unit::select(['VHC_ID', 'EQU_TYPEID', 'EQU_GROUPID', 'VHC_ACTIVE'])
+        ->where('VHC_ID', 'like', 'EX%')
+        ->where('VHC_ACTIVE', true)
+        ->get();
+
+        $equTypeData = $exa->pluck('EQU_TYPEID', 'VHC_ID');
+
+        $data = collect($data)->map(function ($item) use ($equTypeData) {
+            $item->EQU_TYPEEX = isset($equTypeData[$item->ASG_LOADERID]) ? $equTypeData[$item->ASG_LOADERID] : null;
+
+            return (object) array_map(function ($value) {
+                return is_numeric($value) ? round($value, 1) : $value;
+            }, (array) $item);
+        });
+
+        // $data = $data->filter(function ($item) {
+        //     return !empty($item->ASG_LOADERID);
+        // });
+
+        $grouped = $data->groupBy('ASG_LOADERID')->map(function ($group) {
+            return $group->reduce(function ($carry, $item) {
+                foreach ($item as $key => $value) {
+                    if (is_numeric($value)) {
+                        $carry[$key] = isset($carry[$key]) ? $carry[$key] + $value : $value;
+                    } else {
+                        $carry[$key] = $carry[$key] ?? $value;
+                    }
+                }
+                return $carry;
+            });
+        });
+
+        return view('payloadritation.exa_new', compact('grouped'));
     }
 }

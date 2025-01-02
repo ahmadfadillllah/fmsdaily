@@ -321,13 +321,13 @@
                                     <a href="{{ route('klkh.batubara.verified.supervisor', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                     <a href="{{ route('klkh.batubara.verified.superintendent', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'FOREMAN' && $bb->verified_foreman == null)
+                                @if (Auth::user()->nik == $bb->foreman && $bb->verified_foreman == null)
                                     <a href="{{ route('klkh.batubara.verified.foreman', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERVISOR' && $bb->verified_supervisor == null)
+                                @if (Auth::user()->nik == $bb->supervisor && $bb->verified_supervisor == null)
                                     <a href="{{ route('klkh.batubara.verified.supervisor', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERINTENDENT' && $bb->verified_superintendent == null)
+                                @if (Auth::user()->nik == $bb->superintendent && $bb->verified_superintendent == null)
                                     <a href="{{ route('klkh.batubara.verified.superintendent', $bb->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">

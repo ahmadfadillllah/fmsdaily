@@ -372,13 +372,13 @@
                                     <a href="{{ route('klkh.lumpur.verified.supervisor', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                     <a href="{{ route('klkh.lumpur.verified.superintendent', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'FOREMAN' && $lpr->verified_foreman == null)
+                                @if (Auth::user()->nik == $lpr->foreman && $lpr->verified_foreman == null)
                                     <a href="{{ route('klkh.lumpur.verified.foreman', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERVISOR' && $lpr->verified_supervisor == null)
+                                @if (Auth::user()->nik == $lpr->supervisor && $lpr->verified_supervisor == null)
                                     <a href="{{ route('klkh.lumpur.verified.supervisor', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
-                                @if (Auth::user()->role == 'SUPERINTENDENT' && $lpr->verified_superintendent == null)
+                                @if (Auth::user()->nik == $lpr->superintendent && $lpr->verified_superintendent == null)
                                     <a href="{{ route('klkh.lumpur.verified.superintendent', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">

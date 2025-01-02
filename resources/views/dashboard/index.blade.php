@@ -25,34 +25,44 @@
         <div class="row g-1">
             <h5 class="w-100">Fitur Pilihan</h5>
             @if(Auth::user()->role != 'ADMIN')
-                <div class="col-6 col-md-6 col-xxl-2">
+                <div class="col-4 col-md-4 col-xxl-2">
                     <a href="{{ route('form-pengawas-old.index') }}" class="text-decoration-none">
                         <div class="card mb-3">
-                            <div class="card-body text-center">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
                                 <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="Form Pengawas" style="max-width: 20px">
-                                <h6 class="card-title" style="font-size:12px">Laporan Harian</h6>
+                                <h6 class="card-title" style="font-size:11px">Laporan Harian</h6>
                             </div>
                         </div>
                     </a>
                 </div>
             @else
-            <div class="col-6 col-md-6 col-xxl-2">
+            <div class="col-4 col-md-4 col-xxl-2">
                 <a href="{{ route('form-pengawas.show') }}" class="text-decoration-none">
                     <div class="card mb-3">
-                        <div class="card-body text-center">
+                        <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
                             <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="Form Pengawas" style="max-width: 20px">
-                            <h6 class="card-title" style="font-size:12px">Laporan Harian</h6>
+                            <h6 class="card-title" style="font-size:11px">Laporan Harian</h6>
                         </div>
                     </div>
                 </a>
             </div>
             @endif
-            <div class="col-6 col-md-6 col-xxl-2">
+            <div class="col-4 col-md-4 col-xxl-2">
                 <a href="{{ route('production.index') }}" class="text-decoration-none">
                     <div class="card mb-3">
-                        <div class="card-body text-center">
+                        <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
                             <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/production.png" alt="Produksi Per Jam" style="max-width: 20px">
-                            <h6 class="card-title" style="font-size:12px">Produksi Per Jam</h6>
+                            <h6 class="card-title" style="font-size:11px">Produksi Per Jam</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4 col-md-4 col-xxl-2">
+                <a href="{{ route('payloadritation.exa') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/loading.png" alt="Produksi Per Jam" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:11px">Payload & Ritation</h6>
                         </div>
                     </div>
                 </a>

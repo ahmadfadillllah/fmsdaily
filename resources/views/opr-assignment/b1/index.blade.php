@@ -95,8 +95,8 @@
                         <div class="card border-0">
                             @if ($assignments['0']->IS_SETTING_LOADR == 0) <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> @endif
                             @if ($assignments['0']->IS_LOGIN_LOADER == 0) <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> @endif
-                            @if ($assignments['0']->IS_LOGIN_LOADER == 1 && $assignments['0']->IS_SETTING_LOADR == 0) <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> @endif
-                            @if ($assignments['0']->IS_LOGIN_LOADER == 1 && $assignments['0']->IS_SETTING_LOADR == 1) <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> @endif
+                            @if ($assignments['0']->IS_LOGIN_LOADER > 0 && $assignments['0']->IS_SETTING_LOADR > 0) <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> @endif
+                            @if ($assignments['0']->IS_LOGIN_LOADER > 0 && $assignments['0']->IS_SETTING_LOADR == 0) <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> @endif
                             <div class="text-center text-white"
                                     @if ($assignments['0']->NIK_FINGER_LOADER_ORI == null) style="background-color:#6495ed;" @endif
                                     @if ($assignments['0']->NAMA_FGR_LOADER != null) style="background-color:#0000ff;" @endif
@@ -128,8 +128,8 @@
                             <div class="text-center">
                                 @if ($assignment->IS_SETTING == 0) <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> @endif
                                 @if ($assignment->IS_LOGIN == 0) <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> @endif
-                                @if ($assignment->IS_LOGIN == 1 && $assignment->IS_SETTING == 0) <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> @endif
-                                @if ($assignment->IS_LOGIN == 1 && $assignment->IS_SETTING == 1) <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> @endif
+                                @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING > 0) <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> @endif
+                                @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING == 0) <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> @endif
                                 <p class="fw-bold text-black mb-1">{{ $assignment->VHC_ID }}</p>
                                 <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ? Str::limit($assignment->NAMA_FGR, 13) : '______' }}</p>
                                 <p class="mb-0 anymore text-black">{{ $assignment->NIK_FGR ? $assignment->NIK_FGR : '_____' }}</p>

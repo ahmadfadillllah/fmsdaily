@@ -493,7 +493,7 @@
                                                                 name="superintendent">
                                                                 <option selected disabled></option>
                                                                 @foreach ($users['superintendent'] as $si)
-                                                                    <option value="{{ $si->NRP }}">{{ $si->PERSONALNAME }}</option>
+                                                                    <option value="{{ $si->NRP }}">{{ $si->PERSONALNAME }} ({{ $si->JABATAN }})</option>
                                                                 @endforeach
                                                             </select>
                                     </div>

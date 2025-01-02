@@ -34,7 +34,7 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0)">Payload & Ritation</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">All Summary</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">Excavator</a></li>
                         </ul>
                     </div>
                     <div class="row">
@@ -61,7 +61,6 @@
                                         <th rowspan="3">No</th>
                                         <th rowspan="3">Fleet</th>
                                         <th rowspan="3">Type</th>
-                                        <th rowspan="3">No. Unit</th>
                                         <th style="text-align: center;" colspan="6">Payload</th>
                                         <th style="text-align: center;" colspan="6">Ritation</th>
                                     </tr>
@@ -87,46 +86,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $dt)
+                                    @foreach ($grouped as $key => $dt)
                                         <tr>
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                            <td>{{ $dt->ASG_LOADERID }}</td>
-                                            <td>{{ $dt->EQU_TYPEID }}</td>
-                                            <td>{{ $dt->VHC_ID }}</td>
-                                            <td style="text-align: center;">{{ $dt->PAYLOAD_LASTHOUR }}</td>
-                                            <td style="text-align: center;">{{ $dt->PAYLOAD_SHIFT }}</td>
-                                            <td style="text-align: center;">{{ $dt->PAYLOAD_TODAY }}</td>
-                                            <td style="text-align: center;">{{ $dt->PAYLOAD_8595 }}</td>
-                                            <td style="text-align: center;">{{ $dt->PAYLOAD_95100 }}</td>
-                                            <td style="text-align: center;">{{ $dt->PAYLOAD_MORE110 }}</td>
-                                            <td style="text-align: center;">{{ $dt->RIT_LASTHOUR }}</td>
-                                            <td style="text-align: center;">{{ $dt->RITAVG_SHIFT }}</td>
-                                            <td style="text-align: center;">{{ $dt->RITAVG_TODAY }}</td>
-                                            <td style="text-align: center;">{{ $dt->RIT_LASTHOUR }}</td>
-                                            <td style="text-align: center;">{{ $dt->RIT_SHIFT }}</td>
-                                            <td style="text-align: center;">{{ $dt->RIT_TODAY }}</td>
+                                            <td>{{ $dt['ASG_LOADERID'] }}</td>
+                                            <td>{{ $dt['EQU_TYPEEX'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['PAYLOAD_LASTHOUR'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['PAYLOAD_SHIFT'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['PAYLOAD_TODAY'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['PAYLOAD_8595'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['PAYLOAD_95100'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['PAYLOAD_MORE110'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['RIT_LASTHOUR'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['RITAVG_SHIFT'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['RITAVG_TODAY'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['RIT_LASTHOUR'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['RIT_SHIFT'] }}</td>
+                                            <td style="text-align: center;">{{ $dt['RIT_TODAY'] }}</td>
                                         </tr>
                                     @php
-                                        $totalPayloadLastHour += $dt->PAYLOAD_LASTHOUR;
-                                        $totalPayloadShift += $dt->PAYLOAD_SHIFT;
-                                        $totalPayloadToday += $dt->PAYLOAD_TODAY;
-                                        $totalRitLast3Hour += $dt->RIT_LAST3HOUR;
-                                        $totalPayloadLess85 += $dt->PAYLOAD_8595;
-                                        $totalPayload95100 += $dt->PAYLOAD_95100;
-                                        $totalPayloadMore110 += $dt->PAYLOAD_MORE110;
-                                        $totalRitAvgLast3Hour += $dt->RIT_LASTHOUR;
-                                        $totalRitAvgShift += $dt->RITAVG_SHIFT;
-                                        $totalRitAvgToday += $dt->RITAVG_TODAY;
-                                        $totalRitLastHour += $dt->RIT_LASTHOUR;
-                                        $totalRitShift += $dt->RIT_SHIFT;
-                                        $totalRitToday += $dt->RIT_TODAY;
+                                        $totalPayloadLastHour += $dt['PAYLOAD_LASTHOUR'];
+                                        $totalPayloadShift += $dt['PAYLOAD_SHIFT'];
+                                        $totalPayloadToday += $dt['PAYLOAD_TODAY'];
+                                        $totalRitLast3Hour += $dt['RIT_LAST3HOUR'];
+                                        $totalPayloadLess85 += $dt['PAYLOAD_8595'];
+                                        $totalPayload95100 += $dt['PAYLOAD_95100'];
+                                        $totalPayloadMore110 += $dt['PAYLOAD_MORE110'];
+                                        $totalRitAvgLast3Hour += $dt['RIT_LASTHOUR'];
+                                        $totalRitAvgShift += $dt['RITAVG_SHIFT'];
+                                        $totalRitAvgToday += $dt['RITAVG_TODAY'];
+                                        $totalRitLastHour += $dt['RIT_LASTHOUR'];
+                                        $totalRitShift += $dt['RIT_SHIFT'];
+                                        $totalRitToday += $dt['RIT_TODAY'];
                                     @endphp
                                     @endforeach
 
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4" style="text-align: center; font-weight: bold;">Total</td>
+                                        <td colspan="3" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">{{ $totalPayloadLastHour }}</td>
                                         <td style="text-align: center;">{{ $totalPayloadShift }}</td>
                                         <td style="text-align: center;">{{ $totalPayloadToday }}</td>
@@ -193,7 +191,8 @@
                 }
             },
             'colvis'
-        ]
+        ],
+        "pageLength": 15
     });
 
     // [ Excel - Cell Background ]
