@@ -222,7 +222,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');
-    Route::post('/log/search', [LogController::class, 'search'])->name('log.search')->middleware('checkRole'.':ADMIN');
 });
 
 

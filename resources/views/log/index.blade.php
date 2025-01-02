@@ -14,8 +14,7 @@
                         </ul>
                     </div>
                     <div class="col-12">
-                        <form action="{{ route('log.search') }}" method="POST">
-                            @csrf
+                        <form action="#" method="get">
                             <div class="mb-3 row d-flex align-items-center">
                                 <div class="col-3">
                                         <div class="input-group" id="pc-datepicker-5">
@@ -61,7 +60,7 @@
                                     </div>
                                 </div>
                                 <div class="col-1">
-                                    <button type="submit" class="btn btn-primary">Tampilkan</button>
+                                    <button type="submit" class="badge bg-success" style="font-size:16px;border:none">Tampilkan</button>
                                 </div>
                             </div>
                         </form>
@@ -87,27 +86,18 @@
                                     </tr>
 
                                 </thead>
-                                {{-- <tbody>
-                                    @foreach ($front as $item)
+                                <tbody>
+                                    @foreach ($data['log'] as $log)
                                         <tr>
-                                            <td>{{ $item['tanggal_pelaporan'] }}</td>
-                                            <td>{{ $item['shift'] }}</td>
-                                            <td>{{ $item['area'] }}</td>
-                                            <td>{{ $item['lokasi'] }}</td>
-                                            <td>{{ $item['shift_dasar'] }}</td>
-                                            <td>{{ $item['nomor_unit'] }}</td>
-                                            <td>{{ $item['jam'] }}</td>
-                                            <td>{{ $item['keterangan'] }}</td>
-                                            <td>{{ $item['nik_foreman'] }}</td>
-                                            <td>{{ $item['nama_foreman'] }}</td>
-                                            <td>{{ $item['nik_supervisor'] }}</td>
-                                            <td>{{ $item['nama_supervisor'] }}</td>
-                                            <td>{{ $item['nik_superintendent'] }}</td>
-                                            <td>{{ $item['nama_superintendent'] }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $log->tanggal_loging }}</td>
+                                            <td>{{ $log->jenis_loging }}</td>
+                                            <td>{{ $log->nama_user }}</td>
+                                            <td>{{ $log->keterangan }}</td>
                                         </tr>
                                     @endforeach
 
-                                </tbody> --}}
+                                </tbody>
                             </table>
                         </div>
                     </div>

@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-3">
                         <label>NIK</label>
-                        <input type="text" class="form-control" name="nik" required>
+                        <input type="text" class="form-control" name="nik" style="text-transform: uppercase;" required>
                     </div>
                     <div class="mb-3">
                         <label>Role</label>

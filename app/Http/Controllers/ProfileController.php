@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,14 @@ class ProfileController extends Controller
             User::whereId(Auth::user()->id)->update([
                 'password' => Hash::make($request->password_baru),
                 'updated_by' => Auth::user()->id,
+            ]);
+
+            Log::create([
+                'tanggal_loging' => now(),
+                'jenis_loging' => 'User',
+                'nama_user' => Auth::user()->id,
+                'nik' => Auth::user()->nik,
+                'keterangan' => 'Ganti password user dengan nama: '. Auth::user()->name . ', NIK: '. Auth::user()->nik . ', Role: '. Auth::user()->role . ', diganti oleh: '. Auth::user()->name,
             ]);
 
             Auth::logout();

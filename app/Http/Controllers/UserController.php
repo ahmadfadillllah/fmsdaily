@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,10 +19,19 @@ class UserController extends Controller
 
     public function resetPassword($id)
     {
+        $user = User::where('id', $id)->first();
         try {
             User::where('id', $id)->update([
                 'password' => Hash::make('12345'),
                 'updated_by' => Auth::user()->id,
+            ]);
+
+            Log::create([
+                'tanggal_loging' => now(),
+                'jenis_loging' => 'User',
+                'nama_user' => Auth::user()->id,
+                'nik' => Auth::user()->nik,
+                'keterangan' => 'Reset password user dengan nama: '. $user->name . ', NIK: '. $user->nik . ', Role: '. $user->role . ', direset oleh: '. Auth::user()->name,
             ]);
 
             return redirect()->back()->with('success', 'Reset password berhasil');
@@ -65,6 +75,14 @@ class UserController extends Controller
                 'password' => Hash::make('12345'),
             ]);
 
+            Log::create([
+                'tanggal_loging' => now(),
+                'jenis_loging' => 'User',
+                'nama_user' => Auth::user()->id,
+                'nik' => Auth::user()->nik,
+                'keterangan' => 'Pendaftaran user dengan nama: '. $request->name . ', NIK: '. $request->nik . ', Role: '. $request->role . ', didaftarkan oleh: '. Auth::user()->name,
+            ]);
+
             return redirect()->back()->with('success', 'User berhasil ditambahkan');
         } catch (\Throwable $th) {
             return redirect()->back()->with('info', nl2br('User gagal ditambahn..\n' . $th->getMessage()));
@@ -78,19 +96,33 @@ class UserController extends Controller
         try {
 
             if($user->statusenabled == true){
-                $statusenabled = false;
 
                 User::where('id', $id)->update([
-                    'statusenabled' => $statusenabled,
+                    'statusenabled' => false,
                     'remember_token' => null,
                     'deleted_by' => Auth::user()->id,
                 ]);
 
+                Log::create([
+                    'tanggal_loging' => now(),
+                    'jenis_loging' => 'User',
+                    'nama_user' => Auth::user()->id,
+                    'nik' => Auth::user()->nik,
+                    'keterangan' => 'Disabled user dengan nama: '. $user->name . ', NIK: '. $user->nik . ', dieksekusi oleh: '. Auth::user()->name,
+                ]);
+
             }else{
-                $statusenabled = true;
                 User::where('id', $id)->update([
-                    'statusenabled' => $statusenabled,
+                    'statusenabled' => true,
                     'updated_by' => Auth::user()->id,
+                ]);
+
+                Log::create([
+                    'tanggal_loging' => now(),
+                    'jenis_loging' => 'User',
+                    'nama_user' => Auth::user()->id,
+                    'nik' => Auth::user()->nik,
+                    'keterangan' => 'Enabled user dengan nama: '. $user->name . ', NIK: '. $user->nik . ', dieksekusi oleh: '. Auth::user()->name,
                 ]);
             }
 
