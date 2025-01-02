@@ -27,7 +27,8 @@ class ProfileController extends Controller
             }
 
             User::whereId(Auth::user()->id)->update([
-                'password' => Hash::make($request->password_baru)
+                'password' => Hash::make($request->password_baru),
+                'updated_by' => Auth::user()->id,
             ]);
 
             Auth::logout();

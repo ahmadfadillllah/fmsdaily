@@ -62,7 +62,7 @@ class UserController extends Controller
                 'role' => $request->role,
                 'statusenabled' => true,
                 'created_by' => Auth::user()->id,
-                'password' => Hash::make('test'),
+                'password' => Hash::make('12345'),
             ]);
 
             return redirect()->back()->with('success', 'User berhasil ditambahkan');
