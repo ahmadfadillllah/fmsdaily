@@ -66,13 +66,26 @@
             <!-- Badge Section -->
             <hr>
             <div>
-                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> Belum Disetting</span>
-                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> Belum Login</span>
-                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> Login & Setting Berbeda</span>
-                <span class="badge" style="color: black;font-size:8pt;"><img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> Login & Setting Sesuai</span>
-                <span class="badge" style="background-color: #0000ff;font-size:8pt;">EX-Sudah Finger</span>
-                <span class="badge" style="background-color: #00ff00;font-size:8pt; color:black">HD-Sudah Finger</span>
+                <span class="badge" style="color: black; font-size:8pt; padding-left: 4px; padding-right: 4px;">
+                    <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> Belum Disetting
+                </span>
+                <span class="badge" style="color: black; font-size:8pt; padding-left: 4px; padding-right: 4px;">
+                    <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px"> Belum Login
+                </span>
+                <span class="badge" style="color: black; font-size:8pt; padding-left: 4px; padding-right: 4px;">
+                    <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px"> Login & Setting Berbeda
+                </span>
+                <span class="badge" style="color: black; font-size:8pt; padding-left: 4px; padding-right: 4px;">
+                    <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px"> Login & Setting Sesuai
+                </span>
+                <span class="badge" style="background-color: #0000ff; font-size:8pt; padding-left: 4px; padding-right: 4px;">
+                    EX-Sudah Finger
+                </span>
+                <span class="badge" style="background-color: #00ff00; font-size:8pt; color:black; padding-left: 4px; padding-right: 4px;">
+                    HD-Sudah Finger
+                </span>
             </div>
+
 
             <!-- Divider -->
             <hr class="mt-2 mb-0" style="height: 1px; border: none; background-color: #ddd;">
