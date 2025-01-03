@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Form Pengawas
     Route::get('/form-pengawas/show', [FormPengawasController::class, 'show'])->name('form-pengawas.show');
-    Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
+    // Route::get('/form-pengawas/index', [FormPengawasController::class, 'index'])->name('form-pengawas.index');
 
     Route::get('/form-pengawas/index', function () {
         return redirect()->route('form-pengawas-old.index');
