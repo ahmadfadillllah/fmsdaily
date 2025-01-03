@@ -34,7 +34,7 @@ class LogController extends Controller
         $user = User::all();
         $jenis = collect([
             (object)['jenis' => 'KLKH'],
-            (object)['jenis' => 'Laporan Harian'],
+            (object)['jenis' => 'Laporan Kerja'],
             (object)['jenis' => 'User'],
         ]);
 

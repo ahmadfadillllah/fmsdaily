@@ -22,24 +22,44 @@ class VerifikasiKLKHController extends Controller
     {
         // dd($request->all());
 
-        if (empty($request->rangeStartVerif) || empty($request->rangeEndVerif)){
+        if (empty($request->rangeStartVerif) || empty($request->rangeEndVerif)) {
             $time = Carbon::now();  // Mendapatkan waktu saat ini menggunakan Carbon
-            $startDate = $time->format('Y-m-d\TH:i:s');  // Format datetime-local
-            $endDate = $time->addHour()->format('Y-m-d\TH:i:s');
 
-            $start = new DateTime("$startDate");
-            $end = new DateTime("$endDate");
+            // Shift siang dimulai pukul 06:30 dan berakhir pukul 18:30
+            $startDateMorning = $time->copy()->setTime(6, 30, 0); // 06:30:00 hari ini
+            $endDateMorning = $time->copy()->setTime(18, 30, 0); // 18:30:00 hari ini
 
-        }else{
-            $start = new DateTime("$request->rangeStartVerif");
-            $end = new DateTime("$request->rangeEndVerif");
+            // Shift malam dimulai pukul 18:30 hari ini dan berakhir pukul 06:30 hari berikutnya
+            $startDateNight = $time->copy()->setTime(18, 30, 0); // 18:30:00 hari ini
+            $endDateNight = $time->copy()->setTime(6, 30, 0); // 06:30:00 besok
+
+            // Cek apakah sekarang sudah lewat jam 18:30
+            if ($time->hour >= 18 && $time->minute >= 30) {
+                // $startDateNight->addDay();  // Shift malam dimulai besok
+                $endDateNight->addDay();    // Shift malam berakhir besok pagi
+            }
+
+            // Pilih shift berdasarkan waktu saat ini (siang atau malam)
+            if ($time->hour >= 18 && $time->minute >= 30) {
+                // Jika sudah lewat jam 18:30, gunakan shift malam
+                $start = new DateTime($startDateNight->format('Y-m-d\TH:i:s'));
+                $end = new DateTime($endDateNight->format('Y-m-d\TH:i:s'));
+            } else {
+                // Jika belum lewat jam 18:30, gunakan shift siang
+                $start = new DateTime($startDateMorning->format('Y-m-d\TH:i:s'));
+                $end = new DateTime($endDateMorning->format('Y-m-d\TH:i:s'));
+            }
+        } else {
+            // Jika parameter rangeStartVerif dan rangeEndVerif ada di URL, gunakan nilai tersebut
+            $start = new DateTime($request->rangeStartVerif);
+            $end = new DateTime($request->rangeEndVerif);
         }
 
+        // Format waktu sesuai dengan format yang diinginkan
+        $startTimeFormatted = $start->format('Y-m-d H:i:s');
+        $endTimeFormatted = $end->format('Y-m-d H:i:s');
 
-        $startTimeFormatted = $start->format('Y-m-d\TH:i:s');
-        $endTimeFormatted = $end->format('Y-m-d\TH:i:s');
-
-        // dd($endTimeFormatted);
+        // dd($startTimeFormatted);
 
 
         $loading = DB::table('klkh_loadingpoint_t as lp')
@@ -72,7 +92,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'LOADING POINT' as source_table")
         )
         ->where('lp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $loading->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -110,7 +130,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'HAUL ROAD' as source_table")
         )
         ->where('hr.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $haulroad->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -148,7 +168,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'DISPOSAL/DUMPING POINT' as source_table")
         )
         ->where('dp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $disposal->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -186,7 +206,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'DUMPING DIKOLAM AIR/LUMPUR' as source_table")
         )
         ->where('lum.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $lumpur->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -224,7 +244,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'OGS' as source_table")
         )
         ->where('ogs.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $ogs->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -262,7 +282,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'BATU BARA' as source_table")
         )
         ->where('lp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $batubara->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -300,7 +320,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('se.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $simpangempat->where(strtolower(Auth::user()->role), Auth::user()->nik);
