@@ -19,8 +19,8 @@ class VerifikasiKLKHLoadingPointController extends Controller
             $startDate = $time->format('Y-m-d');
             $endDate = $time->format('Y-m-d');
 
-            $start = new DateTime("$request->rangeStart");
-            $end = new DateTime("$request->rangeEnd");
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
 
         }else{
             $start = new DateTime("$request->rangeStart");

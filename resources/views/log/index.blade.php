@@ -29,7 +29,7 @@
                                 <div class="col-3">
                                     <div class="mb-3">
                                         <label>Jenis Log</label>
-                                        <select class="form-select" data-trigger id="unitSupport" name="alat_unit[]">
+                                        <select class="form-select" data-trigger id="unitSupport" name="jenis_log">
                                             <option selected disabled></option>
                                             @foreach ($data['jenis'] as $index => $je)
                                                 <option value="{{ $je->jenis }}">{{ $je->jenis }}</option>
@@ -40,7 +40,7 @@
                                 <div class="col-2">
                                     <div class="mb-3">
                                         <label>NIK</label>
-                                        <select class="form-select" data-trigger id="unitSupport" name="alat_unit[]">
+                                        <select class="form-select" data-trigger id="unitSupport" name="nik">
                                             <option selected disabled></option>
                                             @foreach ($data['user'] as $us)
                                                 <option value="{{ $us->nik }}">{{ $us->nik }}</option>
@@ -51,7 +51,7 @@
                                 <div class="col-3">
                                     <div class="mb-3">
                                         <label>Nama User</label>
-                                        <select class="form-select" data-trigger id="unitSupport" name="alat_unit[]">
+                                        <select class="form-select" data-trigger id="unitSupport" name="nama_user">
                                             <option selected disabled></option>
                                             @foreach ($data['user'] as $us)
                                                 <option value="{{ $us->id }}">{{ $us->name }}</option>

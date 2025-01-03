@@ -9,6 +9,7 @@ use App\Models\KLKHLoadingPoint;
 use App\Models\KLKHLumpur;
 use App\Models\KLKHOGS;
 use App\Models\KLKHSimpangEmpat;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,23 +20,26 @@ class VerifikasiKLKHController extends Controller
     //
     public function index(Request $request)
     {
+        // dd($request->all());
 
-        if (empty($request->rangeStart) || empty($request->rangeEnd)){
-            $time = new DateTime();
-            $startDate = $time->format('Y-m-d');
-            $endDate = $time->format('Y-m-d');
+        if (empty($request->rangeStartVerif) || empty($request->rangeEndVerif)){
+            $time = Carbon::now();  // Mendapatkan waktu saat ini menggunakan Carbon
+            $startDate = $time->format('Y-m-d\TH:i:s');  // Format datetime-local
+            $endDate = $time->addHour()->format('Y-m-d\TH:i:s');
 
-            $start = new DateTime("$request->rangeStart");
-            $end = new DateTime("$request->rangeEnd");
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
 
         }else{
-            $start = new DateTime("$request->rangeStart");
-            $end = new DateTime("$request->rangeEnd");
+            $start = new DateTime("$request->rangeStartVerif");
+            $end = new DateTime("$request->rangeEndVerif");
         }
 
 
-        $startTimeFormatted = $start->format('Y-m-d');
-        $endTimeFormatted = $end->format('Y-m-d');
+        $startTimeFormatted = $start->format('Y-m-d\TH:i:s');
+        $endTimeFormatted = $end->format('Y-m-d\TH:i:s');
+
+        // dd($endTimeFormatted);
 
 
         $loading = DB::table('klkh_loadingpoint_t as lp')

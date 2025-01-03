@@ -29,10 +29,10 @@ tr.category-row td {
                         <div class="mb-3 row d-flex align-items-center">
                             <div class="col-sm-12 col-md-10 mb-2">
                                 <form action="" method="get">
-                                    <div class="input-group" id="pc-datepicker-8">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
+                                    <div class="input-group" >
+                                        <input type="datetime-local" class="form-control form-control-sm" placeholder="Start date" name="rangeStartVerif" style="max-width: 200px;" id="range-startverif">
                                         <span class="input-group-text">s/d</span>
-                                        <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
+                                        <input type="datetime-local" class="form-control form-control-sm" placeholder="End date" name="rangeEndVerif" style="max-width: 200px;" id="range-endverif">
                                         <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
                                     </div>
                                 </form>
@@ -172,6 +172,66 @@ $('#example tbody').on('click', 'tr.group', function () {
         table.order([groupColumn, 'asc']).draw();
     }
 });
+</script>
+
+<script>
+    // Fungsi untuk mengambil parameter query dari URL
+    function getQueryParam(name, defaultValue) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name) || defaultValue;
+    }
+
+    // Fungsi untuk memformat tanggal menjadi YYYY-MM-DDTHH:MM
+    function formatDateToYYYYMMDDHHMM(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    function getShiftTimes() {
+        const currentDate = new Date();
+
+        // Shift siang dimulai pukul 06:30 dan berakhir pukul 18:30
+        const startDateMorning = new Date(currentDate.setHours(6, 30, 0, 0)); // 06:30:00 hari ini
+        const endDateMorning = new Date(currentDate.setHours(18, 30, 0, 0));  // 18:30:00 hari ini
+
+        // Shift malam dimulai pukul 18:30 hari ini dan berakhir pukul 06:30 hari berikutnya
+        const startDateNight = new Date(currentDate.setHours(18, 30, 0, 0)); // 18:30:00 hari ini
+        const endDateNight = new Date(currentDate.setHours(6, 30, 0, 0)); // 06:30:00 besok
+
+        if (currentDate.getHours() >= 18 && currentDate.getMinutes() >= 30) {
+            endDateNight.setDate(endDateNight.getDate() + 1);
+            return {
+                startDateMorning: formatDateToYYYYMMDDHHMM(startDateNight),
+                endDateMorning: formatDateToYYYYMMDDHHMM(endDateNight),
+            };
+        }else{
+
+            return {
+                startDateMorning: formatDateToYYYYMMDDHHMM(startDateMorning),
+                endDateMorning: formatDateToYYYYMMDDHHMM(endDateMorning),
+            };
+        }
+
+        return {
+            startDateMorning: formatDateToYYYYMMDDHHMM(startDateMorning),
+            endDateMorning: formatDateToYYYYMMDDHHMM(endDateMorning),
+        };
+    }
+
+    const shiftTimes = getShiftTimes();
+
+    const startDateVerif = getQueryParam('rangeStartVerif', shiftTimes.startDateMorning);
+    const endDateVerif = getQueryParam('rangeEndVerif', shiftTimes.endDateMorning);
+
+    console.log(startDateVerif);
+
+    // Set nilai default pada input datetime-local
+    document.getElementById('range-startverif').value = startDateVerif;
+    document.getElementById('range-endverif').value = endDateVerif;
 </script>
 
 
