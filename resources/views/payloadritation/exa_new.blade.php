@@ -11,8 +11,10 @@
 </style>
 @php
     $dataCount = count($grouped);
+
     $totalPayloadLastHour = 0;
     $totalPayloadShift = 0;
+    $totalPayloadShiftAve = 0;
     $totalPayloadToday = 0;
     $totalPayloadLess85 = 0;
     $totalPayload95100 = 0;
@@ -22,6 +24,7 @@
     $totalRitAvgToday = 0;
     $totalRitLastHour = 0;
     $totalRitShift = 0;
+    $totalRitShiftAve = 0;
     $totalRitToday = 0;
     $totalRitLast3Hour = 0;
 @endphp
@@ -75,8 +78,8 @@
                                             <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 2) }}</td>
                                         </tr>
                                         @php
-                                            $totalPayloadShift += $dt['PAYLOAD_SHIFT'];
-                                            $totalRitShift += $dt['RIT_SHIFT'];
+                                            $totalPayloadShiftAve += $dt['PAYLOAD_SHIFT'];
+                                            $totalRitShiftAve += $dt['RIT_SHIFT'];
                                         @endphp
                                     @endforeach
 
@@ -85,10 +88,10 @@
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;">Average</td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadShift / $dataCount, 2) }}
+                                            {{ number_format($totalPayloadShiftAve / $dataCount, 2) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitShift / $dataCount, 2) }}
+                                            {{ number_format($totalRitShiftAve / $dataCount, 2) }}
                                         </td>
                                     </tr>
                                 </tfoot>
