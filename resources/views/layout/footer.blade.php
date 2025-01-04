@@ -283,29 +283,38 @@
 
 </script>
 <script>
-    // minimum setup
-    (function () {
-        const d_week = new Datepicker(document.querySelector('#pc-datepicker-1'), {
-            buttonClass: 'btn',
-            autohide: true,
-        });
-
+   (function () {
+        const element1 = document.querySelector('#pc-datepicker-1');
+        if (element1) {
+            const d_week = new Datepicker(element1, {
+                buttonClass: 'btn',
+                autohide: true,
+            });
+        }
     })();
 
     (function () {
-        const d_week = new Datepicker(document.querySelector('#pc-datepicker-2'), {
-            buttonClass: 'btn',
-            autohide: true,
-        });
-    })();
+        const element2 = document.querySelector('#pc-datepicker-2');
+        if (element2) {
+            const d_week = new Datepicker(element2, {
+                buttonClass: 'btn',
+                autohide: true,
+            });
+        }
+})();
 
 </script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/wizard.min.js"></script>
     <script>
-        new Wizard('#basicwizard', {
-            validate: true,
-            progress: true
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+        const wizardElement = document.querySelector('#basicwizard');
+        if (wizardElement) {
+            new Wizard(wizardElement, {
+                validate: true,
+                progress: true
+            });
+        }
+});
 
     </script>
 <script>
@@ -321,31 +330,28 @@
         return `${month}/${day}/${year}`;
     }
 
-    const currentDate = new Date();
-    const today = formatDateToMMDDYYYY(currentDate);
+    document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date();
+            const today = formatDateToMMDDYYYY(currentDate);
 
-    const startDate = getQueryParam('rangeStart', today);
-    const endDate = getQueryParam('rangeEnd', today);
+            // Mengambil parameter 'rangeStart' dan 'rangeEnd' dari URL, dengan default ke tanggal hari ini
+            const startDate = getQueryParam('rangeStart', today);
+            const endDate = getQueryParam('rangeEnd', today);
 
-    document.getElementById('range-start').value = startDate;
-    document.getElementById('range-end').value = endDate;
+            // Mencari elemen input dengan id 'range-start' dan 'range-end'
+            const rangeStartInput = document.getElementById('range-start');
+            const rangeEndInput = document.getElementById('range-end');
+
+            // Menetapkan nilai pada elemen input jika ditemukan
+            if (rangeStartInput) {
+                rangeStartInput.value = startDate;
+            }
+
+            if (rangeEndInput) {
+                rangeEndInput.value = endDate;
+            }
+        });
 </script>
-
-{{-- <script>
-    window.addEventListener('beforeunload', () => {
-      const overlay = document.getElementById('loading-overlay');
-      overlay.style.visibility = 'visible';
-      overlay.style.opacity = '1';
-    });
-
-    window.addEventListener('load', () => {
-      const overlay = document.getElementById('loading-overlay');
-      setTimeout(() => {
-        overlay.style.opacity = '0';
-        overlay.style.visibility = 'hidden';
-      }, 1000);
-    });
-  </script> --}}
 </body>
 
 </html>
