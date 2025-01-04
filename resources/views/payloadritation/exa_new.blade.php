@@ -72,10 +72,10 @@
                                 <tbody>
                                     @foreach ($grouped as $key => $dt)
                                         <tr>
-                                            <td style="text-align: center;">{{ $loop->iteration }}</td>
-                                            <td>{{ $dt['ASG_LOADERID'] }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 0) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 0) }}</td>
+                                            <td style="text-align: center;font-size: 14px;">{{ $loop->iteration }}</td>
+                                            <td style="font-size: 14px;">{{ $dt['ASG_LOADERID'] }}</td>
+                                            <td style="text-align: center;font-size: 14px;">{{ number_format($dt['PAYLOAD_SHIFT'], 0) }}</td>
+                                            <td style="text-align: center;font-size: 14px;">{{ number_format($dt['RIT_SHIFT'], 0) }}</td>
                                         </tr>
                                         @php
                                             $totalPayloadShiftAve += $dt['PAYLOAD_SHIFT'];
@@ -86,11 +86,11 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
-                                        <td style="text-align: center;">
+                                        <td colspan="2" style="text-align: center; font-weight: bold;font-size: 14px;">Total</td>
+                                        <td style="text-align: center;font-size: 14px;">
                                             {{ number_format($totalPayloadShiftAve / $dataCount, 0) }}
                                         </td>
-                                        <td style="text-align: center;">
+                                        <td style="text-align: center;font-size: 14px;">
                                             {{ number_format($totalRitShiftAve, 0) }}
                                         </td>
                                     </tr>
@@ -171,13 +171,13 @@
                                             {{ number_format($totalPayloadShift / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadLess85 / $dataCount, 0) }}
+                                            {{ number_format($totalPayloadLess85, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayload95100 / $dataCount, 0) }}
+                                            {{ number_format($totalPayload95100, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadMore110 / $dataCount, 0) }}
+                                            {{ number_format($totalPayloadMore110, 0) }}
                                         </td>
                                         <td style="text-align: center;">
                                             {{ number_format($totalRitAvgLast3Hour, 0) }}
@@ -247,7 +247,12 @@
             },
             'colvis'
         ],
-        "pageLength": 15
+        "pageLength": 15,
+        fixedColumns: true,
+    paging: false,
+    scrollCollapse: true,
+    scrollX: true,
+    scrollY: 300
     });
 
     // [ Excel - Cell Background ]

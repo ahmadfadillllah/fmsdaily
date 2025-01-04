@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PayloadRitation;
+use App\Models\Ritation;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -78,7 +79,30 @@ class PayloadRitationController extends Controller
     public function exa_new()
     {
 
+        $time = new DateTime();
+
+        $waktuSekarang = Carbon::now();
+        $jam = $waktuSekarang->hour;
+        if ($jam >= 7 && $jam < 18) {
+            // Shift 6 jika jam antara 7 dan 18
+            $shift = 6;
+            $startDate = $time->format('Y-m-d');  // Start date hari ini
+            $endDate = $time->format('Y-m-d');    // End date hari ini
+        } else {
+            // Shift 7 jika jam di luar 7 hingga 18
+            $shift = 7;
+            $startDate = $time->format('Y-m-d');  // Start date hari ini
+            // End date menjadi tanggal besok
+            $endDate = $time->modify('+1 day')->format('Y-m-d');
+        }
+
         $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_PAYLOAD_RITATION');
+
+        $resume = Ritation::select('LOD_LOADERID', 'RIT_TONNAGE')
+        ->where('OPR_SHIFTNO', $shift)
+        ->whereBetween('OPR_SHIFTDATE', [$startDate, $endDate])
+        ->get();
+        $resume = $resume->groupBy('LOD_LOADERID');
 
         $data = collect($data);
 
@@ -86,12 +110,28 @@ class PayloadRitationController extends Controller
         //     return !empty($item->ASG_LOADERID);
         // });
 
-        $grouped = $data->groupBy('ASG_LOADERID')->map(function ($group) {
-            return $group->reduce(function ($carry, $item) {
+        $grouped = $data->groupBy('ASG_LOADERID')->sortBy('ASG_LOADERID')->map(function ($group) {
+            return $group->reduce(function ($carry, $item) use ($group) {
+                // Menghitung jumlah elemen dalam kelompok untuk pembagian dinamis
+                $groupCount = $group->count();
+
                 foreach ($item as $key => $value) {
-                    if (is_numeric($value)) {
+                    // Daftar field yang dihitung rata-rata
+                    $averageFields = [
+                        'PAYLOAD_LASTHOUR',
+                        'PAYLOAD_SHIFT',
+                    ];
+
+                    if (in_array($key, $averageFields) && is_numeric($value)) {
+                        // Hitung rata-rata dengan membagi jumlah total dengan jumlah elemen dalam grup
+                        $carry[$key] = isset($carry[$key])
+                            ? (($carry[$key] * ($groupCount - 1) + $value) / $groupCount) // Pembagian dinamis
+                            : $value;
+                    } elseif (is_numeric($value)) {
+                        // Jumlahkan untuk field lainnya yang bukan rata-rata
                         $carry[$key] = isset($carry[$key]) ? $carry[$key] + $value : $value;
                     } else {
+                        // Untuk field yang bukan numerik, tetap simpan nilai pertama
                         $carry[$key] = $carry[$key] ?? $value;
                     }
                 }
@@ -99,6 +139,7 @@ class PayloadRitationController extends Controller
             });
         });
 
-        return view('payloadritation.exa_new', compact('grouped'));
+
+        return view('payloadritation.exa_new', compact('grouped', 'resume'));
     }
 }
