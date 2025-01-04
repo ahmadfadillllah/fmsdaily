@@ -74,8 +74,8 @@
                                         <tr>
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td>{{ $dt['ASG_LOADERID'] }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 0) }}</td>
                                         </tr>
                                         @php
                                             $totalPayloadShiftAve += $dt['PAYLOAD_SHIFT'];
@@ -88,10 +88,10 @@
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadShiftAve / $dataCount, 2) }}
+                                            {{ number_format($totalPayloadShiftAve / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitShiftAve, 2) }}
+                                            {{ number_format($totalRitShiftAve, 0) }}
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -136,15 +136,15 @@
                                         <tr>
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td>{{ $dt['ASG_LOADERID'] }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_LASTHOUR'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_8595'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_95100'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_MORE110'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RITAVG_SHIFT'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 2) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_LASTHOUR'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_8595'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_95100'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_MORE110'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RITAVG_SHIFT'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 0) }}</td>
                                         </tr>
                                         @php
                                             $totalPayloadLastHour += $dt['PAYLOAD_LASTHOUR'];
@@ -165,31 +165,31 @@
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadLastHour / $dataCount, 2) }}
+                                            {{ number_format($totalPayloadLastHour / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadShift / $dataCount, 2) }}
+                                            {{ number_format($totalPayloadShift / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadLess85 / $dataCount, 2) }}
+                                            {{ number_format($totalPayloadLess85 / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayload95100 / $dataCount, 2) }}
+                                            {{ number_format($totalPayload95100 / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadMore110 / $dataCount, 2) }}
+                                            {{ number_format($totalPayloadMore110 / $dataCount, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitAvgLast3Hour, 2) }}
+                                            {{ number_format($totalRitAvgLast3Hour, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitAvgShift, 2) }}
+                                            {{ number_format($totalRitAvgShift, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitLastHour, 2) }}
+                                            {{ number_format($totalRitLastHour, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitShift, 2) }}
+                                            {{ number_format($totalRitShift, 0) }}
                                         </td>
                                     </tr>
                                 </tfoot>
