@@ -86,12 +86,12 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2" style="text-align: center; font-weight: bold;">Average</td>
+                                        <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
                                             {{ number_format($totalPayloadShiftAve / $dataCount, 2) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitShiftAve / $dataCount, 2) }}
+                                            {{ number_format($totalRitShiftAve, 2) }}
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -163,7 +163,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2" style="text-align: center; font-weight: bold;">Average</td>
+                                        <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
                                             {{ number_format($totalPayloadLastHour / $dataCount, 2) }}
                                         </td>
@@ -180,16 +180,16 @@
                                             {{ number_format($totalPayloadMore110 / $dataCount, 2) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitAvgLast3Hour / $dataCount, 2) }}
+                                            {{ number_format($totalRitAvgLast3Hour, 2) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitAvgShift / $dataCount, 2) }}
+                                            {{ number_format($totalRitAvgShift, 2) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitLastHour / $dataCount, 2) }}
+                                            {{ number_format($totalRitLastHour, 2) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalRitShift / $dataCount, 2) }}
+                                            {{ number_format($totalRitShift, 2) }}
                                         </td>
                                     </tr>
                                 </tfoot>
