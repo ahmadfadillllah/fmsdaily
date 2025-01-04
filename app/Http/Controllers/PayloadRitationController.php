@@ -80,20 +80,7 @@ class PayloadRitationController extends Controller
 
         $data = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.RPT_REALTIME_PAYLOAD_RITATION');
 
-        $exa = Unit::select(['VHC_ID', 'EQU_TYPEID', 'EQU_GROUPID', 'VHC_ACTIVE'])
-        ->where('VHC_ID', 'like', 'EX%')
-        ->where('VHC_ACTIVE', true)
-        ->get();
-
-        $equTypeData = $exa->pluck('EQU_TYPEID', 'VHC_ID');
-
-        $data = collect($data)->map(function ($item) use ($equTypeData) {
-            $item->EQU_TYPEEX = isset($equTypeData[$item->ASG_LOADERID]) ? $equTypeData[$item->ASG_LOADERID] : null;
-
-            return (object) array_map(function ($value) {
-                return is_numeric($value) ? round($value, 1) : $value;
-            }, (array) $item);
-        });
+        $data = collect($data);
 
         // $data = $data->filter(function ($item) {
         //     return !empty($item->ASG_LOADERID);

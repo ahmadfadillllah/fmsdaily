@@ -10,6 +10,7 @@
 
 </style>
 @php
+    $dataCount = count($grouped);
     $totalPayloadLastHour = 0;
     $totalPayloadShift = 0;
     $totalPayloadToday = 0;
@@ -54,35 +55,15 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
+                        <h5>Resume Summary per EX</h5>
                         <div class="dt-responsive table-responsive">
-                            <table id="cbtn-selectors" class="table table-striped table-hover table-bordered nowrap">
+                            <table id="dom-jqry" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
-                                        <th rowspan="3">No</th>
-                                        <th rowspan="3">Fleet</th>
-                                        <th rowspan="3">Type</th>
-                                        <th style="text-align: center;" colspan="6">Payload</th>
-                                        <th style="text-align: center;" colspan="6">Ritation</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align: center;" colspan="3">Average</th>
-                                        <th style="text-align: center;" colspan="3">Distribution</th>
-                                        <th style="text-align: center;" colspan="3">Average</th>
-                                        <th style="text-align: center;" colspan="3">Cummulative</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Last Hour</th>
-                                        <th>This Shift</th>
-                                        <th>All Day</th>
-                                        <th>< 95</th>
-                                        <th>95 - 110</th>
-                                        <th>> 110</th>
-                                        <th>Last Hour</th>
-                                        <th>This Shift</th>
-                                        <th>All Day</th>
-                                        <th>Last Hour</th>
-                                        <th>This Shift</th>
-                                        <th>All Day</th>
+                                        <th>No</th>
+                                        <th>Fleet</th>
+                                        <th style="text-align: center;">Payload</th>
+                                        <th style="text-align: center;">Ritation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,53 +71,123 @@
                                         <tr>
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                             <td>{{ $dt['ASG_LOADERID'] }}</td>
-                                            <td>{{ $dt['EQU_TYPEEX'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['PAYLOAD_LASTHOUR'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['PAYLOAD_SHIFT'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['PAYLOAD_TODAY'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['PAYLOAD_8595'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['PAYLOAD_95100'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['PAYLOAD_MORE110'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['RIT_LASTHOUR'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['RITAVG_SHIFT'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['RITAVG_TODAY'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['RIT_LASTHOUR'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['RIT_SHIFT'] }}</td>
-                                            <td style="text-align: center;">{{ $dt['RIT_TODAY'] }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 2) }}</td>
                                         </tr>
-                                    @php
-                                        $totalPayloadLastHour += $dt['PAYLOAD_LASTHOUR'];
-                                        $totalPayloadShift += $dt['PAYLOAD_SHIFT'];
-                                        $totalPayloadToday += $dt['PAYLOAD_TODAY'];
-                                        $totalRitLast3Hour += $dt['RIT_LAST3HOUR'];
-                                        $totalPayloadLess85 += $dt['PAYLOAD_8595'];
-                                        $totalPayload95100 += $dt['PAYLOAD_95100'];
-                                        $totalPayloadMore110 += $dt['PAYLOAD_MORE110'];
-                                        $totalRitAvgLast3Hour += $dt['RIT_LASTHOUR'];
-                                        $totalRitAvgShift += $dt['RITAVG_SHIFT'];
-                                        $totalRitAvgToday += $dt['RITAVG_TODAY'];
-                                        $totalRitLastHour += $dt['RIT_LASTHOUR'];
-                                        $totalRitShift += $dt['RIT_SHIFT'];
-                                        $totalRitToday += $dt['RIT_TODAY'];
-                                    @endphp
+                                        @php
+                                            $totalPayloadShift += $dt['PAYLOAD_SHIFT'];
+                                            $totalRitShift += $dt['RIT_SHIFT'];
+                                        @endphp
                                     @endforeach
 
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3" style="text-align: center; font-weight: bold;">Total</td>
-                                        <td style="text-align: center;">{{ $totalPayloadLastHour }}</td>
-                                        <td style="text-align: center;">{{ $totalPayloadShift }}</td>
-                                        <td style="text-align: center;">{{ $totalPayloadToday }}</td>
-                                        <td style="text-align: center;">{{ $totalPayloadLess85 }}</td>
-                                        <td style="text-align: center;">{{ $totalPayload95100 }}</td>
-                                        <td style="text-align: center;">{{ $totalPayloadMore110 }}</td>
-                                        <td style="text-align: center;">{{ $totalRitAvgLast3Hour }}</td>
-                                        <td style="text-align: center;">{{ $totalRitAvgShift }}</td>
-                                        <td style="text-align: center;">{{ $totalRitAvgToday }}</td>
-                                        <td style="text-align: center;">{{ $totalRitLastHour }}</td>
-                                        <td style="text-align: center;">{{ $totalRitShift }}</td>
-                                        <td style="text-align: center;">{{ $totalRitToday }}</td>
+                                        <td colspan="2" style="text-align: center; font-weight: bold;">Average</td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalPayloadShift / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalRitShift / $dataCount, 2) }}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>All Summary per EX</h5>
+                        <div class="dt-responsive table-responsive">
+                            <table id="cbtn-selectors" class="table table-striped table-hover table-bordered nowrap">
+                                <thead style="text-align: center; vertical-align: middle;">
+                                    <tr>
+                                        <th rowspan="3">No</th>
+                                        <th rowspan="3">Fleet</th>
+                                        <th style="text-align: center;" colspan="5">Payload</th>
+                                        <th style="text-align: center;" colspan="4">Ritation</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: center;" colspan="2">Average</th>
+                                        <th style="text-align: center;" colspan="3">Distribution</th>
+                                        <th style="text-align: center;" colspan="2">Average</th>
+                                        <th style="text-align: center;" colspan="2">Cummulative</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Last Hour</th>
+                                        <th>This Shift</th>
+                                        <th>< 95</th>
+                                        <th>95 - 110</th>
+                                        <th>> 110</th>
+                                        <th>Last Hour</th>
+                                        <th>This Shift</th>
+                                        <th>Last Hour</th>
+                                        <th>This Shift</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($grouped as $key => $dt)
+                                        <tr>
+                                            <td style="text-align: center;">{{ $loop->iteration }}</td>
+                                            <td>{{ $dt['ASG_LOADERID'] }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_LASTHOUR'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_8595'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_95100'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_MORE110'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RITAVG_SHIFT'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 2) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 2) }}</td>
+                                        </tr>
+                                        @php
+                                            $totalPayloadLastHour += $dt['PAYLOAD_LASTHOUR'];
+                                            $totalPayloadShift += $dt['PAYLOAD_SHIFT'];
+                                            $totalRitLast3Hour += $dt['RIT_LAST3HOUR'];
+                                            $totalPayloadLess85 += $dt['PAYLOAD_8595'];
+                                            $totalPayload95100 += $dt['PAYLOAD_95100'];
+                                            $totalPayloadMore110 += $dt['PAYLOAD_MORE110'];
+                                            $totalRitAvgLast3Hour += $dt['RIT_LASTHOUR'];
+                                            $totalRitAvgShift += $dt['RITAVG_SHIFT'];
+                                            $totalRitLastHour += $dt['RIT_LASTHOUR'];
+                                            $totalRitShift += $dt['RIT_SHIFT'];
+                                        @endphp
+                                    @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" style="text-align: center; font-weight: bold;">Average</td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalPayloadLastHour / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalPayloadShift / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalPayloadLess85 / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalPayload95100 / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalPayloadMore110 / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalRitAvgLast3Hour / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalRitAvgShift / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalRitLastHour / $dataCount, 2) }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ number_format($totalRitShift / $dataCount, 2) }}
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -155,6 +206,7 @@
         location.reload();
     }, 300000); // 300000 milidetik = 5 menit
 </script>
+
 
 <script>
     // [ HTML5 Export Buttons ]
