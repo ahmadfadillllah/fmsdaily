@@ -33,15 +33,10 @@ class VerifikasiKLKHController extends Controller
             $startDateNight = $time->copy()->setTime(18, 30, 0); // 18:30:00 hari ini
             $endDateNight = $time->copy()->setTime(6, 30, 0); // 06:30:00 besok
 
-            // Cek apakah sekarang sudah lewat jam 18:30
-            if ($time->hour >= 18 && $time->minute >= 30) {
-                // $startDateNight->addDay();  // Shift malam dimulai besok
-                $endDateNight->addDay();    // Shift malam berakhir besok pagi
-            }
-
             // Pilih shift berdasarkan waktu saat ini (siang atau malam)
-            if ($time->hour >= 18 && $time->minute >= 30) {
+            if ($time->hour >= 18 && $time->minute >= 30 && $time->hour <= 6 && $time->minute >= 30) {
                 // Jika sudah lewat jam 18:30, gunakan shift malam
+                $endDateNight->addDay();
                 $start = new DateTime($startDateNight->format('Y-m-d\TH:i:s'));
                 $end = new DateTime($endDateNight->format('Y-m-d\TH:i:s'));
             } else {

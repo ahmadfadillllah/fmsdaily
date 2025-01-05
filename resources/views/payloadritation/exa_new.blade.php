@@ -6,6 +6,25 @@
     font-size: 11px;  /* Ukuran font lebih kecil */
     padding: 5px;     /* Mengurangi padding */
 }
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+#cbtn-selectors th, #cbtn-selectors td {
+    white-space: nowrap;
+}
+
+#cbtn-selectors tbody tr td:nth-child(2){
+    position: sticky;
+    left: 0;
+    background-color: #fff; /* Optional: to ensure it's not transparent */
+    z-index: 3; /* To make sure the fixed columns are above the others */
+}
+
+#cbtn-selectors th {
+    background-color: #f8f9fa; /* Light background for header */
+}
 
 
 </style>
@@ -104,7 +123,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5>All Summary per EX</h5>
-                        <div class="dt-responsive table-responsive">
+                        <div class="dt-responsive table-responsive table-container">
                             <table id="cbtn-selectors" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
@@ -201,7 +220,6 @@
         </div>
     </div>
 </section>
-
 @include('layout.footer')
 <script>
     // Memuat ulang halaman setiap 5 menit (300.000 milidetik)
@@ -209,7 +227,6 @@
         location.reload();
     }, 300000); // 300000 milidetik = 5 menit
 </script>
-
 
 <script>
     // [ HTML5 Export Buttons ]
@@ -248,7 +265,10 @@
             'colvis'
         ],
         "pageLength": 15,
-        fixedColumns: true,
+        fixedColumns: {
+        start: 2,
+        end: 1
+    },
     paging: false,
     scrollCollapse: true,
     scrollX: true,
