@@ -115,7 +115,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form action="{{ route('form-pengawas-old.post') }}" method="post"
-                                onsubmit="return validateForm()">
+                                onsubmit="return validateForm()" id="submitFormKerja">
                                 @csrf
                                 <div class="tab-content">
                                     <!-- START: Define your progress bar here -->
@@ -568,7 +568,7 @@
                                                                 class="form-check-label" for="customCheck1">Saya sudah
                                                                 mengisi form ini dengan benar</label></div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-success">Submit</button>
+                                                    <button type="submit" class="btn btn-success" id="submitButtonKerja">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -618,6 +618,19 @@
 </div>
 
 @include('layout.footer')
+
+<script>
+    // Ambil elemen form dan tombol submit
+    const formKerja = document.getElementById('submitFormKerja');
+    const submitButtonKerja = document.getElementById('submitButtonKerja');
+
+    // Event listener untuk menangani submit
+    formKerja.addEventListener('submit', function() {
+        // Nonaktifkan tombol submit ketika form sedang diproses
+        submitButtonKerja.disabled = true;
+        submitButtonKerja.innerText = 'Processing...'; // Ubah teks tombol jika diperlukan
+    });
+</script>
 
 <script>
     function handleChangeShift(value) {
