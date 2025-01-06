@@ -15,6 +15,7 @@ use App\Http\Controllers\KLKHLumpurController;
 use App\Http\Controllers\KLKHOGSController;
 use App\Http\Controllers\KLKHSimpangEmpatController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\MonitoringLaporanKerjaKLKHController;
 use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
@@ -217,6 +218,9 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Verifikasi KLKH Intersection/Simpang Empat
     Route::get('/verifikasi/klkh/simpang-empat', [VerifikasiKLKHSimpangEmpatController::class, 'index'])->name('verifikasi.klkh.simpangempat');
+
+    //Monitoring Laporan Kerja & KLKH
+    Route::get('/monitoring-laporan-kerja-klkh', [MonitoringLaporanKerjaKLKHController::class, 'index'])->name('monitoringlaporankerjaklkh');
 
     // User
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('checkRole'.':ADMIN');

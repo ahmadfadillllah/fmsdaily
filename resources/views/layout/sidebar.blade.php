@@ -89,6 +89,7 @@
                     </li>
                 @endif
                 @if (Auth::user()->role == 'ADMIN')
+                    {{-- <li class="pc-item"><a href="{{ route('monitoringlaporankerjaklkh') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/spyware.png" alt="NT"></span><span class="pc-mtext">Monitoring LK & KLKH</span></a></li> --}}
                     <li class="pc-item pc-caption"><label>Configuration</label> <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
                         </svg>

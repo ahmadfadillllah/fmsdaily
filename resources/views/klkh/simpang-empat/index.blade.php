@@ -50,8 +50,8 @@
                                         <th>PIC</th>
                                         <th>Pit</th>
                                         <th>Shift</th>
-                                        <th>Tanggal</th>
-                                        <th>Jam</th>
+                                        <th>Waktu</th>
+                                        <th>Foreman</th>
                                         <th>Supervisor</th>
                                         <th>Superintendent</th>
                                         <th>Aksi</th>
@@ -66,17 +66,36 @@
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->pit }}</td>
                                             <td>{{ $item->shift }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($item->date)) }}</td>
-                                            <td>{{ date('H:i', strtotime($item->time)) }}</td>
-                                            @if ($item->verified_supervisor == null)
-                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">Unverified</span></td>
+                                            <td>{{ date('d-m-Y', strtotime($item->date)) }} {{ date('H:i', strtotime($item->time)) }}</td>
+
+                                            @if ($item->nama_foreman != null)
+                                                @if ($item->verified_foreman == null)
+                                                    <td>{{ $item->nama_foreman }} <span class="badge bg-danger">Unverified</span></td>
+                                                @else
+                                                    <td>{{ $item->nama_foreman }} <span class="badge bg-success">Verified</span></td>
+                                                @endif
                                             @else
-                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-success">Verified</span></td>
+                                                <td>{{ $item->nama_foreman }}</td>
                                             @endif
-                                            @if ($item->verified_superintendent == null)
-                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">Unverified</span></td>
+
+                                            @if ($item->nama_supervisor != null)
+                                                @if ($item->verified_supervisor == null)
+                                                    <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">Unverified</span></td>
+                                                @else
+                                                    <td>{{ $item->nama_supervisor }} <span class="badge bg-success">Verified</span></td>
+                                                @endif
                                             @else
-                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-success">Verified</span></td>
+                                                <td>{{ $item->nama_supervisor }}</td>
+                                            @endif
+
+                                            @if ($item->nama_superintendent != null)
+                                                @if ($item->verified_superintendent == null)
+                                                    <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">Unverified</span></td>
+                                                @else
+                                                    <td>{{ $item->nama_superintendent }} <span class="badge bg-success">Verified</span></td>
+                                                @endif
+                                            @else
+                                                <td>{{ $item->nama_superintendent }}</td>
                                             @endif
                                             <td>
                                                 <a href="{{ route('klkh.simpangempat.preview', $item->uuid) }}" class="avtar avtar-s btn btn-primary btn-sm">

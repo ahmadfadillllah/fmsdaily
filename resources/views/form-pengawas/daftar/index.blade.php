@@ -39,18 +39,25 @@
                             <table id="table-style-hover" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Shift</th>
-                                        <th>Area</th>
-                                        <th>Unit Kerja</th>
-                                        <th>PIC</th>
-                                        <th>NIK Supervisor</th>
-                                        <th>Nama Supervisor</th>
-                                        <th>NIK Superintendent</th>
-                                        <th>Nama Superintendent</th>
-                                        <th>Draft</th>
-                                        <th>Aksi</th>
+                                        <th rowspan="2">No</th>
+                                        <th rowspan="2">Tanggal</th>
+                                        <th rowspan="2">Shift</th>
+                                        <th rowspan="2">Area</th>
+                                        <th rowspan="2">Unit Kerja</th>
+                                        <th rowspan="2">PIC</th>
+                                        <th colspan="2">Foreman</th>
+                                        <th colspan="2">Supervisor</th>
+                                        <th colspan="2">Superintendent</th>
+                                        <th rowspan="2">Draft</th>
+                                        <th rowspan="2">Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
                                     </tr>
 
                                 </thead>
@@ -63,6 +70,8 @@
                                             <td>{{ $item->area }}</td>
                                             <td>{{ $item->lokasi }}</td>
                                             <td>{{ $item->pic }}</td>
+                                            <td>{{ $item->nik_foreman }}</td>
+                                            <td>{{ $item->nama_foreman }}</td>
                                             <td>{{ $item->nik_supervisor }}</td>
                                             @if ($item->verified_supervisor == null)
                                                 <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">Unverified</span></td>

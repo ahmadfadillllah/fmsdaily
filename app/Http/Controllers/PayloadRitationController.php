@@ -106,9 +106,9 @@ class PayloadRitationController extends Controller
 
         $data = collect($data);
 
-        // $data = $data->filter(function ($item) {
-        //     return !empty($item->ASG_LOADERID);
-        // });
+        $data = $data->filter(function ($item) {
+            return !empty($item->ASG_LOADERID);
+        });
 
         $grouped = $data->groupBy('ASG_LOADERID')->sortBy('ASG_LOADERID')->map(function ($group) {
             return $group->reduce(function ($carry, $item) use ($group) {

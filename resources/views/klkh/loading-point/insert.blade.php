@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="container mt-3">
-                            <form action="{{ route('klkh.loading-point.post') }}" method="POST">
+                            <form action="{{ route('klkh.loading-point.post') }}" method="POST" id="submitFormKLKHLoadingPoint">
                                 @csrf
                                 <!-- Inputan di atas tabel -->
                                 <div class="row mb-3">
@@ -397,7 +397,7 @@
 
                                 <!-- Tombol Submit -->
                                 <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" id="submitButtonKLKHLoadingPoint">Submit</button>
                                 </div>
                             </form>
 
@@ -411,6 +411,19 @@
 </section>
 
 @include('layout.footer')
+
+<script>
+
+    const formKLKHLoadingPoint = document.getElementById('submitFormKLKHLoadingPoint');
+    const submitButtonKLKHLoadingPoint = document.getElementById('submitButtonKLKHLoadingPoint');
+
+    formKLKHLoadingPoint.addEventListener('submit', function() {
+        // Nonaktifkan tombol submit ketika form sedang diproses
+        submitButtonKLKHLoadingPoint.disabled = true;
+        submitButtonKLKHLoadingPoint.innerText = 'Processing...'; 
+    });
+</script>
+
 <script>
     window.onload = function() {
         var currentDate = new Date();
