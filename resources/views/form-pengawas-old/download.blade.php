@@ -277,7 +277,7 @@
             <td colspan="7">{{ $data['daily']->nik_foreman }}</td>
         </tr>
         <tr>
-            <td colspan="14">Lokasi</td>
+            <td colspan="14">Unit Kerja</td>
             <td>:</td>
             <td>{{ $data['daily']->lokasi }}</td>
             <td colspan="7"></td>

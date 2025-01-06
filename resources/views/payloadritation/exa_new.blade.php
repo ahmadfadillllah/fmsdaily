@@ -46,6 +46,7 @@
     $totalRitShiftAve = 0;
     $totalRitToday = 0;
     $totalRitLast3Hour = 0;
+    $countPayloadShift = 0;
 @endphp
 
 <section class="pc-container">
@@ -97,23 +98,36 @@
                                             <td style="text-align: center;font-size: 14px;">{{ number_format($dt['RIT_SHIFT'], 0) }}</td>
                                         </tr>
                                         @php
-                                            $totalPayloadShiftAve += $dt['PAYLOAD_SHIFT'];
+                                            // Menghitung total PAYLOAD_SHIFT yang lebih besar dari 0
+                                            if ($dt['PAYLOAD_SHIFT'] > 0) {
+                                                $totalPayloadShiftAve += $dt['PAYLOAD_SHIFT'];
+                                                $countPayloadShift++; // Menambah hitungan untuk yang bukan 0
+                                            }
+
+                                            // Menghitung total RIT_SHIFT (tidak ada pengecekan nilai 0)
                                             $totalRitShiftAve += $dt['RIT_SHIFT'];
                                         @endphp
                                     @endforeach
-
                                 </tbody>
+
                                 <tfoot>
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;font-size: 14px;">Total</td>
                                         <td style="text-align: center;font-size: 14px;">
-                                            {{ number_format($totalPayloadShiftAve / $dataCount, 0) }}
+                                            {{-- Menghitung rata-rata untuk PAYLOAD_SHIFT hanya jika ada nilai yang valid (lebih besar dari 0) --}}
+                                            @if ($countPayloadShift > 0)
+                                                {{ number_format($totalPayloadShiftAve / $countPayloadShift, 0) }}
+                                            @else
+                                                0
+                                            @endif
                                         </td>
                                         <td style="text-align: center;font-size: 14px;">
+                                            {{-- Menampilkan total RIT_SHIFT (tidak ada rata-rata untuk RIT_SHIFT) --}}
                                             {{ number_format($totalRitShiftAve, 0) }}
                                         </td>
                                     </tr>
                                 </tfoot>
+
                             </table>
                         </div>
                     </div>
@@ -184,10 +198,10 @@
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadLastHour / $dataCount, 0) }}
+                                            {{ number_format($totalPayloadLastHour / $countPayloadShift, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadShift / $dataCount, 0) }}
+                                            {{ number_format($totalPayloadShift / $countPayloadShift, 0) }}
                                         </td>
                                         <td style="text-align: center;">
                                             {{ number_format($totalPayloadLess85, 0) }}

@@ -1,4 +1,4 @@
-<div class="modal fade" id="deleteBB{{ $item->id }}" aria-hidden="true" aria-labelledby="..." tabindex="-1">
+<div class="modal fade" id="deleteLaporanKerja{{ $item->uuid }}" aria-hidden="true" aria-labelledby="..." tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body text-center p-5">
@@ -9,10 +9,10 @@
                     style="width:130px;height:130px">
                 </lord-icon>
                 <div class="mt-4 pt-4">
-                    <h4>Yakin menghapus KLKH ini?</h4>
+                    <h4>Yakin menghapus Laporan Kerja ini?</h4>
                     <p class="text-muted"> Data yang dihapus tidak ditampilkan kembali</p>
                     <!-- Toogle to second dialog -->
-                    <a href="{{ route('klkh.batubara.delete', $item->id) }}" type="button"  class="btn btn-danger">Hapus</a>
+                    <a href="{{ route('form-pengawas-old.delete', $item->uuid) }}"><span class="badge bg-danger" style="font-size:14px">Hapus</span></a>
                 </div>
             </div>
         </div>

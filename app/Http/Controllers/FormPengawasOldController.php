@@ -7,6 +7,7 @@ use App\Models\Area;
 use App\Models\CatatanPengawas;
 use App\Models\DailyReport;
 use App\Models\FrontLoading;
+use App\Models\Log;
 use App\Models\Lokasi;
 use App\Models\Material;
 use App\Models\Personal;
@@ -123,7 +124,18 @@ class FormPengawasOldController extends Controller
 
     public function post(Request $request)
     {
+        $lokasi = Lokasi::where('id', $request->lokasi)->first();
+        $area = Area::where('id', $request->area)->first();
+        $shift = Shift::where('id', $request->shift_dasar)->first();
 
+        Log::create([
+            'tanggal_loging' => now(),
+            'jenis_loging' => 'Laporan Kerja',
+            'nama_user' => Auth::user()->id,
+            'nik' => Auth::user()->nik,
+            'keterangan' => 'Tambah laporan kerja dengan nama: '. Auth::user()->name . ', NIK: '. Auth::user()->nik . ', Role: '. Auth::user()->role .
+            ', shift: '. $shift->keterangan . ', area: '. $area->keterangan . ', lokasi: '. $lokasi->keterangan,
+        ]);
         // dd($request->all());
         try {
             return DB::transaction(function () use ($request) {
@@ -168,6 +180,8 @@ class FormPengawasOldController extends Controller
 
                 // Buat DailyReport
                 $dailyReport = DailyReport::create($data);
+
+
 
                 // insert front loading
                 if (!empty($request->front_loading)) {
@@ -622,5 +636,70 @@ class FormPengawasOldController extends Controller
         // return $pdf->download($data['daily']->tanggal.'_'.$data['daily']->nik_foreman.'_'.$data['daily']->nama_foreman.'.pdf');
 
         return view('form-pengawas-old.download', compact(['data', 'timeSlots']));
+    }
+
+    public function delete($uuid)
+    {
+        $daily = DB::table('daily_report_t as dr')
+        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->select(
+            'dr.id',
+            'dr.uuid',
+            'dr.tanggal_dasar as tanggal',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
+            'us.name as pic',
+            'dr.nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'dr.nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dr.nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+
+        )->where('dr.uuid', $uuid)->first();
+
+        try {
+
+            Log::create([
+                'tanggal_loging' => now(),
+                'jenis_loging' => 'Laporan Kerja',
+                'nama_user' => Auth::user()->id,
+                'nik' => Auth::user()->nik,
+                'keterangan' => 'Hapus laporan kerja dengan PIC: '. $daily->pic . ', tanggal pembuatan: '. $daily->tanggal .
+                ', shift: '. $daily->shift . ', area: '. $daily->area . ', lokasi: '. $daily->lokasi,
+            ]);
+
+            DailyReport::where('uuid', $uuid)->update([
+                'statusenabled' => false,
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+            FrontLoading::where('daily_report_uuid', $uuid)->update([
+                'statusenabled' => false,
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+            AlatSupport::where('daily_report_uuid', $uuid)->update([
+                'statusenabled' => false,
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+            CatatanPengawas::where('daily_report_uuid', $uuid)->update([
+                'statusenabled' => false,
+                'deleted_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Laporan kerja berhasil dihapus');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', 'Laporan kerja gagal dihapus');
+        }
     }
 }

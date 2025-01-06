@@ -165,7 +165,7 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="mb-3"> <label class="form-label"
-                                                                for="exampleFormControlSelect3">Lokasi</label>
+                                                                for="exampleFormControlSelect3">Unit Kerja</label>
                                                             <select class="form-select" id="exampleFormControlSelect3"
                                                                 name="lokasi">
                                                                 <option selected disabled></option>
@@ -1112,7 +1112,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
-                text: "Kolom Tanggal, Shift, Area, Lokasi, Supervisor dan Superintendent harus diisi",
+                text: "Kolom Tanggal, Shift, Area, Unit Kerja, Supervisor dan Superintendent harus diisi",
                 confirmButtonText: 'OK'
             });
             return false;

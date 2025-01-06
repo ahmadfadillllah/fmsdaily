@@ -43,7 +43,7 @@
                                         <th>Tanggal</th>
                                         <th>Shift</th>
                                         <th>Area</th>
-                                        <th>Lokasi</th>
+                                        <th>Unit Kerja</th>
                                         <th>PIC</th>
                                         <th>NIK Supervisor</th>
                                         <th>Nama Supervisor</th>
@@ -79,8 +79,12 @@
                                             <td>
                                                 <a href="{{ route('form-pengawas-old.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
                                                 <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
+                                                @if (Auth::user()->role == 'ADMIN')
+                                                    <a href="#"><span class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja{{ $item->uuid }}"><i class="fas fa-trash-alt"></i> Hapus</span></a>
+                                                @endif
                                             </td>
                                         </tr>
+                                    @include('form-pengawas-old.delete')
                                     @endforeach
                                 </tbody>
                             </table>

@@ -220,7 +220,7 @@
                                     <td colspan="7">{{ $data['daily']->nik_foreman }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="14">Lokasi</td>
+                                    <td colspan="14">Unit Kerja</td>
                                     <td>:</td>
                                     <td>{{ $data['daily']->lokasi }}</td>
                                     <td colspan="7"></td>
@@ -535,6 +535,11 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item align-bottom me-2">
+                                        <a href="#" class="avtar avtar-s btn-link-secondary" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja">
+                                            <i class="ph-duotone ph-trash f-22"></i>
+                                        </a>
+                                    </li>
+                                    {{-- <li class="list-inline-item align-bottom me-2">
                                         <a href="#" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-pencil-simple-line f-22"></i>
                                         </a>
@@ -543,7 +548,7 @@
                                         <a href="#" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-download-simple f-22"></i>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="{{ route('form-pengawas-old.download', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-printer f-22"></i>
@@ -551,6 +556,7 @@
                                     </li>
 
                                 </ul>
+                                @include('form-pengawas-old.delete-preview')
                             </div>
                         </div>
                     </div>
