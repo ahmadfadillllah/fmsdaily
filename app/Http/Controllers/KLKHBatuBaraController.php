@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\KLKHBatuBara;
 use App\Models\Personal;
 use App\Models\Shift;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,6 +118,81 @@ class KLKHBatuBaraController extends Controller
         }
 
         return view('klkh.batu-bara.preview', compact('bb'));
+    }
+
+    public function cetak($uuid)
+    {
+        $bb = DB::table('klkh_batubara_t as bb')
+        ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'bb.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'bb.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->select(
+            'bb.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('bb.statusenabled', true)
+        ->where('bb.uuid', $uuid)->first();
+
+        if($bb == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $bb->verified_foreman = $bb->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_foreman) : null;
+            $bb->verified_supervisor = $bb->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_supervisor) : null;
+            $bb->verified_superintendent = $bb->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_superintendent) : null;
+        }
+
+        return view('klkh.batu-bara.cetak', compact('bb'));
+    }
+
+    public function download($uuid)
+    {
+        $bb = DB::table('klkh_batubara_t as bb')
+        ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'bb.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'bb.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->select(
+            'bb.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('bb.statusenabled', true)
+        ->where('bb.uuid', $uuid)->first();
+
+        if($bb == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $bb->verified_foreman = $bb->verified_foreman != null
+                ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_foreman))
+                : null;
+
+            $bb->verified_supervisor = $bb->verified_supervisor != null
+                ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_supervisor))
+                : null;
+
+            $bb->verified_superintendent = $bb->verified_superintendent != null
+                ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_superintendent))
+                : null;
+        }
+
+        $pdf = PDF::loadView('klkh.batu-bara.download', compact('bb'));
+        return $pdf->download('KLKH Batu Bara.pdf');
+
+        // return view('klkh.batu-bara.download', compact('bb'));
     }
 
     public function insert()

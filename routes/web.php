@@ -111,6 +111,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/loading-point/post', [KLKHLoadingPointController::class, 'post'])->name('klkh.loading-point.post');
     Route::get('/klkh/loading-point/delete/{id}', [KLKHLoadingPointController::class, 'delete'])->name('klkh.loading-point.delete');
     Route::get('/klkh/loading-point/preview/{uuid}', [KLKHLoadingPointController::class, 'preview'])->name('klkh.loading-point.preview');
+    Route::get('/klkh/loading-point/cetak/{uuid}', [KLKHLoadingPointController::class, 'cetak'])->name('klkh.loading-point.cetak');
     Route::get('/klkh/loading-point/verified/all/{uuid}', [KLKHLoadingPointController::class, 'verifiedAll'])->name('klkh.loading-point.verified.all');
     Route::get('/klkh/loading-point/verified/foreman/{uuid}', [KLKHLoadingPointController::class, 'verifiedForeman'])->name('klkh.loading-point.verified.foreman');
     Route::get('/klkh/loading-point/verified/supervisor/{uuid}', [KLKHLoadingPointController::class, 'verifiedSupervisor'])->name('klkh.loading-point.verified.supervisor');
@@ -166,6 +167,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/batubara/post', [KLKHBatuBaraController::class, 'post'])->name('klkh.batubara.post');
     Route::get('/klkh/batubara/delete/{id}', [KLKHBatuBaraController::class, 'delete'])->name('klkh.batubara.delete');
     Route::get('/klkh/batubara/preview/{uuid}', [KLKHBatuBaraController::class, 'preview'])->name('klkh.batubara.preview');
+    Route::get('/klkh/batubara/cetak/{uuid}', [KLKHBatuBaraController::class, 'cetak'])->name('klkh.batubara.cetak');
+    Route::get('/klkh/batubara/download/{uuid}', [KLKHBatuBaraController::class, 'download'])->name('klkh.batubara.download');
     Route::get('/klkh/batubara/verified/all/{uuid}', [KLKHBatuBaraController::class, 'verifiedAll'])->name('klkh.batubara.verified.all');
     Route::get('/klkh/batubara/verified/foreman/{uuid}', [KLKHBatuBaraController::class, 'verifiedForeman'])->name('klkh.batubara.verified.foreman');
     Route::get('/klkh/batubara/verified/supervisor/{uuid}', [KLKHBatuBaraController::class, 'verifiedSupervisor'])->name('klkh.batubara.verified.supervisor');
