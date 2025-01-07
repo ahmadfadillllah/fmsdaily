@@ -64,7 +64,7 @@
     <section class="bg-light py-1 py-xl-8">
         <div class="container">
             <!-- Badge Section -->
-            <hr>
+            {{-- <hr> --}}
             <div>
                 <span class="badge" style="color: black; font-size:8pt; padding-left: 4px; padding-right: 4px;">
                     <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> Belum Disetting

@@ -176,17 +176,9 @@ class KLKHBatuBaraController extends Controller
         if($bb == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $bb->verified_foreman = $bb->verified_foreman != null
-                ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_foreman))
-                : null;
-
-            $bb->verified_supervisor = $bb->verified_supervisor != null
-                ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_supervisor))
-                : null;
-
-            $bb->verified_superintendent = $bb->verified_superintendent != null
-                ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_superintendent))
-                : null;
+            $bb->verified_foreman = $bb->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_foreman)) : null;
+            $bb->verified_supervisor = $bb->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_supervisor)) : null;
+            $bb->verified_superintendent = $bb->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_superintendent)) : null;
         }
 
         $pdf = PDF::loadView('klkh.batu-bara.download', compact('bb'));

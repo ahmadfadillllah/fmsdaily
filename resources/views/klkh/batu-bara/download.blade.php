@@ -369,9 +369,9 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg"><img src="data:image/png;base64, {!! $bb->verified_foreman !!} " style="max-width: 100px;"></td>
-                    <td class="noborder nobg"><img src="data:image/png;base64, {!! $bb->verified_supervisor !!} " style="max-width: 100px;"></td>
-                    <td class="noborder nobg"><img src="data:image/png;base64, {!! $bb->verified_superintendent !!} " style="max-width: 100px;"></td>
+                    <td class="noborder nobg">@if ($bb->verified_foreman != null)<img src="data:image/png;base64, {!! $bb->verified_foreman !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">@if ($bb->verified_supervisor != null)<img src="data:image/png;base64, {!! $bb->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">@if ($bb->verified_superintendent != null)<img src="data:image/png;base64, {!! $bb->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $bb->nama_foreman ? $bb->nama_foreman : '.......................' }}</td>
