@@ -67,18 +67,24 @@ class KLKHLumpurController extends Controller
         ->where('lum.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role == 'FOREMAN') {
-            $baseQuery->where('foreman', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERVISOR') {
-            $baseQuery->where('supervisor', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERINTENDENT') {
-            $baseQuery->where('superintendent', Auth::user()->nik);
-        }
+        // if (Auth::user()->role == 'FOREMAN') {
+        //     $baseQuery->where('foreman', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERVISOR') {
+        //     $baseQuery->where('supervisor', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERINTENDENT') {
+        //     $baseQuery->where('superintendent', Auth::user()->nik);
+        // }
         if (Auth::user()->role == 'ADMIN') {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
+
+        $baseQuery = $baseQuery->where(function($query) {
+            $query->where('lum.foreman', Auth::user()->nik)
+                  ->orWhere('lum.supervisor', Auth::user()->nik)
+                  ->orWhere('lum.superintendent', Auth::user()->nik);
+        });
 
         $lumpur = $baseQuery->get();
 

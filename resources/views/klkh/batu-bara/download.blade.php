@@ -43,7 +43,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
 
         th,
@@ -66,7 +66,7 @@
         }
 
         .point-table {
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         tr th {
@@ -121,7 +121,7 @@
 
         </div>
         <hr>
-        <h1>Pemeriksaan Kesiapan Kerja Harian & Kelayakan Lingkungan Kerja Harian (KLKH) Area Batubara</h1>
+        <h1>Pemeriksaan Kesiapan Kerja Harian & Kelayakan Lingkungan Kerja Harian (KLKH) Departemen Produksi Area Batubara</h1>
         <table class="point-table">
             <thead>
                 <tr>
@@ -163,7 +163,7 @@
                     <td class="center">{!! $bb->loading_point_check == 'true' ? '<img src="' . public_path('check.png') . '">' : '' !!}</td>
                     <td class="center">{!! $bb->loading_point_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->loading_point_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->loading_point_note !!}</td>
+                    <td>{!! $bb->loading_point_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">2</td>
@@ -171,7 +171,7 @@
                     <td class="center">{!! $bb->permukaan_front_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->permukaan_front_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->permukaan_front_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->permukaan_front_note !!}</td>
+                    <td>{!! $bb->permukaan_front_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">3</td>
@@ -179,14 +179,14 @@
                     <td class="center">{!! $bb->tinggi_bench_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->tinggi_bench_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->tinggi_bench_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->tinggi_bench_note !!}</td>
+                    <td>{!! $bb->tinggi_bench_note !!}</td>
                 <tr>
                     <td class="center">4</td>
                     <td>Lebar loading point sesuai dengan standar pada spesifikasi unit loading</td>
                     <td class="center">{!! $bb->lebar_loading_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lebar_loading_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lebar_loading_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->lebar_loading_note !!}</td>
+                    <td>{!! $bb->lebar_loading_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">5</td>
@@ -194,7 +194,7 @@
                     <td class="center">{!! $bb->drainase_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->drainase_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->drainase_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->drainase_note !!}</td>
+                    <td>{!! $bb->drainase_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">6</td>
@@ -202,7 +202,7 @@
                     <td class="center">{!! $bb->penempatan_unit_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->penempatan_unit_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->penempatan_unit_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->penempatan_unit_note !!}</td>
+                    <td>{!! $bb->penempatan_unit_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">7</td>
@@ -210,7 +210,7 @@
                     <td class="center">{!! $bb->pelabelan_seam_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->pelabelan_seam_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->pelabelan_seam_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->pelabelan_seam_note !!}</td>
+                    <td>{!! $bb->pelabelan_seam_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">8</td>
@@ -219,7 +219,7 @@
                     <td class="center">{!! $bb->lampu_unit_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lampu_unit_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lampu_unit_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->lampu_unit_note !!}</td>
+                    <td>{!! $bb->lampu_unit_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">9</td>
@@ -227,7 +227,7 @@
                     <td class="center">{!! $bb->unit_bersih_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->unit_bersih_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->unit_bersih_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->unit_bersih_note !!}</td>
+                    <td>{!! $bb->unit_bersih_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">10</td>
@@ -235,7 +235,7 @@
                     <td class="center">{!! $bb->penerangan_area_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->penerangan_area_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->penerangan_area_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->penerangan_area_note !!}</td>
+                    <td>{!! $bb->penerangan_area_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">11</td>
@@ -243,7 +243,7 @@
                     <td class="center">{!! $bb->housekeeping_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->housekeeping_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->housekeeping_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->housekeeping_note !!}</td>
+                    <td>{!! $bb->housekeeping_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">12</td>
@@ -251,7 +251,7 @@
                     <td class="center">{!! $bb->pengukuran_roof_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->pengukuran_roof_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->pengukuran_roof_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->pengukuran_roof_note !!}</td>
+                    <td>{!! $bb->pengukuran_roof_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">13</td>
@@ -259,7 +259,7 @@
                     <td class="center">{!! $bb->cleaning_batubara_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->cleaning_batubara_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->cleaning_batubara_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->cleaning_batubara_note !!}</td>
+                    <td>{!! $bb->cleaning_batubara_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">14</td>
@@ -267,7 +267,7 @@
                     <td class="center">{!! $bb->genangan_air_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->genangan_air_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->genangan_air_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->genangan_air_note !!}</td>
+                    <td>{!! $bb->genangan_air_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">15</td>
@@ -275,7 +275,7 @@
                     <td class="center">{!! $bb->big_coal_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->big_coal_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->big_coal_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->big_coal_note !!}</td>
+                    <td>{!! $bb->big_coal_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">16</td>
@@ -283,7 +283,7 @@
                     <td class="center">{!! $bb->stock_material_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->stock_material_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->stock_material_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->stock_material_note !!}</td>
+                    <td>{!! $bb->stock_material_note !!}</td>
                 </tr>
                 <th class="center">B</th>
                 <th>Jalan Tambang</th>
@@ -298,7 +298,7 @@
                     <td class="center">{!! $bb->lebar_jalan_angkut_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lebar_jalan_angkut_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lebar_jalan_angkut_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->lebar_jalan_angkut_note !!}</td>
+                    <td>{!! $bb->lebar_jalan_angkut_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">2</td>
@@ -306,7 +306,7 @@
                     <td class="center">{!! $bb->lebar_jalan_tikungan_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lebar_jalan_tikungan_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->lebar_jalan_tikungan_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->lebar_jalan_tikungan_note !!}</td>
+                    <td>{!! $bb->lebar_jalan_tikungan_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">3</td>
@@ -314,7 +314,7 @@
                     <td class="center">{!! $bb->super_elevasi_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->super_elevasi_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->super_elevasi_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->super_elevasi_note !!}</td>
+                    <td>{!! $bb->super_elevasi_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">4</td>
@@ -322,7 +322,7 @@
                     <td class="center">{!! $bb->safety_berm_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->safety_berm_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->safety_berm_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->safety_berm_note !!}</td>
+                    <td>{!! $bb->safety_berm_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">5</td>
@@ -330,7 +330,7 @@
                     <td class="center">{!! $bb->tinggi_tanggul_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->tinggi_tanggul_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->tinggi_tanggul_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->tinggi_tanggul_note !!}</td>
+                    <td>{!! $bb->tinggi_tanggul_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">6</td>
@@ -338,7 +338,7 @@
                     <td class="center">{!! $bb->safety_post_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->safety_post_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->safety_post_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->safety_post_note !!}</td>
+                    <td>{!! $bb->safety_post_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">7</td>
@@ -346,7 +346,7 @@
                     <td class="center">{!! $bb->drainase_genangan_air_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->drainase_genangan_air_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->drainase_genangan_air_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->drainase_genangan_air_note !!}</td>
+                    <td>{!! $bb->drainase_genangan_air_note !!}</td>
                 </tr>
                 <tr>
                     <td class="center">8</td>
@@ -354,7 +354,7 @@
                     <td class="center">{!! $bb->median_jalan_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->median_jalan_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $bb->median_jalan_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
-                    <td class="center">{!! $bb->median_jalan_note !!}</td>
+                    <td>{!! $bb->median_jalan_note !!}</td>
                 </tr>
             </tbody>
         </table>

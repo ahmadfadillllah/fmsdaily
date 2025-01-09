@@ -112,6 +112,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/loading-point/delete/{id}', [KLKHLoadingPointController::class, 'delete'])->name('klkh.loading-point.delete');
     Route::get('/klkh/loading-point/preview/{uuid}', [KLKHLoadingPointController::class, 'preview'])->name('klkh.loading-point.preview');
     Route::get('/klkh/loading-point/cetak/{uuid}', [KLKHLoadingPointController::class, 'cetak'])->name('klkh.loading-point.cetak');
+    Route::get('/klkh/loading-point/download/{uuid}', [KLKHLoadingPointController::class, 'download'])->name('klkh.loading-point.download');
     Route::get('/klkh/loading-point/verified/all/{uuid}', [KLKHLoadingPointController::class, 'verifiedAll'])->name('klkh.loading-point.verified.all');
     Route::get('/klkh/loading-point/verified/foreman/{uuid}', [KLKHLoadingPointController::class, 'verifiedForeman'])->name('klkh.loading-point.verified.foreman');
     Route::get('/klkh/loading-point/verified/supervisor/{uuid}', [KLKHLoadingPointController::class, 'verifiedSupervisor'])->name('klkh.loading-point.verified.supervisor');

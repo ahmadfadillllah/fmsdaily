@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\KLKHLoadingPoint;
 use App\Models\Personal;
 use App\Models\Shift;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,18 +68,24 @@ class KLKHLoadingPointController extends Controller
         ->where('lp.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role == 'FOREMAN') {
-            $baseQuery->where('foreman', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERVISOR') {
-            $baseQuery->where('supervisor', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERINTENDENT') {
-            $baseQuery->where('superintendent', Auth::user()->nik);
-        }
+        // if (Auth::user()->role == 'FOREMAN') {
+        //     $baseQuery->where('foreman', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERVISOR') {
+        //     $baseQuery->where('supervisor', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERINTENDENT') {
+        //     $baseQuery->where('superintendent', Auth::user()->nik);
+        // }
         if (Auth::user()->role == 'ADMIN') {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
+
+        $baseQuery = $baseQuery->where(function($query) {
+            $query->where('lp.foreman', Auth::user()->nik)
+                  ->orWhere('lp.supervisor', Auth::user()->nik)
+                  ->orWhere('lp.superintendent', Auth::user()->nik);
+        });
 
         $loading = $baseQuery->get();
 
@@ -121,6 +128,72 @@ class KLKHLoadingPointController extends Controller
         }
 
         return view('klkh.loading-point.preview', compact('ld'));
+    }
+
+    public function cetak($uuid)
+    {
+        $lp = DB::table('klkh_loadingpoint_t as lp')
+        ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->select(
+            'lp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('lp.statusenabled', true)
+        ->where('lp.uuid', $uuid)->first();
+
+        if($lp == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $lp->verified_foreman = $lp->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lp->nama_foreman) : null;
+            $lp->verified_supervisor = $lp->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lp->nama_supervisor) : null;
+            $lp->verified_superintendent = $lp->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lp->nama_superintendent) : null;
+        }
+
+        return view('klkh.loading-point.cetak', compact('lp'));
+    }
+
+    public function download($uuid)
+    {
+        $lp = DB::table('klkh_loadingpoint_t as lp')
+        ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->select(
+            'lp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('lp.statusenabled', true)
+        ->where('lp.uuid', $uuid)->first();
+
+        if($lp == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $lp->verified_foreman = $lp->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lp->nama_foreman)) : null;
+            $lp->verified_supervisor = $lp->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lp->nama_supervisor)) : null;
+            $lp->verified_superintendent = $lp->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $lp->nama_superintendent)) : null;
+        }
+
+        $pdf = PDF::loadView('klkh.loading-point.download', compact('lp'));
+        return $pdf->download('KLKH Loading Point.pdf');
+
     }
 
     public function insert()

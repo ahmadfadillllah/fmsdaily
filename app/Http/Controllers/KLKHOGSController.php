@@ -67,18 +67,24 @@ class KLKHOGSController extends Controller
         ->where('ogs.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role == 'FOREMAN') {
-            $baseQuery->where('foreman', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERVISOR') {
-            $baseQuery->where('supervisor', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERINTENDENT') {
-            $baseQuery->where('superintendent', Auth::user()->nik);
-        }
+        // if (Auth::user()->role == 'FOREMAN') {
+        //     $baseQuery->where('foreman', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERVISOR') {
+        //     $baseQuery->where('supervisor', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERINTENDENT') {
+        //     $baseQuery->where('superintendent', Auth::user()->nik);
+        // }
         if (Auth::user()->role == 'ADMIN') {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
+
+        $baseQuery = $baseQuery->where(function($query) {
+            $query->where('ogs.foreman', Auth::user()->nik)
+                  ->orWhere('ogs.supervisor', Auth::user()->nik)
+                  ->orWhere('ogs.superintendent', Auth::user()->nik);
+        });
 
         $ogs = $baseQuery->get();
 

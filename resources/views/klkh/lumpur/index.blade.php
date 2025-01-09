@@ -45,18 +45,25 @@
                             <table id="table-style-hover" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
-                                        <th>No</th>
-                                        <th>Tanggal Pembuatan</th>
-                                        <th>PIC</th>
-                                        <th>Pit</th>
-                                        <th>Shift</th>
-                                        <th>Waktu</th>
-                                        <th>Foreman</th>
-                                        <th>Supervisor</th>
-                                        <th>Superintendent</th>
-                                        <th>Aksi</th>
+                                        <th rowspan="2">No</th>
+                                        <th rowspan="2">Tgl Pembuatan</th>
+                                        <th rowspan="2">PIC</th>
+                                        <th rowspan="2">Pit</th>
+                                        <th rowspan="2">Shift</th>
+                                        <th rowspan="2">Waktu</th>
+                                        <th colspan="2">Foreman</th>
+                                        <th colspan="2">Supervisor</th>
+                                        <th colspan="2">Superintendent</th>
+                                        <th rowspan="2">Aksi</th>
                                     </tr>
-
+                                    <tr>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($lumpur as $item)
@@ -68,33 +75,42 @@
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ date('d-m-Y', strtotime($item->date)) }} {{ date('H:i', strtotime($item->time)) }}</td>
 
-                                            @if ($item->nama_foreman != null)
+                                            @if ($item->nik_foreman != null)
                                                 @if ($item->verified_foreman == null)
-                                                    <td>{{ $item->nama_foreman }} <span class="badge bg-danger">Unverified</span></td>
+                                                    <td>{{ $item->nik_foreman }}</td>
+                                                    <td>{{ $item->nama_foreman }} <span class="badge bg-danger">B</span></td>
                                                 @else
-                                                    <td>{{ $item->nama_foreman }} <span class="badge bg-success">Verified</span></td>
+                                                    <td>{{ $item->nik_foreman }}</td>
+                                                    <td>{{ $item->nama_foreman }} <span class="badge bg-success">T</span></td>
                                                 @endif
                                             @else
+                                                <td>{{ $item->nik_foreman }}</td>
                                                 <td>{{ $item->nama_foreman }}</td>
                                             @endif
 
-                                            @if ($item->nama_supervisor != null)
+                                            @if ($item->nik_supervisor != null)
                                                 @if ($item->verified_supervisor == null)
-                                                    <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">Unverified</span></td>
+                                                    <td>{{ $item->nik_supervisor }}</td>
+                                                    <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">B</span></td>
                                                 @else
-                                                    <td>{{ $item->nama_supervisor }} <span class="badge bg-success">Verified</span></td>
+                                                    <td>{{ $item->nik_supervisor }}</td>
+                                                    <td>{{ $item->nama_supervisor }} <span class="badge bg-success">T</span></td>
                                                 @endif
                                             @else
+                                                <td>{{ $item->nik_supervisor }}</td>
                                                 <td>{{ $item->nama_supervisor }}</td>
                                             @endif
 
-                                            @if ($item->nama_superintendent != null)
+                                            @if ($item->nik_superintendent != null)
                                                 @if ($item->verified_superintendent == null)
-                                                    <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">Unverified</span></td>
+                                                    <td>{{ $item->nik_superintendent }}</td>
+                                                    <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">B</span></td>
                                                 @else
-                                                    <td>{{ $item->nama_superintendent }} <span class="badge bg-success">Verified</span></td>
+                                                    <td>{{ $item->nik_superintendent }}</td>
+                                                    <td>{{ $item->nama_superintendent }} <span class="badge bg-success">T</span></td>
                                                 @endif
                                             @else
+                                                <td>{{ $item->nik_superintendent }}</td>
                                                 <td>{{ $item->nama_superintendent }}</td>
                                             @endif
                                             <td>
@@ -113,6 +129,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <span class="badge bg-success">T</span> : Telah diverifikasi
+                        <br>
+                        <span class="badge bg-danger">B</span> : Belum diverifikasi
                     </div>
                 </div>
             </div>

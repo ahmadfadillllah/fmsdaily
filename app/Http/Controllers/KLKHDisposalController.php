@@ -67,18 +67,24 @@ class KLKHDisposalController extends Controller
         ->where('dp.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
-        if (Auth::user()->role == 'FOREMAN') {
-            $baseQuery->where('foreman', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERVISOR') {
-            $baseQuery->where('supervisor', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERINTENDENT') {
-            $baseQuery->where('superintendent', Auth::user()->nik);
-        }
+        // if (Auth::user()->role == 'FOREMAN') {
+        //     $baseQuery->where('foreman', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERVISOR') {
+        //     $baseQuery->where('supervisor', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERINTENDENT') {
+        //     $baseQuery->where('superintendent', Auth::user()->nik);
+        // }
         if (Auth::user()->role == 'ADMIN') {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
+
+        $baseQuery = $baseQuery->where(function($query) {
+            $query->where('dp.foreman', Auth::user()->nik)
+                  ->orWhere('dp.supervisor', Auth::user()->nik)
+                  ->orWhere('dp.superintendent', Auth::user()->nik);
+        });
 
         $disposal = $baseQuery->get();
 

@@ -81,7 +81,7 @@
                         <h5>Resume Summary per EX</h5>
                         <div class="dt-responsive table-responsive">
                             <table id="dom-jqry" class="table table-striped table-hover table-bordered nowrap">
-                                <thead style="text-align: center; vertical-align: middle;">
+                                <thead style="text-align: center; vertical-align: middle;background-color:aquamarine">
                                     <tr>
                                         <th>No</th>
                                         <th>Fleet</th>
@@ -110,7 +110,7 @@
                                     @endforeach
                                 </tbody>
 
-                                <tfoot>
+                                <tfoot style="background-color:moccasin">
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;font-size: 14px;">Total</td>
                                         <td style="text-align: center;font-size: 14px;">
@@ -141,27 +141,27 @@
                             <table id="cbtn-selectors" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
-                                        <th rowspan="3">No</th>
-                                        <th rowspan="3">Fleet</th>
-                                        <th style="text-align: center;" colspan="5">Payload</th>
-                                        <th style="text-align: center;" colspan="4">Ritation</th>
+                                        <th rowspan="3" style="background-color:aquamarine;">No</th>
+                                        <th rowspan="3" style="background-color:aquamarine;">Fleet</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="5">Payload</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="4">Ritation</th>
                                     </tr>
                                     <tr>
-                                        <th style="text-align: center;" colspan="2">Average</th>
-                                        <th style="text-align: center;" colspan="3">Distribution</th>
-                                        <th style="text-align: center;" colspan="2">Average</th>
-                                        <th style="text-align: center;" colspan="2">Cummulative</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="2">Average</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="3">Distribution</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="2">Average</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="2">Cummulative</th>
                                     </tr>
                                     <tr>
-                                        <th>Last Hour</th>
-                                        <th>This Shift</th>
-                                        <th>< 95</th>
-                                        <th>95 - 110</th>
-                                        <th>> 110</th>
-                                        <th>Last Hour</th>
-                                        <th>This Shift</th>
-                                        <th>Last Hour</th>
-                                        <th>This Shift</th>
+                                        <th style="background-color:aquamarine;">Last Hour</th>
+                                        <th style="background-color:aquamarine;">This Shift</th>
+                                        <th style="background-color:aquamarine;">< 95</th>
+                                        <th style="background-color:aquamarine;">95 - 110</th>
+                                        <th style="background-color:aquamarine;">> 110</th>
+                                        <th style="background-color:aquamarine;">Last Hour</th>
+                                        <th style="background-color:aquamarine;">This Shift</th>
+                                        <th style="background-color:aquamarine;">Last Hour</th>
+                                        <th style="background-color:aquamarine;">This Shift</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -194,7 +194,7 @@
                                     @endforeach
 
                                 </tbody>
-                                <tfoot>
+                                <tfoot style="background-color:moccasin">
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
@@ -295,7 +295,7 @@
         buttons: [{
             extend: 'excelHtml5',
             customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                var sheet = xlsx.xl.worksheets['hallo.xml'];
                 $('row c[r^="F"]', sheet).each(function () {
                     if ($('is t', this).text().replace(/[^\d]/g, '') * 1 >= 500000) {
                         $(this).attr('s', '20');
