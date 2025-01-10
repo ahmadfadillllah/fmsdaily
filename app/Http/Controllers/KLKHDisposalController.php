@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KLKHDisposalController extends Controller
 {
@@ -191,6 +192,72 @@ class KLKHDisposalController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.disposal')->with('info', nl2br('KLKH Disposal/Dumping Point gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function cetak($uuid)
+    {
+        $dp = DB::table('klkh_disposal_t as dp')
+        ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'dp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dp.superintendent', '=', 'spt.NRP')
+        ->select(
+            'dp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('dp.statusenabled', true)
+        ->where('dp.uuid', $uuid)->first();
+
+        if($dp == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $dp->verified_foreman = $dp->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_foreman) : null;
+            $dp->verified_supervisor = $dp->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_supervisor) : null;
+            $dp->verified_superintendent = $dp->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_superintendent) : null;
+        }
+
+        return view('klkh.disposal.cetak', compact('dp'));
+    }
+
+    public function download($uuid)
+    {
+        $dp = DB::table('klkh_disposal_t as dp')
+        ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'dp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'dp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dp.superintendent', '=', 'spt.NRP')
+        ->select(
+            'dp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('dp.statusenabled', true)
+        ->where('dp.uuid', $uuid)->first();
+
+        if($dp == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $dp->verified_foreman = $dp->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_foreman)) : null;
+            $dp->verified_supervisor = $dp->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_supervisor)) : null;
+            $dp->verified_superintendent = $dp->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_superintendent)) : null;
+        }
+
+        $pdf = PDF::loadView('klkh.disposal.download', compact('dp'));
+        return $pdf->download('KLKH Dumping Point.pdf');
+
     }
 
     public function preview($uuid)

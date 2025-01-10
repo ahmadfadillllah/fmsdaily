@@ -10176,7 +10176,7 @@ fieldset:disabled .introjs-tooltip .introjs-button {
 
 [data-pc-direction=ltr] .bg-primary {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important
+    background-color: #001932;
 }
 
 [data-pc-direction=ltr] .bg-secondary {
@@ -28579,9 +28579,9 @@ pre[class*=language-] {
     vertical-align: middle
 }
 
-.table thead th {
+/* .table thead th {
     padding: .2rem .75rem
-}
+} */
 
 .table.table-borderless td,
 .table.table-borderless th {
@@ -34716,7 +34716,7 @@ body.anim-slip-from-top.modal-open .pc-header {
     border-top: 1px solid #e7eaee;
     border-bottom: none;
     white-space: nowrap;
-    padding: .2rem .75rem;
+    padding: .2rem .20rem;
     vertical-align: middle
 }
 

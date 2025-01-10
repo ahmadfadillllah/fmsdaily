@@ -67,7 +67,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>1</td>
-                                                <td>Lebar dumping point 2x (lebar unit terbeasar + turn radius) x N Load</td>
+                                                <td>Lebar dumping point 2x (lebar unit terbesar + turn radius) x N Load</td>
                                                 <td>{{ $dp->dumping_point_1 == 'true' ? "✔️" : "" }}</td>
                                                 <td>{{ $dp->dumping_point_1 == 'false' ? "✔️" : "" }}</td>
                                                 <td>{{ $dp->dumping_point_1 == 'n/a' ? "✔️" : "" }}</td>
@@ -307,11 +307,15 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="#" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('klkh.disposal.download', $dp->uuid) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-download-simple f-22"></i>
                                         </a>
                                     </li>
-
+                                    <li class="list-inline-item align-bottom me-2">
+                                        <a href="{{ route('klkh.disposal.cetak', $dp->uuid) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
+                                            <i class="ph-duotone ph-printer f-22"></i>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             {{-- <div class="col-12 text-end d-print-none">

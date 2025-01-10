@@ -20,6 +20,7 @@ use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RosterKerjaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiKLKHBatubaraController;
 use App\Http\Controllers\VerifikasiKLKHController;
@@ -124,6 +125,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/haul-road/post', [KLKHHaulRoadController::class, 'post'])->name('klkh.haul-road.post');
     Route::get('/klkh/haul-road/delete/{id}', [KLKHHaulRoadController::class, 'delete'])->name('klkh.haul-road.delete');
     Route::get('/klkh/haul-road/preview/{uuid}', [KLKHHaulRoadController::class, 'preview'])->name('klkh.haul-road.preview');
+    Route::get('/klkh/haul-road/cetak/{uuid}', [KLKHHaulRoadController::class, 'cetak'])->name('klkh.haul-road.cetak');
+    Route::get('/klkh/haul-road/download/{uuid}', [KLKHHaulRoadController::class, 'download'])->name('klkh.haul-road.download');
     Route::get('/klkh/haul-road/verified/all/{uuid}', [KLKHHaulRoadController::class, 'verifiedAll'])->name('klkh.haul-road.verified.all');
     Route::get('/klkh/haul-road/verified/foreman/{uuid}', [KLKHHaulRoadController::class, 'verifiedForeman'])->name('klkh.haul-road.verified.foreman');
     Route::get('/klkh/haul-road/verified/supervisor/{uuid}', [KLKHHaulRoadController::class, 'verifiedSupervisor'])->name('klkh.haul-road.verified.supervisor');
@@ -135,6 +138,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/disposal/post', [KLKHDisposalController::class, 'post'])->name('klkh.disposal.post');
     Route::get('/klkh/disposal/delete/{id}', [KLKHDisposalController::class, 'delete'])->name('klkh.disposal.delete');
     Route::get('/klkh/disposal/preview/{uuid}', [KLKHDisposalController::class, 'preview'])->name('klkh.disposal.preview');
+    Route::get('/klkh/disposal/cetak/{uuid}', [KLKHDisposalController::class, 'cetak'])->name('klkh.disposal.cetak');
+    Route::get('/klkh/disposal/download/{uuid}', [KLKHDisposalController::class, 'download'])->name('klkh.disposal.download');
     Route::get('/klkh/disposal/verified/all/{uuid}', [KLKHDisposalController::class, 'verifiedAll'])->name('klkh.disposal.verified.all');
     Route::get('/klkh/disposal/verified/foreman/{uuid}', [KLKHDisposalController::class, 'verifiedForeman'])->name('klkh.disposal.verified.foreman');
     Route::get('/klkh/disposal/verified/supervisor/{uuid}', [KLKHDisposalController::class, 'verifiedSupervisor'])->name('klkh.disposal.verified.supervisor');
@@ -225,6 +230,11 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Monitoring Laporan Kerja & KLKH
     Route::get('/monitoring-laporan-kerja-klkh', [MonitoringLaporanKerjaKLKHController::class, 'index'])->name('monitoringlaporankerjaklkh');
+
+    //Roster Kerja
+    Route::get('/roster-kerja', [RosterKerjaController::class, 'index'])->name('rosterkerja');
+    Route::post('/roster-kerja/import', [RosterKerjaController::class, 'import'])->name('rosterkerja.import');
+    Route::get('/roster-kerja/export', [RosterKerjaController::class, 'export'])->name('rosterkerja.export');
 
     // User
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('checkRole'.':ADMIN');

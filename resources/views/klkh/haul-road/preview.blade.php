@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'KLKH Disposal'])
+@include('layout.head', ['title' => 'KLKH Haul Road'])
 @include('layout.sidebar')
 @include('layout.header')
 @php
@@ -267,8 +267,13 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="#" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('klkh.haul-road.download', $hr->uuid) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-download-simple f-22"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item align-bottom me-2">
+                                        <a href="{{ route('klkh.haul-road.cetak', $hr->uuid) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
+                                            <i class="ph-duotone ph-printer f-22"></i>
                                         </a>
                                     </li>
 

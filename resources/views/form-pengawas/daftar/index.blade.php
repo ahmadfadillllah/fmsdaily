@@ -40,6 +40,7 @@
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
                                         <th rowspan="2">No</th>
+                                        <th rowspan="2">Tgl Dibuat</th>
                                         <th rowspan="2">Tanggal</th>
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Area</th>
@@ -65,7 +66,8 @@
                                     @foreach ($daily as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->tanggal }}</td>
+                                            <td>{{ date('Y-m-d H:i', strtotime($item->created_at)) }}</td>
+                                            <td>{{ date('Y-m-d', strtotime($item->tanggal)) }}</td>
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ $item->area }}</td>
                                             <td>{{ $item->lokasi }}</td>
@@ -74,15 +76,15 @@
                                             <td>{{ $item->nama_foreman }}</td>
                                             <td>{{ $item->nik_supervisor }}</td>
                                             @if ($item->verified_supervisor == null)
-                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">Unverified</span></td>
+                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-danger">B</span></td>
                                             @else
-                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-success">Verified</span></td>
+                                                <td>{{ $item->nama_supervisor }} <span class="badge bg-success">T</span></td>
                                             @endif
                                             <td>{{ $item->nik_superintendent }}</td>
                                             @if ($item->verified_superintendent == null)
-                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">Unverified</span></td>
+                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-danger">B</span></td>
                                             @else
-                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-success">Verified</span></td>
+                                                <td>{{ $item->nama_superintendent }} <span class="badge bg-success">T</span></td>
                                             @endif
                                             <td>{{ $item->is_draft == true ? "Ya" : "Tidak" }}</td>
                                             <td>
@@ -98,6 +100,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <span class="badge bg-success">T</span> : Telah diverifikasi
+                        <br>
+                        <span class="badge bg-danger">B</span> : Belum diverifikasi
                     </div>
                 </div>
             </div>

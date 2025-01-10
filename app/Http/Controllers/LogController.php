@@ -14,6 +14,8 @@ class LogController extends Controller
     public function index(Request $request)
     {
 
+        // dd($request->all());
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -45,7 +47,7 @@ class LogController extends Controller
             'us.name as nama_user',
             'lg.nik',
             'lg.keterangan',
-            );
+            )->whereBetween('lg.tanggal_loging', [$startTimeFormatted, $endTimeFormatted]);
         if (!empty($request->jenis_log)){
             $log = $log->where('lg.jenis_loging', $request->jenis_log);
         }
