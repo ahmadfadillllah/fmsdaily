@@ -51,7 +51,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         $startTimeFormatted = $start->format('Y-m-d H:i:s');
         $endTimeFormatted = $end->format('Y-m-d H:i:s');
 
-        // dd($startTimeFormatted);
+        // dd($endTimeFormatted);
 
 
         $loading = DB::table('klkh_loadingpoint_t as lp')
@@ -73,14 +73,50 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(lp.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(lp.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(lp.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(lp.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(lp.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(lp.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(lp.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(lp.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(lp.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(lp.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(lp.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(lp.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(lp.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(lp.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(lp.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(lp.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(lp.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(lp.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(lp.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(lp.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(lp.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(lp.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(lp.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(lp.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(lp.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(lp.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(lp.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(lp.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(lp.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(lp.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(lp.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('lp.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(lp.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(lp.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+
 
         $haulroad = DB::table('klkh_haulroad_t as hr')
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
@@ -101,13 +137,48 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(hr.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(hr.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(hr.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(hr.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(hr.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(hr.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(hr.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(hr.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(hr.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(hr.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(hr.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(hr.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(hr.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(hr.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(hr.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(hr.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(hr.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(hr.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(hr.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(hr.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(hr.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(hr.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(hr.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(hr.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(hr.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(hr.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(hr.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(hr.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(hr.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(hr.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(hr.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('hr.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(hr.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(hr.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         $disposal = DB::table('klkh_disposal_t as dp')
@@ -129,13 +200,48 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(dp.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(dp.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(dp.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(dp.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(dp.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(dp.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(dp.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(dp.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(dp.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(dp.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(dp.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(dp.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(dp.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(dp.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(dp.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(dp.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(dp.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(dp.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(dp.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(dp.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(dp.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(dp.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(dp.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(dp.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(dp.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(dp.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(dp.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(dp.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(dp.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(dp.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(dp.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('dp.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(dp.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(dp.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         $lumpur = DB::table('klkh_lumpur_t as lum')
@@ -157,13 +263,48 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(lum.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(lum.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(lum.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(lum.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(lum.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(lum.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(lum.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(lum.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(lum.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(lum.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(lum.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(lum.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(lum.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(lum.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(lum.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(lum.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(lum.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(lum.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(lum.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(lum.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(lum.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(lum.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(lum.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(lum.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(lum.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(lum.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(lum.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(lum.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(lum.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(lum.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(lum.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('lum.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(lum.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(lum.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         $ogs = DB::table('klkh_ogs_t as ogs')
@@ -185,13 +326,48 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(ogs.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(ogs.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(ogs.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(ogs.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(ogs.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(ogs.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(ogs.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(ogs.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(ogs.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(ogs.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(ogs.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(ogs.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(ogs.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(ogs.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(ogs.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(ogs.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(ogs.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(ogs.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(ogs.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(ogs.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(ogs.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(ogs.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(ogs.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(ogs.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(ogs.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(ogs.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(ogs.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(ogs.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(ogs.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(ogs.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(ogs.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('ogs.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(ogs.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(ogs.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         $batubara = DB::table('klkh_batubara_t as lp')
@@ -213,13 +389,48 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(lp.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(lp.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(lp.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(lp.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(lp.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(lp.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(lp.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(lp.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(lp.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(lp.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(lp.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(lp.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(lp.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(lp.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(lp.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(lp.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(lp.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(lp.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(lp.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(lp.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(lp.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(lp.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(lp.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(lp.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(lp.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(lp.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(lp.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(lp.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(lp.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(lp.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(lp.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('lp.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(lp.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(lp.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
 
@@ -242,13 +453,48 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(se.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(se.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(se.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(se.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(se.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(se.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(se.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(se.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(se.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(se.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(se.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(se.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(se.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(se.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(se.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(se.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(se.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(se.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(se.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(se.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(se.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(se.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(se.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(se.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(se.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(se.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(se.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(se.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(se.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(se.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(se.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('se.statusenabled', true)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(se.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(se.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
 
@@ -272,14 +518,49 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'sh.keterangan as shift',
             'rs.unit_kerja',
             'us.role',
-            DB::raw("rs.[{$dayOfMonth}] as roster_kerja"),
+            DB::raw("
+                CASE
+                    WHEN DAY(dr.created_at) = 1 THEN rs.[1]
+                    WHEN DAY(dr.created_at) = 2 THEN rs.[2]
+                    WHEN DAY(dr.created_at) = 3 THEN rs.[3]
+                    WHEN DAY(dr.created_at) = 4 THEN rs.[4]
+                    WHEN DAY(dr.created_at) = 5 THEN rs.[5]
+                    WHEN DAY(dr.created_at) = 6 THEN rs.[6]
+                    WHEN DAY(dr.created_at) = 7 THEN rs.[7]
+                    WHEN DAY(dr.created_at) = 8 THEN rs.[8]
+                    WHEN DAY(dr.created_at) = 9 THEN rs.[9]
+                    WHEN DAY(dr.created_at) = 10 THEN rs.[10]
+                    WHEN DAY(dr.created_at) = 11 THEN rs.[11]
+                    WHEN DAY(dr.created_at) = 12 THEN rs.[12]
+                    WHEN DAY(dr.created_at) = 13 THEN rs.[13]
+                    WHEN DAY(dr.created_at) = 14 THEN rs.[14]
+                    WHEN DAY(dr.created_at) = 15 THEN rs.[15]
+                    WHEN DAY(dr.created_at) = 16 THEN rs.[16]
+                    WHEN DAY(dr.created_at) = 17 THEN rs.[17]
+                    WHEN DAY(dr.created_at) = 18 THEN rs.[18]
+                    WHEN DAY(dr.created_at) = 19 THEN rs.[19]
+                    WHEN DAY(dr.created_at) = 20 THEN rs.[20]
+                    WHEN DAY(dr.created_at) = 21 THEN rs.[21]
+                    WHEN DAY(dr.created_at) = 22 THEN rs.[22]
+                    WHEN DAY(dr.created_at) = 23 THEN rs.[23]
+                    WHEN DAY(dr.created_at) = 24 THEN rs.[24]
+                    WHEN DAY(dr.created_at) = 25 THEN rs.[25]
+                    WHEN DAY(dr.created_at) = 26 THEN rs.[26]
+                    WHEN DAY(dr.created_at) = 27 THEN rs.[27]
+                    WHEN DAY(dr.created_at) = 28 THEN rs.[28]
+                    WHEN DAY(dr.created_at) = 29 THEN rs.[29]
+                    WHEN DAY(dr.created_at) = 30 THEN rs.[30]
+                    WHEN DAY(dr.created_at) = 31 THEN rs.[31]
+                    ELSE NULL
+                END as roster_kerja
+            "),
             DB::raw("'Laporan Kerja' as jenis_laporan"),
             DB::raw("'Laporan Kerja' as source_table")
         )
         ->where('dr.statusenabled', true)
         ->where('dr.is_draft', false)
-        ->where('rs.tahun', $year)
-        ->where('rs.bulan', $month)
+        ->where('rs.tahun', DB::raw('YEAR(dr.created_at)'))
+        ->where('rs.bulan', DB::raw('MONTH(dr.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, dr.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         //Gabung Table
@@ -289,6 +570,8 @@ class MonitoringLaporanKerjaKLKHController extends Controller
 
         // $combinedQuery = $combinedQuery->get()->groupBy('source_table');
         $combinedQuery = $combinedQuery->get();
+
+        // dd($combinedQuery);
 
         session(['data_verified' => $combinedQuery]);
 
