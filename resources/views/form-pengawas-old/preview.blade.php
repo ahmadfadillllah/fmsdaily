@@ -449,20 +449,37 @@
 
                                             @foreach ($data['front'] as $brand => $units)
                                                 @foreach ($units as $unit)
-                                                    @foreach ($unit['siang'] as $index => $slot)
-                                                        @if($slot->keterangan != "")
-                                                            <tr>
-                                                                <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
-                                                                    <!-- Menampilkan nomor unit -->
-                                                                    {{ $unit['nomor_unit'] }} =>
-                                                                    <!-- Waktu -->
-                                                                    ({{ $timeSlots['siang'][$index] }})
-                                                                    <!-- Keterangan -->
-                                                                    {{ $slot->keterangan }}
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
+                                                    @if ($data['daily']->shift == 'Siang')
+                                                        @foreach ($unit['siang'] as $index => $slot)
+                                                            @if($slot->keterangan != "")
+                                                                <tr>
+                                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
+                                                                        <!-- Menampilkan nomor unit -->
+                                                                        {{ $unit['nomor_unit'] }} =>
+                                                                        <!-- Waktu -->
+                                                                        ({{ $timeSlots['siang'][$index] }})
+                                                                        <!-- Keterangan -->
+                                                                        {{ $slot->keterangan }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($unit['malam'] as $index => $slot)
+                                                            @if($slot->keterangan != "")
+                                                                <tr>
+                                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
+                                                                        <!-- Menampilkan nomor unit -->
+                                                                        {{ $unit['nomor_unit'] }} =>
+                                                                        <!-- Waktu -->
+                                                                        ({{ $timeSlots['malam'][$index] }})
+                                                                        <!-- Keterangan -->
+                                                                        {{ $slot->keterangan }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 @endforeach
                                             @endforeach
                                             @if ($data['front']->isEmpty())
