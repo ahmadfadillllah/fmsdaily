@@ -72,9 +72,9 @@ class ProductionController extends Controller
             }
         }
 
-        $dataArray = $data->toArray();
-        $actual = array_sum(array_column($dataArray, 'PRODUCTION'));
-        $plan = array_sum(array_column($dataArray, 'PLAN_PRODUCTION'));
+
+
+
 
         $waktu_sekarang = (int)date('H');
         $waktu = '';
@@ -85,7 +85,15 @@ class ProductionController extends Controller
             $waktu = 'Malam';
         }
 
-
+        if ($waktu == 'Siang') {
+            $dataArray = array_merge($categorizedData['Siang']);
+            $actual = array_sum(array_column($dataArray, 'PRODUCTION'));
+            $plan = array_sum(array_column($dataArray, 'PLAN_PRODUCTION'));
+        } else {
+            $dataArray = array_merge($categorizedData['Malam'], $categorizedData['HistorySiang']);
+            $actual = array_sum(array_column($dataArray, 'PRODUCTION'));
+            $plan = array_sum(array_column($dataArray, 'PLAN_PRODUCTION'));
+        }
 
         $data = [
             'kategori' => $categorizedData,
@@ -94,10 +102,6 @@ class ProductionController extends Controller
             'waktu' => $waktu,
             'by' => 'ahmadfadillllah'
         ];
-
-
-
-        // dd($data);
 
         return view('production.index', compact('data'));
     }
