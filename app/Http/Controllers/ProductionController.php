@@ -47,7 +47,7 @@ class ProductionController extends Controller
             if (property_exists($value, 'HOUR')) {
                 $hour = (int)$value->HOUR;
                 if ($hour >= 7 && $hour <= 18) {
-                    $b['trash'][] = $value;
+                    $b['HistorySiang'][] = $value;
                 }else{
                     $b['HistoryMalam'][] = $value;
                 }
@@ -57,7 +57,7 @@ class ProductionController extends Controller
         $categorizedData = [
             'Siang' => $siang,
             'Malam' => [],
-            'HistorySiang' => $siang,
+            'HistorySiang' => $b['HistorySiang'],
             'HistoryMalam' => $b['HistoryMalam'],
         ];
 
