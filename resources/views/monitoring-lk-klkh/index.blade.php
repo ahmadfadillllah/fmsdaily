@@ -230,10 +230,10 @@ tr.category-row td {
             };
         }
 
-        return {
-            startDateMorning: formatDateToYYYYMMDDHHMM(startDateMorning),
-            endDateMorning: formatDateToYYYYMMDDHHMM(endDateMorning),
-        };
+        // return {
+        //     startDateMorning: formatDateToYYYYMMDDHHMM(startDateMorning),
+        //     endDateMorning: formatDateToYYYYMMDDHHMM(endDateMorning),
+        // };
     }
 
     const shiftTimes = getShiftTimes();

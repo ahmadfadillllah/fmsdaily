@@ -624,11 +624,13 @@
     const formKerja = document.getElementById('submitFormKerja');
     const submitButtonKerja = document.getElementById('submitButtonKerja');
 
-    // Event listener untuk menangani submit
     formKerja.addEventListener('submit', function() {
-        // Nonaktifkan tombol submit ketika form sedang diproses
         submitButtonKerja.disabled = true;
-        submitButtonKerja.innerText = 'Processing...'; // Ubah teks tombol jika diperlukan
+        submitButtonKerja.innerText = 'Processing...';
+        setTimeout(function() {
+            submitButtonKerja.disabled = false;
+            submitButtonKerja.innerText = 'Submit';
+        }, 5000);
     });
 </script>
 

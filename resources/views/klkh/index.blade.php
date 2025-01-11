@@ -216,10 +216,10 @@ $('#example tbody').on('click', 'tr.group', function () {
             };
         }
 
-        return {
-            startDateMorning: formatDateToYYYYMMDDHHMM(startDateMorning),
-            endDateMorning: formatDateToYYYYMMDDHHMM(endDateMorning),
-        };
+        // return {
+        //     startDateMorning: formatDateToYYYYMMDDHHMM(startDateMorning),
+        //     endDateMorning: formatDateToYYYYMMDDHHMM(endDateMorning),
+        // };
     }
 
     const shiftTimes = getShiftTimes();

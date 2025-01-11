@@ -420,7 +420,11 @@
     formKLKHLoadingPoint.addEventListener('submit', function() {
         // Nonaktifkan tombol submit ketika form sedang diproses
         submitButtonKLKHLoadingPoint.disabled = true;
-        submitButtonKLKHLoadingPoint.innerText = 'Processing...'; 
+        submitButtonKLKHLoadingPoint.innerText = 'Processing...';
+        setTimeout(function() {
+            submitButtonKLKHLoadingPoint.disabled = false;
+            submitButtonKLKHLoadingPoint.innerText = 'Submit';
+        }, 5000);
     });
 </script>
 
