@@ -239,6 +239,7 @@
 
             </div>
             <div class="row">
+                <h6>Keterangan:</h6>
                 <div class="col-6 col-sm-4 col-md-3 mb-4">
                     <div class="progress" style="height: 20px">
                         <div class="progress-bar" role="progressbar" style="width: 100%;background-color:#fb8078"
