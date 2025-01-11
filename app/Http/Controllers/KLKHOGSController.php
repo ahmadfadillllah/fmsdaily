@@ -12,6 +12,7 @@ use App\Models\Shift;
 use App\Models\Area;
 use App\Models\KLKHOGS;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KLKHOGSController extends Controller
 {
@@ -195,6 +196,72 @@ class KLKHOGSController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.ogs')->with('info', nl2br('KLKH OGS gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function cetak($uuid)
+    {
+        $ogs = DB::table('klkh_ogs_t as ogs')
+        ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'ogs.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'ogs.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->select(
+            'ogs.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('ogs.statusenabled', true)
+        ->where('ogs.uuid', $uuid)->first();
+
+        if($ogs == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $ogs->verified_foreman = $ogs->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_foreman) : null;
+            $ogs->verified_supervisor = $ogs->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_supervisor) : null;
+            $ogs->verified_superintendent = $ogs->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_superintendent) : null;
+        }
+
+        return view('klkh.ogs.cetak', compact('ogs'));
+    }
+
+    public function download($uuid)
+    {
+        $ogs = DB::table('klkh_ogs_t as ogs')
+        ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'ogs.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'ogs.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->select(
+            'ogs.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('ogs.statusenabled', true)
+        ->where('ogs.uuid', $uuid)->first();
+
+        if($ogs == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $ogs->verified_foreman = $ogs->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_foreman)) : null;
+            $ogs->verified_supervisor = $ogs->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_supervisor)) : null;
+            $ogs->verified_superintendent = $ogs->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $ogs->nama_superintendent)) : null;
+        }
+
+        $pdf = PDF::loadView('klkh.ogs.download', compact('ogs'));
+        return $pdf->download('KLKH OGS.pdf');
+
     }
 
     public function preview($uuid)

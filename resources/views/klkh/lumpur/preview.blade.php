@@ -393,8 +393,13 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="#" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('klkh.lumpur.download', $lpr->uuid) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-download-simple f-22"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item align-bottom me-2">
+                                        <a href="{{ route('klkh.lumpur.cetak', $lpr->uuid) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
+                                            <i class="ph-duotone ph-printer f-22"></i>
                                         </a>
                                     </li>
 
