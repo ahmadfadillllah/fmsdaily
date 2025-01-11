@@ -79,7 +79,7 @@ class ProductionController extends Controller
         $waktu_sekarang = (int)date('H');
         $waktu = '';
 
-        if ($waktu_sekarang >= 7 && $waktu_sekarang <= 18) {
+        if ($waktu_sekarang >= 6 && $waktu_sekarang <= 18) {
             $waktu = 'Siang';
         } else {
             $waktu = 'Malam';
