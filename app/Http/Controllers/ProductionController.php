@@ -12,76 +12,88 @@ class ProductionController extends Controller
     public function index()
     {
         $data = DB::table('FOCUS_REPORTING.DASHBOARD.PRODUCTION_PER_HOUR as a')
-    ->select([
-        'NUM',
-        'PIT',
-        'a.HOUR',
-        'a.SORT',
-        'PRODUCTION',
-        // Menggunakan COALESCE untuk mengambil PLAN_PRODUCTION jika PLAN_PRODUCTION_2 NULL
-        DB::raw("COALESCE(
-                    CASE
-                        WHEN PLAN_PRODUCTION < 7000 AND PIT = 'ALL PIT' THEN NULL
-                        WHEN PLAN_PRODUCTION < 2333.333 AND PIT = 'PIT SM-A3' THEN NULL
-                        WHEN PLAN_PRODUCTION < 2333.333 AND PIT = 'PIT SM-B1' THEN NULL
-                        WHEN PLAN_PRODUCTION < 2333.333 AND PIT = 'PIT SM-B2' THEN NULL
-                        ELSE PLAN_PRODUCTION
-                    END, PLAN_PRODUCTION) AS PLAN_PRODUCTION")
-    ])
-    ->where('PIT', 'ALL PIT')
-    ->orderByRaw("CASE
-                    WHEN a.HOUR >= 19 THEN a.HOUR
-                    ELSE a.HOUR + 24
-                END")
-    ->get();
+        ->select([
+            'PIT',
+            'a.HOUR',
+            'a.SORT',
+            'PRODUCTION',
+            DB::raw("COALESCE(
+                        CASE
+                            WHEN PLAN_PRODUCTION < 7000 AND PIT = 'ALL PIT' THEN NULL
+                            WHEN PLAN_PRODUCTION < 2333.333 AND PIT = 'PIT SM-A3' THEN NULL
+                            WHEN PLAN_PRODUCTION < 2333.333 AND PIT = 'PIT SM-B1' THEN NULL
+                            WHEN PLAN_PRODUCTION < 2333.333 AND PIT = 'PIT SM-B2' THEN NULL
+                            ELSE PLAN_PRODUCTION
+                        END, PLAN_PRODUCTION) AS PLAN_PRODUCTION")
+        ])
+        ->where('PIT', 'ALL PIT')
+        ->orderByRaw("CASE
+                        WHEN a.HOUR >= 19 THEN a.HOUR
+                        ELSE a.HOUR + 24
+                    END")
+        ->get();
 
-// Format angka PRODUCTION agar lebih mudah dibaca
-$data = $data->transform(function ($item) {
-    if (isset($item->PRODUCTION)) {
-        $item->PRODUCTION = number_format($item->PRODUCTION, 0, '.', '');
-    }
-    return $item;
-});
+        $data = $data->transform(function ($item) {
+            if (isset($item->PRODUCTION)) {
+                $item->PRODUCTION = number_format($item->PRODUCTION, 0, '.', '');
+            }
+            return $item;
+        });
 
-// Mengkategorikan berdasarkan jam (Siang: 7-18, Malam: 19-6)
-$categorizedData = [
-    'Siang' => [],
-    'Malam' => []
-];
+        $siang = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT @shift = ?', ['Siang']);
+        $historymalam = DB::select('SET NOCOUNT ON;EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT @shift = ?', ['malam']);
 
-foreach ($data as $value) {
-    if (property_exists($value, 'HOUR')) {
-        $hour = (int)$value->HOUR;
-        if ($hour >= 7 && $hour <= 18) {
-            $categorizedData['Siang'][] = $value;
-        } else {
-            $categorizedData['Malam'][] = $value;
+        foreach ($historymalam as $value) {
+            if (property_exists($value, 'HOUR')) {
+                $hour = (int)$value->HOUR;
+                if ($hour >= 7 && $hour <= 18) {
+                    $b['trash'][] = $value;
+                }else{
+                    $b['HistoryMalam'][] = $value;
+                }
+            }
         }
-    }
-}
 
-// Menentukan kategori yang sesuai berdasarkan jam saat ini
-$kategori_terpilih = [];
-$waktu_sekarang = (int)date('H');
+        $categorizedData = [
+            'Siang' => $siang,
+            'Malam' => [],
+            'HistorySiang' => $siang,
+            'HistoryMalam' => $b['HistoryMalam'],
+        ];
 
-if ($waktu_sekarang >= 7 && $waktu_sekarang <= 18) {
-    $kategori_terpilih['Siang'] = $categorizedData['Siang'];
-} else {
-    $kategori_terpilih['Malam'] = $categorizedData['Malam'];
-}
+        foreach ($data as $value) {
+            if (property_exists($value, 'HOUR')) {
+                $hour = (int)$value->HOUR;
+                if ($hour >= 7 && $hour <= 18) {
+                    $b['trash'][] = $value;
+                }else{
+                    $categorizedData['Malam'][] = $value;
+                }
+            }
+        }
 
-// Menghitung total PRODUCTION dan PLAN_PRODUCTION
-$dataArray = $data->toArray();
-$actual = array_sum(array_column($dataArray, 'PRODUCTION'));
-$plan = array_sum(array_column($dataArray, 'PLAN_PRODUCTION'));
+        $dataArray = $data->toArray();
+        $actual = array_sum(array_column($dataArray, 'PRODUCTION'));
+        $plan = array_sum(array_column($dataArray, 'PLAN_PRODUCTION'));
 
-$data = [
-    'all' => $data,
-    'kategori' => $kategori_terpilih,
-    'actual' => $actual,
-    'plan' => $plan,
-    'by' => 'ahmadfadillllah'
-];
+        $waktu_sekarang = (int)date('H');
+        $waktu = '';
+
+        if ($waktu_sekarang >= 7 && $waktu_sekarang <= 18) {
+            $waktu = 'Siang';
+        } else {
+            $waktu = 'Malam';
+        }
+
+
+
+        $data = [
+            'kategori' => $categorizedData,
+            'actual' => $actual,
+            'plan' => $plan,
+            'waktu' => $waktu,
+            'by' => 'ahmadfadillllah'
+        ];
 
 
 
