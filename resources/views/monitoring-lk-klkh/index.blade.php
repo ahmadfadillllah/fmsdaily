@@ -37,12 +37,6 @@ tr.category-row td {
                                     </div>
                                 </form>
                             </div>
-                            @if (Auth::user()->role != 'ADMIN')
-                                <div class="col-sm-12 col-md-2 mb-2 text-md-end">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#alertVerifikasi"><span class="badge bg-success" style="font-size:14px">Verifikasi Semuanya</span></a>
-                                </div>
-                                @include('klkh.alert')
-                            @endif
                         </div>
                     </div>
 
@@ -62,6 +56,7 @@ tr.category-row td {
                                         <th>Roster Kerja</th>
                                         <th>Shift Kerja</th>
                                         <th>Jenis Laporan</th>
+                                        <th>Laporan</th>
                                         <th>Area</th>
                                         <th>Unit Kerja</th>
                                         <th>Jam</th>
@@ -79,6 +74,7 @@ tr.category-row td {
                                                 <td>{{ $co->roster_kerja }}</td>
                                                 <td>{{ $co->shift }}</td>
                                                 <td>{{ $co->jenis_laporan }}</td>
+                                                <td>{{ $co->source_table }}</td>
                                                 <td>{{ $co->pit }}</td>
                                                 <td>{{ $co->unit_kerja }}</td>
                                                 <td>{{ date('H:i', strtotime($co->tanggal_pembuatan)) }}</td>

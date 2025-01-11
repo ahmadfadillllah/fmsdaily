@@ -77,13 +77,10 @@ class KLKHHaulRoadController extends Controller
         // if (Auth::user()->role == 'SUPERINTENDENT') {
         //     $baseQuery->where('superintendent', Auth::user()->nik);
         // }
-        if (Auth::user()->role == 'ADMIN') {
+        if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
-        if (Auth::user()->role == 'ADMIN') {
-            $baseQuery->orWhere('pic', Auth::user()->id);
-        }
 
         $baseQuery = $baseQuery->where(function($query) {
             $query->where('hr.foreman', Auth::user()->nik)

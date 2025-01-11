@@ -77,7 +77,7 @@ class KLKHSimpangEmpatController extends Controller
         // if (Auth::user()->role == 'SUPERINTENDENT') {
         //     $baseQuery->where('superintendent', Auth::user()->nik);
         // }
-        if (Auth::user()->role == 'ADMIN') {
+        if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
 
@@ -188,6 +188,7 @@ class KLKHSimpangEmpatController extends Controller
             $se->verified_supervisor = $se->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_supervisor) : null;
             $se->verified_superintendent = $se->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_superintendent) : null;
         }
+
 
         return view('klkh.simpang-empat.preview', compact('se'));
     }

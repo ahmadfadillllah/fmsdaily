@@ -51,7 +51,7 @@
                 </li>
                 {{-- <li class="pc-item"><a href="#" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/excavator.png" alt="EX"></span><span class="pc-mtext">Front Loading</span></a></li> --}}
                 <li class="pc-item"><a href="{{ route('form-pengawas.show') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="BD"></span><span class="pc-mtext">Daftar Laporan</span></a></li>
-                @if(Auth::user()->role != 'ADMIN')
+                @if(Auth::user()->role != 'ADMIN' && Auth::user()->role != 'MANAGER')
                     <li class="pc-item"><a href="{{ route('form-pengawas-old.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
                 @endif
 
@@ -70,7 +70,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li>
                     </ul>
                 </li>
-                @if (Auth::user()->role != 'FOREMAN')
+                @if (!in_array(Auth::user()->role, ['FOREMAN', 'MANAGER']))
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/stamp.png" alt="DS"> </span><span class="pc-mtext">Verifikasi</span> <span class="pc-arrow"><i
@@ -88,9 +88,11 @@
                         </ul>
                     </li>
                 @endif
-                @if (Auth::user()->role == 'ADMIN')
+                @if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
                     <li class="pc-item"><a href="{{ route('rosterkerja') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/project.png" alt="NT"></span><span class="pc-mtext">Roster Kerja</span></a></li>
                     <li class="pc-item"><a href="{{ route('monitoringlaporankerjaklkh') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/spyware.png" alt="NT"></span><span class="pc-mtext">Monitoring LK & KLKH</span></a></li>
+                @endif
+                @if (in_array(Auth::user()->role, ['ADMIN']))
                     <li class="pc-item pc-caption"><label>Configuration</label> <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
                         </svg>

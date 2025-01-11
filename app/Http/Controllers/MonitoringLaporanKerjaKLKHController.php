@@ -110,7 +110,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                 END as roster_kerja
             "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
-            DB::raw("'SIMPANG EMPAT' as source_table")
+            DB::raw("'LOADING POINT' as source_table")
         )
         ->where('lp.statusenabled', true)
         ->where('rs.tahun', DB::raw('YEAR(lp.created_at)'))
@@ -174,7 +174,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                 END as roster_kerja
             "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
-            DB::raw("'SIMPANG EMPAT' as source_table")
+            DB::raw("'HAUL ROAD' as source_table")
         )
         ->where('hr.statusenabled', true)
         ->where('rs.tahun', DB::raw('YEAR(hr.created_at)'))
@@ -237,7 +237,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                 END as roster_kerja
             "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
-            DB::raw("'SIMPANG EMPAT' as source_table")
+            DB::raw("'DISPOSAL/DUMPING POINT' as source_table")
         )
         ->where('dp.statusenabled', true)
         ->where('rs.tahun', DB::raw('YEAR(dp.created_at)'))
@@ -300,7 +300,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                 END as roster_kerja
             "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
-            DB::raw("'SIMPANG EMPAT' as source_table")
+            DB::raw("'DUMPING DIKOLAM AIR/LUMPUR' as source_table")
         )
         ->where('lum.statusenabled', true)
         ->where('rs.tahun', DB::raw('YEAR(lum.created_at)'))
@@ -363,7 +363,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                 END as roster_kerja
             "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
-            DB::raw("'SIMPANG EMPAT' as source_table")
+            DB::raw("'OGS' as source_table")
         )
         ->where('ogs.statusenabled', true)
         ->where('rs.tahun', DB::raw('YEAR(ogs.created_at)'))
@@ -426,7 +426,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                 END as roster_kerja
             "),
             DB::raw("'Laporan KLKH' as jenis_laporan"),
-            DB::raw("'SIMPANG EMPAT' as source_table")
+            DB::raw("'BATU BARA' as source_table")
         )
         ->where('lp.statusenabled', true)
         ->where('rs.tahun', DB::raw('YEAR(lp.created_at)'))

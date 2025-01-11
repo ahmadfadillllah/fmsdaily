@@ -23,6 +23,7 @@
                             <option value="FOREMAN">FOREMAN</option>
                             <option value="SUPERVISOR">SUPERVISOR</option>
                             <option value="SUPERINTENDENT">SUPERINTENDENT</option>
+                            <option value="MANAGER">MANAGER</option>
                         </select>
                     </div>
                 </div>
