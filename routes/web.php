@@ -16,6 +16,7 @@ use App\Http\Controllers\KLKHOGSController;
 use App\Http\Controllers\KLKHSimpangEmpatController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\MonitoringLaporanKerjaKLKHController;
+use App\Http\Controllers\MonitoringPayloadController;
 use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
@@ -241,6 +242,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/roster-kerja', [RosterKerjaController::class, 'index'])->name('rosterkerja');
     Route::post('/roster-kerja/import', [RosterKerjaController::class, 'import'])->name('rosterkerja.import');
     Route::get('/roster-kerja/export', [RosterKerjaController::class, 'export'])->name('rosterkerja.export');
+
+    //Monitoring Payload
+    Route::get('/monitoring-payload', [MonitoringPayloadController::class, 'index'])->name('monitoringpayload');
 
     // User
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('checkRole'.':ADMIN');

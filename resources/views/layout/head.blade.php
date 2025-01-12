@@ -70,6 +70,10 @@
             margin: 20px 0;
             /* Menambahkan jarak vertikal di atas dan bawah garis */
         }
+        /* Menghapus tanda panah datatables */
+        .dt-column-order {
+            display: none;
+        }
     </style>
     <style>
         .notifier-container {

@@ -1,6 +1,6 @@
 <footer class="pc-footer">
     <div class="footer-wrapper container-fluid">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col my-1">
                 <p style="font-size: 8pt" class="m-0">Copyright &copy; by <a href="https://www.ptsims.co.id/"
                         target="_blank">IT-FMS</a></p>
