@@ -171,9 +171,9 @@
     });
 });
 </script>
-{{-- <script>
+<script>
     setInterval(function() {
         location.reload();
     }, 10000); //10 detik
-</script> --}}
+</script>
 </html>
