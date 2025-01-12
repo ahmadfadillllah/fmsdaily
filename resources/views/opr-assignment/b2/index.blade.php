@@ -56,6 +56,11 @@
     span{
         font-size: 9px;
     }
+
+    .container {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
 </style>
 
 
@@ -166,9 +171,9 @@
     });
 });
 </script>
-<script>
+{{-- <script>
     setInterval(function() {
         location.reload();
     }, 10000); //10 detik
-</script>
+</script> --}}
 </html>
