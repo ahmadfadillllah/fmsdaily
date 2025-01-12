@@ -2,7 +2,7 @@
 "name": "Daily Pengawas",
 "short_name": "Daily Pengawas",
 "description": "Digitalisasi laporan foreman untuk efisiensi alur proses dan peningkatan akurasi data",
-"start_url": "/form-pengawas/index",
+"start_url": "/dashboards/index",
 "display": "fullscreen",
 "background_color": "#001831",
 "theme_color": "#001831",
