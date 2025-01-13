@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="container mt-3">
-                            <form action="{{ route('klkh.lumpur.post') }}" method="POST">
+                            <form action="{{ route('klkh.lumpur.post') }}" method="POST" id="submitFormKLKHLumpur">
                                 @csrf
                                 <!-- Inputan di atas tabel -->
                                 <div class="row mb-3">
@@ -629,7 +629,7 @@
 
                                 <!-- Tombol Submit -->
                                 <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" id="submitButtonKLKHLumpur">Submit</button>
                                 </div>
                             </form>
 
@@ -643,6 +643,23 @@
 </section>
 
 @include('layout.footer')
+
+<script>
+
+    const formKLKHLumpur = document.getElementById('submitFormKLKHLumpur');
+    const submitButtonKLKHLumpur = document.getElementById('submitButtonKLKHLumpur');
+
+    formKLKHLumpur.addEventListener('submit', function() {
+        // Nonaktifkan tombol submit ketika form sedang diproses
+        submitButtonKLKHLumpur.disabled = true;
+        submitButtonKLKHLumpur.innerText = 'Processing...';
+        setTimeout(function() {
+            submitButtonKLKHLumpur.disabled = false;
+            submitButtonKLKHLumpur.innerText = 'Submit';
+        }, 7000);
+    });
+</script>
+
 <script>
     window.onload = function() {
         var currentDate = new Date();

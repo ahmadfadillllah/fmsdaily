@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="container mt-3">
-                            <form action="{{ route('klkh.disposal.post') }}" method="POST">
+                            <form action="{{ route('klkh.disposal.post') }}" method="POST" id="submitFormKLKHDisposal">
                                 @csrf
                                 <!-- Inputan di atas tabel -->
                                 <div class="row mb-3">
@@ -488,7 +488,7 @@
 
                                 <!-- Tombol Submit -->
                                 <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" id="submitButtonKLKHDisposal">Submit</button>
                                 </div>
                             </form>
 
@@ -502,6 +502,23 @@
 </section>
 
 @include('layout.footer')
+
+<script>
+
+    const formKLKHDisposal = document.getElementById('submitFormKLKHDisposal');
+    const submitButtonKLKHDisposal = document.getElementById('submitButtonKLKHDisposal');
+
+    formKLKHDisposal.addEventListener('submit', function() {
+        // Nonaktifkan tombol submit ketika form sedang diproses
+        submitButtonKLKHDisposal.disabled = true;
+        submitButtonKLKHDisposal.innerText = 'Processing...';
+        setTimeout(function() {
+            submitButtonKLKHDisposal.disabled = false;
+            submitButtonKLKHDisposal.innerText = 'Submit';
+        }, 7000);
+    });
+</script>
+
 <script>
     window.onload = function() {
         var currentDate = new Date();

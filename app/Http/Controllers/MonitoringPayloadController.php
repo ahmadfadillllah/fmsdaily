@@ -21,8 +21,8 @@ class MonitoringPayloadController extends Controller
 
 
         $time = Carbon::now();
-        $startDateMorning = $time->copy()->setTime(6, 30, 0); // 06:30:00 hari ini
-        $endDateNight = $time->copy()->setTime(6, 30, 0)->addDay(); // 06:30:00 besok
+        $startDateMorning = $time->copy()->setTime(7, 30, 0); // 07:30:00 hari ini
+        $endDateNight = $time->copy()->setTime(7, 30, 0)->addDay(); // 07:30:00 besok
 
         $startTimeFormatted = $startDateMorning->format('Y-m-d H:i:s');
         $endTimeFormatted = $endDateNight->format('Y-m-d H:i:s');
@@ -52,6 +52,37 @@ class MonitoringPayloadController extends Controller
         ->orderBy(DB::raw('CONVERT(DATE, OPR_REPORTTIME)'))
         ->get();
 
-        return view('monitoring-payload.index', compact('payload', 'unit'));
+
+        $payload_khusus = DB::table('focus.dbo.FLT_VEHICLE as flt')
+    ->leftJoin('focus.dbo.PRD_RITATION as prd', function($join) use ($startTimeFormatted, $endTimeFormatted) {
+        $join->on('flt.VHC_ID', '=', 'prd.VHC_ID')
+             ->whereBetween('prd.OPR_REPORTTIME', [$startTimeFormatted, $endTimeFormatted]);
+    })
+    ->whereIn('flt.VHC_ID', ['HD629', 'HD630', 'HD632', 'HD633', 'HD635', 'HD639', 'HD6406', 'HD6408', 'HD1150', 'HD1152', 'HD1155'])
+    ->select(
+        'flt.VHC_ID',
+        DB::raw('
+            COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE < 100 THEN 1 ELSE 0 END), 0) AS less_than_100,
+            COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE BETWEEN 100 AND 115 THEN 1 ELSE 0 END), 0) AS between_100_and_115,
+            COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE > 115 THEN 1 ELSE 0 END), 0) AS greater_than_115,
+            COALESCE(MAX(prd.LOD_TONNAGE), 0) AS max_payload
+        ')
+    )
+    ->groupBy('flt.VHC_ID')
+    ->get();
+
+
+
+
+
+
+        $data = [
+            'payload' => $payload,
+            'payload_khusus' => $payload_khusus,
+            'unit' => $unit,
+        ];
+        // dd($data);
+
+        return view('monitoring-payload.index', compact('data'));
     }
 }

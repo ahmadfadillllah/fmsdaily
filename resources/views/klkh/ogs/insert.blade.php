@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="container mt-3">
-                            <form action="{{ route('klkh.ogs.post') }}" method="POST">
+                            <form action="{{ route('klkh.ogs.post') }}" method="POST" id="submitFormKLKHOGS">
                                 @csrf
                                 <!-- Inputan di atas tabel -->
                                 <div class="row mb-3">
@@ -502,7 +502,7 @@
 
                                 <!-- Tombol Submit -->
                                 <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" id="submitButtonKLKHOGS">Submit</button>
                                 </div>
                             </form>
 
@@ -516,6 +516,24 @@
 </section>
 
 @include('layout.footer')
+
+<script>
+
+    const formKLKHOGS = document.getElementById('submitFormKLKHOGS');
+    const submitButtonKLKHOGS = document.getElementById('submitButtonKLKHOGS');
+
+    formKLKHOGS.addEventListener('submit', function() {
+        // Nonaktifkan tombol submit ketika form sedang diproses
+        submitButtonKLKHOGS.disabled = true;
+        submitButtonKLKHOGS.innerText = 'Processing...';
+        setTimeout(function() {
+            submitButtonKLKHOGS.disabled = false;
+            submitButtonKLKHOGS.innerText = 'Submit';
+        }, 7000);
+    });
+</script>
+
+
 <script>
     window.onload = function() {
         var currentDate = new Date();

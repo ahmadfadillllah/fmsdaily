@@ -666,6 +666,157 @@ class FormPengawasOldController extends Controller
         return view('form-pengawas-old.download', compact(['data', 'timeSlots']));
     }
 
+    public function pdf($uuid)
+    {
+
+        $daily = DB::table('daily_report_t as dr')
+        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->select(
+            'dr.uuid',
+            'dr.foreman_id as pic',
+            'dr.tanggal_dasar as tanggal',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
+            'us.nik as nik_foreman',
+            'us.name as nama_foreman',
+            'dr.nik_foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'dr.nik_supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dr.nik_superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'dr.verified_foreman',
+            'dr.verified_supervisor',
+            'dr.verified_superintendent',
+        )->where('dr.uuid', $uuid)->first();
+
+        if($daily == null){
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $daily->verified_foreman = $daily->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_foreman)) : null;
+            $daily->verified_supervisor = $daily->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_supervisor)) : null;
+            $daily->verified_superintendent = $daily->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $daily->nama_superintendent)) : null;
+
+        }
+
+        $front = DB::table('front_loading_t as fl')
+        ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')
+        ->leftJoin('focus.dbo.FLT_VEHICLE as flt', 'fl.nomor_unit', '=', 'flt.VHC_ID')
+        ->select(
+            'fl.nomor_unit',
+            'flt.EQU_GROUPID as type',
+            DB::raw("CASE
+                    WHEN flt.EQU_GROUPID LIKE 'HT%' THEN 'Hitachi'
+                    WHEN flt.EQU_GROUPID LIKE 'PC%' THEN 'Komatsu'
+                    ELSE 'Unknown'
+                END as brand"),
+            'fl.siang',
+            'fl.malam',
+            'fl.checked',
+            'fl.keterangan',
+        )
+        ->where('fl.statusenabled', true)
+        ->where('fl.daily_report_uuid', $uuid)
+        ->get()
+        ->groupBy('brand');
+
+        $support = DB::table('alat_support_t as al')
+        ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
+        ->select(
+            'al.alat_unit as nomor_unit',
+            'al.nama_operator',
+            'al.hm_awal',
+            'al.hm_akhir',
+            'al.hm_cash',
+            'al.keterangan',
+            'sh.keterangan as shift',
+            'al.tanggal_operator as tanggal',
+        )
+        ->where('al.daily_report_uuid', $uuid)->get();
+
+        $catatan = DB::table('catatan_pengawas_t as cp')
+        ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
+        ->select(
+            'cp.jam_start',
+            'cp.jam_stop',
+            'cp.keterangan',
+        )
+        ->where('cp.daily_report_uuid', $uuid)->get();
+
+        $timeSlots = [
+            'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
+            'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
+        ];
+
+        // Menghasilkan data seperti '✓' untuk menandakan waktu yang dicentang
+        $processedData = $front->map(function ($units, $brand) use ($timeSlots) {
+            return $units->map(function ($unit) use ($timeSlots) {
+                $siangTimes = json_decode($unit->siang, true);
+                $malamTimes = json_decode($unit->malam, true);
+                $checked = array_map(function ($item) {
+                    return $item === 'true'; // Convert 'true' string to boolean
+                }, json_decode($unit->checked, true));
+                $keterangan = array_map(function ($item) {
+                    return $item === null ? '' : $item; // Mengganti null dengan string kosong
+                }, json_decode($unit->keterangan, true));
+
+                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $siangTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => '<img src="' . public_path('check.png') . '">', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
+                $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $malamTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => '<img src="' . public_path('check.png') . '">', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
+                return [
+                    'brand' => $unit->brand,
+                    'type' => $unit->type,
+                    'nomor_unit' => $unit->nomor_unit,
+                    'siang' => $siangResult,
+                    'malam' => $malamResult,
+                ];
+            });
+        });
+
+        $data = [
+            'daily' => $daily,
+            'front' => $processedData,
+            'support' => $support,
+            'catatan' => $catatan,
+        ];
+
+        $pdf = PDF::loadView('form-pengawas-old.pdf', compact(['data', 'timeSlots']));
+        return $pdf->stream('Laporan Kerja.pdf');
+
+        // return view('form-pengawas-old.pdf', compact(['data', 'timeSlots']));
+    }
+
     public function delete($uuid)
     {
         $daily = DB::table('daily_report_t as dr')

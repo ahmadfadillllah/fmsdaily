@@ -198,10 +198,10 @@
                                     <tr>
                                         <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadLastHour / $countPayloadShift, 0) }}
+                                            {{ $countPayloadShift != 0 ? number_format($totalPayloadLastHour / $countPayloadShift, 0) : 0 }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadShift / $countPayloadShift, 0) }}
+                                            {{ $countPayloadShift != 0 ? number_format($totalPayloadShift / $countPayloadShift, 0) : 0 }}
                                         </td>
                                         <td style="text-align: center;">
                                             {{ number_format($totalPayloadLess85, 0) }}

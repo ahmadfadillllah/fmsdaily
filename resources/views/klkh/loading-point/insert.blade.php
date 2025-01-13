@@ -424,7 +424,7 @@
         setTimeout(function() {
             submitButtonKLKHLoadingPoint.disabled = false;
             submitButtonKLKHLoadingPoint.innerText = 'Submit';
-        }, 5000);
+        }, 7000);
     });
 </script>
 

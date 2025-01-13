@@ -30,6 +30,15 @@ $count = 0;
 $sum_2 =  0;
 $count_a = 0;
 $count_b = 0;
+
+$total_less_than_100_khusus = 0;
+$total_between_100_and_115_khusus = 0;
+$total_greater_than_115_khusus = 0;
+$total_max_payload_khusus = 0;
+$count_khusus = 0;
+$sum_2_khusus =  0;
+$count_a_khusus = 0;
+$count_b_khusus = 0;
 @endphp
 
 <section class="pc-container">
@@ -45,7 +54,7 @@ $count_b = 0;
                                     <label for="unit" class="form-label">Unit</label>
                                     <select class="form-select" data-trigger name="unit" id="unit">
                                         <option selected disabled></option>
-                                        @foreach ($unit as $u)
+                                        @foreach ($data['unit'] as $u)
                                             <option value="{{ $u->VHC_ID }}">{{ $u->VHC_ID }}</option>
                                         @endforeach
                                     </select>
@@ -85,7 +94,7 @@ $count_b = 0;
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($payload as $py)
+                                    @foreach ($data['payload'] as $py)
                                     @php
                                         $count++;
                                         if ($py['greater_than_115'] > 0) {
@@ -94,7 +103,7 @@ $count_b = 0;
                                         if ($py['max_payload'] > 0) {
                                             $count_b++;
                                         }
-                                        $sum_2 = $py['less_than_100'] + $py['between_100_and_115'] + $py['greater_than_115'];
+                                        $sum_2 += $py['less_than_100'] + $py['between_100_and_115'] + $py['greater_than_115'];
 
                                         // Menambahkan nilai ke total
                                         $total_less_than_100 += $py['less_than_100'];
@@ -116,9 +125,9 @@ $count_b = 0;
                                     {{-- @dd($sum_2) --}}
                                     <tr>
                                         <td>%</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_less_than_100 / $sum_2, 2 ) : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_between_100_and_115 / $sum_2, 2 ) : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_greater_than_115 / $sum_2, 2 ) : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_less_than_100 / $sum_2, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_between_100_and_115 / $sum_2, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_greater_than_115 / $sum_2, 2 ) * 100 : 0 }}</td>
                                         <td style="text-align: center">{{ $count_a != 0 ? round($total_greater_than_115 / $count_a, 1) : 0 }}</td>
                                         <td style="text-align: center">{{ $count_b != 0 ? round($total_max_payload / $count_b, 1) : 0 }}</td>
                                     </tr>
@@ -127,12 +136,84 @@ $count_b = 0;
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dt-responsive table-responsive">
+                            <h5>Monitoring Unit Khusus</h5>
+                            <table id="cbtn-selectors-khusus" class="table table-striped table-hover table-bordered nowrap">
+                                <thead style="text-align: center; vertical-align: middle;">
+                                    <tr>
+                                        <th style="background-color:aquamarine;" rowspan="2">Unit</th>
+                                        <th style="background-color:aquamarine;" colspan="3">Distribusi Payload</th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">
+                                            Kejadian Payload
+                                            > 115 T
+                                          </th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">Maksimal Payload</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color:aquamarine;">< 100</th>
+                                        <th style="background-color:aquamarine;">100 - 115</th>
+                                        <th style="background-color:aquamarine;">> 115</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($data['payload_khusus'] as $pk)
+                                    @php
+                                        $count_khusus++;
+                                        if ($pk->greater_than_115 > 0) {
+                                            $count_a_khusus++;
+                                        }
+                                        if ($pk->max_payload > 0) {
+                                            $count_b_khusus++;
+                                        }
+                                        $sum_2_khusus += $pk->less_than_100 + $pk->between_100_and_115 + $pk->greater_than_115;
+
+                                        // Menambahkan nilai ke total
+                                        $total_less_than_100_khusus += $pk->less_than_100;
+                                        $total_between_100_and_115_khusus += $pk->between_100_and_115;
+                                        $total_greater_than_115_khusus += $pk->greater_than_115;
+                                        $total_max_payload_khusus += $pk->max_payload;
+                                    @endphp
+                                        <tr>
+                                            <td>{{ $pk->VHC_ID }}</td>
+                                            <td style="text-align: center">{{ round($pk->less_than_100, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->between_100_and_115, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->greater_than_115, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->greater_than_115, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->max_payload, 1) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot style="background-color:moccasin">
+                                    {{-- @dd($count_a_khusus) --}}
+                                    <tr>
+                                        <td>%</td>
+                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_less_than_100_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_between_100_and_115_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_greater_than_115_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $count_a_khusus != 0 ? round($total_greater_than_115_khusus / $count_a_khusus, 1) : 0 }}</td>
+                                        <td style="text-align: center">{{ $count_b_khusus != 0 ? round($total_max_payload_khusus / $count_b_khusus, 1) : 0 }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 </section>
 
 @include('layout.footer')
+<script>
+    setTimeout(function () {
+        location.reload();
+    }, 300000); // 300000 ms = 5 menit
+
+</script>
 <script>
     // range picker
     (function () {
@@ -152,6 +233,48 @@ $count_b = 0;
     // [ Column Selectors ]
     $('#cbtn-selectors').DataTable({
         dom: 'Bfrtip',
+        buttons: [{
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [0, ':visible'],
+
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'portrait', // Set orientation menjadi landscape
+                pageSize: 'A4', // Ukuran halaman (opsional, default A4)
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5],
+                    format: {
+                        body: function(data, row, column, node) {
+                            // Menghapus entitas HTML seperti &gt;
+                            return data
+                                .replace(/&lt;/g, '<')   // Mengganti &lt; dengan <
+                                .replace(/&gt;/g, '>')   // Mengganti &gt; dengan >
+                                .replace(/&amp;/g, '&');
+                        }
+                    }
+
+                },
+                customize: function (doc) {
+                    // Menyesuaikan margin atau pengaturan tambahan
+                    doc.content[1].margin = [10, 10, 10, 10]; // Atur margin [kiri, atas, kanan, bawah]
+                }
+            },
+            'colvis'
+        ]
+    });
+
+    $('#cbtn-selectors-khusus').DataTable({
+        dom: 'Bfrtip',
+        pageLength:15,
         buttons: [{
                 extend: 'copyHtml5',
                 exportOptions: {
