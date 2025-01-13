@@ -8,6 +8,9 @@
         .datatable-table thead th, .table thead th {
             font-size: 7pt;
     }
+    .datatable-table tbody td, .table tbody td {
+            font-size: 9pt;
+    }
         .pagination {
             --bs-pagination-padding-x: 8px;
             --bs-pagination-padding-y: 1px;
@@ -143,18 +146,18 @@ $count_b_khusus = 0;
                             <table id="cbtn-selectors-khusus" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
-                                        <th style="background-color:aquamarine;" rowspan="2">Unit</th>
-                                        <th style="background-color:aquamarine;" colspan="3">Distribusi Payload</th>
-                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">
+                                        <th style="background-color:aquamarine;text-align: center" rowspan="2">Unit</th>
+                                        <th style="background-color:aquamarine;text-align: center" colspan="3">Distribusi Payload</th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;text-align: center">
                                             Kejadian Payload
                                             > 115 T
                                           </th>
-                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">Maksimal Payload</th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;text-align: center">Maksimal Payload</th>
                                     </tr>
                                     <tr>
-                                        <th style="background-color:aquamarine;">< 100</th>
-                                        <th style="background-color:aquamarine;">100 - 115</th>
-                                        <th style="background-color:aquamarine;">> 115</th>
+                                        <th style="background-color:aquamarine;text-align: center">< 100</th>
+                                        <th style="background-color:aquamarine;text-align: center">100 - 115</th>
+                                        <th style="background-color:aquamarine;text-align: center">> 115</th>
                                     </tr>
                                 </thead>
                                 <tbody>
