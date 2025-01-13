@@ -19,22 +19,29 @@ class MonitoringPayloadController extends Controller
             ->where('VHC_ID', 'LIKE', 'HD%')
             ->get();
 
-
         $time = Carbon::now();
-        $startDateMorning = $time->copy()->setTime(7, 30, 0); // 07:30:00 hari ini
-        $endDateNight = $time->copy()->setTime(7, 30, 0)->addDay(); // 07:30:00 besok
 
-        $startTimeFormatted = $startDateMorning->format('Y-m-d H:i:s');
-        $endTimeFormatted = $endDateNight->format('Y-m-d H:i:s');
 
         $waktu_sekarang = (int)date('H');
         $waktu = '';
 
-        if ($waktu_sekarang >= 6 && $waktu_sekarang <= 18) {
+        if ($waktu_sekarang >= 7 && $waktu_sekarang <= 17) {
+            $startDateMorning = $time->copy()->setTime(7, 0, 0); // 07:30:00 hari ini
+            $endDateNight = $time->copy()->setTime(17, 59,59)->addDay(); // 07:30:00 besok
+
+            $startTimeFormatted = $startDateMorning->format('Y-m-d H:i:s');
+            $endTimeFormatted = $endDateNight->format('Y-m-d H:i:s');
             $waktu = 'Siang';
         } else {
+            $startDateMorning = $time->copy()->subDay()->setTime(18, 0, 0); // 18:00:00 kemarin
+            $endDateNight = $time->copy()->setTime(6, 59, 59); // 06:59:59 besok
+
+            $startTimeFormatted = $startDateMorning->format('Y-m-d H:i:s');
+            $endTimeFormatted = $endDateNight->format('Y-m-d H:i:s');
             $waktu = 'Malam';
         }
+
+        // dd($startTimeFormatted);
 
         $payload = Ritation::selectRaw('
             VHC_ID,
