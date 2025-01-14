@@ -65,7 +65,7 @@
                                 <div class="col-1">
                                     <button type="submit" class="badge bg-primary" style="font-size:16px;border:none">Tampilkan</button>
                                 </div>
-                                {{-- @if (Auth::user()->role == 'ADMIN')
+                                @if (Auth::user()->role == 'ADMIN')
                                 <div class="col-1">
                                     <div class="mb-1">
                                         <a href="{{ route('rosterkerja.export') }}" class="badge bg-info" style="font-size:16px;border:none" >Export</a>
@@ -74,7 +74,7 @@
                                         <button type="button" class="badge bg-secondary" style="font-size:16px;border:none" data-bs-toggle="modal" data-bs-target="#importRoster">Import</button>
                                     </div>
                                 </div>
-                                @endif --}}
+                                @endif
 
 
                             </div>
