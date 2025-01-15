@@ -19,6 +19,8 @@ class KLKHLoadingPointController extends Controller
     //
     public function index(Request $request)
     {
+        session(['requestTimeLoadingPoint' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -193,6 +195,66 @@ class KLKHLoadingPointController extends Controller
 
         $pdf = PDF::loadView('klkh.loading-point.download', compact('lp'));
         return $pdf->download('KLKH Loading Point-'. $lp->date .'-'. $lp->shift .'-'. $lp->nama_pic .'.pdf');
+
+    }
+
+    public function bundlepdf(Request $request)
+    {
+
+        if (empty(session('requestTimeLoadingPoint')['rangeStart']) || empty(session('requestTimeLoadingPoint')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeLoadingPoint')['rangeStart']);
+            $end = new DateTime(session('requestTimeLoadingPoint')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $lp = DB::table('klkh_loadingpoint_t as lp')
+        ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->select(
+            'lp.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('lp.statusenabled', true)
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+
+        if ($lp->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        } else {
+            $lp = $lp->map(function($item) {
+                // Modifikasi untuk setiap item dalam collection
+                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
+                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
+                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+
+                return $item;
+            });
+
+        }
+
+        $pdf = PDF::loadView('klkh.loading-point.bundlepdf', compact('lp'));
+        return $pdf->download('KLKH Loading Point.pdf');
 
     }
 

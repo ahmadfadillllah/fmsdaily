@@ -105,6 +105,33 @@
                                         </a>
 
                                 <hr class="border-secondary border-opacity-50">
+                                <div class="pc-dark">
+                                    <h6 class="mb-1">Tema</h6>
+                                    <div class="row theme-color theme-layout">
+                                        <div class="col-4">
+                                            <div class="d-grid"><button class="preset-btn btn active" data-value="true"
+                                                    onclick="layout_change('light');" data-bs-toggle="tooltip" title="Light"><svg
+                                                        class="pc-icon text-warning">
+                                                        <use xlink:href="#custom-sun-1"></use>
+                                                    </svg></button></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="d-grid"><button class="preset-btn btn" data-value="false"
+                                                    onclick="layout_change('dark');" data-bs-toggle="tooltip" title="Dark"><svg
+                                                        class="pc-icon">
+                                                        <use xlink:href="#custom-moon"></use>
+                                                    </svg></button></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="d-grid"><button class="preset-btn btn" data-value="default"
+                                                    onclick="layout_change_default();" data-bs-toggle="tooltip"
+                                                    title="Automatically sets the theme based on user's operating system's color scheme."><span
+                                                        class="pc-lay-icon d-flex align-items-center justify-content-center"><i
+                                                            class="ph-duotone ph-cpu"></i></span></button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="border-secondary border-opacity-50">
                                 <div class="card-body">
                                     <div class="d-grid mb-12">
                                         <a href="{{ route('logout') }}" class="text-decoration-none">
@@ -117,7 +144,9 @@
                                         </a>
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 </li>

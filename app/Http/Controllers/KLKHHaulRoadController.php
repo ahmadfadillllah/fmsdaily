@@ -19,6 +19,8 @@ class KLKHHaulRoadController extends Controller
     //
     public function index(Request $request)
     {
+        session(['requestTimeHaulRoad' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -249,6 +251,66 @@ class KLKHHaulRoadController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('klkh.haul-road')->with('info', nl2br('KLKH Haul Road gagal dibuat..\n' . $th->getMessage()));
         }
+    }
+
+    public function bundlepdf(Request $request)
+    {
+
+        if (empty(session('requestTimeHaulRoad')['rangeStart']) || empty(session('requestTimeHaulRoad')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeHaulRoad')['rangeStart']);
+            $end = new DateTime(session('requestTimeHaulRoad')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $hr = DB::table('klkh_haulroad_t as hr')
+        ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'hr.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'hr.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
+        ->select(
+            'hr.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('hr.statusenabled', true)
+        ->whereBetween(DB::raw('CONVERT(varchar, hr.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+
+        if ($hr->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        } else {
+            $hr = $hr->map(function($item) {
+                // Modifikasi untuk setiap item dalam collection
+                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
+                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
+                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+
+                return $item;
+            });
+
+        }
+
+        $pdf = PDF::loadView('klkh.haul-road.bundlepdf', compact('hr'));
+        return $pdf->download('KLKH Haul Road.pdf');
+
     }
 
     public function preview($uuid)

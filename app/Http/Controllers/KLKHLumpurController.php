@@ -19,6 +19,8 @@ class KLKHLumpurController extends Controller
     //
     public function index(Request $request)
     {
+        session(['requestTimeLumpur' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -275,6 +277,66 @@ class KLKHLumpurController extends Controller
 
         $pdf = PDF::loadView('klkh.lumpur.download', compact('lpr'));
         return $pdf->download('KLKH Dumping Lumpur-'. $lpr->date .'-'. $lpr->shift .'-'. $lpr->nama_pic .'.pdf');
+
+    }
+
+    public function bundlepdf(Request $request)
+    {
+
+        if (empty(session('requestTimeLumpur')['rangeStart']) || empty(session('requestTimeLumpur')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeLumpur')['rangeStart']);
+            $end = new DateTime(session('requestTimeLumpur')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $lpr = DB::table('klkh_lumpur_t as lpr')
+        ->leftJoin('users as us', 'lpr.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'lpr.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'lpr.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lpr.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lpr.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lpr.superintendent', '=', 'spt.NRP')
+        ->select(
+            'lpr.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('lpr.statusenabled', true)
+        ->whereBetween(DB::raw('CONVERT(varchar, lpr.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+
+        if ($lpr->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        } else {
+            $lpr = $lpr->map(function($item) {
+                // Modifikasi untuk setiap item dalam collection
+                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
+                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
+                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+
+                return $item;
+            });
+
+        }
+
+        $pdf = PDF::loadView('klkh.lumpur.bundlepdf', compact('lpr'));
+        return $pdf->download('KLKH Dumping Lumpur.pdf');
 
     }
 

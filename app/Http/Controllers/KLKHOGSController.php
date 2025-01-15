@@ -19,6 +19,8 @@ class KLKHOGSController extends Controller
     //
     public function index(Request $request)
     {
+        session(['requestTimeOGS' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -261,6 +263,66 @@ class KLKHOGSController extends Controller
 
         $pdf = PDF::loadView('klkh.ogs.download', compact('ogs'));
         return $pdf->download('KLKH OGS-'. $ogs->date .'-'. $ogs->shift .'-'. $ogs->nama_pic .'.pdf');
+
+    }
+
+    public function bundlepdf(Request $request)
+    {
+
+        if (empty(session('requestTimeOGS')['rangeStart']) || empty(session('requestTimeOGS')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeOGS')['rangeStart']);
+            $end = new DateTime(session('requestTimeOGS')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $ogs = DB::table('klkh_ogs_t as ogs')
+        ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'ogs.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'ogs.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->select(
+            'ogs.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('ogs.statusenabled', true)
+        ->whereBetween(DB::raw('CONVERT(varchar, ogs.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+
+        if ($ogs->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        } else {
+            $ogs = $ogs->map(function($item) {
+                // Modifikasi untuk setiap item dalam collection
+                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
+                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
+                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+
+                return $item;
+            });
+
+        }
+
+        $pdf = PDF::loadView('klkh.ogs.bundlepdf', compact('ogs'));
+        return $pdf->download('KLKH OGS.pdf');
 
     }
 

@@ -56,6 +56,7 @@
                                         <th colspan="2">Superintendent</th>
                                         <th colspan="4">HM</th>
                                         <th rowspan="2">Keterangan</th>
+                                        <th rowspan="2">Aksi</th>
                                     </tr>
                                     <tr>
                                         <th>NIK</th>
@@ -98,7 +99,14 @@
                                             <td>{{ number_format($item->hm_akhir - $item->hm_awal, 2) }}</td>
                                             <td>{{ $item->hm_cash }}</td>
                                             <td>{{ $item->keterangan }}</td>
+                                            <td>
+                                                <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
+                                                @if (Auth::user()->role == 'ADMIN')
+                                                    <a href="#"><span class="badge bg-warning" data-bs-toggle="modal" data-bs-target="#editAlatSupport{{ $item->uuid }}"> Edit</span></a>
+                                                @endif
+                                            </td>
                                         </tr>
+                                    @include('alat-support.modal.edit')
                                     @endforeach
                                 </tbody>
                             </table>

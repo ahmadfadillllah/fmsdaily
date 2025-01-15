@@ -19,6 +19,8 @@ class KLKHBatuBaraController extends Controller
     //
     public function index(Request $request)
     {
+        session(['requestTimeBatuBara' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -191,6 +193,66 @@ class KLKHBatuBaraController extends Controller
         return $pdf->download('KLKH Batu Bara-'. $bb->date .'-'. $bb->shift .'-'. $bb->nama_pic .'.pdf');
 
         // return view('klkh.batu-bara.download', compact('bb'));
+    }
+
+    public function bundlepdf(Request $request)
+    {
+
+        if (empty(session('requestTimeBatuBara')['rangeStart']) || empty(session('requestTimeBatuBara')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeBatuBara')['rangeStart']);
+            $end = new DateTime(session('requestTimeBatuBara')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $bb = DB::table('klkh_batubara_t as bb')
+        ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'bb.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'bb.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->select(
+            'bb.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('bb.statusenabled', true)
+        ->whereBetween(DB::raw('CONVERT(varchar, bb.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+
+        if ($bb->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        } else {
+            $bb = $bb->map(function($item) {
+                // Modifikasi untuk setiap item dalam collection
+                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
+                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
+                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+
+                return $item;
+            });
+
+        }
+
+        $pdf = PDF::loadView('klkh.batu-bara.bundlepdf', compact('bb'));
+        return $pdf->download('KLKH Batu Bara.pdf');
+
     }
 
     public function insert()

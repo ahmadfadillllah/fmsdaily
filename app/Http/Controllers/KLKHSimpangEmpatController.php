@@ -19,6 +19,8 @@ class KLKHSimpangEmpatController extends Controller
     //
     public function index(Request $request)
     {
+        session(['requestTimeSimpangEmpat' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -157,6 +159,66 @@ class KLKHSimpangEmpatController extends Controller
 
         $pdf = PDF::loadView('klkh.simpang-empat.download', compact('se'));
         return $pdf->download('KLKH Simpang Empat-'. $se->date .'-'. $se->shift .'-'. $se->nama_pic .'.pdf');
+
+    }
+
+    public function bundlepdf(Request $request)
+    {
+
+        if (empty(session('requestTimeSimpangEmpat')['rangeStart']) || empty(session('requestTimeSimpangEmpat')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeSimpangEmpat')['rangeStart']);
+            $end = new DateTime(session('requestTimeSimpangEmpat')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $se = DB::table('klkh_simpangempat_t as se')
+        ->leftJoin('users as us', 'se.pic', '=', 'us.id')
+        ->leftJoin('area_m as ar', 'se.pit_id', '=', 'ar.id')
+        ->leftJoin('shift_m as sh', 'se.shift_id', '=', 'sh.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
+        ->select(
+            'se.*',
+            'ar.keterangan as pit',
+            'sh.keterangan as shift',
+            'us.name as nama_pic',
+            'gl.PERSONALNAME as nama_foreman',
+            'spv.PERSONALNAME as nama_supervisor',
+            'spt.PERSONALNAME as nama_superintendent'
+            )
+        ->where('se.statusenabled', true)
+        ->whereBetween(DB::raw('CONVERT(varchar, se.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+
+        if ($se->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        } else {
+            $se = $se->map(function($item) {
+                // Modifikasi untuk setiap item dalam collection
+                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
+                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
+                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+
+                return $item;
+            });
+
+        }
+
+        $pdf = PDF::loadView('klkh.simpang-empat.bundlepdf', compact('se'));
+        return $pdf->download('KLKH Simpang Empat.pdf');
 
     }
 

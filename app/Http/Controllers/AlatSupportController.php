@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlatSupport;
+use App\Models\Log;
+use App\Models\Personal;
+use App\Models\Shift;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -41,12 +45,14 @@ class AlatSupportController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
         ->select(
             'al.daily_report_id as id',
+            'al.uuid',
             'al.jenis_unit',
             'al.alat_unit as nomor_unit',
             'al.nik_operator',
             'al.nama_operator',
             'al.tanggal_operator',
             'sh2.keterangan as shift_operator',
+            'al.shift_operator_id',
             'dr.nik_foreman',
             'gl.PERSONALNAME as nama_foreman',
             'dr.tanggal_dasar as tanggal_pelaporan',
@@ -70,7 +76,20 @@ class AlatSupportController extends Controller
 
         $support = $support->get();
 
-        return view('alat-support.index', compact('support'));
+        $nomor_unit = Unit::select('VHC_ID')
+            ->where('VHC_ID', 'NOT LIKE', 'HD%')
+            ->get();
+
+        $shift = Shift::where('statusenabled', true)->get();
+
+        $operator = Personal::select
+        (
+            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+        )->where('ROLETYPE', 0)->get();
+
+        // dd($support);
+
+        return view('alat-support.index', compact('support', 'nomor_unit', 'shift', 'operator'));
     }
 
     public function destroy($id)
@@ -80,6 +99,57 @@ class AlatSupportController extends Controller
             return response()->json(['message' => 'Data berhasil dihapus'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Gagal menghapus data', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function update(Request $request, $uuid)
+    {
+        $support  = AlatSupport::where('uuid', $uuid)->first();
+        try {
+
+            Log::create([
+                'tanggal_loging' => now(),
+                'jenis_loging' => 'Alat Support',
+                'nama_user' => Auth::user()->id,
+                'nik' => Auth::user()->nik,
+                'keterangan' => 'Mnegubah alat support dengan nama: '. $support->nama_operator . ', NIK: '. $support->nik_operator . ', Alat Unit: '. $support->alat_unit,
+            ]);
+
+            $updateData = [
+
+                'tanggal_operator' => $request->tanggal_operator,
+                'hm_awal' => $request->hm_awal,
+                'hm_akhir' => $request->hm_akhir,
+                'hm_total' => $request->hm_akhir - $request->hm_awal,
+                'hm_cash' => $request->hm_cash,
+                'keterangan' => $request->keterangan,
+            ];
+
+            if ($request->has('alat_unit')) {
+                $updateData['alat_unit'] = $request->alat_unit;
+            }
+            if ($request->has('shift_operator')) {
+                $updateData['shift_operator_id'] = $request->shift_operator;
+            }
+            if ($request->has('nama_operator')) {
+
+                $operator = explode('|',  $request->nama_operator);
+                $nikOperator = $operator[0];
+                $namaOperator = trim($operator[1]);
+                $jenisUnit = substr($request->alat_unit, 0, 2);
+
+
+                $updateData['jenis_unit'] = $jenisUnit;
+                $updateData['nik_operator'] = $nikOperator;
+                $updateData['nama_operator'] = $namaOperator;
+            }
+
+            // Lakukan update
+            AlatSupport::where('uuid', $uuid)->update($updateData);
+
+            return redirect()->back()->with('success', 'Alat Support berhasil diupdate');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', 'Alat Support gagal diupdate');
         }
     }
 

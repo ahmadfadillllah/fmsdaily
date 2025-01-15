@@ -38,6 +38,7 @@ class LogController extends Controller
             (object)['jenis' => 'KLKH'],
             (object)['jenis' => 'Laporan Kerja'],
             (object)['jenis' => 'User'],
+            (object)['jenis' => 'Alat Support'],
         ]);
 
         $log = DB::table('log_t as lg')->leftJoin('users as us', 'lg.nama_user', 'us.id')

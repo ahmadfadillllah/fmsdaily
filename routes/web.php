@@ -115,6 +115,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/loading-point/post', [KLKHLoadingPointController::class, 'post'])->name('klkh.loading-point.post');
     Route::get('/klkh/loading-point/delete/{id}', [KLKHLoadingPointController::class, 'delete'])->name('klkh.loading-point.delete');
     Route::get('/klkh/loading-point/preview/{uuid}', [KLKHLoadingPointController::class, 'preview'])->name('klkh.loading-point.preview');
+    Route::get('/klkh/loading-point/bundlepdf', [KLKHLoadingPointController::class, 'bundlepdf'])->name('klkh.loading-point.bundlepdf');
     Route::get('/klkh/loading-point/cetak/{uuid}', [KLKHLoadingPointController::class, 'cetak'])->name('klkh.loading-point.cetak');
     Route::get('/klkh/loading-point/download/{uuid}', [KLKHLoadingPointController::class, 'download'])->name('klkh.loading-point.download');
     Route::get('/klkh/loading-point/verified/all/{uuid}', [KLKHLoadingPointController::class, 'verifiedAll'])->name('klkh.loading-point.verified.all');
@@ -128,6 +129,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/haul-road/post', [KLKHHaulRoadController::class, 'post'])->name('klkh.haul-road.post');
     Route::get('/klkh/haul-road/delete/{id}', [KLKHHaulRoadController::class, 'delete'])->name('klkh.haul-road.delete');
     Route::get('/klkh/haul-road/preview/{uuid}', [KLKHHaulRoadController::class, 'preview'])->name('klkh.haul-road.preview');
+    Route::get('/klkh/haul-road/bundlepdf', [KLKHHaulRoadController::class, 'bundlepdf'])->name('klkh.haul-road.bundlepdf');
     Route::get('/klkh/haul-road/cetak/{uuid}', [KLKHHaulRoadController::class, 'cetak'])->name('klkh.haul-road.cetak');
     Route::get('/klkh/haul-road/download/{uuid}', [KLKHHaulRoadController::class, 'download'])->name('klkh.haul-road.download');
     Route::get('/klkh/haul-road/verified/all/{uuid}', [KLKHHaulRoadController::class, 'verifiedAll'])->name('klkh.haul-road.verified.all');
@@ -141,6 +143,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/disposal/post', [KLKHDisposalController::class, 'post'])->name('klkh.disposal.post');
     Route::get('/klkh/disposal/delete/{id}', [KLKHDisposalController::class, 'delete'])->name('klkh.disposal.delete');
     Route::get('/klkh/disposal/preview/{uuid}', [KLKHDisposalController::class, 'preview'])->name('klkh.disposal.preview');
+    Route::get('/klkh/disposal/bundlepdf', [KLKHDisposalController::class, 'bundlepdf'])->name('klkh.disposal.bundlepdf');
     Route::get('/klkh/disposal/cetak/{uuid}', [KLKHDisposalController::class, 'cetak'])->name('klkh.disposal.cetak');
     Route::get('/klkh/disposal/download/{uuid}', [KLKHDisposalController::class, 'download'])->name('klkh.disposal.download');
     Route::get('/klkh/disposal/verified/all/{uuid}', [KLKHDisposalController::class, 'verifiedAll'])->name('klkh.disposal.verified.all');
@@ -154,6 +157,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/lumpur/post', [KLKHLumpurController::class, 'post'])->name('klkh.lumpur.post');
     Route::get('/klkh/lumpur/delete/{id}', [KLKHLumpurController::class, 'delete'])->name('klkh.lumpur.delete');
     Route::get('/klkh/lumpur/preview/{uuid}', [KLKHLumpurController::class, 'preview'])->name('klkh.lumpur.preview');
+    Route::get('/klkh/lumpur/bundlepdf', [KLKHLumpurController::class, 'bundlepdf'])->name('klkh.lumpur.bundlepdf');
     Route::get('/klkh/lumpur/cetak/{uuid}', [KLKHLumpurController::class, 'cetak'])->name('klkh.lumpur.cetak');
     Route::get('/klkh/lumpur/download/{uuid}', [KLKHLumpurController::class, 'download'])->name('klkh.lumpur.download');
     Route::get('/klkh/lumpur/verified/all/{uuid}', [KLKHLumpurController::class, 'verifiedAll'])->name('klkh.lumpur.verified.all');
@@ -167,6 +171,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/ogs/post', [KLKHOGSController::class, 'post'])->name('klkh.ogs.post');
     Route::get('/klkh/ogs/delete/{id}', [KLKHOGSController::class, 'delete'])->name('klkh.ogs.delete');
     Route::get('/klkh/ogs/preview/{uuid}', [KLKHOGSController::class, 'preview'])->name('klkh.ogs.preview');
+    Route::get('/klkh/ogs/bundlepdf', [KLKHOGSController::class, 'bundlepdf'])->name('klkh.ogs.bundlepdf');
     Route::get('/klkh/ogs/cetak/{uuid}', [KLKHOGSController::class, 'cetak'])->name('klkh.ogs.cetak');
     Route::get('/klkh/ogs/download/{uuid}', [KLKHOGSController::class, 'download'])->name('klkh.ogs.download');
     Route::get('/klkh/ogs/verified/all/{uuid}', [KLKHOGSController::class, 'verifiedAll'])->name('klkh.ogs.verified.all');
@@ -180,6 +185,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/batubara/post', [KLKHBatuBaraController::class, 'post'])->name('klkh.batubara.post');
     Route::get('/klkh/batubara/delete/{id}', [KLKHBatuBaraController::class, 'delete'])->name('klkh.batubara.delete');
     Route::get('/klkh/batubara/preview/{uuid}', [KLKHBatuBaraController::class, 'preview'])->name('klkh.batubara.preview');
+    Route::get('/klkh/batubara/bundlepdf', [KLKHBatuBaraController::class, 'bundlepdf'])->name('klkh.batubara.bundlepdf');
     Route::get('/klkh/batubara/cetak/{uuid}', [KLKHBatuBaraController::class, 'cetak'])->name('klkh.batubara.cetak');
     Route::get('/klkh/batubara/download/{uuid}', [KLKHBatuBaraController::class, 'download'])->name('klkh.batubara.download');
     Route::get('/klkh/batubara/verified/all/{uuid}', [KLKHBatuBaraController::class, 'verifiedAll'])->name('klkh.batubara.verified.all');
@@ -193,6 +199,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/klkh/simpangempat/post', [KLKHSimpangEmpatController::class, 'post'])->name('klkh.simpangempat.post');
     Route::get('/klkh/simpangempat/delete/{id}', [KLKHSimpangEmpatController::class, 'delete'])->name('klkh.simpangempat.delete');
     Route::get('/klkh/simpangempat/preview/{uuid}', [KLKHSimpangEmpatController::class, 'preview'])->name('klkh.simpangempat.preview');
+    Route::get('/klkh/simpangempat/bundlepdf', [KLKHSimpangEmpatController::class, 'bundlepdf'])->name('klkh.simpangempat.bundlepdf');
     Route::get('/klkh/simpangempat/cetak/{uuid}', [KLKHSimpangEmpatController::class, 'cetak'])->name('klkh.simpangempat.cetak');
     Route::get('/klkh/simpangempat/download/{uuid}', [KLKHSimpangEmpatController::class, 'download'])->name('klkh.simpangempat.download');
     Route::get('/klkh/simpangempat/verified/all/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedAll'])->name('klkh.simpangempat.verified.all');

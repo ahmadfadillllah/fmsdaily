@@ -31,6 +31,11 @@
                                     <a href="{{ route('klkh.loading-point.insert') }}"><span class="badge bg-success" style="font-size:14px"><i class="fas fa-plus"></i> Isi KLKH Loading Point</span></a>
                                 </div>
                             @endif
+                            @if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
+                                <div class="col-sm-12 col-md-2 mb-2 text-md-end">
+                                    <a href="{{ route('klkh.loading-point.bundlepdf') }}" target="_blank"><span class="badge bg-primary" style="font-size:14px"><i class="fas fa-download"></i> Bundle PDF</span></a>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
