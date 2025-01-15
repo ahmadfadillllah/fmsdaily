@@ -52,7 +52,7 @@
                                     <tr>
                                         <th rowspan="2">No</th>
                                         <th rowspan="2">Tgl Pembuatan</th>
-                                        <th rowspan="2">PIC</th>
+                                        <th colspan="2">PIC</th>
                                         <th rowspan="2">Pit</th>
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Waktu</th>
@@ -68,6 +68,8 @@
                                         <th>Nama</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,6 +77,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ date('d-m-Y H:i', strtotime($item->tanggal_pembuatan)) }}
+                                            <td>{{ $item->nik_pic }}</td>
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->pit }}</td>
                                             <td>{{ $item->shift }}</td>

@@ -51,6 +51,7 @@ class KLKHLoadingPointController extends Controller
             'lp.uuid',
             'lp.pic as pic_id',
             'us.name as pic',
+            'us.nik as nik_pic',
             DB::raw('CONVERT(varchar, lp.created_at, 120) as tanggal_pembuatan'),
             'lp.statusenabled',
             'ar.keterangan as pit',

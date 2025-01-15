@@ -209,6 +209,7 @@ class FormPengawasController extends Controller
 
     public function show(Request $request)
     {
+        session(['requestTimeLaporanKerja' => $request->all()]);
 
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();

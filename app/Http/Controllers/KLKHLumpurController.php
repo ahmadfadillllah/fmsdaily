@@ -51,6 +51,7 @@ class KLKHLumpurController extends Controller
             'lum.uuid',
             'lum.pic as pic_id',
             'us.name as pic',
+            'us.nik as nik_pic',
             DB::raw('CONVERT(varchar, lum.created_at, 120) as tanggal_pembuatan'),
             'lum.statusenabled',
             'ar.keterangan as pit',

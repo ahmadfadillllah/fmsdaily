@@ -51,6 +51,7 @@ class KLKHDisposalController extends Controller
             'dp.uuid',
             'dp.pic as pic_id',
             'us.name as pic',
+            'us.nik as nik_pic',
             DB::raw('CONVERT(varchar, dp.created_at, 120) as tanggal_pembuatan'),
             'dp.statusenabled',
             'ar.keterangan as pit',

@@ -51,6 +51,7 @@ class KLKHOGSController extends Controller
             'ogs.uuid',
             'ogs.pic as pic_id',
             'us.name as pic',
+            'us.nik as nik_pic',
             DB::raw('CONVERT(varchar, ogs.created_at, 120) as tanggal_pembuatan'),
             'ogs.statusenabled',
             'ar.keterangan as pit',

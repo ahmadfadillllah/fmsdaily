@@ -52,7 +52,7 @@
                                     <tr>
                                         <th rowspan="2">No</th>
                                         <th rowspan="2">Tgl Pembuatan</th>
-                                        <th rowspan="2">PIC</th>
+                                        <th colspan="2">PIC</th>
                                         <th rowspan="2">Pit</th>
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Waktu</th>
@@ -68,6 +68,8 @@
                                         <th>Nama</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,6 +77,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ date('d-m-Y H:i', strtotime($item->tanggal_pembuatan)) }}
+                                            <td>{{ $item->nik_pic }}</td>
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->pit }}</td>
                                             <td>{{ $item->shift }}</td>
@@ -183,7 +186,7 @@
                 orientation: 'landscape', // Set orientation menjadi landscape
                 pageSize: 'A4', // Ukuran halaman (opsional, default A4)
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                 },
                 customize: function (doc) {
                     // Menyesuaikan margin atau pengaturan tambahan

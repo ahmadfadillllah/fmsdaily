@@ -51,6 +51,7 @@ class KLKHHaulRoadController extends Controller
             'hr.uuid',
             'hr.pic as pic_id',
             'us.name as pic',
+            'us.nik as nik_pic',
             DB::raw('CONVERT(varchar, hr.created_at, 120) as tanggal_pembuatan'),
             'hr.statusenabled',
             'ar.keterangan as pit',
