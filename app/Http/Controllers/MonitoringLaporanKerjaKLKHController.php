@@ -552,7 +552,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
             'dr.statusenabled',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
-            'rs.unit_kerja',
+            'lok.keterangan as unit_kerja',
             'us.role',
             DB::raw("
                 CASE
