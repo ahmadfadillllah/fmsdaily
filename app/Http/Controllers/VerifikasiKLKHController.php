@@ -87,7 +87,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'LOADING POINT' as source_table")
         )
         ->where('lp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $loading->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -125,7 +125,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'HAUL ROAD' as source_table")
         )
         ->where('hr.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, hr.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $haulroad->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -163,7 +163,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'DISPOSAL/DUMPING POINT' as source_table")
         )
         ->where('dp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, dp.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $disposal->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -201,7 +201,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'DUMPING DIKOLAM AIR/LUMPUR' as source_table")
         )
         ->where('lum.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lum.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $lumpur->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -239,7 +239,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'OGS' as source_table")
         )
         ->where('ogs.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, ogs.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $ogs->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -277,7 +277,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'BATU BARA' as source_table")
         )
         ->where('lp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $batubara->where(strtolower(Auth::user()->role), Auth::user()->nik);
@@ -315,7 +315,7 @@ class VerifikasiKLKHController extends Controller
             DB::raw("'SIMPANG EMPAT' as source_table")
         )
         ->where('se.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, se.date, 120)'), [$startTimeFormatted, $endTimeFormatted]);
 
         if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'])) {
             $simpangempat->where(strtolower(Auth::user()->role), Auth::user()->nik);

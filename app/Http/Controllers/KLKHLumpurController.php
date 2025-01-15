@@ -66,7 +66,7 @@ class KLKHLumpurController extends Controller
             'lum.time',
         )
         ->where('lum.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lum.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lum.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -274,7 +274,7 @@ class KLKHLumpurController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.lumpur.download', compact('lpr'));
-        return $pdf->download('KLKH Dumping Lumpur.pdf');
+        return $pdf->download('KLKH Dumping Lumpur-'. $lpr->date .'-'. $lpr->shift .'-'. $lpr->nama_pic .'.pdf');
 
     }
 

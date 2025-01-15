@@ -66,7 +66,7 @@ class KLKHOGSController extends Controller
             'ogs.time',
         )
         ->where('ogs.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, ogs.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, ogs.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -260,7 +260,7 @@ class KLKHOGSController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.ogs.download', compact('ogs'));
-        return $pdf->download('KLKH OGS.pdf');
+        return $pdf->download('KLKH OGS-'. $ogs->date .'-'. $ogs->shift .'-'. $ogs->nama_pic .'.pdf');
 
     }
 

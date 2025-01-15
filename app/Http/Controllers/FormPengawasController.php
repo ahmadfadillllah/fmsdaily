@@ -244,6 +244,7 @@ class FormPengawasController extends Controller
             'ar.keterangan as area',
             'lok.keterangan as lokasi',
             'us.name as pic',
+            'us.nik as nik_pic',
             'dr.nik_foreman',
             'gl.PERSONALNAME as nama_foreman',
             'dr.nik_supervisor',

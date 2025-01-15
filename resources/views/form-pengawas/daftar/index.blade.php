@@ -36,7 +36,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
-                            <table id="table-style-hover" class="table table-striped table-hover table-bordered nowrap">
+                            <table id="cbtn-selectors" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
                                         <th rowspan="2">No</th>
@@ -45,7 +45,7 @@
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Area</th>
                                         <th rowspan="2">Unit Kerja</th>
-                                        <th rowspan="2">PIC</th>
+                                        <th colspan="2">PIC</th>
                                         <th colspan="2">Foreman</th>
                                         <th colspan="2">Supervisor</th>
                                         <th colspan="2">Superintendent</th>
@@ -53,6 +53,8 @@
                                         <th rowspan="2">Aksi</th>
                                     </tr>
                                     <tr>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
                                         <th>NIK</th>
@@ -71,6 +73,7 @@
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ $item->area }}</td>
                                             <td>{{ $item->lokasi }}</td>
+                                            <td>{{ $item->nik_pic }}</td>
                                             <td>{{ $item->pic }}</td>
                                             <td>{{ $item->nik_foreman }}</td>
                                             <td>{{ $item->nama_foreman }}</td>
@@ -88,7 +91,7 @@
                                             @endif
                                             <td>{{ $item->is_draft == true ? "Ya" : "Tidak" }}</td>
                                             <td>
-                                                <a href="{{ route('form-pengawas-old.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a>
+                                                {{-- <a href="{{ route('form-pengawas-old.download', $item->uuid) }}" target="_blank"><span class="badge bg-primary"><i class="fas fa-print"></i> Cetak</span></a> --}}
                                                 <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
                                                 @if (Auth::user()->role == 'ADMIN')
                                                     <a href="#"><span class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja{{ $item->uuid }}"><i class="fas fa-trash-alt"></i> Hapus</span></a>
@@ -118,6 +121,73 @@
             buttonClass: 'btn'
         });
     })();
+
+</script>
+<script>
+    // [ HTML5 Export Buttons ]
+    $('#basic-btn').DataTable({
+        dom: 'Bfrtip',
+        buttons: ['copy', 'csv', 'excel', 'print']
+    });
+
+    // [ Column Selectors ]
+    $('#cbtn-selectors').DataTable({
+        dom: 'Bfrtip',
+        buttons: [{
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [0, ':visible']
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape', // Set orientation menjadi landscape
+                pageSize: 'A4', // Ukuran halaman (opsional, default A4)
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                },
+                customize: function (doc) {
+                    // Menyesuaikan margin atau pengaturan tambahan
+                    doc.content[1].margin = [10, 10, 10, 10]; // Atur margin [kiri, atas, kanan, bawah]
+                }
+            },
+            'colvis'
+        ]
+    });
+
+    // [ Excel - Cell Background ]
+    $('#excel-bg').DataTable({
+        dom: 'Bfrtip',
+        buttons: [{
+            extend: 'excelHtml5',
+            customize: function (xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                $('row c[r^="F"]', sheet).each(function () {
+                    if ($('is t', this).text().replace(/[^\d]/g, '') * 1 >= 500000) {
+                        $(this).attr('s', '20');
+                    }
+                });
+            }
+        }]
+    });
+
+    // [ Custom File (JSON) ]
+    $('#pdf-json').DataTable({
+        dom: 'Bfrtip',
+        buttons: [{
+            text: 'JSON',
+            action: function (e, dt, button, config) {
+                var data = dt.buttons.exportData();
+                $.fn.dataTable.fileSave(new Blob([JSON.stringify(data)]), 'Export.json');
+            }
+        }]
+    });
 
 </script>
 

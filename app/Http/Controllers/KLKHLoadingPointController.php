@@ -66,7 +66,7 @@ class KLKHLoadingPointController extends Controller
             'lp.time',
         )
         ->where('lp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, lp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, lp.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -192,7 +192,7 @@ class KLKHLoadingPointController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.loading-point.download', compact('lp'));
-        return $pdf->download('KLKH Loading Point.pdf');
+        return $pdf->download('KLKH Loading Point-'. $lp->date .'-'. $lp->shift .'-'. $lp->nama_pic .'.pdf');
 
     }
 

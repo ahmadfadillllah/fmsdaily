@@ -66,7 +66,7 @@ class KLKHBatuBaraController extends Controller
             'bb.time',
         )
         ->where('bb.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, bb.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, bb.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -188,7 +188,7 @@ class KLKHBatuBaraController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.batu-bara.download', compact('bb'));
-        return $pdf->download('KLKH Batu Bara.pdf');
+        return $pdf->download('KLKH Batu Bara-'. $bb->date .'-'. $bb->shift .'-'. $bb->nama_pic .'.pdf');
 
         // return view('klkh.batu-bara.download', compact('bb'));
     }

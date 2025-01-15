@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Alat Support
     Route::get('/alat-support/index', [AlatSupportController::class, 'index'])->name('alat-support.index');
+    Route::post('/alat-support/update/{uuid}', [AlatSupportController::class, 'update'])->name('alat-support.update');
     Route::delete('/alat-support/{id}', [AlatSupportController::class, 'destroy']);
 
     //Catatan Pengawas

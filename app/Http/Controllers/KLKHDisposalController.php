@@ -66,7 +66,7 @@ class KLKHDisposalController extends Controller
             'dp.time',
         )
         ->where('dp.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, dp.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, dp.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -256,7 +256,7 @@ class KLKHDisposalController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.disposal.download', compact('dp'));
-        return $pdf->download('KLKH Dumping Point.pdf');
+        return $pdf->download('KLKH Dumping Point-'. $dp->date .'-'. $dp->shift .'-'. $dp->nama_pic .'.pdf');
 
     }
 

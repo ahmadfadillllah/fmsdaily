@@ -59,7 +59,7 @@ class UserController extends Controller
 
     public function insert(Request $request)
     {
-        $user = User::where('nik', $request->nik)->first();
+        $user = User::where('nik', strtoupper($request->nik))->first();
 
         if ($user) {
             return redirect()->back()->with('info', 'Maaf, NIK/User sudah ada');
@@ -68,7 +68,7 @@ class UserController extends Controller
         try {
             User::create([
                 'name' => $request->name,
-                'nik' => $request->nik,
+                'nik' => strtoupper($request->nik),
                 'role' => $request->role,
                 'statusenabled' => true,
                 'created_by' => Auth::user()->id,

@@ -66,7 +66,7 @@ class KLKHHaulRoadController extends Controller
             'hr.time',
         )
         ->where('hr.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, hr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, hr.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -173,7 +173,7 @@ class KLKHHaulRoadController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.haul-road.download', compact('hr'));
-        return $pdf->download('KLKH Haul Road.pdf');
+        return $pdf->download('KLKH Haul Road-'. $hr->date .'-'. $hr->shift .'-'. $hr->nama_pic .'.pdf');
 
     }
 

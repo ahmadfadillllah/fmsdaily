@@ -1109,6 +1109,9 @@
         const select4 = document.getElementById("nikSupervisor");
         const select5 = document.getElementById("nikSuperintendent");
 
+        console.log(select3.value == 3);
+
+
 
         if (!date.value || !select1.value || !select2.value || !select3.value || !select4.value || !select5.value) {
             Swal.fire({
@@ -1130,25 +1133,27 @@
             }
         });
         var frontN = document.getElementById("frontUnitNumber");
+        if(select3.value == 3){
+            if(!frontN.value){
+                Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Nomor Unit harus diisi pada form Front Loading',
+                confirmButtonText: 'OK'
+                });
+                return false;
+            }
+            if(!isChecked){
+                Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Harap centang minimal 1 kotak pada form Front Loading',
+                confirmButtonText: 'OK'
+                });
+                return false;
+            }
+        }
 
-        if(!frontN.value){
-            Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Nomor Unit harus diisi pada form Front Loading',
-            confirmButtonText: 'OK'
-            });
-            return false;
-        }
-        if(!isChecked){
-            Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Harap centang minimal 1 kotak pada form Front Loading',
-            confirmButtonText: 'OK'
-            });
-            return false;
-        }
         var checkBox = document.getElementById("customCheck1");
         if (!checkBox.checked) {
             Swal.fire({

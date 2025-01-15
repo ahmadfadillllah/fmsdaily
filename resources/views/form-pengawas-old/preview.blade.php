@@ -300,7 +300,7 @@
                                 Keterangan: beri tanda centang (√) pada unit excavator yang diawasi
                             </div>
                             <h4>
-                                B.  ALAT SUPPORT ( {{ $data['daily']->shift }} ) TANGGAL : {{ date('d-m-Y', strtotime($data['daily']->tanggal)) }}
+                                B.  ALAT SUPPORT
                             </h4>
                             <table class="data_table">
                                 <thead>
@@ -308,6 +308,7 @@
                                         <th rowspan="2" style="width:25px;">No</th>
                                         <th rowspan="2">No. Unit</th>
                                         <th rowspan="2">Nama Operator</th>
+                                        <th rowspan="2">Tanggal</th>
                                         <th colspan="2">HM Unit</th>
                                         <th rowspan="2">Total</th>
                                         <th rowspan="2">Cash Pengawas</th>
@@ -324,6 +325,7 @@
                                         <td style="text-align: center">{{ $loop->iteration }}</td>
                                         <td style="padding-left:2px;">{{ $sp->nomor_unit }}</td>
                                         <td style="padding-left:2px;">{{ $sp->nama_operator }}</td>
+                                        <td style="padding-left:2px;">{{ date('d-m-Y', strtotime($sp->tanggal)) }}</td>
                                         <td style="text-align: center">{{ $sp->hm_awal }}</td>
                                         <td style="text-align: center">{{ $sp->hm_akhir }}</td>
                                         <td style="text-align: center">{{ number_format($sp->hm_akhir - $sp->hm_awal, 2) }}</td>

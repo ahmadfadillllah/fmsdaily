@@ -66,7 +66,7 @@ class KLKHSimpangEmpatController extends Controller
             'se.time',
         )
         ->where('se.statusenabled', true)
-        ->whereBetween(DB::raw('CONVERT(varchar, se.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted]);
+        ->whereBetween(DB::raw('CONVERT(varchar, se.date, 23)'), [$startTimeFormatted, $endTimeFormatted]);
 
         // if (Auth::user()->role == 'FOREMAN') {
         //     $baseQuery->where('foreman', Auth::user()->nik);
@@ -156,7 +156,7 @@ class KLKHSimpangEmpatController extends Controller
         }
 
         $pdf = PDF::loadView('klkh.simpang-empat.download', compact('se'));
-        return $pdf->download('KLKH Intersection - Simpang Empat.pdf');
+        return $pdf->download('KLKH Simpang Empat-'. $se->date .'-'. $se->shift .'-'. $se->nama_pic .'.pdf');
 
     }
 

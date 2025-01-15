@@ -7,7 +7,7 @@
             </div>
             <div class="col-auto my-1">
                 <ul class="list-inline footer-link mb-0">
-                    <li class="list-inline-item"><a href="javascript:void(0);" style="font-size: 8pt">V1.0.0</a></li>
+                    <li class="list-inline-item"><a href="http://poka.ptsims.co.id" target="_blank" style="font-size: 8pt">Portal Karyawan</a></li>
                 </ul>
             </div>
         </div>

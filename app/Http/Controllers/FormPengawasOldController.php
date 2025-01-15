@@ -680,6 +680,7 @@ class FormPengawasOldController extends Controller
         ->select(
             'dr.uuid',
             'dr.foreman_id as pic',
+            'us.name as nama_pic',
             'dr.tanggal_dasar as tanggal',
             'sh.keterangan as shift',
             'ar.keterangan as area',
@@ -812,7 +813,7 @@ class FormPengawasOldController extends Controller
         ];
 
         $pdf = PDF::loadView('form-pengawas-old.pdf', compact(['data', 'timeSlots']));
-        return $pdf->stream('Laporan Kerja.pdf');
+        return $pdf->stream('Laporan Kerja-'. $data['daily']->tanggal .'-'. $data['daily']->shift .'-'. $data['daily']->nama_pic .'.pdf');
 
         // return view('form-pengawas-old.pdf', compact(['data', 'timeSlots']));
     }

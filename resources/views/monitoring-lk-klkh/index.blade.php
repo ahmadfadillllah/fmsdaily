@@ -29,10 +29,10 @@ tr.category-row td {
                         <div class="mb-3 row d-flex align-items-center">
                             <div class="col-sm-12 col-md-10 mb-2">
                                 <form action="" method="get">
-                                    <div class="input-group" >
-                                        <input type="datetime-local" class="form-control form-control-sm" placeholder="Start date" name="rangeStartVerif" style="max-width: 200px;" id="range-startverif">
+                                    <div class="input-group" id="pc-datepicker-5">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
                                         <span class="input-group-text">s/d</span>
-                                        <input type="datetime-local" class="form-control form-control-sm" placeholder="End date" name="rangeEndVerif" style="max-width: 200px;" id="range-endverif">
+                                        <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
                                         <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
                                     </div>
                                 </form>
@@ -52,14 +52,15 @@ tr.category-row td {
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
                                         <th>No</th>
-                                        <th>Tanggal</th>
+                                        <th>Tanggal Pembuatan</th>
+                                        <th>Tanggal Pelaporan</th>
                                         <th>Roster Kerja</th>
                                         <th>Shift Kerja</th>
                                         <th>Jenis Laporan</th>
                                         <th>Laporan</th>
                                         <th>Area</th>
                                         <th>Unit Kerja</th>
-                                        <th>Jam</th>
+                                        <th>Jam Pelaporan</th>
                                         <th>Jabatan</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
@@ -70,14 +71,15 @@ tr.category-row td {
                                     @foreach($combinedQuery as $co)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($co->tanggal_pembuatan)) }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($co->tanggal_pembuatan)->format('Y-m-d') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($co->tanggal_pelaporan)->format('Y-m-d') }}</td>
                                                 <td>{{ $co->roster_kerja }}</td>
                                                 <td>{{ $co->shift }}</td>
                                                 <td>{{ $co->jenis_laporan }}</td>
                                                 <td>{{ $co->source_table }}</td>
                                                 <td>{{ $co->pit }}</td>
                                                 <td>{{ $co->unit_kerja }}</td>
-                                                <td>{{ date('H:i', strtotime($co->tanggal_pembuatan)) }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($co->jam_pelaporan)->format('H:i') }}</td>
                                                 <td>{{ $co->role }}</td>
                                                 <td>{{ $co->nik_pic }}</td>
                                                 <td>{{ $co->pic }}</td>
