@@ -1,4 +1,4 @@
-<div class="modal fade" id="editAlatSupport{{ $item->uuid }}" tabindex="-1" aria-labelledby="modalSupportLabel" aria-hidden="true">
+<div class="modal fade" id="editAlatSupport{{ $item->id }}{{ $item->uuid }}" tabindex="-1" aria-labelledby="modalSupportLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="mb-3">
                         <label>HM Cash</label>
-                        <input type="number"class="form-control" name="hm_cash" value="{{ $item->hm_cash }}">
+                        <input type="text"class="form-control" name="hm_cash" value="{{ $item->hm_cash }}">
                     </div>
 
                     <div class="mb-3">

@@ -630,7 +630,7 @@
         setTimeout(function() {
             submitButtonKerja.disabled = false;
             submitButtonKerja.innerText = 'Submit';
-        }, 5000);
+        }, 7000);
     });
 </script>
 

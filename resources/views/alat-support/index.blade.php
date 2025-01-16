@@ -100,9 +100,9 @@
                                             <td>{{ $item->hm_cash }}</td>
                                             <td>{{ $item->keterangan }}</td>
                                             <td>
-                                                <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a>
+                                                {{-- <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a> --}}
                                                 @if (Auth::user()->role == 'ADMIN')
-                                                    <a href="#"><span class="badge bg-warning" data-bs-toggle="modal" data-bs-target="#editAlatSupport{{ $item->uuid }}"> Edit</span></a>
+                                                    <a href="#"><span class="badge bg-warning" data-bs-toggle="modal" data-bs-target="#editAlatSupport{{ $item->id }}{{ $item->uuid }}"> Edit</span></a>
                                                 @endif
                                             </td>
                                         </tr>
