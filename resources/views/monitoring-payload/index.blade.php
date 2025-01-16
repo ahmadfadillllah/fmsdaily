@@ -42,6 +42,19 @@ $count_khusus = 0;
 $sum_2_khusus =  0;
 $count_a_khusus = 0;
 $count_b_khusus = 0;
+
+$total_less_than_100_2023 = 0;
+$total_between_100_and_115_2023 = 0;
+$total_greater_than_115_2023 = 0;
+$total_max_payload_2023 = 0;
+$count_2023 = 0;
+$sum_2_2023 =  0;
+$count_a_2023 = 0;
+$count_b_2023 = 0;
+$total_ritasi_2023 = 0;
+$payload_average_2023 = 0;
+$payload_max_2023 = 0;
+$grand_total_ritasi_2023 = 0;
 @endphp
 
 <section class="pc-container">
@@ -204,6 +217,79 @@ $count_b_khusus = 0;
                         </div>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dt-responsive table-responsive">
+                            <h5>Distribusi Payload Tahun 2023 - 2024</h5>
+                            <table id="cbtn-selectors-2023" class="table table-striped table-hover table-bordered nowrap">
+                                <thead style="text-align: center; vertical-align: middle;">
+                                    <tr>
+                                        <th style="background-color:aquamarine;" rowspan="2">Unit</th>
+                                        <th style="background-color:aquamarine;" colspan="3">Distribusi Payload</th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">Total Ritasi</th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">Payload Average</th>
+                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">Payload Max</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color:aquamarine;">< 100</th>
+                                        <th style="background-color:aquamarine;">100 - 115</th>
+                                        <th style="background-color:aquamarine;">> 115</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($data['payload_2023'] as $p2023)
+
+                                    @php
+                                        $count_2023++;
+                                        if ($p2023->greater_than_115 > 0) {
+                                            $count_a_2023++;
+                                        }
+                                        if ($p2023->max_payload > 0) {
+                                            $count_b_2023++;
+                                        }
+                                        $sum_2_2023 += $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
+
+                                        $total_ritasi_2023 = $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
+                                        $payload_average_2023 = $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
+                                        $payload_max_2023 = $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
+
+                                        // Menambahkan nilai ke total
+                                        $total_less_than_100_2023 += $p2023->less_than_100;
+                                        $total_between_100_and_115_2023 += $p2023->between_100_and_115;
+                                        $total_greater_than_115_2023 += $p2023->greater_than_115;
+                                        $grand_total_ritasi_2023 += $total_ritasi_2023;
+                                    @endphp
+
+                                        <tr>
+                                            <td>{{ $p2023->VHC_ID }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->less_than_100, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->between_100_and_115, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->greater_than_115, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($total_ritasi_2023, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->payload_average, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->max_payload, 1), 0, ',', '.') }}</td>
+                                        </tr>
+                                    @endforeach
+                                    {{-- @dd($total_less_than_100_2023) --}}
+                                </tbody>
+                                <tfoot style="background-color:moccasin">
+                                    {{-- @dd($sum_2) --}}
+                                    <tr>
+                                        <td>%</td>
+                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_less_than_100_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_between_100_and_115_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_greater_than_115_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ number_format($grand_total_ritasi_2023, 0, ',', '.') }}</td>
+                                        <td style="text-align: center"></td>
+                                        <td style="text-align: center"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -276,6 +362,47 @@ $count_b_khusus = 0;
     });
 
     $('#cbtn-selectors-khusus').DataTable({
+        dom: 'Bfrtip',
+        pageLength:15,
+        buttons: [{
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [0, ':visible'],
+
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'portrait', // Set orientation menjadi landscape
+                pageSize: 'A4', // Ukuran halaman (opsional, default A4)
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5],
+                    format: {
+                        body: function(data, row, column, node) {
+                            // Menghapus entitas HTML seperti &gt;
+                            return data
+                                .replace(/&lt;/g, '<')   // Mengganti &lt; dengan <
+                                .replace(/&gt;/g, '>')   // Mengganti &gt; dengan >
+                                .replace(/&amp;/g, '&');
+                        }
+                    }
+
+                },
+                customize: function (doc) {
+                    // Menyesuaikan margin atau pengaturan tambahan
+                    doc.content[1].margin = [10, 10, 10, 10]; // Atur margin [kiri, atas, kanan, bawah]
+                }
+            },
+            'colvis'
+        ]
+    });
+    $('#cbtn-selectors-2023').DataTable({
         dom: 'Bfrtip',
         pageLength:15,
         buttons: [{
