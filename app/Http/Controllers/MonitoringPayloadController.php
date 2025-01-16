@@ -79,7 +79,7 @@ class MonitoringPayloadController extends Controller
         ->get();
 
         $startDate = '2023-01-01 00:00:00';
-        $endDate = '2024-08-31 23:59:59';
+        $endDate = '2024-12-31 23:59:59';
         $vhcIds = 'HD629, HD630, HD632, HD633, HD635, HD639, HD6406, HD6408, HD1150, HD1152, HD1155';
 
         $payload_2023 = DB::select('SET NOCOUNT ON; EXEC DAILY.dbo.GET_PAYLOAD_2023_2024 @StartDate = ?, @EndDate = ?, @VHC_IDs = ?', [$startDate, $endDate, $vhcIds]);
