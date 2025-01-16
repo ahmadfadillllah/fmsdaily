@@ -78,49 +78,11 @@ class MonitoringPayloadController extends Controller
         ->groupBy('flt.VHC_ID')
         ->get();
 
-        // $payload_2023 = DB::table('focus.dbo.PRD_RITATION as R')
-        // ->selectRaw('
-        //     R.VHC_ID,
-        //     CONVERT(DATE, R.OPR_REPORTTIME) AS report_date,
-        //     COUNT(CASE WHEN R.LOD_TONNAGE < 100 THEN 1 END) AS less_than_100,
-        //     COUNT(CASE WHEN R.LOD_TONNAGE BETWEEN 100 AND 115 THEN 1 END) AS between_100_and_115,
-        //     COUNT(CASE WHEN R.LOD_TONNAGE > 115 THEN 1 END) AS greater_than_115,
-        //     MAX(R.LOD_TONNAGE) AS max_payload,
-        //     V.VHC_ID  -- Menambahkan kolom dari tabel yang di-join
-        // ')
-        // ->leftJoin('FOCUS_REPORTING.dbo.PRD_RITATION_2023JAN_2024AUG as V', 'R.VHC_ID', '=', 'V.VHC_ID')
-        // ->whereBetween('R.OPR_REPORTTIME', [$startTimeFormatted, $endTimeFormatted]);
+        $startDate = '2023-01-01 00:00:00';
+        $endDate = '2024-08-31 23:59:59';
+        $vhcIds = 'HD629, HD630, HD632, HD633, HD635, HD639, HD6406, HD6408, HD1150, HD1152, HD1155';
 
-        // // Optional: Jika unit diberikan, filter berdasarkan VHC_ID
-        // if (!empty($request->unit)) {
-        //     $payload_2023 = $payload_2023->where('R.VHC_ID', $request->unit);
-        // }
-
-        // $payload_2023 = $payload_2023
-        //     ->groupBy(DB::raw('R.VHC_ID, CONVERT(DATE, R.OPR_REPORTTIME), V.VHC_ID')) // Pastikan untuk mengelompokkan sesuai dengan kolom yang digabungkan
-        //     ->orderBy(DB::raw('CONVERT(DATE, R.OPR_REPORTTIME)'))
-        //     ->get();
-
-        $payload_2023 = DB::table('FOCUS_REPORTING.dbo.PRD_RITATION_2023JAN_2024AUG as flt')
-        ->leftJoin('focus.dbo.PRD_RITATION as prd', function($join) use ($startTimeFormatted, $endTimeFormatted) {
-            $join->on('flt.VHC_ID', '=', 'prd.VHC_ID')
-                ->whereBetween('prd.OPR_REPORTTIME', [$startTimeFormatted, $endTimeFormatted]);
-        })
-        ->whereIn('flt.VHC_ID', ['HD629', 'HD630', 'HD632', 'HD633', 'HD635', 'HD639', 'HD6406', 'HD6408', 'HD1150', 'HD1152', 'HD1155'])
-        ->select(
-            'flt.VHC_ID',
-            DB::raw('
-                COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE < 100 THEN 1 ELSE 0 END), 0) AS less_than_100,
-                COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE BETWEEN 100 AND 115 THEN 1 ELSE 0 END), 0) AS between_100_and_115,
-                COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE > 115 THEN 1 ELSE 0 END), 0) AS greater_than_115,
-                COALESCE(MAX(prd.LOD_TONNAGE), 0) AS max_payload,
-                COALESCE(AVG(prd.LOD_TONNAGE), 0) AS payload_average
-            ')
-        )
-        ->groupBy('flt.VHC_ID')
-        ->get();
-
-
+        $payload_2023 = DB::select('SET NOCOUNT ON; EXEC DAILY.dbo.GET_PAYLOAD_2023_2024 @StartDate = ?, @EndDate = ?, @VHC_IDs = ?', [$startDate, $endDate, $vhcIds]);
 
         $data = [
             'payload' => $payload,
