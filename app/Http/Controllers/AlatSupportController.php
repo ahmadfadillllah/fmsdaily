@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AlatSupportExport;
 use App\Models\AlatSupport;
 use App\Models\Log;
 use App\Models\Personal;
@@ -11,12 +12,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AlatSupportController extends Controller
 {
     //
     public function index(Request $request)
     {
+
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');
@@ -76,6 +80,7 @@ class AlatSupportController extends Controller
         }
 
         $support = $support->get();
+        // dd($support);
 
         $nomor_unit = Unit::select('VHC_ID')
             ->where('VHC_ID', 'NOT LIKE', 'HD%')
@@ -91,6 +96,106 @@ class AlatSupportController extends Controller
         // dd($support);
 
         return view('alat-support.index', compact('support', 'nomor_unit', 'shift', 'operator'));
+    }
+
+    public function excel(Request $request)
+    {
+
+        if (empty(session('requestTimeAlatSupport')['rangeStart']) || empty(session('requestTimeAlatSupport')['rangeEnd'])){
+            $time = new DateTime();
+            $start = $time;
+            $end = $time;
+
+        }else{
+            $start = new DateTime(session('requestTimeAlatSupport')['rangeStart']);
+            $end = new DateTime(session('requestTimeAlatSupport')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+        // dd($bulan);
+        return Excel::download(new AlatSupportExport($startTimeFormatted, $endTimeFormatted), 'Alat Support.xlsx');
+    }
+
+    public function api(Request $request)
+    {
+        session(['requestTimeAlatSupport' => $request->all()]);
+
+        if (empty($request->rangeStart) || empty($request->rangeEnd)){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+
+        }else{
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+        }
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+        // Ambil parameter untuk pagination
+        $start = $request->input('start', 0);  // Offset
+        $length = $request->input('length', 10); // Default 10 item per halaman
+        $draw = $request->input('draw');
+
+        $supportQuery = DB::table('alat_support_t as al')
+            ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+            ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+            ->leftJoin('shift_m as sh2', 'al.shift_operator_id', '=', 'sh2.id')
+            ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+            ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+            // ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+            ->select(
+                'al.daily_report_id as id',
+                'al.uuid',
+                'al.jenis_unit',
+                'al.alat_unit as nomor_unit',
+                'al.nik_operator',
+                'al.nama_operator',
+                'al.tanggal_operator',
+                'sh2.keterangan as shift_operator',
+                'al.shift_operator_id',
+                'dr.nik_foreman',
+                'gl.PERSONALNAME as nama_foreman',
+                'dr.tanggal_dasar as tanggal_pelaporan',
+                'sh.keterangan as shift',
+                'ar.keterangan as area',
+                'lok.keterangan as lokasi',
+                'dr.nik_supervisor as nik_supervisor',
+                'spv.PERSONALNAME as nama_supervisor',
+                'dr.nik_superintendent as nik_superintendent',
+                'spt.PERSONALNAME as nama_superintendent',
+                'al.hm_awal',
+                'al.hm_akhir',
+                DB::raw('(al.hm_akhir - al.hm_awal) AS total_hm'),
+                'al.hm_cash',
+                'al.keterangan',
+            )
+            ->where('al.statusenabled', true)
+            ->where('dr.statusenabled', true)
+            ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
+            if (Auth::user()->role !== 'ADMIN') {
+                $supportQuery->where('dr.foreman_id', Auth::user()->id);
+            }
+        $filteredRecords = $supportQuery->count();
+        $support = $supportQuery->skip($start)->take($length)->get();
+
+        return response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $filteredRecords,
+            'recordsFiltered' => $filteredRecords,
+            'data' => $support
+        ]);
+
     }
 
     public function destroy($id)

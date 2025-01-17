@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Exports;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+
+class AlatSupportExport implements FromCollection, WithEvents
+{
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    protected $startTimeFormatted;
+    protected $endTimeFormatted;
+
+    // Konstruktor untuk menerima startTimeFormatted dan endTimeFormatted
+    public function __construct($startTimeFormatted, $endTimeFormatted)
+    {
+        $this->startTimeFormatted = $startTimeFormatted;
+        $this->endTimeFormatted = $endTimeFormatted;
+    }
+
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(12);
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(13);
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(25);
+                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(12);
+                $event->sheet->getDelegate()->getColumnDimension('L')->setWidth(20);
+                $event->sheet->getDelegate()->getColumnDimension('N')->setWidth(20);
+                $event->sheet->getDelegate()->getColumnDimension('P')->setWidth(20);
+                $event->sheet->getDelegate()->getColumnDimension('U')->setWidth(40);
+            },
+        ];
+    }
+
+    public function collection()
+    {
+        $support = DB::table('alat_support_t as al')
+            ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+            ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+            ->leftJoin('shift_m as sh2', 'al.shift_operator_id', '=', 'sh2.id')
+            ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+            ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+            // ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+            ->select(
+                'dr.tanggal_dasar as tanggal_pelaporan',
+                'sh.keterangan as shift',
+                'ar.keterangan as area',
+                'lok.keterangan as lokasi',
+                'al.jenis_unit',
+                'al.alat_unit as nomor_unit',
+                'al.nik_operator',
+                'al.nama_operator',
+                'al.tanggal_operator',
+                'sh2.keterangan as shift_operator',
+                'dr.nik_foreman',
+                'gl.PERSONALNAME as nama_foreman',
+                'dr.nik_supervisor as nik_supervisor',
+                'spv.PERSONALNAME as nama_supervisor',
+                'dr.nik_superintendent as nik_superintendent',
+                'spt.PERSONALNAME as nama_superintendent',
+                'al.hm_awal',
+                'al.hm_akhir',
+                DB::raw('(al.hm_akhir - al.hm_awal) AS total_hm'),
+                'al.hm_cash',
+                'al.keterangan'
+            )
+            ->where('al.statusenabled', true)
+            ->where('dr.statusenabled', true)
+            ->whereBetween('dr.tanggal_dasar', [$this->startTimeFormatted, $this->endTimeFormatted]);
+            if (Auth::user()->role !== 'ADMIN') {
+                $support->where('dr.foreman_id', Auth::user()->id);
+            }
+        $support = $support->get();
+
+        return $support;
+    }
+}

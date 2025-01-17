@@ -17,20 +17,19 @@
                     <div class="col-12">
                         <div class="mb-3 row d-flex align-items-center">
                             <div class="col-sm-12 col-md-10 mb-2">
-                                <form action="" method="get">
+                                {{-- <form action="" method="get"> --}}
                                     <div class="input-group" id="pc-datepicker-6">
                                         <input type="text" class="form-control form-control-sm" placeholder="Start date" name="rangeStart" style="max-width: 200px;" id="range-start">
                                         <span class="input-group-text">s/d</span>
                                         <input type="text" class="form-control form-control-sm" placeholder="End date" name="rangeEnd" style="max-width: 200px;" id="range-end">
-                                        <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
+                                        <button id="refreshButton" class="btn btn-primary btn-sm">Tampilkan</button>
                                     </div>
-                                </form>
+
+                                {{-- </form> --}}
                             </div>
-                            {{-- <div class="col-sm-12 col-md-2 mb-2 text-md-end text-center">
-                                <button type="button" class="btn btn-success w-100 w-md-auto">
-                                    <i class="fas fa-download"></i> Unduh
-                                </button>
-                            </div> --}}
+                            <div class="col-sm-12 col-md-2 mb-2 text-md-end">
+                                <a href="{{ route('alat-support.excel') }}"><span class="badge bg-success" style="font-size:14px"> Excel</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -57,6 +56,7 @@
                                         <th colspan="4">HM</th>
                                         <th rowspan="2">Keterangan</th>
                                         <th rowspan="2">Aksi</th>
+
                                     </tr>
                                     <tr>
                                         <th>NIK</th>
@@ -75,41 +75,13 @@
                                         <th>Cash</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($support as $item)
-                                        <tr>
-                                            <td>{{ $item->tanggal_pelaporan }}</td>
-                                            <td>{{ $item->shift }}</td>
-                                            <td>{{ $item->area }}</td>
-                                            <td>{{ $item->lokasi }}</td>
-                                            <td>{{ $item->jenis_unit }}</td>
-                                            <td>{{ $item->nomor_unit }}</td>
-                                            <td>{{ $item->nik_operator }}</td>
-                                            <td>{{ $item->nama_operator }}</td>
-                                            <td>{{ $item->tanggal_operator }}</td>
-                                            <td>{{ $item->shift_operator }}</td>
-                                            <td>{{ $item->nik_foreman }}</td>
-                                            <td>{{ $item->nama_foreman }}</td>
-                                            <td>{{ $item->nik_supervisor }}</td>
-                                            <td>{{ $item->nama_supervisor }}</td>
-                                            <td>{{ $item->nik_superintendent }}</td>
-                                            <td>{{ $item->nama_superintendent }}</td>
-                                            <td>{{ $item->hm_awal }}</td>
-                                            <td>{{ $item->hm_akhir }}</td>
-                                            <td>{{ number_format($item->hm_akhir - $item->hm_awal, 2) }}</td>
-                                            <td>{{ $item->hm_cash }}</td>
-                                            <td>{{ $item->keterangan }}</td>
-                                            <td>
-                                                {{-- <a href="{{ route('form-pengawas-old.preview', $item->uuid) }}"><span class="badge bg-success">Preview</span></a> --}}
-                                                @if (Auth::user()->role == 'ADMIN')
-                                                    <a href="#"><span class="badge bg-warning" data-bs-toggle="modal" data-bs-target="#editAlatSupport{{ $item->id }}{{ $item->uuid }}"> Edit</span></a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @include('alat-support.modal.edit')
-                                    @endforeach
+                                <tbody id="tableBody">
+                                    <!-- Data dari API akan ditambahkan di sini -->
                                 </tbody>
                             </table>
+                            @foreach($support as $item)
+                                @include('alat-support.modal.edit', ['item' => $item])
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -129,69 +101,154 @@
 
 </script>
 <script>
-    // [ HTML5 Export Buttons ]
-    $('#basic-btn').DataTable({
-        dom: 'Bfrtip',
-        buttons: ['copy', 'csv', 'excel', 'print']
-    });
+    $(document).ready(function() {
+        var userRole = "{{ Auth::user()->role }}";
 
-    // [ Column Selectors ]
-    $('#cbtn-selectors').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: [0, ':visible']
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape', // Set orientation menjadi landscape
-                pageSize: 'A3', // Ukuran halaman (opsional, default A4)
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16,17,18,19,20]
+        var table = $('#cbtn-selectors').DataTable({
+
+            processing: true,
+            serverSide: true,  // Untuk menggunakan server-side processing
+            ajax: {
+                url: '{!! route('alat-support.api') !!}',  // URL API Anda
+                method: 'GET',  // Gunakan GET atau POST sesuai dengan implementasi Anda
+                data: function(d) {
+                    // Kirimkan parameter tambahan jika diperlukan (misalnya tanggal)
+                    var rangeStart = $('#range-start').val();
+                    var rangeEnd = $('#range-end').val();
+                    d.rangeStart = rangeStart;
+                    d.rangeEnd = rangeEnd;
                 },
-                customize: function (doc) {
-                    // Menyesuaikan margin atau pengaturan tambahan
-                    doc.content[1].margin = [10, 10, 10, 10]; // Atur margin [kiri, atas, kanan, bawah]
-                }
             },
-            'colvis'
-        ]
-    });
-
-    // [ Excel - Cell Background ]
-    $('#excel-bg').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-            extend: 'excelHtml5',
-            customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                $('row c[r^="F"]', sheet).each(function () {
-                    if ($('is t', this).text().replace(/[^\d]/g, '') * 1 >= 500000) {
-                        $(this).attr('s', '20');
+            columns: [
+                { data: 'tanggal_pelaporan' },
+                { data: 'shift' },
+                { data: 'area' },
+                { data: 'lokasi' },
+                { data: 'jenis_unit' },
+                { data: 'nomor_unit' },
+                { data: 'nik_operator' },
+                { data: 'nama_operator' },
+                { data: 'tanggal_operator' },
+                { data: 'shift_operator' },
+                { data: 'nik_foreman' },
+                { data: 'nama_foreman' },
+                { data: 'nik_supervisor' },
+                { data: 'nama_supervisor' },
+                { data: 'nik_superintendent' },
+                { data: 'nama_superintendent' },
+                { data: 'hm_awal' },
+                { data: 'hm_akhir' },
+                { data: 'total_hm' },
+                { data: 'hm_cash' },
+                { data: 'keterangan' },
+                {
+                    data: 'aksi',
+                    render: function(data, type, row) {
+                        // Hanya tampilkan tombol edit jika peran pengguna adalah Admin
+                        if (userRole === 'ADMIN') {
+                            var modalId = "editAlatSupport" + row.id + row.uuid;
+                            var editUrl = "/alat-support/update/" + row.uuid;
+                            return `
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#${modalId}">
+                                    <span class="badge w-100" style="font-size:14px;background-color:orange">
+                                        Edit
+                                    </span>
+                                </a>
+                                ${generateModal(row, editUrl)}
+                            `;
+                        } else {
+                            // Jika bukan admin, tampilkan empty atau string kosong
+                            return '-';
+                        }
                     }
-                });
-            }
-        }]
-    });
+                }
+            ],
+            "order": [[0, "desc"]],  // Default sort by first column
+            "pageLength": 15,  // Jumlah baris per halaman
+            "lengthMenu": [10, 15, 25, 50],  // Pilihan jumlah baris per halaman
+        });
 
-    // [ Custom File (JSON) ]
-    $('#pdf-json').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-            text: 'JSON',
-            action: function (e, dt, button, config) {
-                var data = dt.buttons.exportData();
-                $.fn.dataTable.fileSave(new Blob([JSON.stringify(data)]), 'Export.json');
-            }
-        }]
+        // Event listener untuk tombol refresh
+        $('#refreshButton').click(function() {
+            table.ajax.reload();  // Reload data dengan AJAX
+        });
     });
+    function generateModal(row, editUrl) {
+            return `
+                <div class="modal fade" id="editAlatSupport${row.id}${row.uuid}" tabindex="-1" aria-labelledby="modalSupportLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalSupportLabel">Alat Support</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="${editUrl}" method="POST">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label>Nomor Unit</label>
+                                        <select class="form-select" name="alat_unit">
+                                            <option value="${row.nomor_unit}" selected>${row.nomor_unit}</option>
+                                            @foreach ($nomor_unit as $nu)
+                                                <option value="{{ $nu->VHC_ID }}">{{ $nu->VHC_ID }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Nama Operator</label>
+                                        <select class="form-select" name="nama_operator">
+                                            <option value="${row.nik_operator}|${row.nama_operator}" selected>${row.nik_operator}|${row.nama_operator}</option>
+                                            @foreach ($operator as $op)
+                                                <option value="{{ $op->NRP }}|{{ $op->PERSONALNAME }}">{{ $op->NRP }}|{{ $op->PERSONALNAME }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Tanggal</label>
+                                        <input type="date" class="form-control" value="${row.tanggal_operator}" name="tanggal_operator">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Shift</label>
+                                        <select class="form-select" name="shift_operator">
+                                            <option selected value="${row.shift_operator_id}">${row.shift_operator}</option>
+                                            @foreach ($shift as $shh)
+                                                <option value="{{ $shh->id }}">{{ $shh->keterangan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>HM Awal</label>
+                                        <input type="number" class="form-control" name="hm_awal" value="${row.hm_awal}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>HM Akhir</label>
+                                        <input type="number" class="form-control" name="hm_akhir" value="${row.hm_akhir}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Total</label>
+                                        <input type="number" class="form-control" name="hm_total" value="${(row.hm_akhir - row.hm_awal).toFixed(2)}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>HM Cash</label>
+                                        <input type="text" class="form-control" name="hm_cash" value="${row.hm_cash ? row.hm_cash : ''}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Keterangan</label>
+                                        <input type="text" class="form-control" name="keterangan" value="${row.keterangan ? row.keterangan : ''}">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
 </script>
+
+
+

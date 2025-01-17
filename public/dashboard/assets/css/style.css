@@ -35292,7 +35292,7 @@ div.dataTables_wrapper div.dt-row {
     position: fixed;
     overflow: hidden;
     right: -4px;
-    top: 100px;
+    top: 150px;
     z-index: 1030;
     border-radius: 50% 4px 4px 50%;
     box-shadow: -6px 0 14px 1px rgba(27, 46, 94, .04);
