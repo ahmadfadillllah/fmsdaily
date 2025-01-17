@@ -109,7 +109,7 @@
             processing: true,
             serverSide: true,  // Untuk menggunakan server-side processing
             ajax: {
-                url: '{!! route('alat-support.api') !!}',  // URL API Anda
+                url: '/alat-support/api',  // URL API Anda
                 method: 'GET',  // Gunakan GET atau POST sesuai dengan implementasi Anda
                 data: function(d) {
                     // Kirimkan parameter tambahan jika diperlukan (misalnya tanggal)
