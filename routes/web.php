@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Alat Support
     Route::get('/alat-support/index', [AlatSupportController::class, 'index'])->name('alat-support.index');
-    // Route::get('/alat-support/api', [AlatSupportController::class, 'api'])->name('alat-support.api');
+    Route::get('/alat-support/api', [AlatSupportController::class, 'api'])->name('alat-support.api');
     Route::get('/alat-support/excel', [AlatSupportController::class, 'excel'])->name('alat-support.excel');
     Route::post('/alat-support/update/{uuid}', [AlatSupportController::class, 'update'])->name('alat-support.update');
     Route::delete('/alat-support/{id}', [AlatSupportController::class, 'destroy']);
