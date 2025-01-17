@@ -103,7 +103,7 @@
 <script>
     $(document).ready(function() {
         var userRole = "{{ Auth::user()->role }}";
-
+        console.log('{!! route('alat-support.api') !!}');
         var table = $('#alatSupport').DataTable({
 
             processing: true,
