@@ -184,7 +184,7 @@ class AlatSupportController extends Controller
             ->where('dr.statusenabled', true)
             ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
             if ($request->role !== 'ADMIN') {
-                $supportQuery->where('dr.foreman_id', Auth::user()->id);
+                $supportQuery->where('dr.foreman_id', $request->userId);
             }
         $filteredRecords = $supportQuery->count();
         $support = $supportQuery->skip($start)->take($length)->get();

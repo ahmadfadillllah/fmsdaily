@@ -115,9 +115,11 @@
                     var rangeStart = $('#range-start').val();
                     var rangeEnd = $('#range-end').val();
                     var userRole = "{{ Auth::user()->role }}";
+                    var userId = "{{ Auth::user()->id }}";
                     d.rangeStart = rangeStart;
                     d.rangeEnd = rangeEnd;
                     d.role = userRole;
+                    d.userId = userId;
                 },
             },
             columns: [
