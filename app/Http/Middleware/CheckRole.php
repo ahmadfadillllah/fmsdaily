@@ -22,11 +22,6 @@ class CheckRole
             return redirect()->route('dashboard.index')->with('info', 'Anda tidak diizinkan untuk mengakses halaman ini');
         }
 
-        $next($request)->headers->set('Access-Control-Allow-Origin', '*'); // Mengizinkan semua origin, ganti '*' dengan domain yang diinginkan
-        $next($request)->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        $next($request)->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-        $next($request)->headers->set('Access-Control-Allow-Credentials', 'true');
-
         return $next($request);
     }
 }
