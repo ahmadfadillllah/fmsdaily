@@ -46,10 +46,10 @@ class MonitoringPayloadController extends Controller
         $payload = Ritation::selectRaw('
             VHC_ID,
             CONVERT(DATE, OPR_REPORTTIME) AS report_date,
-            COUNT(CASE WHEN LOD_TONNAGE < 100 THEN 1 END) AS less_than_100,
-            COUNT(CASE WHEN LOD_TONNAGE BETWEEN 100 AND 115 THEN 1 END) AS between_100_and_115,
-            COUNT(CASE WHEN LOD_TONNAGE > 115 THEN 1 END) AS greater_than_115,
-            MAX(LOD_TONNAGE) AS max_payload
+            COUNT(CASE WHEN RIT_TONNAGE < 100 THEN 1 END) AS less_than_100,
+            COUNT(CASE WHEN RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 END) AS between_100_and_115,
+            COUNT(CASE WHEN RIT_TONNAGE > 115 THEN 1 END) AS greater_than_115,
+            MAX(RIT_TONNAGE) AS max_payload
         ')
         ->whereBetween('OPR_REPORTTIME', [$startTimeFormatted, $endTimeFormatted]);
         if (!empty($request->unit)) {
@@ -69,10 +69,10 @@ class MonitoringPayloadController extends Controller
         ->select(
             'flt.VHC_ID',
             DB::raw('
-                COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE < 100 THEN 1 ELSE 0 END), 0) AS less_than_100,
-                COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE BETWEEN 100 AND 115 THEN 1 ELSE 0 END), 0) AS between_100_and_115,
-                COALESCE(SUM(CASE WHEN prd.LOD_TONNAGE > 115 THEN 1 ELSE 0 END), 0) AS greater_than_115,
-                COALESCE(MAX(prd.LOD_TONNAGE), 0) AS max_payload
+                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE < 100 THEN 1 ELSE 0 END), 0) AS less_than_100,
+                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 ELSE 0 END), 0) AS between_100_and_115,
+                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE > 115 THEN 1 ELSE 0 END), 0) AS greater_than_115,
+                COALESCE(MAX(prd.RIT_TONNAGE), 0) AS max_payload
             ')
         )
         ->groupBy('flt.VHC_ID')
