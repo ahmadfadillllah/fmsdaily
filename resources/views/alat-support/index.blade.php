@@ -40,7 +40,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
-                            <table id="cbtn-selectors" class="table table-striped table-hover table-bordered nowrap">
+                            <table id="alatSupport" class="table table-striped table-hover table-bordered nowrap">
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
                                         <th rowspan="2">Tanggal Pelaporan</th>
@@ -104,7 +104,7 @@
     $(document).ready(function() {
         var userRole = "{{ Auth::user()->role }}";
 
-        var table = $('#cbtn-selectors').DataTable({
+        var table = $('#alatSupport').DataTable({
 
             processing: true,
             serverSide: true,  // Untuk menggunakan server-side processing
