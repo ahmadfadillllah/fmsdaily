@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 use App\Traits\HasDraft;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DailyReport extends Model
 {
@@ -33,6 +34,21 @@ class DailyReport extends Model
     ];
 
     protected $guarded = [];
+
+    public function frontLoading(): HasMany
+    {
+        return $this->hasMany(FrontLoading::class, 'daily_report_uuid', 'uuid');
+    }
+
+    public function alatSupport(): HasMany
+    {
+        return $this->hasMany(AlatSupport::class, 'daily_report_uuid', 'uuid');
+    }
+
+    public function catatanPengawas(): HasMany
+    {
+        return $this->hasMany(CatatanPengawas::class, 'daily_report_uuid', 'uuid');
+    }
 
     // public static function boot()
     // {

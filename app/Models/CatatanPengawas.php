@@ -24,6 +24,11 @@ class CatatanPengawas extends Model
 
     protected $guarded = [];
 
+    public function dailyReport()
+    {
+        return $this->belongsTo(DailyReport::class, 'daily_report_uuid');
+    }
+
     // public static function boot()
     // {
     //     parent::boot();

@@ -666,6 +666,232 @@ class FormPengawasOldController extends Controller
         return view('form-pengawas-old.download', compact(['data', 'timeSlots']));
     }
 
+    public function bundlepdf()
+    {
+
+        if (empty(session('requestTimeLaporanKerja')['rangeStart']) || empty(session('requestTimeLaporanKerja')['rangeEnd'])){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime(session('requestTimeLaporanKerja')['rangeStart']);
+            $end = new DateTime(session('requestTimeLaporanKerja')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+        $daily = DB::table('daily_report_t as dr')
+        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
+        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->select(
+            'dr.uuid',
+            'dr.foreman_id as pic',
+            'us.name as nama_pic',
+            'dr.tanggal_dasar as tanggal',
+            'sh.keterangan as shift',
+            'ar.keterangan as area',
+            'lok.keterangan as lokasi',
+            'us.nik as nik_foreman',
+            'us.name as nama_foreman',
+            'dr.nik_foreman as nik_foreman',
+            'gl.PERSONALNAME as nama_foreman',
+            'dr.nik_supervisor as nik_supervisor',
+            'spv.PERSONALNAME as nama_supervisor',
+            'dr.nik_superintendent as nik_superintendent',
+            'spt.PERSONALNAME as nama_superintendent',
+            'dr.verified_foreman',
+            'dr.verified_supervisor',
+            'dr.verified_superintendent'
+        )
+        ->whereBetween(DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23)'), [$startTimeFormatted, $endTimeFormatted])
+        ->where('dr.statusenabled', true)
+        ->get();
+
+        // Convert to collection
+        $daily = collect($daily); // Ensure the data is a collection
+
+        // Check if no data found for daily report
+        if ($daily->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }
+
+        // Fetch front loading data with joins
+        $front = DB::table('front_loading_t as fl')
+            ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')
+            ->leftJoin('focus.dbo.FLT_VEHICLE as flt', 'fl.nomor_unit', '=', 'flt.VHC_ID')
+            ->select(
+                'fl.nomor_unit',
+                'fl.daily_report_uuid',
+                'flt.EQU_GROUPID as type',
+                DB::raw("CASE
+                        WHEN flt.EQU_GROUPID LIKE 'HT%' THEN 'Hitachi'
+                        WHEN flt.EQU_GROUPID LIKE 'PC%' THEN 'Komatsu'
+                        ELSE 'Unknown'
+                    END as brand"),
+                'fl.siang',
+                'fl.malam',
+                'fl.checked',
+                'fl.keterangan',
+            )
+            ->where('fl.statusenabled', true)
+            ->whereBetween(DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23)'), [$startTimeFormatted, $endTimeFormatted])
+            ->get();
+
+        // Convert to collection
+        $front = collect($front); // Ensure the data is a collection
+
+        // Fetch support equipment data
+        $support = DB::table('alat_support_t as al')
+            ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
+            ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
+            ->select(
+                'al.alat_unit as nomor_unit',
+                'al.daily_report_uuid',
+                'al.nama_operator',
+                'al.hm_awal',
+                'al.hm_akhir',
+                'al.hm_cash',
+                'al.keterangan',
+                'sh.keterangan as shift',
+                'al.tanggal_operator as tanggal'
+            )
+            ->whereBetween(DB::raw('CONVERT(varchar, dr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
+            ->get();
+
+        // Convert to collection
+        $support = collect($support); // Ensure the data is a collection
+
+        // Fetch catatan data
+        $catatan = DB::table('catatan_pengawas_t as cp')
+            ->leftJoin('daily_report_t as dr', 'cp.daily_report_id', '=', 'dr.id')
+            ->select(
+                'cp.jam_start',
+                'cp.daily_report_uuid',
+                'cp.jam_stop',
+                'cp.keterangan'
+            )
+            ->whereBetween(DB::raw('CONVERT(varchar, dr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
+            ->get();
+
+        // Convert to collection
+        $catatan = collect($catatan); // Ensure the data is a collection
+
+        $timeSlots = [
+            'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
+            'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
+        ];
+
+        // Combine all data into one collection
+        $combinedData = $daily->map(function ($dailyItem, $dailySupport) use ($front, $support, $catatan, $timeSlots) {
+            // Relate front loading data to daily report using 'uuid'
+            $frontData = $front->filter(function ($item) use ($dailyItem) {
+                return $item->daily_report_uuid == $dailyItem->uuid; // Assuming 'uuid' is the relation key
+            });
+
+            $processedFrontData = $frontData->map(function ($unit) use ($timeSlots) {
+                $siangTimes = json_decode($unit->siang, true);
+                $malamTimes = json_decode($unit->malam, true);
+                $checked = array_map(function ($item) {
+                    return $item === 'true'; // Convert 'true' string to boolean
+                }, json_decode($unit->checked, true));
+
+                $keterangan = array_map(function ($item) {
+                    return $item === null ? '' : $item; // Mengganti null dengan string kosong
+                }, json_decode($unit->keterangan, true));
+
+                // Proses waktu siang
+                $siangResult = collect($timeSlots['siang'])->map(function ($slot) use ($siangTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $siangTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => '<img src="' . public_path('check.png') . '">', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
+
+                // Proses waktu malam
+                $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $malamTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => '<img src="' . public_path('check.png') . '">', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
+
+                // Kembalikan hasil
+                return [
+                    'brand' => $unit->brand,
+                    'type' => $unit->type,
+                    'nomor_unit' => $unit->nomor_unit,
+                    'siang' => $siangResult,
+                    'malam' => $malamResult,
+                ];
+            });
+
+            // Relate support equipment data to daily report using 'uuid'
+            $supportData = $support->filter(function ($item) use ($dailyItem) {
+                return $item->daily_report_uuid == $dailyItem->uuid; // Assuming 'uuid' is the relation key
+            });
+            // dd($supportData);
+
+            // Relate catatan data to daily report using 'uuid'
+            $catatanData = $catatan->filter(function ($item) use ($dailyItem) {
+                return $item->daily_report_uuid == $dailyItem->uuid; // Assuming 'uuid' is the relation key
+            });
+
+            $dataDummy = [
+                'dailyReport' => $dailyItem,
+                'frontLoading' => $processedFrontData,
+                'supportEquipment' => $supportData,
+                'catatan' => $catatanData,
+            ];
+
+            return $dataDummy;
+        });
+        dd($combinedData);
+
+
+        // Process the combined data if needed, for example, encoding QR codes for verification
+        $combinedData = $combinedData->map(function ($data) {
+            $data['dailyReport']->verified_foreman = $data['dailyReport']->verified_foreman ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $data['dailyReport']->nama_foreman)) : null;
+
+            $data['dailyReport']->verified_supervisor = $data['dailyReport']->verified_supervisor ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $data['dailyReport']->nama_supervisor)) : null;
+
+            $data['dailyReport']->verified_superintendent = $data['dailyReport']->verified_superintendent ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $data['dailyReport']->nama_superintendent)) : null;
+
+            return $data;
+        });
+
+
+
+        $pdf = PDF::loadView('form-pengawas-old.bundlepdf', compact('combinedData'));
+        return $pdf->stream('Laporan Kerja.pdf');
+
+        // return view('form-pengawas-old.bundlepdf', compact('combinedData'));
+    }
+
     public function pdf($uuid)
     {
 
