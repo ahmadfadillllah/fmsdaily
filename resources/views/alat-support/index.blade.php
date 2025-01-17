@@ -108,18 +108,14 @@
             processing: true,
             serverSide: true,  // Untuk menggunakan server-side processing
             ajax: {
-                url: '{!! route('alat-support.apii') !!}',  // URL API Anda
+                url: '{!! route('alat-support.api') !!}',  // URL API Anda
                 method: 'GET',  // Gunakan GET atau POST sesuai dengan implementasi Anda
                 data: function(d) {
                     // Kirimkan parameter tambahan jika diperlukan (misalnya tanggal)
                     var rangeStart = $('#range-start').val();
                     var rangeEnd = $('#range-end').val();
-                    var userRole = "{{ Auth::user()->role }}";
-                    var userId = "{{ Auth::user()->id }}";
                     d.rangeStart = rangeStart;
                     d.rangeEnd = rangeEnd;
-                    d.role = userRole;
-                    d.userId = userId;
                 },
             },
             columns: [
