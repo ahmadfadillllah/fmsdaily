@@ -55,7 +55,7 @@ class FormPengawasOldController extends Controller
             'VHC_ACTIVE',
         ])
             ->where('VHC_ID', 'like', 'EX%')
-            ->where('VHC_ACTIVE', true)
+            // ->where('VHC_ACTIVE', true)
             ->get();
 
         $nomor_unit = Unit::select('VHC_ID')
@@ -86,7 +86,6 @@ class FormPengawasOldController extends Controller
             'operator' => $operator,
             'supervisor' => $supervisor,
             'superintendent' => $superintendent,
-            'EX' => $ex,
             'EX' => $ex,
             'nomor_unit' => $nomor_unit,
             'lokasi' => $lokasi,
