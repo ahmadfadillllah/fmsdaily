@@ -15,6 +15,11 @@ Route::get('/user', [LaporanHarianController::class, 'laporanPengawas'])->name('
 
 
 Route::get('/fuel/serviceurl/{token}', [FuelServiceURLController::class, 'serviceURL'])->name('fuel.serviceURL');
+Route::get('/fuel/operator', [FuelServiceURLController::class, 'operator'])->name('fuel.operator');
+Route::get('/fuel/location', [FuelServiceURLController::class, 'location'])->name('fuel.location');
+Route::get('/fuel/shift', [FuelServiceURLController::class, 'shift'])->name('fuel.shift');
+Route::get('/fuel/type', [FuelServiceURLController::class, 'type'])->name('fuel.type');
+Route::get('/fuel/unit', [FuelServiceURLController::class, 'unit'])->name('fuel.unit');
 
 
 // Route::get('/laporan-pengawas', [APIController::class, 'laporanPengawas'])->name('api.laporan-pengawas');
