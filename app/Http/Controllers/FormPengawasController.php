@@ -262,15 +262,23 @@ class FormPengawasController extends Controller
         ->where('dr.statusenabled', true);
 
 
-        if (Auth::user()->role == 'FOREMAN') {
-            $daily->where('dr.nik_foreman', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERVISOR') {
-            $daily->where('dr.nik_supervisor', Auth::user()->nik);
-        }
-        if (Auth::user()->role == 'SUPERINTENDENT') {
-            $daily->where('dr.nik_superintendent', Auth::user()->nik);
-        }
+        $daily = $daily->where(function($query) {
+            if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
+                $query->where('dr.nik_foreman', Auth::user()->nik)
+                  ->orWhere('dr.nik_supervisor', Auth::user()->nik)
+                  ->orWhere('dr.nik_superintendent', Auth::user()->nik);
+            }
+        });
+
+        // if (Auth::user()->role == 'FOREMAN') {
+        //     $daily->where('dr.nik_foreman', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERVISOR') {
+        //     $daily->where('dr.nik_supervisor', Auth::user()->nik);
+        // }
+        // if (Auth::user()->role == 'SUPERINTENDENT') {
+        //     $daily->where('dr.nik_superintendent', Auth::user()->nik);
+        // }
         // if (Auth::user()->role == 'ADMIN') {
         //     $daily->orWhere('pic', Auth::user()->id);
         // }

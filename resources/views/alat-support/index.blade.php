@@ -117,7 +117,7 @@
                     d.rangeStart = rangeStart;
                     d.rangeEnd = rangeEnd;
                     delete d.columns;
-                    delete d.search;
+                    // delete d.search;
                     delete d.order;
                 },
             },

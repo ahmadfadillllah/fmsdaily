@@ -75,8 +75,9 @@ class FormPengawasOldController extends Controller
 
         $superintendent = Personal::select
         (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
-        )->where('ROLETYPE', 4)->get();
+            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY',
+            DB::raw("CASE WHEN ROLETYPE = 3 THEN 'SUPERVISOR' WHEN ROLETYPE = 4 THEN 'SUPERINTENDENT' ELSE 'UNKNOWN' END as JABATAN ")
+        )->whereIn('ROLETYPE', [3, 4])->get();
 
         $lokasi = Lokasi::where('statusenabled', true)->get();
         $area = Area::where('statusenabled', true)->get();

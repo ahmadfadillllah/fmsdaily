@@ -196,7 +196,7 @@
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['superintendent'] as $st)
                                                                 <option value="{{ $st->NRP }}|{{ $st->PERSONALNAME }}">
-                                                                    {{ $st->NRP }}|{{ $st->PERSONALNAME }}</option>
+                                                                    {{ $st->NRP }}|{{ $st->PERSONALNAME }} ({{ $st->JABATAN }})</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
