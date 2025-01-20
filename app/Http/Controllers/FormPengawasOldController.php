@@ -54,7 +54,8 @@ class FormPengawasOldController extends Controller
             'VHC_GROUPID',
             'VHC_ACTIVE',
         ])
-            ->where('VHC_ID', 'like', 'EX%')
+            ->where('VHC_TYPEID', 1)
+            // ->where('VHC_ID', 'like', 'EX%')
             // ->where('VHC_ACTIVE', true)
             ->get();
 
