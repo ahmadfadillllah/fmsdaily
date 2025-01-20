@@ -121,6 +121,8 @@ class AlatSupportController extends Controller
 
     public function api(Request $request)
     {
+
+        // return $request->search['value'];
         session(['requestTimeAlatSupport' => $request->all()]);
 
         if (empty($request->rangeStart) || empty($request->rangeEnd)){
@@ -182,7 +184,26 @@ class AlatSupportController extends Controller
             )
             ->where('al.statusenabled', true)
             ->where('dr.statusenabled', true)
+            // ->where('')
             ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted]);
+            if ($request->search['value']) {
+                $searchValue = '%' . $request->search['value'] . '%';
+
+                // Daftar kolom yang ingin dicari
+                $columnsToSearch = [
+                    'al.jenis_unit', 'al.alat_unit', 'al.nik_operator', 'al.nama_operator', 'sh2.keterangan',
+                    'dr.nik_foreman', 'gl.PERSONALNAME', 'dr.tanggal_dasar', 'sh.keterangan', 'ar.keterangan', 'lok.keterangan',
+                    'dr.nik_supervisor', 'spv.PERSONALNAME', 'dr.nik_superintendent', 'spt.PERSONALNAME', 'al.hm_awal',
+                    'al.hm_akhir', 'al.hm_cash', 'al.keterangan'
+                ];
+
+                // Looping untuk menambahkan kondisi pencarian untuk setiap kolom
+                $supportQuery->where(function($query) use ($columnsToSearch, $searchValue) {
+                    foreach ($columnsToSearch as $column) {
+                        $query->orWhere($column, 'like', $searchValue);
+                    }
+                });
+            }
             if (Auth::user()->role !== 'ADMIN') {
                 $supportQuery->where('dr.foreman_id', Auth::user()->id);
             }
