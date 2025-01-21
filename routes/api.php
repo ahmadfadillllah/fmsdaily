@@ -20,6 +20,9 @@ Route::get('/fuel/location', [FuelServiceURLController::class, 'location'])->nam
 Route::get('/fuel/shift', [FuelServiceURLController::class, 'shift'])->name('fuel.shift');
 Route::get('/fuel/type', [FuelServiceURLController::class, 'type'])->name('fuel.type');
 Route::get('/fuel/unit', [FuelServiceURLController::class, 'unit'])->name('fuel.unit');
+Route::get('/fuel/transfrom', [FuelServiceURLController::class, 'transfrom'])->name('fuel.transfrom');
+Route::get('/fuel/transto', [FuelServiceURLController::class, 'transto'])->name('fuel.transto');
+Route::post('/fuel/sendPostFuel', [FuelServiceURLController::class, 'sendPostFuel'])->name('fuel.post');
 
 
 // Route::get('/laporan-pengawas', [APIController::class, 'laporanPengawas'])->name('api.laporan-pengawas');
