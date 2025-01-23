@@ -232,6 +232,11 @@ class AlatSupportController extends Controller
     public function update(Request $request, $uuid)
     {
         $support  = AlatSupport::where('uuid', $uuid)->first();
+		$hm_awal = $request->input('hm_awal');
+        $hm_akhir = $request->input('hm_akhir');
+
+        $hm_awal = str_replace(',', '.', $hm_awal);
+        $hm_akhir = str_replace(',', '.', $hm_akhir);
         try {
 
             Log::create([
@@ -245,9 +250,9 @@ class AlatSupportController extends Controller
             $updateData = [
 
                 'tanggal_operator' => $request->tanggal_operator,
-                'hm_awal' => $request->hm_awal,
-                'hm_akhir' => $request->hm_akhir,
-                'hm_total' => $request->hm_akhir - $request->hm_awal,
+                'hm_awal' => $hm_awal,
+                'hm_akhir' => $hm_akhir,
+                'hm_total' => $hm_akhir - $hm_awal,
                 'hm_cash' => $request->hm_cash,
                 'keterangan' => $request->keterangan,
             ];

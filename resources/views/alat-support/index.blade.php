@@ -177,7 +177,7 @@
     });
     function generateModal(row, editUrl) {
             return `
-                <div class="modal fade" id="editAlatSupport${row.id}${row.uuid}" tabindex="-1" aria-labelledby="modalSupportLabel" aria-hidden="true">
+                <div class="modal fade" id="editAlatSupport${row.id}${row.uuid}" tabindex="-1" aria-labelledby="modalSupportLabel">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -220,15 +220,15 @@
                                     </div>
                                     <div class="mb-3">
                                         <label>HM Awal</label>
-                                        <input type="number" class="form-control" name="hm_awal" value="${row.hm_awal}">
+                                        <input type="text" class="form-control" name="hm_awal" value="${row.hm_awal}">
                                     </div>
                                     <div class="mb-3">
                                         <label>HM Akhir</label>
-                                        <input type="number" class="form-control" name="hm_akhir" value="${row.hm_akhir}">
+                                        <input type="text" class="form-control" name="hm_akhir" value="${row.hm_akhir}">
                                     </div>
                                     <div class="mb-3">
                                         <label>Total</label>
-                                        <input type="number" class="form-control" name="hm_total" value="${(row.hm_akhir - row.hm_awal).toFixed(2)}" readonly>
+                                        <input type="text" class="form-control" name="hm_total" value="${(row.hm_akhir - row.hm_awal).toFixed(2)}" readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label>HM Cash</label>
