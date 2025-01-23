@@ -816,11 +816,13 @@ class FormPengawasOldController extends Controller
                     $index = array_search($slot, $siangTimes);
                     if ($index !== false && $checked[$index] === true) {
                         return (object)[
+                            'slot' =>$slot,
                             'status' => '<img src="' . public_path('check.png') . '">', // Checkmark
                             'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
                         ];
                     }
                     return (object)[
+                        'slot' =>$slot,
                         'status' => '',
                         'keterangan' => '', // No keterangan
                     ];

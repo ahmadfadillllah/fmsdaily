@@ -490,18 +490,21 @@
                             </tr>
                         @endforeach
 
-                        @foreach($koleksi['frontLoading'] as $front)
-
-                            <tr>
-                                <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:1px;">
-                                    {{ $front['nomor_unit'] }} =>
-                                    @foreach ($front['siang'] as $shift)
-                                        {{ $shift->keterangan }}
-                                    @endforeach
-
-                                </td>
-                            </tr>
-
+                        @foreach ($koleksi['frontLoading'] as $brand => $units)
+                            @foreach ($units['siang'] as $index => $slot)
+                                @if($slot->keterangan != "")
+                                    <tr>
+                                        <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
+                                            <!-- Menampilkan nomor unit -->
+                                            {{ $units['nomor_unit'] }} =>
+                                            <!-- Waktu -->
+                                            ({{ $slot->slot }})
+                                            <!-- Keterangan -->
+                                            {{ $slot->keterangan }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
                         @endforeach
 
 
