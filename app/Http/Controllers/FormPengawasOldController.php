@@ -746,7 +746,7 @@ class FormPengawasOldController extends Controller
                 'fl.keterangan',
             )
             ->where('fl.statusenabled', true)
-            ->whereBetween(DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23)'), [$startTimeFormatted, $endTimeFormatted])
+            ->whereIn('dr.uuid', $daily->pluck('uuid')->toArray())
             ->get();
 
         // Convert to collection
@@ -767,7 +767,7 @@ class FormPengawasOldController extends Controller
                 'sh.keterangan as shift',
                 'al.tanggal_operator as tanggal'
             )
-            ->whereBetween(DB::raw('CONVERT(varchar, dr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
+            ->whereIn('dr.uuid', $daily->pluck('uuid')->toArray())
             ->get();
 
         // Convert to collection
@@ -782,7 +782,7 @@ class FormPengawasOldController extends Controller
                 'cp.jam_stop',
                 'cp.keterangan'
             )
-            ->whereBetween(DB::raw('CONVERT(varchar, dr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
+            ->whereIn('dr.uuid', $daily->pluck('uuid')->toArray())
             ->get();
 
         // Convert to collection
@@ -871,7 +871,6 @@ class FormPengawasOldController extends Controller
 
             return $dataDummy;
         });
-        dd($combinedData);
 
 
         // Process the combined data if needed, for example, encoding QR codes for verification

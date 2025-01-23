@@ -324,6 +324,24 @@
 
                     </tr>
                 @endforeach
+                @if ($koleksi['frontLoading']->isEmpty())
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                @endif
             </tbody>
         </table>
 
@@ -375,15 +393,6 @@
                         <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
                     </tr>
                     <tr>
@@ -394,15 +403,6 @@
                         <td style="text-align: center"></td>
                         <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
-                        <td style="padding-left:2px;"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
                     </tr>
@@ -415,15 +415,6 @@
                         <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
                     </tr>
                     <tr>
@@ -434,15 +425,6 @@
                         <td style="text-align: center"></td>
                         <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
-                        <td style="padding-left:2px;"></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="padding-left:2px;"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
                     </tr>
@@ -455,6 +437,7 @@
                         <td style="text-align: center"></td>
                         <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
                     </tr>
                     <tr>
                         <td style="text-align: center"></td>
@@ -463,6 +446,29 @@
                         <td style="text-align: center"></td>
                         <td style="text-align: center"></td>
                         <td style="text-align: center"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="padding-left:2px;"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
                         <td style="padding-left:2px;"></td>
                     </tr>
