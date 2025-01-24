@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FueJournal;
 use App\Models\FuelServiceURL;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,7 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -72,7 +73,7 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -95,7 +96,7 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -118,7 +119,7 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -141,7 +142,7 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -166,7 +167,7 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -191,7 +192,41 @@ class FuelServiceURLController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Data ditemukan',
+            'message' => 'Success',
+            'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
+        ]);
+    }
+
+    public function getDataFuel(Request $request)
+    {
+        if (empty($request->rangeStart) || empty($request->rangeEnd)){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$startDate");
+            $end = new DateTime("$endDate");
+
+        }else{
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+        }
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+
+        $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSTIMESTAMP, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
+
+        if (!$data) {
+            return response()->json([
+                'message' => 'Data tidak ditemukan',
+                'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $data,
+            'message' => 'Success',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }

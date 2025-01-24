@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanPengawasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormPengawasController;
+use App\Http\Controllers\FormPengawasNewController;
 use App\Http\Controllers\FormPengawasOldController;
 use App\Http\Controllers\FrontLoadingController;
 use App\Http\Controllers\KLKHBatuBaraController;
@@ -95,6 +96,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas/preview/{uuid}', [FormPengawasController::class, 'preview'])->name('form-pengawas.preview');
     Route::post('/form-pengawas/post', [FormPengawasController::class, 'post'])->name('form-pengawas.post');
     Route::post('/form-pengawas/auto-save', [FormPengawasController::class, 'autoSave'])->name('form-pengawas.auto-save');
+
+    //Form Pengawas Baru
+    Route::get('/form-pengawas-new/show', [FormPengawasNewController::class, 'show'])->name('form-pengawas-new.show');
+    Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index');
+    Route::post('/save-draft', [FormPengawasNewController::class, 'saveAsDraft'])->name('daily-report.saveAsDraft');
+    Route::get('/form-pengawas-new/get-draft/{uuid}', [FormPengawasNewController::class, 'getDraft'])->name('get-draft');
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');
