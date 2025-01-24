@@ -19,13 +19,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Token tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Token ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -41,13 +42,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -63,13 +65,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -85,13 +88,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -107,13 +111,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -129,13 +134,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -153,13 +159,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
@@ -177,13 +184,14 @@ class FuelServiceURLController extends Controller
 
         if (!$data) {
             return response()->json([
-                'message' => 'Data not found.',
+                'message' => 'Data tidak ditemukan',
                 'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
             ], 404);
         }
 
         return response()->json([
             'data' => $data,
+            'message' => 'Data ditemukan',
             'by' => 'IT_FMS @ PT. SIMS JAYA KALTIM',
         ]);
     }
